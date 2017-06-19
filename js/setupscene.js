@@ -5,19 +5,25 @@ var height = vue.offsetHeight - 2 * 5; // 5 est le padding de #vue
 var width = vue.offsetWidth - 2 * 5;
 
 vue = d3.select("#vue");
+// Dessin affiché dans la vue
 var canvas = vue.append("canvas")
       .attr("width", width)
       .attr("height", height)
       .attr("class", "visible");
+// Canvas caché qui diférencie les noeuds, 
+// pour gérer les animation
 var hidden = vue.append("canvas")
       .attr("width", width)
       .attr("height", height)
       .style("display", "none");
+// colToNode : couleur sur canvas caché --> noeud
 var colToNode = {};
 
+// Les contextes des 2 canvas pour déssiner
 var ctx = canvas.node().getContext("2d");
 var ctxhid = hidden.node().getContext("2d");
 
+// Efface le canvas
 function clearCanvas (){
   ctx.clearRect(0,0,width,height);
   ctxhid.clearRect(0,0,width,height);
@@ -25,6 +31,7 @@ function clearCanvas (){
   nextCol = 1;
 }
 
+// Gestion des couleurs du canvas caché
 var nextCol=1;
 function genHiddenColor(){
   var ret = [];
@@ -34,10 +41,12 @@ function genHiddenColor(){
       ret.push((nextCol & 0xff00) >> 8); // G 
       ret.push((nextCol & 0xff0000) >> 16); // B
 
-      nextCol += 1;
+      nextCol += 100;
+      // On limite le daltonisme de l'ordinateur
+      // Toutefois, nombre de noeuds max : 16777215/increment
+      // Surveiller l'affichage d'erreur sur la console. 
     } else {
-      console.log("Stock de couleurs épuisé")
-      return "error"
+      throw new Error("Stock de couleurs épuisés, cf setupscene.js : function getHiddenColor")
     }
     var col = "rgb(" + ret.join(',') + ")";
     return col;

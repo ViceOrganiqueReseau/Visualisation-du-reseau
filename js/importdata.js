@@ -1,12 +1,20 @@
+// Variables globales
+// Données des noeuds
 var dataset;
 var nbloby;
+// Données des liens
 var affiliations;
 
+// Thème choisi
 var theme;
 var nodes;
+// Faux DOM d'objets graphiques (un SVG-like)
 var circles;
 var simulation;
+// Permet de lancer une portion de code uniquement
+// au tick n°1
 var firstick = 1;
+// NameToIndex : Name --> son index correspondant dans dataset
 var NameToIndex;
 
 // Création du faux DOM
@@ -73,6 +81,7 @@ function drawCanvas (){
 	}
 
 d3.csv("data/Noeuds-positions.csv", function (data){
+	// On récupère les données
 	dataset=data;
 	nbloby=dataset.length;
 });
@@ -82,8 +91,8 @@ d3.csv("data/Affiliation.csv", function (data){
 
 	// Réduction des données à un thème
 	//theme = "Exploitation of indigenous fossil energy";
-	theme = "Emission reduction target equal or above 40%"
-	theme = "Energy Efficiency target"
+	//theme = "Emission reduction target equal or above 40%"
+	//theme = "Energy Efficiency target"
 	theme = "Renewable Energy target"
 	// Si l'acteur i ne s'est pas prononcé sur le thème, 
 	// on l'enlève !
@@ -131,7 +140,8 @@ d3.csv("data/Affiliation.csv", function (data){
 					.force("collide", d3.forceCollide().radius(function (d){
 						return 5;
 					}));		
-
+	
+	simulation.alphaMin(0.05)
 	simulation.on("tick", drawCanvas);
 
 	// Binding des data avec les noeuds
