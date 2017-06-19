@@ -26,11 +26,14 @@ d3.csv("data/Affiliation.csv", function (data){
 	console.log(dataset);
 
 	// On renseigne les forces
-	simulation = d3.forceSimulation()
+	simulation = d3.forceSimulation().nodes(dataset)
 					.force("center", d3.forceCenter(width/2,height/2))
-					//.force("charge", d3.forceManyBody());
+					.force("charge", d3.forceManyBody().strength(-1))
+					.force("link", d3.forceLink(affiliations).id(function (d){
+						return d.Name;
+					}));		
 
-	simulation.nodes(dataset).on("tick", ticked);
+	simulation.on("tick", ticked);
 
 	// Binding des data avec les noeuds
 	circles = CustomDOM.selectAll("custom.circle")
@@ -65,14 +68,13 @@ d3.csv("data/Affiliation.csv", function (data){
 		ctx.lineWidth = 1;
 		affiliations.forEach(function (d){
 			ctx.beginPath()
-			var beginindex = NameToIndex[d.source];
-			var endindex = NameToIndex[d.target];
+			var beginindex = NameToIndex[d.source.Name];
+			var endindex = NameToIndex[d.target.Name];
 			ctx.moveTo(Math.round(dataset[beginindex].x), Math.round(dataset[beginindex].y));
 			ctx.lineTo(Math.round(dataset[endindex].x), Math.round(dataset[endindex].y));
 			ctx.closePath();
 			ctx.stroke();
 		});
-		console.log(ctx)
 
 		// Les cercles
 		ctx.beginPath();
