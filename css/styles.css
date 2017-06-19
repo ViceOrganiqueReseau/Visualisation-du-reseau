@@ -43,6 +43,12 @@ section {
 	height: 100%;
 }
 
+#vue canvas {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
 #reloadbox {
 	position: fixed;
 	z-index: 10;

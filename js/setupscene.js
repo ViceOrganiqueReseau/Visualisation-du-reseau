@@ -7,10 +7,41 @@ var width = vue.offsetWidth - 2 * 5;
 vue = d3.select("#vue");
 var canvas = vue.append("canvas")
       .attr("width", width)
-      .attr("height", height);
-
+      .attr("height", height)
+      .attr("class", "visible");
+var hidden = vue.append("canvas")
+      .attr("width", width)
+      .attr("height", height)
+      .style("display", "none");
+var colToNode = {};
 
 var ctx = canvas.node().getContext("2d");
+var ctxhid = hidden.node().getContext("2d");
+
+function clearCanvas (){
+  ctx.clearRect(0,0,width,height);
+  ctxhid.clearRect(0,0,width,height);
+  colToNode = {};
+  nextCol = 1;
+}
+
+var nextCol=1;
+function genHiddenColor(){
+  var ret = [];
+    // via http://stackoverflow.com/a/15804183
+    if(nextCol < 16777215){
+      ret.push(nextCol & 0xff); // R
+      ret.push((nextCol & 0xff00) >> 8); // G 
+      ret.push((nextCol & 0xff0000) >> 16); // B
+
+      nextCol += 1;
+    } else {
+      console.log("Stock de couleurs épuisé")
+      return "error"
+    }
+    var col = "rgb(" + ret.join(',') + ")";
+    return col;
+}
 
 /* Mise en place de la scène WebGL
 // Camera setup
