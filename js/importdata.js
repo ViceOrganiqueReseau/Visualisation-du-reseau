@@ -22,16 +22,48 @@ d3.csv("data/Noeuds-positions.csv", function (data){
 
 d3.csv("data/Affiliation.csv", function (data){
 	affiliations = data;
+
+	// Réduction des données à un thème
+	var theme = "Exploitation of indigenous fossil energy";
+	for (var i=0; i<nbloby; i++){
+		if (dataset[i][theme]){} else {
+			dataset[i]=0;
+		}
+	}
+	while (dataset.indexOf(0)!==-1){
+		dataset.splice(dataset.indexOf(0),1);
+	}
+	nbloby=dataset.length;
+	var namelist=[];
+	for (var i=0; i<nbloby; i++){
+		namelist.push(dataset[i].Name)
+	}
+	for (var i=0; i<affiliations.length; i++){
+		if ((namelist.indexOf(affiliations[i].source)===-1) 
+			|| (namelist.indexOf(affiliations[i].target)===-1))
+			{
+				affiliations[i]=0;
+			}
+	}
+	while (affiliations.indexOf(0)!==-1){
+		affiliations.splice(affiliations.indexOf(0),1);
+	}
+
 	console.log(affiliations);
 	console.log(dataset);
 
 	// On renseigne les forces
 	simulation = d3.forceSimulation().nodes(dataset)
 					.force("center", d3.forceCenter(width/2,height/2))
-					.force("charge", d3.forceManyBody().strength(-1))
-					.force("link", d3.forceLink(affiliations).id(function (d){
-						return d.Name;
-					}));		
+					.force("charge", d3.forceManyBody().strength(-10))
+					.force("link", d3.forceLink(affiliations)
+						.id(function (d){
+							return d.Name;
+						})
+						.strength(function (d){
+							return 0.05;
+						})
+					);		
 
 	simulation.on("tick", ticked);
 
