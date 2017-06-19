@@ -2,7 +2,7 @@ var dataset;
 var nbloby;
 var affiliations;
 
-
+var theme;
 var nodes;
 var circles;
 var simulation;
@@ -24,7 +24,9 @@ d3.csv("data/Affiliation.csv", function (data){
 	affiliations = data;
 
 	// Réduction des données à un thème
-	var theme = "Exploitation of indigenous fossil energy";
+	theme = "Exploitation of indigenous fossil energy";
+	// Si l'acteur i ne s'est pas prononcé sur le thème, 
+	// on l'enlève !
 	for (var i=0; i<nbloby; i++){
 		if (dataset[i][theme]){} else {
 			dataset[i]=0;
@@ -34,6 +36,8 @@ d3.csv("data/Affiliation.csv", function (data){
 		dataset.splice(dataset.indexOf(0),1);
 	}
 	nbloby=dataset.length;
+
+	// Idem, on ne conserve que les liens pertinents
 	var namelist=[];
 	for (var i=0; i<nbloby; i++){
 		namelist.push(dataset[i].Name)
@@ -63,7 +67,10 @@ d3.csv("data/Affiliation.csv", function (data){
 						.strength(function (d){
 							return 0.05;
 						})
-					);		
+					)
+					.force("collide", d3.forceCollide().radius(function (d){
+						return 5;
+					}));		
 
 	simulation.on("tick", ticked);
 
@@ -78,7 +85,7 @@ d3.csv("data/Affiliation.csv", function (data){
 	function ticked (){
 
 		ctx.clearRect(0,0,width,height);
-		// On remplie l'annuaire
+		// On remplit l'annuaire
 		// Dictionnaire inversé pour faciliter les liens
 		if (firstick){
 			var NestedData = d3.nest()
