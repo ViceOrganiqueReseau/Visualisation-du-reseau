@@ -25,7 +25,7 @@ moncanvas.addEventListener("mousemove", function (e){
 		ctx.save()
 		ctx.font = "bold 7pt Arial,sans-serif"
 		ctx.fillStyle = "white"
-		ctx.fillText(data.Name, data.x-14, data.y-8)
+		ctx.fillText(data.Nom, data.x-14, data.y-8)
 		ctx.restore()
 	} else {
 		drawCanvas();

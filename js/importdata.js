@@ -14,8 +14,9 @@ var simulation;
 // Permet de lancer une portion de code uniquement
 // au tick n°1
 var firstick = 1;
-// NameToIndex : Name --> son index correspondant dans dataset
-var NameToIndex;
+// IDToIndex : Name --> son index correspondant dans dataset
+var IDToIndex;
+var idlist;
 
 // Création du faux DOM
 // Il reçoit les éléments grphiques avec 
@@ -30,16 +31,15 @@ function drawCanvas (){
 		// Dictionnaire inversé pour faciliter les liens
 		if (firstick){
 			var NestedData = d3.nest()
-							.key(function (d){return d.Name})
+							.key(function (d){return d.ID})
 							.rollup(function (v){return v[0].index})
 							.entries(dataset);
-			NameToIndex = {};
+			IDToIndex = {};
 			console.log(NestedData)
 			NestedData.forEach(function (d){
-				NameToIndex[d.key] = d.value;
+				console.log([d.key, d.value])
+				IDToIndex[d.key] = d.value;
 			})
-			
-			console.log(NameToIndex);
 			firstick=0;	
 		}
 
@@ -48,8 +48,8 @@ function drawCanvas (){
 		ctx.lineWidth = 1;
 		affiliations.forEach(function (d){
 			ctx.beginPath()
-			var beginindex = NameToIndex[d.source.Name];
-			var endindex = NameToIndex[d.target.Name];
+			var beginindex = IDToIndex[d.source.ID];
+			var endindex = IDToIndex[d.target.ID];
 			ctx.moveTo(Math.round(dataset[beginindex].x), Math.round(dataset[beginindex].y));
 			ctx.lineTo(Math.round(dataset[endindex].x), Math.round(dataset[endindex].y));
 			ctx.closePath();
@@ -80,20 +80,20 @@ function drawCanvas (){
 
 	}
 
-d3.csv("data/Noeuds-positions.csv", function (data){
+d3.csv("data/Noeud19juin.csv", function (data){
 	// On récupère les données
 	dataset=data;
 	nbloby=dataset.length;
 });
 
-d3.csv("data/Affiliation.csv", function (data){
+d3.csv("data/Affiliation19juin.csv", function (data){
 	affiliations = data;
 
 	// Réduction des données à un thème
-	//theme = "Exploitation of indigenous fossil energy";
-	//theme = "Emission reduction target equal or above 40%"
-	//theme = "Energy Efficiency target"
-	theme = "Renewable Energy target"
+	//theme = "Gaz de schiste";
+	theme = "Réduction 40%"
+	//theme = "Efficacité énergétique"
+	//theme = "Energies renouvelables"
 	// Si l'acteur i ne s'est pas prononcé sur le thème, 
 	// on l'enlève !
 	for (var i=0; i<nbloby; i++){
@@ -107,13 +107,13 @@ d3.csv("data/Affiliation.csv", function (data){
 	nbloby=dataset.length;
 
 	// Idem, on ne conserve que les liens pertinents
-	var namelist=[];
+	idlist=[];
 	for (var i=0; i<nbloby; i++){
-		namelist.push(dataset[i].Name)
+		idlist.push(dataset[i].ID)
 	}
 	for (var i=0; i<affiliations.length; i++){
-		if ((namelist.indexOf(affiliations[i].source)===-1) 
-			|| (namelist.indexOf(affiliations[i].target)===-1))
+		if ((idlist.indexOf(affiliations[i].source)===-1) 
+			|| (idlist.indexOf(affiliations[i].target)===-1))
 			{
 				affiliations[i]=0;
 			}
@@ -131,14 +131,14 @@ d3.csv("data/Affiliation.csv", function (data){
 					.force("charge", d3.forceManyBody().strength(-10))
 					.force("link", d3.forceLink(affiliations)
 						.id(function (d){
-							return d.Name;
+							return d.ID;
 						})
 						.strength(function (d){
 							return 0.1;
 						})
 					)
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 5;
+						return 10;
 					}));		
 	
 	simulation.alphaMin(0.05)
