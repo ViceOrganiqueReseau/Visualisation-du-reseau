@@ -16,13 +16,28 @@ var simulation;
 var firstick = 1;
 // IDToIndex : Name --> son index correspondant dans dataset
 var IDToIndex;
+// Liste des IDs retenus
 var idlist;
+// Dépense max
+var depmax=0;
 
 // Création du faux DOM
 // Il reçoit les éléments grphiques avec 
 // en attribut ce qu'il faut pour les afficher
 detachedContainer = document.createElement("custom")
 var CustomDOM = d3.select(detachedContainer);
+// Rayon des noyaux
+var radius = 5;
+
+// Cette fonction permet d'ajuster le diamètre
+// des noeuds aux dépenses du lobyist
+function scalablesizes (x){
+	var coef = 1
+	if (Number(x)){
+		coef = 1 + 4*(Math.log(x)/Math.log(depmax));
+	}
+	return coef * radius;
+}
 
 function drawCanvas (){
 
@@ -57,11 +72,23 @@ function drawCanvas (){
 		});
 
 		// Les cercles
+
+		// Le halo proportionnel aux dépenses
+		circles.each(function (d){
+			// Affichage du halo
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctx.fillStyle = d3.select(this).attr("fillHalo");
+			ctx.fill();
+		})
+
+		// Le noyau
 		circles.each(function (d){
 			// Affichage du cercle
 			ctx.beginPath();
 			ctx.moveTo(d.x, d.y);
-			ctx.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
 			ctx.fillStyle = d3.select(this).attr("fillStyle");
 			ctx.fill();
 
@@ -71,7 +98,7 @@ function drawCanvas (){
 			ctxhid.fillStyle = newcol;
 			ctxhid.beginPath();
 			ctxhid.moveTo(d.x, d.y);
-			ctxhid.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctxhid.arc(d.x, d.y, radius, 0, 2*Math.PI);
 			ctxhid.fill();
 
 			// Ajout de la couleur au répertoire
@@ -125,6 +152,18 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	console.log(affiliations);
 	console.log(dataset);
 
+	// On calcule la dépense maximale
+	// Utile pour adapter les halos aux dépenses
+	for (var i=0; i<nbloby; i++){
+		var depense = Number(dataset[i]["Dépenses Lobby (€)"]);
+		if (depense){
+			if (depense>depmax){
+				depmax = depense;
+			}	
+		}
+	}
+	console.log(depmax)
+
 	// On renseigne les forces
 	simulation = d3.forceSimulation().nodes(dataset)
 					.force("center", d3.forceCenter(width/2,height/2))
@@ -138,7 +177,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 						})
 					)
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 10;
+						return 5*radius;
 					}));		
 	
 	simulation.alphaMin(0.05)
@@ -150,12 +189,23 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 				.enter()
 				.append("custom")
 				.attr("class", "circle")
-				.attr("r", 5)
+				// Cet attribut "r" sert à adapter le
+				// halo aux dépenses Lobby
+				.attr("r", function (d){
+					return scalablesizes(d["Dépenses Lobby (€)"]);
+				})
 				.attr("fillStyle", function (d){
 					if (d[theme]==="SUPPORT"){
-						return "blue";
+						return "rgb(0,0,255)";
 					} else {
-						return "orange";
+						return "rgb(255,165,0)";
+					}
+				})
+				.attr("fillHalo", function (d){
+					if (d[theme]==="SUPPORT"){
+						return "rgba(0,0,255,0.2)";
+					} else {
+						return "rgba(255,165,0,0.2)";
 					}
 				})
 
