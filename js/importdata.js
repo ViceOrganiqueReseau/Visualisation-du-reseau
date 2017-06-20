@@ -34,7 +34,7 @@ var radius = 5;
 function scalablesizes (x){
 	var coef = 1
 	if (Number(x)){
-		coef = 1 + 4*(Math.log(x)/Math.log(depmax));
+		coef = 1 + 4*Math.pow(x/depmax,1/4);
 	}
 	return coef * radius;
 }
