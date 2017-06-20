@@ -34,7 +34,7 @@ var radius = 5;
 function scalablesizes (x){
 	var coef = 1
 	if (Number(x)){
-		coef = 1 + 4*Math.pow(x/depmax,1/4);
+		coef = 1 + 4*Math.pow(x/depmax,1/3);
 	}
 	return coef * radius;
 }
@@ -118,9 +118,9 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 
 	// Réduction des données à un thème
 	//theme = "Gaz de schiste";
-	theme = "Réduction 40%"
+	//theme = "Réduction 40%"
 	//theme = "Efficacité énergétique"
-	//theme = "Energies renouvelables"
+	theme = "Energies renouvelables"
 	// Si l'acteur i ne s'est pas prononcé sur le thème, 
 	// on l'enlève !
 	for (var i=0; i<nbloby; i++){
@@ -167,13 +167,13 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	// On renseigne les forces
 	simulation = d3.forceSimulation().nodes(dataset)
 					.force("center", d3.forceCenter(width/2,height/2))
-					.force("charge", d3.forceManyBody().strength(-10))
+					.force("charge", d3.forceManyBody().strength(-2))
 					.force("link", d3.forceLink(affiliations)
 						.id(function (d){
 							return d.ID;
 						})
 						.strength(function (d){
-							return 0.1;
+							return 0.4;
 						})
 					)
 					.force("collide", d3.forceCollide().radius(function (d){
