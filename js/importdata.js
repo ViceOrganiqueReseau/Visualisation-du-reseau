@@ -27,14 +27,14 @@ var depmax=0;
 detachedContainer = document.createElement("custom")
 var CustomDOM = d3.select(detachedContainer);
 // Rayon des noyaux
-var radius = 5;
+var radius = 3;
 
 // Cette fonction permet d'ajuster le diamètre
 // des noeuds aux dépenses du lobyist
 function scalablesizes (x){
 	var coef = 1
 	if (Number(x)){
-		coef = 1 + 4*Math.pow(x/depmax,1/3);
+		coef = 1 + 7*Math.pow(x/depmax,1/3);
 	}
 	return coef * radius;
 }
@@ -98,7 +98,7 @@ function drawCanvas (){
 			ctxhid.fillStyle = newcol;
 			ctxhid.beginPath();
 			ctxhid.moveTo(d.x, d.y);
-			ctxhid.arc(d.x, d.y, radius, 0, 2*Math.PI);
+			ctxhid.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
 			ctxhid.fill();
 
 			// Ajout de la couleur au répertoire
@@ -117,10 +117,10 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	affiliations = data;
 
 	// Réduction des données à un thème
-	//theme = "Gaz de schiste";
+	theme = "Gaz de schiste";
 	//theme = "Réduction 40%"
 	//theme = "Efficacité énergétique"
-	theme = "Energies renouvelables"
+	//theme = "Energies renouvelables"
 	// Si l'acteur i ne s'est pas prononcé sur le thème, 
 	// on l'enlève !
 	for (var i=0; i<nbloby; i++){
@@ -167,7 +167,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	// On renseigne les forces
 	simulation = d3.forceSimulation().nodes(dataset)
 					.force("center", d3.forceCenter(width/2,height/2))
-					.force("charge", d3.forceManyBody().strength(-2))
+					//.force("charge", d3.forceManyBody().strength(-2.5))
 					.force("link", d3.forceLink(affiliations)
 						.id(function (d){
 							return d.ID;
@@ -177,7 +177,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 						})
 					)
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 5*radius;
+						return 2*radius + 2*scalablesizes(d["Dépenses Lobby (€)"]);
 					}));		
 	
 	simulation.alphaMin(0.05)
@@ -196,14 +196,14 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 				})
 				.attr("fillStyle", function (d){
 					if (d[theme]==="SUPPORT"){
-						return "rgb(0,0,255)";
+						return "rgb(0,165,255)";
 					} else {
 						return "rgb(255,165,0)";
 					}
 				})
 				.attr("fillHalo", function (d){
 					if (d[theme]==="SUPPORT"){
-						return "rgba(0,0,255,0.2)";
+						return "rgba(0,165,255,0.2)";
 					} else {
 						return "rgba(255,165,0,0.2)";
 					}
