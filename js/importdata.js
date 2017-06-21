@@ -28,6 +28,8 @@ detachedContainer = document.createElement("custom")
 var CustomDOM = d3.select(detachedContainer);
 // Rayon des noyaux
 var radius = 3;
+// Coeficient donnant la courbure des liens
+var curvecoef = 0.1;
 
 // Cette fonction permet d'ajuster le diamètre
 // des noeuds aux dépenses du lobyist
@@ -65,9 +67,16 @@ function drawCanvas (){
 			ctx.beginPath()
 			var beginindex = IDToIndex[d.source.ID];
 			var endindex = IDToIndex[d.target.ID];
-			ctx.moveTo(Math.round(dataset[beginindex].x), Math.round(dataset[beginindex].y));
-			ctx.lineTo(Math.round(dataset[endindex].x), Math.round(dataset[endindex].y));
-			ctx.closePath();
+			var x1 = Math.round(dataset[beginindex].x);
+			var x2 = Math.round(dataset[endindex].x);
+			var y1 = Math.round(dataset[beginindex].y);
+			var y2 = Math.round(dataset[endindex].y);
+			var xmid = 0.5*(x1+x2);
+			var ymid = 0.5*(y1+y2);
+			var dx = x2-x1;
+			var dy = y2-y1;
+			ctx.moveTo(x1, y1);
+			ctx.quadraticCurveTo(xmid + curvecoef*dy, ymid - curvecoef*dx, x2, y2);
 			ctx.stroke();
 		});
 
@@ -156,9 +165,9 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	affiliations = data;
 
 	// Réduction des données à un thème
-	theme = "Gaz de schiste";
+	//theme = "Gaz de schiste";
 	//theme = "Réduction 40%"
-	//theme = "Efficacité énergétique"
+	theme = "Efficacité énergétique"
 	//theme = "Energies renouvelables"
 	// Si l'acteur i ne s'est pas prononcé sur le thème, 
 	// on l'enlève !
@@ -217,7 +226,10 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					)
 					.force("collide", d3.forceCollide().radius(function (d){
 						return 2*radius + 2*scalablesizes(d["Dépenses Lobby (€)"]);
-					}));		
+					}))
+					// Permettent d'éviter le hors champ lors du drag
+					.force("x", d3.forceX(width/2).strength(0.005))
+					.force("y", d3.forceY(height/2).strength(0.005));		
 
 	simulation.alphaMin(0.02);	
 	simulation.on("tick", drawCanvas);
