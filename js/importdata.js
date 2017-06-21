@@ -105,7 +105,46 @@ function drawCanvas (){
 			colToNode[newcol] = node;
 		})
 
-	}
+}
+
+canvas
+      .call(d3.drag()
+          .subject(dragsubject)
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+hidden
+      .call(d3.drag()
+          .subject(dragsubject)
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+function dragsubject() {
+	console.log("subject found")
+    return simulation.find(d3.event.x, d3.event.y);
+}
+
+function dragstarted() {
+	console.log("start")
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d3.event.subject.fx = d3.event.subject.x;
+  d3.event.subject.fy = d3.event.subject.y;
+}
+
+function dragged() {
+	console.log("move")
+  d3.event.subject.fx = d3.event.x;
+  d3.event.subject.fy = d3.event.y;
+}
+
+function dragended() {
+	console.log("end")
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d3.event.subject.fx = null;
+  d3.event.subject.fy = null;
+}
 
 d3.csv("data/Noeud19juin.csv", function (data){
 	// On récupère les données
@@ -167,7 +206,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	// On renseigne les forces
 	simulation = d3.forceSimulation().nodes(dataset)
 					.force("center", d3.forceCenter(width/2,height/2))
-					//.force("charge", d3.forceManyBody().strength(-2.5))
+					.force("charge", d3.forceManyBody().strength(-1))
 					.force("link", d3.forceLink(affiliations)
 						.id(function (d){
 							return d.ID;
@@ -179,8 +218,8 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					.force("collide", d3.forceCollide().radius(function (d){
 						return 2*radius + 2*scalablesizes(d["Dépenses Lobby (€)"]);
 					}));		
-	
-	simulation.alphaMin(0.05)
+
+	simulation.alphaMin(0.02);	
 	simulation.on("tick", drawCanvas);
 
 	// Binding des data avec les noeuds
