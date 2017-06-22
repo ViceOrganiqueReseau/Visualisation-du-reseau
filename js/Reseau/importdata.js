@@ -7,6 +7,13 @@ var affiliations;
 
 // Thème choisi
 var theme;
+// Lobyist choisi
+var lobyID;
+var lobyist;
+
+// Liste des thèmes
+var themelist;
+
 var nodes;
 // Faux DOM d'objets graphiques (un SVG-like)
 var circles;
@@ -16,6 +23,8 @@ var simulation;
 var firstick = 1;
 // IDToIndex : Name --> son index correspondant dans dataset
 var IDToIndex;
+// La liste des IDs utilisés
+var AllIDlist;
 // Liste des IDs retenus
 var idlist;
 // Dépense max
@@ -61,7 +70,7 @@ function drawCanvas (){
 		}
 
 		// Traçage des liens
-		ctx.strokeStyle = "red"
+		ctx.strokeStyle = linkcolor;
 		ctx.lineWidth = 1;
 		affiliations.forEach(function (d){
 			ctx.beginPath()
@@ -116,6 +125,7 @@ function drawCanvas (){
 
 }
 
+// Ce code permet de faire du drag&slide sur les nodes
 canvas
       .call(d3.drag()
           .subject(dragsubject)
@@ -155,19 +165,69 @@ function dragended() {
   d3.event.subject.fy = null;
 }
 
+
+
+
 d3.csv("data/Noeud19juin.csv", function (data){
 	// On récupère les données
 	dataset=data;
 	nbloby=dataset.length;
+
 });
 
 d3.csv("data/Affiliation19juin.csv", function (data){
 	affiliations = data;
 
+	// Récupération du choix utilisateur
+	// On crée la liste des ID (c'est un intervalle discontinu)
+	AllIDlist = [];
+	for (var i=0; i<dataset.length; i++){
+		AllIDlist.push(dataset[i].ID);
+	}
+
+	if (params["id"]){
+		if (AllIDlist.indexOf(params["id"])!==-1){
+			lobyID = Number(params["id"]);
+		}
+	} // Sinon lobyID est undefined
+	if (!lobyID) {
+		var lobylink = document.getElementById("backloby");
+		// Un lien redirige l'utilisateur vers le questionnaire
+		lobylink.style.display = "block";
+	}
+
+	// On récupèrer le lobyist choisi et la liste des IDs
+	for (var i=0; i<dataset.length; i++){
+		if (Number(dataset[i].ID) === lobyID){
+			lobyist = dataset[i];
+		}
+	}
+	setcolor();
+
+	// On récupère la liste des thèmes 
+	// et le thème choisi
+	themelist = Object.keys(dataset[0]);
+	themelist.splice(themelist.indexOf("ID"), 1);
+	themelist.splice(themelist.indexOf("Lobby ID"), 1);
+	themelist.splice(themelist.indexOf("Nom"), 1);
+	themelist.splice(themelist.indexOf("Abréviation"), 1);
+	themelist.splice(themelist.indexOf("Pays/Région"), 1);
+	themelist.splice(themelist.indexOf("Type"), 1);
+	themelist.splice(themelist.indexOf("Secteurs d’activité"), 1);
+	themelist.splice(themelist.indexOf("Dépenses Lobby (€)"), 1);
+	themelist.splice(themelist.indexOf("Personnes impliquées"), 1);
+	themelist.splice(themelist.indexOf("Equivalent Temps plein"), 1);
+	if (params["theme"]){
+		var urlthemeid = Number(params["theme"])
+		if ((urlthemeid>=0) && (urlthemeid<themelist.length)){
+			theme = themelist[urlthemeid];
+		}
+	}
+
 	// Réduction des données à un thème
 	//theme = "Gaz de schiste";
 	//theme = "Réduction 40%"
-	theme = "Efficacité énergétique"
+	//theme = "Efficacité énergétique"
 	//theme = "Energies renouvelables"
 	// Si l'acteur i ne s'est pas prononcé sur le thème, 
 	// on l'enlève !
@@ -232,7 +292,6 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					.force("y", d3.forceY(height/2).strength(0.005));		
 
 	simulation.alphaMin(0.02);	
-	simulation.on("tick", drawCanvas);
 
 	// Binding des data avec les noeuds
 	circles = CustomDOM.selectAll("custom.circle")
@@ -245,19 +304,13 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 				.attr("r", function (d){
 					return scalablesizes(d["Dépenses Lobby (€)"]);
 				})
-				.attr("fillStyle", function (d){
-					if (d[theme]==="SUPPORT"){
-						return "rgb(0,165,255)";
-					} else {
-						return "rgb(255,165,0)";
-					}
-				})
-				.attr("fillHalo", function (d){
-					if (d[theme]==="SUPPORT"){
-						return "rgba(0,165,255,0.2)";
-					} else {
-						return "rgba(255,165,0,0.2)";
-					}
-				})
+				.attr("fillStyle", function (d){return colornode(d)})
+				.attr("fillHalo", function (d){return colorhalo(d)});
+
+	console.log(circles)
+
+	simulation.on("tick", drawCanvas);
+
+	
 
 });

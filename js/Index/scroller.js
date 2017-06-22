@@ -43,6 +43,7 @@ function position() {
   scrollAnim(currentIndex, pos);
   hoverize();
   clickable();
+  visiblelink();
 }
 
 // Fonction à appeler pour mettre la vue à jour

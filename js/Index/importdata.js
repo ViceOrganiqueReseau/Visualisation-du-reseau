@@ -18,7 +18,8 @@ var setDefaultTheme;
 var nbloby;
 // Tableau recensant les nbloby successifs : utile pour accéder aux éléments graphiques dont la référence a été perdue
 var tabnbloby;
-
+// Tableau référençant les thèmes : utile pour la transmission au réseau par URL
+var idToTheme;
 
 d3.csv("data/Noeud19juin.csv", function (data){
 	dataset=data;
@@ -46,6 +47,8 @@ d3.csv("data/Noeud19juin.csv", function (data){
 	themelist.splice(themelist.indexOf("Personnes impliquées"), 1);
 	themelist.splice(themelist.indexOf("Equivalent Temps plein"), 1);
 	console.log(themelist);
+	idToTheme = themelist.slice();
+
 	
 	// On cherche le nombre d'acteurs qui se sont prononcés sur chaque thème
 	nbthemes = themelist.length;

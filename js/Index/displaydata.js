@@ -273,6 +273,7 @@ function clickable (){
 			// On charge les données pour le choix suivant
 			loadNewData();
 			if (nbloby===1){
+				setlinkURL();
 				generateResult();
 			} else {
 				generatePie();
