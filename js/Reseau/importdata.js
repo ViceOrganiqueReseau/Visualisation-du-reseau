@@ -190,11 +190,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 			lobyID = Number(params["id"]);
 		}
 	} // Sinon lobyID est undefined
-	if (!lobyID) {
-		var lobylink = document.getElementById("backloby");
-		// Un lien redirige l'utilisateur vers le questionnaire
-		lobylink.style.display = "block";
-	}
+	
 
 	// On récupèrer le lobyist choisi et la liste des IDs
 	for (var i=0; i<dataset.length; i++){
@@ -224,13 +220,20 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 		}
 	}
 
-	// Réduction des données à un thème
-	//theme = "Gaz de schiste";
-	//theme = "Réduction 40%"
-	//theme = "Efficacité énergétique"
-	//theme = "Energies renouvelables"
-	// Si l'acteur i ne s'est pas prononcé sur le thème, 
-	// on l'enlève !
+	// S'il n'y a pas de thème, afficher les liens
+	if (!theme){
+		displaylinksError();
+	}
+
+	// Si l'utilisateur n'a pas choisi de lobyist
+	// Ou si le lobyist choisi ne s'est pas prononcé
+	// Afficher le lien vers le questionnaire
+	if ((!(lobyist)) || (!(lobyist[theme]))) {
+		var lobylink = document.getElementById("backloby");
+		// Un lien redirige l'utilisateur vers le questionnaire
+		lobylink.style.display = "block";
+	}
+
 	for (var i=0; i<nbloby; i++){
 		if (dataset[i][theme]){} else {
 			dataset[i]=0;

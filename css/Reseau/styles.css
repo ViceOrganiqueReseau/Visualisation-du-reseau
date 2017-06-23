@@ -72,6 +72,48 @@ a#backloby:hover {
 	cursor: pointer;
 }
 
+#links {
+	display: none;
+	position: fixed;
+	top: 30%;
+	left: 40%;
+	width: 30%;
+}
+
+#links p {
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#links a {
+	z-index: 10;
+	background-color: rgb(191, 191, 191);
+	border: solid black 2px;
+	border-radius: 10px;
+	padding: 3px;
+	text-align: center;
+	width: 45%;
+	font-weight: bold;
+	font-size: 15px;
+	color: black;
+	text-decoration: none;
+	margin: 8px;
+}
+
+#links a:hover {
+	background-color: green;
+	cursor: pointer;
+}
+
+#boxes-container {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
+	align-content: space-arround;
+}
+
 #reloadbox {
 	position: fixed;
 	z-index: 10;
