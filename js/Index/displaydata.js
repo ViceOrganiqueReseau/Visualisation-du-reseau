@@ -168,8 +168,12 @@ function hoverize (){
 			avirer.select("path")
 				.transition()
 				.duration(0.5*timetransition)
-				.attr("fill", function (d,i){
-					return color(i);
+				.attr("fill", function (d,j){
+					if (j<i){
+						return color(j);
+					} else {
+						return color(j+1);
+					}
 				});
 
 		})
