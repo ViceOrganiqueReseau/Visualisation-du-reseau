@@ -1,13 +1,14 @@
 // Rendre les noeuds cliquables
 // Afficher le nom
-
 var moncanvas = document.querySelector(".visible");
 
-function animSec1(){
+function removeListeners (){
+	moncanvas.removeEventListener("mousemove", onmove1);
+	moncanvas.removeEventListener("mousemove", onmove2);
+}
 
-	moncanvas.addEventListener("mousemove", function (e){
-
-		// On repère les coordonnées du clic
+function onmove1 (e){
+			// On repère les coordonnées du clic
 		var mouseX = e.layerX;
 		var mouseY = e.layerY;
 
@@ -33,8 +34,49 @@ function animSec1(){
 		} else {
 			drawCanvasSec1();
 		}
+}
 
-	})
+function onmove2 (e){
+			// On repère les coordonnées du clic
+		var mouseX = e.layerX;
+		var mouseY = e.layerY;
+
+		// On obtient la couleur du pixel puis le noeud
+		// Click sur le canvas visible
+		// Couleur dans le canvas caché
+		var col = ctxhid.getImageData(mouseX, mouseY, 1, 1).data;
+		var colString = "rgb(" + col[0] + "," + col[1] + ","+ col[2] + ")";
+		console.log(colString)
+		var node = colToNode[colString];
+	
+		// Si on est sur un noeud, afficher son nom
+		// Sinon, redissiner pour effacer les autres noms
+		if (node){
+			var data = node["_groups"][0][0]["__data__"];
+			console.log(data)
+			drawCanvasSec2();
+			ctx.save()
+			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.fillStyle = "white"
+			ctx.fillText(data.key.split(",")[1], data.x-14, data.y-8)
+			ctx.restore()
+		} else {
+			drawCanvasSec2();
+		}
+}
+
+function animSec1(){
+
+	removeListeners();
+	moncanvas.addEventListener("mousemove", onmove1)
+
+}
+
+
+function animSec2(){
+
+	removeListeners();
+	moncanvas.addEventListener("mousemove", onmove2);
 
 }
 

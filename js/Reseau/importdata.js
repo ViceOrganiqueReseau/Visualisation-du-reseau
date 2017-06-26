@@ -325,7 +325,44 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 				});
 
 	// Pour la section 2 : Division par type
-	
+	circlePosType = CustomDOM.selectAll("custom.postype")
+						.data(dataByPosType)
+						.enter()
+						.append("custom")
+						.attr("class", "postype")
+						.attr("r", function (d){
+							return scalablesizes(d.value["Dépenses Lobby (€)"])
+						})
+						.attr("fillStyle", function (d){
+							if (lobyist){
+								if (lobyist[theme]===d.key.split(",")[0]){
+									return allycolor;
+								} else {
+									return ennemycolor;
+								}
+							} else {
+								if (d.key.split(",")[0] === "SUPPORT"){
+									return supportcolor;
+								} else {
+									return opposecolor;
+								}
+							}
+						})
+						.attr("fillHalo", function (d){
+							if (lobyist){
+								if (lobyist[theme]===d.key.split(",")[0]){
+									return allycolorhalo;
+								} else {
+									return ennemycolorhalo;
+								}
+							} else {
+								if (d.key.split(",")[0] === "SUPPORT"){
+									return supportcolorhalo;
+								} else {
+									return opposecolorhalo;
+								}
+							}
+						});
 
 
 

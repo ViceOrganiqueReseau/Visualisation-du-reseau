@@ -9,7 +9,7 @@ var sectionPositions;
 // Mise à jour des positions dès le chargement de la page
 majsectionspos();
 // Adapte la vue à la position initiale au chargement de la page
-position();
+//position();
 
 // Met à jour les positions de toutes les sections sur la page
 // Utile lors de la création de sections notamment
@@ -58,6 +58,15 @@ function majvue(index) {
         d3.select("#vue").style("background-color", "rgb(0, 6, 35)");
     } else {
         d3.select("#vue").style("background-color", "rgb(0, 10, 61)");
+    }
+
+    if (index===0){
+      setupSec1();
+      animSec1();
+    } else if (index===1){
+      console.log("section2")
+      setupSec2();
+      animSec2();
     }
 }
 
