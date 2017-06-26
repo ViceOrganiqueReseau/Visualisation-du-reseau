@@ -127,8 +127,8 @@ function setupSec1 (){
 						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
-					.force("x", d3.forceX(width/2).strength(0.4))
-					.force("y", d3.forceY(height/2).strength(0.4));
+					//.force("x", d3.forceX(width/2).strength(0.4))
+					//.force("y", d3.forceY(height/2).strength(0.4));
 
 	simulation.alphaMin(0.02);
 	// Appel de la simulation
@@ -201,8 +201,8 @@ function setupSec2 (){
 						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
-					.force("x", d3.forceX(width/2).strength(0.4))
-					.force("y", d3.forceY(height/2).strength(0.4));
+					//.force("x", d3.forceX(width/2).strength(0.4))
+					//.force("y", d3.forceY(height/2).strength(0.4));
 
 	simulation.alphaMin(0.02);
 	// Appel de la simulation
@@ -275,8 +275,8 @@ function setupSec3 (){
 						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
-					.force("x", d3.forceX(width/2).strength(0.4))
-					.force("y", d3.forceY(height/2).strength(0.4));
+					//.force("x", d3.forceX(width/2).strength(0.4))
+					//.force("y", d3.forceY(height/2).strength(0.4));
 
 	simulation.alphaMin(0.02);
 	// Appel de la simulation
@@ -343,14 +343,14 @@ function setupSec4 (){
 	// Renseigner ici les paramètres de la simulation
 	// forces, faux liens s'il en faut pour manipuler le graphe
 	simulation = d3.forceSimulation().nodes(dataByPosSecteur)
-					.force("center", d3.forceCenter(width/2,height/2))
+					//.force("center", d3.forceCenter(width/2,height/2))
 					.force("charge", d3.forceManyBody().strength(-1))
 					.force("collide", d3.forceCollide().radius(function (d){
 						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
-					.force("x", d3.forceX(width/2).strength(0.4))
-					.force("y", d3.forceY(height/2).strength(0.4));
+					//.force("x", d3.forceX(width/2).strength(0.4))
+					//.force("y", d3.forceY(height/2).strength(0.4));
 
 	simulation.alphaMin(0.02);
 	// Appel de la simulation
@@ -416,14 +416,14 @@ function setupSec5 (){
 	// Renseigner ici les paramètres de la simulation
 	// forces, faux liens s'il en faut pour manipuler le graphe
 	simulation = d3.forceSimulation().nodes(dataBySecteurPos)
-					.force("center", d3.forceCenter(width/2,height/2))
+					//.force("center", d3.forceCenter(width/2,height/2))
 					.force("charge", d3.forceManyBody().strength(-1))
 					.force("collide", d3.forceCollide().radius(function (d){
 						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
-					.force("x", d3.forceX(width/2).strength(0.4))
-					.force("y", d3.forceY(height/2).strength(0.4));
+					//.force("x", d3.forceX(width/2).strength(0.4))
+					//.force("y", d3.forceY(height/2).strength(0.4));
 
 	simulation.alphaMin(0.02);
 	// Appel de la simulation
