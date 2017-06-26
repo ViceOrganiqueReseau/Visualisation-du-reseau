@@ -1,3 +1,8 @@
+/* Comme l'import des données se fait au sein d'une fonction
+appelée de manière asynchrone : d3.csv, les variables
+globales sont définies ici afin qu'elles soient accessibles
+à tous les scripts */ 
+
 // Variables globales
 // Données des noeuds
 var dataset;
@@ -14,9 +19,27 @@ var lobyist;
 // Liste des thèmes
 var themelist;
 
+// Données regroupées pour les diffénrentes sections
+// Section 1 : SUPPORT vs OPPOSE
+var dataByPos;
+// Section 2 : Division par type
+var dataByPosType;
+// Section 3 : Division par secteur
+var dataByPosSecteur;
+// Section 4 : Rassemblement des secteurs, déplacement
+// Section 5 : Regroupement par secteur
+var dataBySecteurPos;
+// Section 6 : Organisations regroupées par secteur
+// Utilisation de dataset
+// Section 7 : Affichage des liens
+
 var nodes;
 // Faux DOM d'objets graphiques (un SVG-like)
 var circles;
+var circlePos;
+var circlePosType;
+var circlePosSecteur;
+var circleSecteurPos;
 var simulation;
 
 // IDToIndex : Name --> son index correspondant dans dataset
@@ -38,7 +61,15 @@ var radius = 3;
 // Coeficient donnant la courbure des liens
 var curvecoef = 0.1;
 
-
+// Cette fonction permet d'ajuster le diamètre
+// des noeuds aux dépenses du lobyist
+function scalablesizes (x){
+	var coef = 1
+	if (Number(x)){
+		coef = 1 + 7*Math.pow(x/depmax,1/3);
+	}
+	return coef * radius;
+}
 
 
 
@@ -72,6 +103,8 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 			lobyist = dataset[i];
 		}
 	}
+
+	// On charge les couleurs
 	setcolor();
 
 	// On récupère la liste des thèmes 
@@ -148,6 +181,157 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 		}
 	}
 
+	// Créer ici les listes de données par regroupement
+	// Section 1 par position
+	dataByPos = d3.nest()
+					.key(function (d){return d[theme]})
+					.rollup(function (v){
+						var res = {};
+						var somme = 0;
+						for (var i=0; i<v.length; i++){
+							var depense = Number(v[i]["Dépenses Lobby (€)"]);
+							if (depense){
+								somme += depense;
+							}
+						}
+						res["Dépenses Lobby (€)"] = somme;
+						return res;
+					})
+					.entries(dataset);
+	console.log(dataByPos);
+
+	// Section 2 par type et position
+	dataByPosType = d3.nest()
+					.key(function (d){
+						var res = [];
+						res.push(d[theme]);
+						res.push(d.Type);
+						return res;
+					})
+					.rollup(function (v){
+						var res = {};
+						var somme = 0;
+						for (var i=0; i<v.length; i++){
+							var depense = Number(v[i]["Dépenses Lobby (€)"]);
+							if (depense){
+								somme += depense;
+							}
+						}
+						res["Dépenses Lobby (€)"] = somme;
+						return res;
+					})
+					.entries(dataset);
+	console.log(dataByPosType);
+
+	// Section 3 par secteur et position
+	dataByPosSecteur = d3.nest()
+					.key(function (d){
+						var res = [];
+						res.push(d[theme]);
+						res.push(d["Secteurs d’activité"]);
+						return res;
+					})
+					.rollup(function (v){
+						var res = {};
+						var somme = 0;
+						for (var i=0; i<v.length; i++){
+							var depense = Number(v[i]["Dépenses Lobby (€)"]);
+							if (depense){
+								somme += depense;
+							}
+						}
+						res["Dépenses Lobby (€)"] = somme;
+						return res;
+					})
+					.entries(dataset);
+	console.log(dataByPosSecteur);
+
+	// Section 5 par secteur et position
+	dataBySecteurPos = d3.nest()
+					.key(function (d){
+						var res = [];
+						res.push(d["Secteurs d’activité"]);
+						res.push(d[theme]);
+						return res;
+					})
+					.rollup(function (v){
+						var res = {};
+						var somme = 0;
+						for (var i=0; i<v.length; i++){
+							var depense = Number(v[i]["Dépenses Lobby (€)"]);
+							if (depense){
+								somme += depense;
+							}
+						}
+						res["Dépenses Lobby (€)"] = somme;
+						return res;
+					})
+					.entries(dataset);
+	console.log(dataBySecteurPos);
+
 	// Créer ici les éléments graphqiues (faux DOM)
+	// Les noeuds qui correspondent aux organisations
+	circles = CustomDOM.selectAll("custom.actor")
+				.data(dataset)
+				.enter()
+				.append("custom")
+				.attr("class", "actor")
+				// Cet attribut "r" sert à adapter le
+				// halo aux dépenses Lobby
+				.attr("r", function (d){
+					return scalablesizes(d["Dépenses Lobby (€)"]);
+				})
+				.attr("fillStyle", colornode)
+				.attr("fillHalo", colorhalo);
+
+	// Pour la section 1 : SUPPORT vs OPPOSE
+	circlePos = CustomDOM.selectAll("custom.pos")
+				.data(dataByPos)
+				.enter()
+				.append("custom")
+				.attr("class", "pos")
+				.attr("r", function (d){
+					return scalablesizes(d.value["Dépenses Lobby (€)"])
+				})
+				.attr("fillStyle", function (d){
+					if (lobyist){
+						if (lobyist[theme]===d.key){
+							return allycolor;
+						} else {
+							return ennemycolor;
+						}
+					} else {
+						if (d.key === "SUPPORT"){
+							return supportcolor;
+						} else {
+							return opposecolor;
+						}
+					}
+				})
+				.attr("fillHalo", function (d){
+					if (lobyist){
+						if (lobyist[theme]===d.key){
+							return allycolorhalo;
+						} else {
+							return ennemycolorhalo;
+						}
+					} else {
+						if (d.key === "SUPPORT"){
+							return supportcolorhalo;
+						} else {
+							return opposecolorhalo;
+						}
+					}
+				});
+
+	// Pour la section 2 : Division par type
+	
+
+
+
+	// Initialisation après l'import des données : 
+	// Affichage de la section 1
+	setupSec1();
+	animSec1();
 
 });
