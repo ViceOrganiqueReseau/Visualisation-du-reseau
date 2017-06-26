@@ -27,6 +27,7 @@ var dataByPosType;
 // Section 3 : Division par secteur
 var dataByPosSecteur;
 // Section 4 : Rassemblement des secteurs, déplacement
+var secteurslist;
 // Section 5 : Regroupement par secteur
 var dataBySecteurPos;
 // Section 6 : Organisations regroupées par secteur
@@ -246,28 +247,36 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					.entries(dataset);
 	console.log(dataByPosSecteur);
 
-	// Section 5 par secteur et position
+	// Section 5 : Par secteur
 	dataBySecteurPos = d3.nest()
-					.key(function (d){
-						var res = [];
-						res.push(d["Secteurs d’activité"]);
-						res.push(d[theme]);
-						return res;
-					})
+					.key(function (d){return d["Secteurs d’activité"]})
 					.rollup(function (v){
 						var res = {};
+						var sommesup = 0;
+						var sommeopp = 0;
 						var somme = 0;
 						for (var i=0; i<v.length; i++){
 							var depense = Number(v[i]["Dépenses Lobby (€)"]);
 							if (depense){
 								somme += depense;
+								if (v[i][theme]==="SUPPORT"){
+									sommesup += depense;
+								} else if (v[i][theme]==="OPPOSE") {
+									sommeopp += depense;
+								}
 							}
 						}
-						res["Dépenses Lobby (€)"] = somme;
+						res["SUPPORT"] = sommesup;
+						res["OPPOSE"] = sommeopp;
+						res["TOTAL"] = somme;
 						return res;
 					})
 					.entries(dataset);
-	console.log(dataBySecteurPos);
+	secteurslist = [];
+	for (var i=0; i<dataBySecteurPos.length; i++){
+		secteurslist.push(dataBySecteurPos[i].key)
+	}
+
 
 	// Créer ici les éléments graphqiues (faux DOM)
 	// Les noeuds qui correspondent aux organisations
@@ -402,9 +411,22 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 									return opposecolorhalo;
 								}
 							}
-						});							
+						});	
 
+	// Section 4 : Mêmes cercles
 
+	// Section 5 : Fusion en secteurs
+	setMeanSectorColors();
+	circleSecteurPos = CustomDOM.selectAll("custom.secteurpos")
+						.data(dataBySecteurPos)
+						.enter()
+						.append("custom")
+						.attr("class", "secteurpos")
+						.attr("r", function (d){
+							return scalablesizes(d.value["TOTAL"])
+						})
+						.attr("fillStyle", sectorcolor)
+						.attr("fillHalo", sectorhalo);
 
 	// Initialisation après l'import des données : 
 	// Affichage de la section 1

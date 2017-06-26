@@ -62,6 +62,12 @@ function majvue(index) {
     } else if (index===2){
       setupSec3();
       animSec3();
+    } else if (index===3){
+      setupSec4();
+      animSec4();
+    } else if (index===4){
+      setupSec5();
+      animSec5();
     }
 }
 

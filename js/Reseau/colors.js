@@ -22,6 +22,8 @@ var opposecolorhalo;
 // Les fonctions qui renvoient les couleurs
 var colornode;
 var colorhalo;
+var sectorcolor;
+var sectorhalo;
 
 function setcolor(){
 	linkcolor = "red";
@@ -79,5 +81,42 @@ function setcolor(){
 				return opposecolorhalo;
 			}
 		}
+	}
+}
+
+function setMeanSectorColors (data){
+	sectorcolor = function (d){
+		if (lobyist && lobyist[theme]){
+			// Récupération des composantes RGB
+			var color1 = allycolor.split("(")[1].split(")")[0].split(",").map(Number);
+			var color2 = ennemycolor.split("(")[1].split(")")[0].split(",").map(Number);
+			var coefsup = (d.value["SUPPORT"])/(d.value["TOTAL"]);
+			var coefopp = (d.value["OPPOSE"])/(d.value["TOTAL"]);
+			if (lobyist[theme]==="SUPPORT"){
+				var red = coefsup*color1[0] + coefopp*color2[0];
+				var green = coefsup*color1[1] + coefopp*color2[1];
+				var blue = coefsup*color1[2] + coefopp*color2[2];
+				return "rgb("+([red,green,blue].join(","))+")";
+			} else {
+				var red = coefopp*color1[0] + coefsup*color2[0];
+				var green = coefopp*color1[1] + coefsup*color2[1];
+				var blue = coefopp*color1[2] + coefsup*color2[2];
+				return "rgb("+([red,green,blue].join(","))+")";
+			}
+		} else {
+			var color1 = supportcolor.split("(")[1].split(")")[0].split(",").map(Number);
+			var color2 = opposecolor.split("(")[1].split(")")[0].split(",").map(Number);
+			var coefsup = (d.value["SUPPORT"])/(d.value["TOTAL"]);
+			var coefopp = (d.value["OPPOSE"])/(d.value["TOTAL"]);
+			var red = Math.round(coefsup*color1[0] + coefopp*color2[0]);
+			var green = Math.round(coefsup*color1[1] + coefopp*color2[1]);
+			var blue = Math.round(coefsup*color1[2] + coefopp*color2[2]);
+			return "rgb("+([red,green,blue].join(","))+")";
+		}
+	}
+
+	sectorhalo = function (d){
+		var color = sectorcolor(d).split("(")[1].split(")")[0].split(",").map(Number);
+		return "rgba("+color.join(",")+",0.3)";
 	}
 }

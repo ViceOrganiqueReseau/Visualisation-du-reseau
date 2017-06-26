@@ -6,6 +6,8 @@ function removeListeners (){
 	moncanvas.removeEventListener("mousemove", onmove1);
 	moncanvas.removeEventListener("mousemove", onmove2);
 	moncanvas.removeEventListener("mousemove", onmove3);
+	moncanvas.removeEventListener("mousemove", onmove4);
+	moncanvas.removeEventListener("mousemove", onmove5);
 }
 
 function onmove1 (e){
@@ -88,12 +90,75 @@ function onmove3 (e){
 			ctx.save()
 			ctx.font = "bold 7pt Arial,sans-serif"
 			ctx.fillStyle = "white"
-			ctx.fillText(data.key.split(",")[1], data.x-14, data.y-8)
+			var virgule = data.key.indexOf(",");
+			ctx.fillText(data.key.slice(virgule+1), data.x-14, data.y-8)
 			ctx.restore()
 		} else {
 			drawCanvasSec3();
 		}
 }
+
+function onmove4 (e){
+			// On repère les coordonnées du clic
+		var mouseX = e.layerX;
+		var mouseY = e.layerY;
+
+		// On obtient la couleur du pixel puis le noeud
+		// Click sur le canvas visible
+		// Couleur dans le canvas caché
+		var col = ctxhid.getImageData(mouseX, mouseY, 1, 1).data;
+		var colString = "rgb(" + col[0] + "," + col[1] + ","+ col[2] + ")";
+		console.log(colString)
+		var node = colToNode[colString];
+	
+		// Si on est sur un noeud, afficher son nom
+		// Sinon, redissiner pour effacer les autres noms
+		if (node){
+			var data = node["_groups"][0][0]["__data__"];
+			console.log(data)
+			drawCanvasSec4();
+			ctx.save()
+			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.fillStyle = "white"
+			var virgule = data.key.indexOf(",");
+			ctx.fillText(data.key.slice(virgule+1), data.x-14, data.y-8)
+			ctx.restore()
+		} else {
+			drawCanvasSec4();
+		}
+}
+
+function onmove5 (e){
+			// On repère les coordonnées du clic
+		var mouseX = e.layerX;
+		var mouseY = e.layerY;
+
+		// On obtient la couleur du pixel puis le noeud
+		// Click sur le canvas visible
+		// Couleur dans le canvas caché
+		var col = ctxhid.getImageData(mouseX, mouseY, 1, 1).data;
+		var colString = "rgb(" + col[0] + "," + col[1] + ","+ col[2] + ")";
+		console.log(colString)
+		var node = colToNode[colString];
+	
+		// Si on est sur un noeud, afficher son nom
+		// Sinon, redissiner pour effacer les autres noms
+		if (node){
+			var data = node["_groups"][0][0]["__data__"];
+			console.log(data)
+			drawCanvasSec5();
+			ctx.save()
+			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.fillStyle = "white"
+			ctx.fillText(data.key, data.x-14, data.y-8)
+			ctx.restore()
+		} else {
+			drawCanvasSec5();
+		}
+}
+
+
+
 
 function animSec1(){
 
@@ -116,6 +181,21 @@ function animSec3(){
 	moncanvas.addEventListener("mousemove", onmove3);
 
 }
+
+function animSec4(){
+
+	removeListeners();
+	moncanvas.addEventListener("mousemove", onmove4);
+
+}
+
+function animSec5(){
+
+	removeListeners();
+	moncanvas.addEventListener("mousemove", onmove5);
+
+}
+
 
 // Ce code permet de faire du drag&slide sur les nodes
 canvas
