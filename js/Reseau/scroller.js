@@ -53,20 +53,15 @@ function position() {
 // argument index : indice de la nouvelle section
 function majvue(index) {
   // Modifications lors d'un changement de section
-  // Changement de la couleur de fond pour la demo et pour aider au dev
-    if (index%2===0){
-        d3.select("#vue").style("background-color", "rgb(0, 6, 35)");
-    } else {
-        d3.select("#vue").style("background-color", "rgb(0, 10, 61)");
-    }
-
     if (index===0){
       setupSec1();
       animSec1();
     } else if (index===1){
-      console.log("section2")
       setupSec2();
       animSec2();
+    } else if (index===2){
+      setupSec3();
+      animSec3();
     }
 }
 

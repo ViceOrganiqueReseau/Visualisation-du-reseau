@@ -201,3 +201,77 @@ function setupSec2 (){
 	simulation.on("tick", tickedSec2);
 
 }
+
+function tickedSec3 (){
+
+		// Esapcement ! Recentrage !
+		circlePosSecteur.each(function (d){
+			if (d.key.split(",")[0] === "SUPPORT"){
+				d.x += (width/3 - d.x)*simulation.alpha();
+			} else {
+				d.x += (2*width/3 - d.x)*simulation.alpha();
+			}
+			d.y += (height/2 - d.y)*simulation.alpha();
+		})
+
+		drawCanvasSec3();
+
+}
+
+function drawCanvasSec3 (){
+
+		clearCanvas();
+		// Traçage des halos
+		// Le halo proportionnel aux dépenses
+		circlePosSecteur.each(function (d){
+			// Affichage du halo
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctx.fillStyle = d3.select(this).attr("fillHalo");
+			ctx.fill();
+		})
+
+		// Traçage des cercles
+		circlePosSecteur.each(function (d){
+			var node = d3.select(this);
+			// Affichage du cercle
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
+			ctx.fillStyle = node.attr("fillStyle");
+			ctx.fill();
+
+			// Dessin dans le canvas caché
+			var newcol = genHiddenColor();
+			ctxhid.fillStyle = newcol;
+			ctxhid.beginPath();
+			ctxhid.moveTo(d.x, d.y);
+			ctxhid.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctxhid.fill();
+
+			// Ajout de la couleur au répertoire
+			colToNode[newcol] = node;
+
+		})	
+}
+
+function setupSec3 (){
+
+	// Renseigner ici les paramètres de la simulation
+	// forces, faux liens s'il en faut pour manipuler le graphe
+	simulation = d3.forceSimulation().nodes(dataByPosSecteur)
+					.force("center", d3.forceCenter(width/2,height/2))
+					.force("charge", d3.forceManyBody().strength(-1))
+					.force("collide", d3.forceCollide().radius(function (d){
+						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
+					}))
+					// Permettent d'éviter le hors champ lors du drag
+					.force("x", d3.forceX(width/2).strength(0.4))
+					.force("y", d3.forceY(height/2).strength(0.4));
+
+	simulation.alphaMin(0.02);
+	// Appel de la simulation
+	simulation.on("tick", tickedSec3);
+
+}

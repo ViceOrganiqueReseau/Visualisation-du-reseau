@@ -294,7 +294,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					return scalablesizes(d.value["Dépenses Lobby (€)"])
 				})
 				.attr("fillStyle", function (d){
-					if (lobyist){
+					if (lobyist && lobyist[theme]){
 						if (lobyist[theme]===d.key){
 							return allycolor;
 						} else {
@@ -309,7 +309,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					}
 				})
 				.attr("fillHalo", function (d){
-					if (lobyist){
+					if (lobyist && lobyist[theme]){
 						if (lobyist[theme]===d.key){
 							return allycolorhalo;
 						} else {
@@ -334,7 +334,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 							return scalablesizes(d.value["Dépenses Lobby (€)"])
 						})
 						.attr("fillStyle", function (d){
-							if (lobyist){
+							if (lobyist && lobyist[theme]){
 								if (lobyist[theme]===d.key.split(",")[0]){
 									return allycolor;
 								} else {
@@ -349,7 +349,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 							}
 						})
 						.attr("fillHalo", function (d){
-							if (lobyist){
+							if (lobyist && lobyist[theme]){
 								if (lobyist[theme]===d.key.split(",")[0]){
 									return allycolorhalo;
 								} else {
@@ -363,6 +363,46 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 								}
 							}
 						});
+
+	// Pour la section 3 : Division par secteur
+	circlePosSecteur = CustomDOM.selectAll("custom.possecteur")
+						.data(dataByPosSecteur)
+						.enter()
+						.append("custom")
+						.attr("class", "possecteur")
+						.attr("r", function (d){
+							return scalablesizes(d.value["Dépenses Lobby (€)"])								
+						})
+						.attr("fillStyle", function (d){
+							if (lobyist && lobyist[theme]){
+								if (lobyist[theme]===d.key.split(",")[0]){
+									return allycolor;
+								} else {
+									return ennemycolor;
+								}
+							} else {
+								if (d.key.split(",")[0] === "SUPPORT"){
+									return supportcolor;
+								} else {
+									return opposecolor;
+								}
+							}
+						})
+						.attr("fillHalo", function (d){
+							if (lobyist && lobyist[theme]){
+								if (lobyist[theme]===d.key.split(",")[0]){
+									return allycolorhalo;
+								} else {
+									return ennemycolorhalo;
+								}
+							} else {
+								if (d.key.split(",")[0] === "SUPPORT"){
+									return supportcolorhalo;
+								} else {
+									return opposecolorhalo;
+								}
+							}
+						});							
 
 
 
