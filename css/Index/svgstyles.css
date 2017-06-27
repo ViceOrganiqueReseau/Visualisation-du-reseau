@@ -1,0 +1,22 @@
+svg g text {
+	fill: white;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+#vue svg {
+	overflow: visible;
+}
+
+text.result {
+	font-size: 30px;
+	fill: white;
+}
+
+text.result.nom {
+	font-size: 20px;
+}
+
+text.result.abr {
+	font-size: 50px;
+}
