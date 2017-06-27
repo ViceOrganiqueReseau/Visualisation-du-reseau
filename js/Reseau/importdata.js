@@ -108,6 +108,25 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 		lobylink.style.display = "block";
 	}
 
+	// Remplissage des #answers
+	if (theme){
+		d3.select("#answers span.theme")
+			.text(theme);
+	}
+	if (lobyist && lobyist[theme]){
+		d3.select("#answers span.nom")
+			.text(lobyist["Nom"]);
+		d3.select("#answers span.position")
+			.text(lobyist[theme]);
+		d3.select("#answers span.type")
+			.text(lobyist["Type"]);
+		d3.select("#answers span.secteur")
+			.text(lobyist["Secteurs d’activité"]);
+		d3.select("#answers span.country")
+			.text(lobyist["Pays/Région"]);
+	}
+
+	// On retire les entrées non pertinentes de datset
 	for (var i=0; i<nbloby; i++){
 		if (dataset[i][theme]){} else {
 			dataset[i]=0;
