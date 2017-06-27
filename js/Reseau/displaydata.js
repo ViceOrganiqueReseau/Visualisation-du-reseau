@@ -53,9 +53,8 @@ function defIDToIndex(){
 			IDToIndex = {};
 			console.log(NestedData)
 			NestedData.forEach(function (d){
-				console.log(d)
 				console.log([d.key, d.value])
-				IDToIndex[d.key] = d.value;
+				IDToIndex[Number(d.key)] = d.value;
 			})
 			firstick=0;	
 		}
@@ -428,5 +427,173 @@ function setupSec5 (){
 	simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec5);
+
+}
+
+function tickedSec6 (){
+
+		// Esapcement ! Recentrage !
+		defIDToIndex();
+		circles.each(function (d){
+			// L'indice du secteur dans la liste des secteurs
+			// Cet indice permet de lepositionner sur centers[indice]
+			var indice = secteurslist.indexOf(d["Secteurs d’activité"]);
+			d.x += ((centers[indice][0]-d.x) * simulation.alpha())
+			d.y += ((centers[indice][1]-d.y) * simulation.alpha())
+		})
+
+		drawCanvasSec6();
+
+}
+
+function drawCanvasSec6 (){
+
+		clearCanvas();
+		// Traçage des halos
+		// Le halo proportionnel aux dépenses
+		circles.each(function (d){
+			// Affichage du halo
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctx.fillStyle = d3.select(this).attr("fillHalo");
+			ctx.fill();
+		})
+
+		// Traçage des cercles
+		circles.each(function (d){
+			var node = d3.select(this);
+			// Affichage du cercle
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
+			ctx.fillStyle = node.attr("fillStyle");
+			ctx.fill();
+
+			// Dessin dans le canvas caché
+			var newcol = genHiddenColor();
+			ctxhid.fillStyle = newcol;
+			ctxhid.beginPath();
+			ctxhid.moveTo(d.x, d.y);
+			ctxhid.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctxhid.fill();
+
+			// Ajout de la couleur au répertoire
+			colToNode[newcol] = node;
+
+		})	
+}
+
+function setupSec6 (){
+
+	// Renseigner ici les paramètres de la simulation
+	// forces, faux liens s'il en faut pour manipuler le graphe
+	simulation = d3.forceSimulation().nodes(dataset)
+					//.force("center", d3.forceCenter(width/2,height/2))
+					.force("charge", d3.forceManyBody().strength(-1))
+					.force("collide", d3.forceCollide().radius(function (d){
+						return 2*radius + scalablesizes(d["Dépenses Lobby (€)"]);
+					}))
+					// Permettent d'éviter le hors champ lors du drag
+					//.force("x", d3.forceX(width/2).strength(0.4))
+					//.force("y", d3.forceY(height/2).strength(0.4));
+
+	simulation.alphaMin(0.02);
+	// Appel de la simulation
+	simulation.on("tick", tickedSec6);
+
+}
+
+function tickedSec7 (){
+
+		drawCanvasSec7();
+
+}
+
+function drawCanvasSec7 (){
+
+		clearCanvas();
+
+		// Traçage des liens
+		ctx.strokeStyle = linkcolor;
+		ctx.lineWidth = 1;
+		affiliations.forEach(function (d){
+			ctx.beginPath()
+			var beginindex = IDToIndex[d.source.ID];
+			var endindex = IDToIndex[d.target.ID];
+			var x1 = Math.round(dataset[beginindex].x);
+			var x2 = Math.round(dataset[endindex].x);
+			var y1 = Math.round(dataset[beginindex].y);
+			var y2 = Math.round(dataset[endindex].y);
+			var xmid = 0.5*(x1+x2);
+			var ymid = 0.5*(y1+y2);
+			var dx = x2-x1;
+			var dy = y2-y1;
+			ctx.moveTo(x1, y1);
+			ctx.quadraticCurveTo(xmid + curvecoef*dy, ymid - curvecoef*dx, x2, y2);
+			ctx.stroke();
+		});
+
+		// Traçage des halos
+		// Le halo proportionnel aux dépenses
+		circles.each(function (d){
+			// Affichage du halo
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctx.fillStyle = d3.select(this).attr("fillHalo");
+			ctx.fill();
+		})
+
+		// Traçage des cercles
+		circles.each(function (d){
+			var node = d3.select(this);
+			// Affichage du cercle
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
+			ctx.fillStyle = node.attr("fillStyle");
+			ctx.fill();
+
+			// Dessin dans le canvas caché
+			var newcol = genHiddenColor();
+			ctxhid.fillStyle = newcol;
+			ctxhid.beginPath();
+			ctxhid.moveTo(d.x, d.y);
+			ctxhid.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctxhid.fill();
+
+			// Ajout de la couleur au répertoire
+			colToNode[newcol] = node;
+
+		})	
+}
+
+function setupSec7 (){
+
+	// Renseigner ici les paramètres de la simulation
+	// forces, faux liens s'il en faut pour manipuler le graphe
+	// On renseigne les forces
+	simulation = d3.forceSimulation().nodes(dataset)
+					.force("center", d3.forceCenter(width/2,height/2))
+					.force("charge", d3.forceManyBody().strength(-1))
+					.force("link", d3.forceLink(affiliations)
+						.id(function (d){
+							return d.ID;
+						})
+						.strength(function (d){
+							return 0.4;
+						})
+					)
+					.force("collide", d3.forceCollide().radius(function (d){
+						return 2*radius + 2*scalablesizes(d["Dépenses Lobby (€)"]);
+					}))
+					// Permettent d'éviter le hors champ lors du drag
+					.force("x", d3.forceX(width/2).strength(0.005))
+					.force("y", d3.forceY(height/2).strength(0.005));
+
+	simulation.alphaMin(0.02);
+	// Appel de la simulation
+	simulation.on("tick", tickedSec7);
 
 }

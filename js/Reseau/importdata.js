@@ -67,7 +67,7 @@ var curvecoef = 0.1;
 function scalablesizes (x){
 	var coef = 1
 	if (Number(x)){
-		coef = 1 + 7*Math.pow(x/depmax,1/3);
+		coef = 1 + 9*Math.pow(x/depmax,1/1.5);
 	}
 	return coef * radius;
 }
