@@ -5,8 +5,7 @@ function setlinkURL (){
 	if (nbloby===1){
 		var ID = datafiltre[0]["ID"];
 		var themeid = idToTheme.indexOf(choices[0]);
-		console.log("reseau.html?id="+ID+"&amp;theme="+themeid);
-		link.setAttribute("href", "reseau.html?id="+ID+"&theme="+themeid);
+		link.setAttribute("href", "reseau.html?theme="+themeid+"&id="+ID);
 	}
 }
 

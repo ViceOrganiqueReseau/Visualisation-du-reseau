@@ -26,9 +26,9 @@ var sectorcolor;
 var sectorhalo;
 
 function setcolor(){
-	linkcolor = "red";
-	usercolor = "rgb(0,255,165)";
-	usercolorhalo = "rgba(0,255,165,0.3)";
+	linkcolor = "rgb(80,80,80)";
+	usercolor = "rgb(0,255,100)";
+	usercolorhalo = "rgba(0,255,100,0.3)";
 	allycolor = "rgb(0,165,255)";
 	allycolorhalo = "rgba(0,165,255,0.3)";
 	ennemycolor = "rgb(255,165,0)";
