@@ -7,8 +7,14 @@ globales sont définies ici afin qu'elles soient accessibles
 // Données des noeuds
 var dataset;
 var nbloby;
-// Données des liens
+// Données des liens d'affiliation
 var affiliations;
+// Données des actionnaires indirects
+var actionnaires;
+// Données des liens actionnaires directs
+var actionnairesDirect;
+// Données des liens actionnaires indirects
+var actionnairesIndirect;
 
 // Thème choisi
 var theme;
@@ -78,6 +84,24 @@ d3.csv("data/Noeud19juin.csv", function (data){
 	// On récupère les données
 	dataset=data;
 	nbloby=dataset.length;
+
+});
+
+d3.csv("data/Noeuds-ActionnairesIndirect.csv", function (data){
+	// On récupère les données
+	actionnaires = data;
+
+});
+
+d3.csv("data/liensActionnairesDirect.csv", function (data){
+	// On récupère les données
+	actionnairesDirect = data;
+
+});
+
+d3.csv("data/liensActionnairesIndirect.csv", function (data){
+	// On récupère les données
+	actionnairesIndirect = data;
 
 });
 
