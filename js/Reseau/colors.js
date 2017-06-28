@@ -34,9 +34,9 @@ function setcolor(){
 	ennemycolor = "rgb(255,165,0)";
 	ennemycolorhalo = "rgba(255,165,0,0.3)";
 	supportcolor = "rgb(0,255,0)";
-	opposecolor = "rgb(165,165,165)";
+	opposecolor = "rgb(255,0,0)";
 	supportcolorhalo = "rgba(0,255,0,0.3)";
-	opposecolorhalo = "rgba(165,165,165,0.3)";
+	opposecolorhalo = "rgba(255,0,0,0.3)";
 
 	// La fonction qui à un noeud associe sa couleur
 	colornode = function (d){

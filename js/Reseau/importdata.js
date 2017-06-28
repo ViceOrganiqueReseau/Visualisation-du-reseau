@@ -128,6 +128,9 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 		}
 	}
 
+	// Créer les liens de retour vers le thème
+	createlinks();
+
 	// S'il n'y a pas de thème, afficher les liens
 	if (!theme){
 		displaylinksError();
@@ -147,20 +150,23 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 		d3.select("#answers span.theme")
 			.text(theme);
 	}
-	if (lobyist && lobyist[theme]){
+	if (lobyist){
 		d3.select("#answers span.nom")
 			.text(lobyist["Nom"]);
-		d3.select("#answers span.position")
-			.text(lobyist[theme]);
 		d3.select("#answers span.type")
 			.text(lobyist["Type"]);
 		d3.select("#answers span.secteur")
 			.text(lobyist["Secteurs d’activité"]);
 		d3.select("#answers span.country")
 			.text(lobyist["Pays/Région"]);
+		if (lobyist[theme]){
+			d3.select("#answers span.position")
+				.text(lobyist[theme]);
+		}
 	}
 
-	// On retire les acteurs non pertinents
+	// On retire les acteurs non pertinents : 
+	// Ceux qui ne se sont pas prononcé
 	for (var i=0; i<nbloby; i++){
 		if (dataset[i][theme]){} else {
 			dataset[i]=0;
@@ -172,6 +178,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	nbloby=dataset.length;
 
 	// Idem, on ne conserve que les liens pertinents
+	// ie qui relient des acteurs pertinents
 	idlist=[];
 	for (var i=0; i<nbloby; i++){
 		idlist.push(dataset[i].ID)

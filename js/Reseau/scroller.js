@@ -47,6 +47,11 @@ function position() {
     majvue.call(this, sectionIndex);
   }
   scrollAnim();
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight){
+    displaylinksEnd();
+  } else {
+    invisiblelinks();
+  }
 }
 
 // Fonction à appeler pour mettre la vue à jour
