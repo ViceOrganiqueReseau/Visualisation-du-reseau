@@ -79,6 +79,9 @@ function majvue(index) {
     } else if (index===6){
       setupSec7();
       animSec7();
+    } else if (index===7){
+      setupSec8();
+      animSec8();
     }
 }
 

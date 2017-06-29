@@ -10,6 +10,7 @@ function removeListeners (){
 	moncanvas.removeEventListener("mousemove", onmove5);
 	moncanvas.removeEventListener("mousemove", onmove6);
 	moncanvas.removeEventListener("mousemove", onmove7);
+	moncanvas.removeEventListener("mousemove", onmove8);
 }
 
 function onmove1 (e){
@@ -217,6 +218,69 @@ function onmove7 (e){
 		}
 }
 
+function onmove8 (e){
+			// On repère les coordonnées du clic
+		var mouseX = e.layerX;
+		var mouseY = e.layerY;
+
+		// On obtient la couleur du pixel puis le noeud
+		// Click sur le canvas visible
+		// Couleur dans le canvas caché
+		var col = ctxhid.getImageData(mouseX, mouseY, 1, 1).data;
+		var colString = "rgb(" + col[0] + "," + col[1] + ","+ col[2] + ")";
+		console.log(colString)
+		var node = colToNode[colString];
+	
+		// Si on est sur un noeud, afficher son nom
+		// Sinon, redissiner pour effacer les autres noms
+		if (node){
+			var data = node["_groups"][0][0]["__data__"];
+			console.log(data)
+			drawCanvasSec8();
+			ctx.save();
+			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.fillStyle = "white"
+			ctx.fillText(data.Nom, data.x-14, data.y-8)
+
+			if (idActlist.indexOf(data.ID)!==-1){
+				// Afficher les liens d'actionnaires indirects
+				// concernés par ce noeud
+				actionnairesIndirect.forEach(function (d){
+					if (data.ID === d.source){
+
+						// On dessine le lien
+						ctx.strokeStyle = linkactcolor;
+						ctx.globalAlpha = valToOpacity(d);
+						var beginindex = allIDToIndex[Number(d.source)];
+						var endindex = allIDToIndex[Number(d.target)];
+						var x1 = Math.round(allActors[beginindex].x);
+						var x2 = Math.round(allActors[endindex].x);
+						var y1 = Math.round(allActors[beginindex].y);
+						var y2 = Math.round(allActors[endindex].y);
+						ctx.beginPath();
+						ctx.moveTo(x1, y1);
+						ctx.lineTo(x2, y2);
+						console.log([x1,y1,x2,y2])
+						ctx.closePath();
+						ctx.stroke();
+
+						// On écrit le nom de target
+						ctx.globalAlpha = 1;
+						ctx.fillStyle = "white"
+						ctx.fillText(data.Nom, data.x-14, data.y-8)
+						var indice = allIDToIndex[d.target];
+						ctx.fillText(allActors[indice].Nom, allActors[indice].x-14, allActors[indice].y-8)
+
+					}
+				})
+			}
+			ctx.restore();
+
+		} else {
+			drawCanvasSec8();
+		}
+}
+
 
 
 function animSec1(){
@@ -266,6 +330,13 @@ function animSec7(){
 
 	removeListeners();
 	moncanvas.addEventListener("mousemove", onmove7);
+
+}
+
+function animSec8(){
+
+	removeListeners();
+	moncanvas.addEventListener("mousemove", onmove8);
 
 }
 

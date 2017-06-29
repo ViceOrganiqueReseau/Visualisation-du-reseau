@@ -19,11 +19,16 @@ var opposecolor;
 var supportcolorhalo;
 var opposecolorhalo;
 
+// Couleur des actionnaires
+var actcolor;
+var linkactcolor;
+
 // Les fonctions qui renvoient les couleurs
 var colornode;
 var colorhalo;
 var sectorcolor;
 var sectorhalo;
+var valToOpacity
 
 function setcolor(){
 	linkcolor = "rgb(80,80,80)";
@@ -37,6 +42,8 @@ function setcolor(){
 	opposecolor = "rgb(255,0,0)";
 	supportcolorhalo = "rgba(0,255,0,0.3)";
 	opposecolorhalo = "rgba(255,0,0,0.3)";
+	actcolor = "rgba(96, 96, 96, 0.3)";
+	linkactcolor = "rgb(255,255,0)"
 
 	// La fonction qui à un noeud associe sa couleur
 	colornode = function (d){
@@ -80,6 +87,18 @@ function setcolor(){
 			} else {
 				return opposecolorhalo;
 			}
+		}
+	}
+
+	valToOpacity = function (d){
+		if (d["Valeur (supp à%)"]<=1){
+			return 0.2
+		} else if (d["Valeur (supp à%)"]<=10){
+			return 0.5
+		} else if (d["Valeur (supp à%)"]<=50){
+			return 0.8
+		} else {
+			return 1;
 		}
 	}
 }

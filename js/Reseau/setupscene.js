@@ -29,6 +29,9 @@ function clearCanvas (){
   ctxhid.clearRect(0,0,width,height);
   colToNode = {};
   nextCol = 1;
+  // Sans cette ligne, problème au survol en section 8
+  // Tout le canvas peut devenir quasi transparent
+  ctx.globalAlpha = 1;
 }
 
 // Gestion des couleurs du canvas caché

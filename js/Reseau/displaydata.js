@@ -21,7 +21,9 @@ qui marque une séparation entre 2 sections)
 // Permet de lancer une portion de code uniquement
 // au tick n°1
 var firstick = 1;
+var firstickAll = 1;
 
+// Layout des secteurs
 var w=Math.round(width/6);
 var h=Math.round(height/4)
 var centers = [
@@ -30,6 +32,15 @@ var centers = [
 [w,3*h], [2*w,3*h], [3*w,3*h], [4*w,3*h], [5*w,3*h], 
 ];
 
+// Layout des actionnaires
+var h2 = height/12;
+var pasx = 40;
+var places = [];
+for (var i=0; i<3; i++){
+	for (var j=0; j<11; j++){
+		places.push([(i+1)*pasx, (j+1)*h2])
+	}
+}
 
 // Cette fonction permet d'ajuster le diamètre
 // des noeuds aux dépenses du lobyist
@@ -41,7 +52,7 @@ function scalablesizes (x){
 	return coef * radius;
 }
 
-function defIDToIndex(){
+function defIDToIndex (){
 	// On remplit l'annuaire
 		// Dictionnaire inversé pour faciliter les liens
 		// Il faut placer ce code ici à cause des appels asynchrones. 
@@ -51,13 +62,30 @@ function defIDToIndex(){
 							.rollup(function (v){return v[0].index})
 							.entries(dataset);
 			IDToIndex = {};
-			console.log(NestedData)
 			NestedData.forEach(function (d){
 				console.log([d.key, d.value])
 				IDToIndex[Number(d.key)] = d.value;
 			})
 			firstick=0;	
 		}
+}
+
+function defallIDToIndex (){
+
+	// Annuaire complet avec les actionnaires
+	// Utile pour afficher les liens
+	if (firstickAll){
+		var NestedData = d3.nest()
+							.key(function (d){return d.ID})
+							.rollup(function (v){return v[0].index})
+							.entries(allActors);
+		allIDToIndex = {};
+		NestedData.forEach(function (d){
+			console.log([d.key, d.value])
+			allIDToIndex[Number(d.key)] = d.value;
+		})
+		firstickAll=0;	
+	}
 }
 
 function tickedSec1 (){
@@ -560,7 +588,7 @@ function drawCanvasSec7 (){
 			ctxhid.fillStyle = newcol;
 			ctxhid.beginPath();
 			ctxhid.moveTo(d.x, d.y);
-			ctxhid.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctxhid.arc(d.x, d.y, node.attr("r"), 0, 2*Math.PI);
 			ctxhid.fill();
 
 			// Ajout de la couleur au répertoire
@@ -595,5 +623,157 @@ function setupSec7 (){
 	simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec7);
+
+}
+
+function tickedSec8 (){
+
+		defallIDToIndex();
+
+		circleActs.each(function (d){
+			// Faire un layout des actionnaires
+			var indice = idActlist.indexOf(d.ID)
+			d.x += (places[indice][0] - d.x) * simulation.alpha();
+			d.y += (places[indice][1] - d.y) * simulation.alpha();
+		})
+
+		drawCanvasSec8();
+
+}
+
+function drawCanvasSec8 (){
+
+		clearCanvas();
+
+		// Traçage des liens
+		ctx.strokeStyle = linkcolor;
+		ctx.lineWidth = 1;
+		affiliations.forEach(function (d){
+			ctx.beginPath()
+			var beginindex = allIDToIndex[d.source.ID];
+			var endindex = allIDToIndex[d.target.ID];
+			var x1 = Math.round(allActors[beginindex].x);
+			var x2 = Math.round(allActors[endindex].x);
+			var y1 = Math.round(allActors[beginindex].y);
+			var y2 = Math.round(allActors[endindex].y);
+			var xmid = 0.5*(x1+x2);
+			var ymid = 0.5*(y1+y2);
+			var dx = x2-x1;
+			var dy = y2-y1;
+			ctx.moveTo(x1, y1);
+			ctx.quadraticCurveTo(xmid + curvecoef*dy, ymid - curvecoef*dx, x2, y2);
+			ctx.stroke();
+		});
+
+		// Traçage des liens actionnaires directs
+		ctx.strokeStyle = linkactcolor;
+		actionnairesDirect.forEach(function (d){
+			ctx.save();
+			ctx.globalAlpha = valToOpacity(d);
+			ctx.beginPath();
+			var beginindex = allIDToIndex[Number(d.source.ID)];
+			var endindex = allIDToIndex[Number(d.target.ID)];
+			var x1 = Math.round(allActors[beginindex].x);
+			var x2 = Math.round(allActors[endindex].x);
+			var y1 = Math.round(allActors[beginindex].y);
+			var y2 = Math.round(allActors[endindex].y);
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.stroke();
+			ctx.restore();
+		})
+
+		// Traçage des halos d'organisations
+		// Le halo proportionnel aux dépenses
+		circles.each(function (d){
+			// Affichage du halo
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
+			ctx.fillStyle = d3.select(this).attr("fillHalo");
+			ctx.fill();
+		})
+
+		// Traçage des cercles d'organisations
+		circles.each(function (d){
+			var node = d3.select(this);
+			// Affichage du cercle
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
+			ctx.fillStyle = node.attr("fillStyle");
+			ctx.fill();
+
+			// Dessin dans le canvas caché
+			var newcol = genHiddenColor();
+			ctxhid.fillStyle = newcol;
+			ctxhid.beginPath();
+			ctxhid.moveTo(d.x, d.y);
+			ctxhid.arc(d.x, d.y, node.attr("r"), 0, 2*Math.PI);
+			ctxhid.fill();
+
+			// Ajout de la couleur au répertoire
+			colToNode[newcol] = node;
+
+		})
+
+		// Traçage des cercles actionnaires
+		circleActs.each(function (d){
+			var node = d3.select(this);
+			// Affichage du cercle
+			ctx.fillStyle = node.attr("fillStyle");
+			ctx.beginPath();
+			ctx.moveTo(d.x, d.y);
+			ctx.arc(d.x, d.y, node.attr("r"), 0, 2*Math.PI);
+			ctx.fill();
+
+			// Dessin dans le canvas caché
+			var newcol = genHiddenColor();
+			ctxhid.fillStyle = newcol;
+			ctxhid.beginPath();
+			ctxhid.moveTo(d.x, d.y);
+			ctxhid.arc(d.x, d.y, node.attr("r"), 0, 2*Math.PI);
+			ctxhid.fill();
+
+			// Ajout de la couleur au répertoire
+			colToNode[newcol] = node;
+		})
+
+}
+
+function setupSec8 (){
+
+	// Renseigner ici les paramètres de la simulation
+	// forces, faux liens s'il en faut pour manipuler le graphe
+	// On renseigne les forces
+	simulation = d3.forceSimulation().nodes(allActors)
+					//.force("center", d3.forceCenter(width/2,height/2))
+					.force("charge", d3.forceManyBody().strength(-1))
+					.force("link", d3.forceLink(affiliations)
+						.id(function (d){
+							return d.ID;
+						})
+						.strength(function (d){
+							return 0.4;
+						})
+					)
+					.force("link2", d3.forceLink(actionnairesDirect)
+						.id(function (d){
+							return d.ID;
+						})
+						.strength(function (d){
+							return 0.4;
+						})
+					)
+					.force("collide", d3.forceCollide().radius(function (d){
+						return 2*radius + 2*scalablesizes(d["Dépenses Lobby (€)"]);
+					}))
+					// Permettent d'éviter le hors champ lors du drag
+					.force("x", d3.forceX(width/2).strength(0.005))
+					.force("y", d3.forceY(height/2).strength(0.005));
+
+	simulation.alphaMin(0.02);
+	// Appel de la simulation
+	simulation.on("tick", tickedSec8);
 
 }

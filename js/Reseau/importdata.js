@@ -39,6 +39,8 @@ var dataBySecteurPos;
 // Section 6 : Organisations regroupées par secteur
 // Utilisation de dataset
 // Section 7 : Affichage des liens
+// Section 8 : Les actionnaires
+var allActors;
 
 var nodes;
 // Faux DOM d'objets graphiques (un SVG-like)
@@ -49,12 +51,16 @@ var circlePosSecteur;
 var circleSecteurPos;
 var simulation;
 
-// IDToIndex : Name --> son index correspondant dans dataset
+// IDToIndex : ID --> son index correspondant dans dataset
 var IDToIndex;
+// allIDToIndex : ID --> son index dans allActors
+var allIDToIndex;
 // La liste des IDs utilisés
 var AllIDlist;
 // Liste des IDs retenus
 var idlist;
+// Liste des ID des actionnaires
+var idActlist;
 // Dépense max
 var depmax=0;
 
@@ -218,8 +224,56 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 		affiliations.splice(affiliations.indexOf(0),1);
 	}
 
-	console.log(affiliations);
+	// On ne conserve que les liens actionnaires directs pertinents
+	idActlist = [];
+	for (var i=0; i<actionnaires.length; i++){
+		idActlist.push(actionnaires[i].ID);
+	}
+	for (var i=0; i<actionnairesDirect.length; i++){
+		if ((idlist.indexOf(actionnairesDirect[i].source)===-1) 
+			|| (idlist.indexOf(actionnairesDirect[i].target)===-1))
+			{
+				actionnairesDirect[i]=0;
+			}
+	}
+	while (actionnairesDirect.indexOf(0)!==-1){
+		actionnairesDirect.splice(actionnairesDirect.indexOf(0),1);
+	}
+
+	// On ne conserve que les liens actionnaires indirects pertinents
+	for (var i=0; i<actionnairesIndirect.length; i++){
+		if ((idActlist.indexOf(actionnairesIndirect[i].source)===-1) 
+			|| (idlist.indexOf(actionnairesIndirect[i].target)===-1))
+			{
+				actionnairesIndirect[i]=0;
+			}
+	}
+	while (actionnairesIndirect.indexOf(0)!==-1){
+		actionnairesIndirect.splice(actionnairesIndirect.indexOf(0),1);
+	}
+
+	// On ne conserve que les actionnaires pertinents
+	// Ceux qui sont actionnaires d'un élément de dataset
+	// MAJ de idActlist
+	idActlist = [];
+	for (var i=0; i<actionnairesIndirect.length; i++){
+		if (idActlist.indexOf(actionnairesIndirect[i].source)===-1){
+			idActlist.push(actionnairesIndirect[i].source);
+		}
+	}
+	for (var i=0; i<actionnaires.length; i++){
+		if (idActlist.indexOf(actionnaires[i].ID)===-1){
+			actionnaires[i]=0;
+		}
+	}
+	while (actionnaires.indexOf(0)!==-1){
+		actionnaires.splice(actionnaires.indexOf(0),1);
+	}
+
 	console.log(dataset);
+	console.log(affiliations);
+	console.log(actionnairesDirect);
+	console.log(actionnairesIndirect);
 
 	// On calcule la dépense maximale
 	// Utile pour adapter les halos aux dépenses
@@ -477,6 +531,22 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 						})
 						.attr("fillStyle", sectorcolor)
 						.attr("fillHalo", sectorhalo);
+
+	// Section 6 : Organisations groupées par secteur
+	// Cercles des organisations : circles
+
+	// Section 7 : Affichage du réseau d'affiliations
+	// circles et affiliations
+
+	// Section 8 : Affichage supplémentaire des actionnaires
+	circleActs = CustomDOM.selectAll("custom.act")
+					.data(actionnaires)
+					.enter()
+					.append("custom")
+					.attr("class", "act")
+					.attr("r", 5*radius)
+					.attr("fillStyle", actcolor);
+	allActors = dataset.concat(actionnaires);
 
 	// Initialisation après l'import des données : 
 	// Affichage de la section 1
