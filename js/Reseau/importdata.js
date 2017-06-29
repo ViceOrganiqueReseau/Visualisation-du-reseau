@@ -15,6 +15,8 @@ var actionnaires;
 var actionnairesDirect;
 // Données des liens actionnaires indirects
 var actionnairesIndirect;
+// Le nombre de liens de chaque noeud
+var numlinks;
 
 // Thème choisi
 var theme;
@@ -82,6 +84,12 @@ function scalablesizes (x){
 		coef = 1 + 9*Math.pow(x/depmax,1/1.5);
 	}
 	return coef * radius;
+}
+
+function numlinkradius (d){
+	var coef = 2;
+	coef += numlinks[d.ID]/2;
+	return coef*radius;
 }
 
 
@@ -268,6 +276,35 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	}
 	while (actionnaires.indexOf(0)!==-1){
 		actionnaires.splice(actionnaires.indexOf(0),1);
+	}
+
+	// On compte le nombre de liens
+	numlinks = {};
+	for (var i=0; i<actionnairesIndirect.length; i++){
+		if (numlinks.hasOwnProperty(actionnairesIndirect[i].source)){
+			numlinks[actionnairesIndirect[i].source]++;
+		} else {
+			numlinks[actionnairesIndirect[i].source]=1;
+		}
+	}
+
+	// On ne garde que les actionnaires ayant au moins 2 liens
+	for (var i=0; i<actionnaires.length; i++){
+		if (numlinks[actionnaires[i].ID]===1){
+			// On retire de actionnaires
+			for (var j=0; j<actionnairesIndirect.length; j++){
+				if (actionnairesIndirect[j].source===actionnaires[i].ID){
+					actionnairesIndirect[j]=0;
+				}
+			}
+			actionnaires[i]=0;
+		}
+	}
+	while (actionnaires.indexOf(0)!==-1){
+		actionnaires.splice(actionnaires.indexOf(0),1);
+	}
+	while (actionnairesIndirect.indexOf(0)!==-1){
+		actionnairesIndirect.splice(actionnairesIndirect.indexOf(0),1);
 	}
 
 	console.log(dataset);
@@ -544,7 +581,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					.enter()
 					.append("custom")
 					.attr("class", "act")
-					.attr("r", 5*radius)
+					.attr("r", numlinkradius)
 					.attr("fillStyle", actcolor);
 	allActors = dataset.concat(actionnaires);
 

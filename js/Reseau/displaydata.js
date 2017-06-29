@@ -630,12 +630,12 @@ function tickedSec8 (){
 
 		defallIDToIndex();
 
-		circleActs.each(function (d){
+		/*circleActs.each(function (d){
 			// Faire un layout des actionnaires
 			var indice = idActlist.indexOf(d.ID)
 			d.x += (places[indice][0] - d.x) * simulation.alpha();
 			d.y += (places[indice][1] - d.y) * simulation.alpha();
-		})
+		})*/
 
 		drawCanvasSec8();
 
@@ -765,8 +765,21 @@ function setupSec8 (){
 							return 0.4;
 						})
 					)
+					.force("link3", d3.forceLink(actionnairesIndirect)
+						.id(function (d){
+							return d.ID;
+						})
+						.strength(function (d){
+							return 0.4;
+						})
+					)
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 2*radius + 2*scalablesizes(d["Dépenses Lobby (€)"]);
+						if (d.hasOwnProperty("Lobby ID")){
+							return 2*radius + 2*scalablesizes(d["Dépenses Lobby (€)"]);
+						} else {
+							return 2*radius + 2*numlinkradius(d);
+						}
+						
 					}))
 					// Permettent d'éviter le hors champ lors du drag
 					.force("x", d3.forceX(width/2).strength(0.005))

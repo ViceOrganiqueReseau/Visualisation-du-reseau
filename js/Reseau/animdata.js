@@ -246,13 +246,13 @@ function onmove8 (e){
 				// Afficher les liens d'actionnaires indirects
 				// concernés par ce noeud
 				actionnairesIndirect.forEach(function (d){
-					if (data.ID === d.source){
+					if (data.ID === d.source.ID){
 
 						// On dessine le lien
 						ctx.strokeStyle = linkactcolor;
 						ctx.globalAlpha = valToOpacity(d);
-						var beginindex = allIDToIndex[Number(d.source)];
-						var endindex = allIDToIndex[Number(d.target)];
+						var beginindex = allIDToIndex[Number(d.source.ID)];
+						var endindex = allIDToIndex[Number(d.target.ID)];
 						var x1 = Math.round(allActors[beginindex].x);
 						var x2 = Math.round(allActors[endindex].x);
 						var y1 = Math.round(allActors[beginindex].y);
@@ -268,7 +268,7 @@ function onmove8 (e){
 						ctx.globalAlpha = 1;
 						ctx.fillStyle = "white"
 						ctx.fillText(data.Nom, data.x-14, data.y-8)
-						var indice = allIDToIndex[d.target];
+						var indice = allIDToIndex[d.target.ID];
 						ctx.fillText(allActors[indice].Nom, allActors[indice].x-14, allActors[indice].y-8)
 
 					}
