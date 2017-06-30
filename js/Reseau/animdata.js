@@ -267,7 +267,6 @@ function onmove8 (e){
 						// On écrit le nom de target
 						ctx.globalAlpha = 1;
 						ctx.fillStyle = "white"
-						ctx.fillText(data.Nom, data.x-14, data.y-8)
 						var indice = allIDToIndex[d.target.ID];
 						ctx.fillText(allActors[indice].Nom, allActors[indice].x-14, allActors[indice].y-8)
 

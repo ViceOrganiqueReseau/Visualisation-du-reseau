@@ -35,7 +35,7 @@ var sectorhalo;
 var valToOpacity
 
 function setcolor(){
-	linkcolor = "rgb(80,80,80)";
+	linkcolor = "rgba(130,130,70,0.8)";
 	usercolor = "rgb(0,255,100)";
 	usercolorhalo = "rgba(0,255,100,0.3)";
 	allycolor = "rgb(0,165,255)";
@@ -47,7 +47,7 @@ function setcolor(){
 	supportcolorhalo = "rgba(0,255,0,0.3)";
 	opposecolorhalo = "rgba(255,0,0,0.3)";
 	actcolor = "rgba(155, 155, 155, 0.3)";
-	linkactcolor = "rgb(255,255,0)"
+	linkactcolor = "rgb(150,150,150)"
 
 	// La fonction qui à un noeud associe sa couleur
 	colornode = function (d){
@@ -96,9 +96,9 @@ function setcolor(){
 
 	valToOpacity = function (d){
 		if (d["Valeur (supp à%)"]<=1){
-			return 0.2
+			return 0.15
 		} else if (d["Valeur (supp à%)"]<=10){
-			return 0.5
+			return 0.4
 		} else if (d["Valeur (supp à%)"]<=50){
 			return 0.8
 		} else {

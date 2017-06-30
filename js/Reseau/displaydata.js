@@ -25,11 +25,11 @@ var firstickAll = 1;
 
 // Layout des secteurs
 var w=Math.round(width/6);
-var h=Math.round(height/4)
+var h=Math.round(height/6)
 var centers = [
 [w,h],   [2*w,h],   [3*w,h],   [4*w,h],   [5*w,h], 
-[w,2*h], [2*w,2*h], [3*w,2*h], [4*w,2*h], [5*w,2*h], 
 [w,3*h], [2*w,3*h], [3*w,3*h], [4*w,3*h], [5*w,3*h], 
+[w,5*h], [2*w,5*h], [3*w,5*h], [4*w,5*h], [5*w,5*h], 
 ];
 
 // Layout des actionnaires
@@ -126,12 +126,6 @@ function drawCanvasSec1 (){
 		// Traçage des cercles
 		circlePos.each(function (d){
 			var node = d3.select(this);
-			// Affichage du cercle
-			ctx.beginPath();
-			ctx.moveTo(d.x, d.y);
-			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
-			ctx.fillStyle = node.attr("fillStyle");
-			ctx.fill();
 
 			// Dessin dans le canvas caché
 			var newcol = genHiddenColor();
@@ -161,7 +155,7 @@ function setupSec1 (){
 					//.force("x", d3.forceX(width/2).strength(0.4))
 					//.force("y", d3.forceY(height/2).strength(0.4));
 
-	simulation.alphaMin(0.02);
+	//simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec1);
 
@@ -201,12 +195,6 @@ function drawCanvasSec2 (){
 		// Traçage des cercles
 		circlePosType.each(function (d){
 			var node = d3.select(this);
-			// Affichage du cercle
-			ctx.beginPath();
-			ctx.moveTo(d.x, d.y);
-			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
-			ctx.fillStyle = node.attr("fillStyle");
-			ctx.fill();
 
 			// Dessin dans le canvas caché
 			var newcol = genHiddenColor();
@@ -230,13 +218,13 @@ function setupSec2 (){
 					.force("center", d3.forceCenter(width/2,height/2))
 					.force("charge", d3.forceManyBody().strength(-1))
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 2*radius + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
+						return 3*radius + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
 					//.force("x", d3.forceX(width/2).strength(0.4))
 					//.force("y", d3.forceY(height/2).strength(0.4));
 
-	simulation.alphaMin(0.02);
+	//simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec2);
 
@@ -277,11 +265,6 @@ function drawCanvasSec3 (){
 		circlePosSecteur.each(function (d){
 			var node = d3.select(this);
 			// Affichage du cercle
-			ctx.beginPath();
-			ctx.moveTo(d.x, d.y);
-			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
-			ctx.fillStyle = node.attr("fillStyle");
-			ctx.fill();
 
 			// Dessin dans le canvas caché
 			var newcol = genHiddenColor();
@@ -311,7 +294,7 @@ function setupSec3 (){
 					//.force("x", d3.forceX(width/2).strength(0.4))
 					//.force("y", d3.forceY(height/2).strength(0.4));
 
-	simulation.alphaMin(0.02);
+	//simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec3);
 
@@ -351,12 +334,6 @@ function drawCanvasSec4 (){
 		// Traçage des cercles
 		circlePosSecteur.each(function (d){
 			var node = d3.select(this);
-			// Affichage du cercle
-			ctx.beginPath();
-			ctx.moveTo(d.x, d.y);
-			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
-			ctx.fillStyle = node.attr("fillStyle");
-			ctx.fill();
 
 			// Dessin dans le canvas caché
 			var newcol = genHiddenColor();
@@ -386,7 +363,7 @@ function setupSec4 (){
 					//.force("x", d3.forceX(width/2).strength(0.4))
 					//.force("y", d3.forceY(height/2).strength(0.4));
 
-	simulation.alphaMin(0.02);
+	//simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec4);
 
@@ -425,12 +402,6 @@ function drawCanvasSec5 (){
 		// Traçage des cercles
 		circleSecteurPos.each(function (d){
 			var node = d3.select(this);
-			// Affichage du cercle
-			ctx.beginPath();
-			ctx.moveTo(d.x, d.y);
-			ctx.arc(d.x, d.y, radius, 0, 2*Math.PI);
-			ctx.fillStyle = node.attr("fillStyle");
-			ctx.fill();
 
 			// Dessin dans le canvas caché
 			var newcol = genHiddenColor();
@@ -460,7 +431,7 @@ function setupSec5 (){
 					//.force("x", d3.forceX(width/2).strength(0.4))
 					//.force("y", d3.forceY(height/2).strength(0.4));
 
-	simulation.alphaMin(0.02);
+	//simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec5);
 
@@ -535,7 +506,7 @@ function setupSec6 (){
 					//.force("x", d3.forceX(width/2).strength(0.4))
 					//.force("y", d3.forceY(height/2).strength(0.4));
 
-	simulation.alphaMin(0.02);
+	//simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec6);
 
@@ -630,7 +601,7 @@ function setupSec7 (){
 					.force("x", d3.forceX(width/2).strength(0.005))
 					.force("y", d3.forceY(height/2).strength(0.005));
 
-	simulation.alphaMin(0.02);
+	//simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec7);
 
@@ -801,7 +772,7 @@ function setupSec8 (){
 					.force("x", d3.forceX(width/2).strength(0.005))
 					.force("y", d3.forceY(height/2).strength(0.005));
 
-	simulation.alphaMin(0.02);
+	//simulation.alphaMin(0.02);
 	// Appel de la simulation
 	simulation.on("tick", tickedSec8);
 
