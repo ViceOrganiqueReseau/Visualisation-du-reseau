@@ -33,9 +33,9 @@ function onmove1 (e){
 			console.log(data)
 			drawCanvasSec1();
 			ctx.save()
-			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.font = "bold 20pt Arial,sans-serif"
 			ctx.fillStyle = "white"
-			ctx.fillText(data.key, data.x-14, data.y-8)
+			ctx.fillText(data.key, data.x-50, data.y-8)
 			ctx.restore()
 		} else {
 			drawCanvasSec1();
@@ -62,9 +62,9 @@ function onmove2 (e){
 			console.log(data)
 			drawCanvasSec2();
 			ctx.save()
-			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.font = "bold 13pt Arial,sans-serif"
 			ctx.fillStyle = "white"
-			ctx.fillText(data.key.split(",")[1], data.x-14, data.y-8)
+			ctx.fillText(data.key.split(",")[1], data.x-30, data.y-8)
 			ctx.restore()
 		} else {
 			drawCanvasSec2();
@@ -91,10 +91,10 @@ function onmove3 (e){
 			console.log(data)
 			drawCanvasSec3();
 			ctx.save()
-			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.font = "bold 13pt Arial,sans-serif"
 			ctx.fillStyle = "white"
 			var virgule = data.key.indexOf(",");
-			ctx.fillText(data.key.slice(virgule+1), data.x-14, data.y-8)
+			ctx.fillText(data.key.slice(virgule+1), data.x-30, data.y-8)
 			ctx.restore()
 		} else {
 			drawCanvasSec3();
@@ -121,10 +121,10 @@ function onmove4 (e){
 			console.log(data)
 			drawCanvasSec4();
 			ctx.save()
-			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.font = "bold 13pt Arial,sans-serif"
 			ctx.fillStyle = "white"
 			var virgule = data.key.indexOf(",");
-			ctx.fillText(data.key.slice(virgule+1), data.x-14, data.y-8)
+			ctx.fillText(data.key.slice(virgule+1), data.x-30, data.y-8)
 			ctx.restore()
 		} else {
 			drawCanvasSec4();
@@ -151,9 +151,9 @@ function onmove5 (e){
 			console.log(data)
 			drawCanvasSec5();
 			ctx.save()
-			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.font = "bold 13pt Arial,sans-serif"
 			ctx.fillStyle = "white"
-			ctx.fillText(data.key, data.x-14, data.y-8)
+			ctx.fillText(data.key, data.x-30, data.y-8)
 			ctx.restore()
 		} else {
 			drawCanvasSec5();
@@ -180,7 +180,7 @@ function onmove6 (e){
 			console.log(data)
 			drawCanvasSec6();
 			ctx.save()
-			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.font = "bold 8pt Arial,sans-serif"
 			ctx.fillStyle = "white"
 			ctx.fillText(data.Nom, data.x-14, data.y-8)
 			ctx.restore()
@@ -209,7 +209,7 @@ function onmove7 (e){
 			console.log(data)
 			drawCanvasSec7();
 			ctx.save()
-			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.font = "bold 8pt Arial,sans-serif"
 			ctx.fillStyle = "white"
 			ctx.fillText(data.Nom, data.x-14, data.y-8)
 			ctx.restore()
@@ -238,7 +238,7 @@ function onmove8 (e){
 			console.log(data)
 			drawCanvasSec8();
 			ctx.save();
-			ctx.font = "bold 7pt Arial,sans-serif"
+			ctx.font = "bold 8pt Arial,sans-serif"
 			ctx.fillStyle = "white"
 			ctx.fillText(data.Nom, data.x-14, data.y-8)
 

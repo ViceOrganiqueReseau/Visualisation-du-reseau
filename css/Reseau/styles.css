@@ -97,6 +97,7 @@ a#backloby:hover {
 	top: 30%;
 	left: 40%;
 	width: 30%;
+	background-color: rgba(0, 6, 35, 0.5); 
 }
 
 #links p {

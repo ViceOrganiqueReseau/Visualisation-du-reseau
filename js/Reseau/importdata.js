@@ -79,11 +79,16 @@ var curvecoef = 0.1;
 // Cette fonction permet d'ajuster le diamètre
 // des noeuds aux dépenses du lobyist
 function scalablesizes (x){
-	var coef = 1
+	// Le coef doit valoir 1 pour les NaN !
+	var coef = 1;
 	if (Number(x)){
-		coef = 1 + 9*Math.pow(x/depmax,1/1.5);
+		coef = 1 + 7*Math.pow(x/depmax,1/3);
 	}
 	return coef * radius;
+}
+
+function agregcoef (d){
+	return Math.max(0.9*Math.pow(d.value["count"],1/2.5),1);
 }
 
 function numlinkradius (d){
@@ -337,6 +342,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 							}
 						}
 						res["Dépenses Lobby (€)"] = somme;
+						res["count"] = v.length
 						return res;
 					})
 					.entries(dataset);
@@ -360,6 +366,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 							}
 						}
 						res["Dépenses Lobby (€)"] = somme;
+						res["count"] = v.length;
 						return res;
 					})
 					.entries(dataset);
@@ -383,6 +390,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 							}
 						}
 						res["Dépenses Lobby (€)"] = somme;
+						res["count"] = v.length;
 						return res;
 					})
 					.entries(dataset);
@@ -410,6 +418,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 						res["SUPPORT"] = sommesup;
 						res["OPPOSE"] = sommeopp;
 						res["TOTAL"] = somme;
+						res["count"] = v.length;
 						return res;
 					})
 					.entries(dataset);
@@ -441,7 +450,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 				.append("custom")
 				.attr("class", "pos")
 				.attr("r", function (d){
-					return scalablesizes(d.value["Dépenses Lobby (€)"])
+					return agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"])
 				})
 				.attr("fillStyle", function (d){
 					if (lobyist && lobyist[theme]){
@@ -481,7 +490,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 						.append("custom")
 						.attr("class", "postype")
 						.attr("r", function (d){
-							return scalablesizes(d.value["Dépenses Lobby (€)"])
+							return agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"])
 						})
 						.attr("fillStyle", function (d){
 							if (lobyist && lobyist[theme]){
@@ -521,7 +530,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 						.append("custom")
 						.attr("class", "possecteur")
 						.attr("r", function (d){
-							return scalablesizes(d.value["Dépenses Lobby (€)"])								
+							return agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"])								
 						})
 						.attr("fillStyle", function (d){
 							if (lobyist && lobyist[theme]){
@@ -564,7 +573,7 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 						.append("custom")
 						.attr("class", "secteurpos")
 						.attr("r", function (d){
-							return scalablesizes(d.value["TOTAL"])
+							return agregcoef(d)*scalablesizes(d.value["TOTAL"])
 						})
 						.attr("fillStyle", sectorcolor)
 						.attr("fillHalo", sectorhalo);

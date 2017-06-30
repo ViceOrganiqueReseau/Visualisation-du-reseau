@@ -42,16 +42,6 @@ for (var i=0; i<3; i++){
 	}
 }
 
-// Cette fonction permet d'ajuster le diamètre
-// des noeuds aux dépenses du lobyist
-function scalablesizes (x){
-	var coef = 1
-	if (Number(x)){
-		coef = 1 + 7*Math.pow(x/depmax,1/3);
-	}
-	return coef * radius;
-}
-
 function defIDToIndex (){
 	// On remplit l'annuaire
 		// Dictionnaire inversé pour faciliter les liens
@@ -165,7 +155,7 @@ function setupSec1 (){
 					.force("center", d3.forceCenter(width/2,height/2))
 					.force("charge", d3.forceManyBody().strength(-1))
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
+						return 2*radius + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
 					//.force("x", d3.forceX(width/2).strength(0.4))
@@ -240,7 +230,7 @@ function setupSec2 (){
 					.force("center", d3.forceCenter(width/2,height/2))
 					.force("charge", d3.forceManyBody().strength(-1))
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
+						return 2*radius + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
 					//.force("x", d3.forceX(width/2).strength(0.4))
@@ -315,7 +305,7 @@ function setupSec3 (){
 					.force("center", d3.forceCenter(width/2,height/2))
 					.force("charge", d3.forceManyBody().strength(-1))
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
+						return 2*radius + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
 					//.force("x", d3.forceX(width/2).strength(0.4))
@@ -390,7 +380,7 @@ function setupSec4 (){
 					//.force("center", d3.forceCenter(width/2,height/2))
 					.force("charge", d3.forceManyBody().strength(-1))
 					.force("collide", d3.forceCollide().radius(function (d){
-						return 2*radius + scalablesizes(d.value["Dépenses Lobby (€)"]);
+						return radius + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
 					}))
 					// Permettent d'éviter le hors champ lors du drag
 					//.force("x", d3.forceX(width/2).strength(0.4))
@@ -773,7 +763,7 @@ function setupSec8 (){
 	// forces, faux liens s'il en faut pour manipuler le graphe
 	// On renseigne les forces
 	simulation = d3.forceSimulation().nodes(allActors)
-					//.force("center", d3.forceCenter(width/2,height/2))
+					.force("center", d3.forceCenter(width/2,height/2))
 					.force("charge", d3.forceManyBody().strength(-1))
 					.force("link", d3.forceLink(affiliations)
 						.id(function (d){
