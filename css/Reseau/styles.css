@@ -4,7 +4,9 @@
 
 body {
 	font-family: Arial, sans-serif;
-	background-color: rgb(0, 6, 35);
+	/*Attention cette valeur est utilisée sans récupération dans le JS*/
+	/*La modifier ici implique de la modifier dans JS aussi (colors.js)*/
+	background-color: rgb(0, 6, 35); 
 	color: white;
 }
 

@@ -582,7 +582,6 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					.append("custom")
 					.attr("class", "act")
 					.attr("r", numlinkradius)
-					.attr("fillStyle", actcolor);
 	allActors = dataset.concat(actionnaires);
 
 	// Initialisation après l'import des données : 

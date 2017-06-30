@@ -1,3 +1,7 @@
+// couleur du fond
+// Il faut la récupérer dans le css
+var backgroundcolor = "rgb(0, 6, 35)";
+
 // Couleur des liens
 var linkcolor;
 
@@ -42,7 +46,7 @@ function setcolor(){
 	opposecolor = "rgb(255,0,0)";
 	supportcolorhalo = "rgba(0,255,0,0.3)";
 	opposecolorhalo = "rgba(255,0,0,0.3)";
-	actcolor = "rgba(96, 96, 96, 0.3)";
+	actcolor = "rgba(155, 155, 155, 0.3)";
 	linkactcolor = "rgb(255,255,0)"
 
 	// La fonction qui à un noeud associe sa couleur

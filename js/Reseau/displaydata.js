@@ -88,6 +88,19 @@ function defallIDToIndex (){
 	}
 }
 
+var canvaspaddding=20;;
+// Etant donné une sélection, cette fonction en remet
+// les éléments graphiques
+function boxforce (selection){
+	var canvaspaddding = 20;
+	selection.each(function (d){
+		if (d.x < canvaspaddding){ d.x = canvaspaddding };
+		if (d.y < canvaspaddding){ d.y = canvaspaddding };
+		if (d.x > (width - canvaspaddding)){ d.x = width - canvaspaddding };
+		if (d.y > (height - canvaspaddding)){ d.y = height - canvaspaddding }; 
+	})
+}
+
 function tickedSec1 (){
 
 		// Esapcement ! Recentrage !
@@ -98,7 +111,8 @@ function tickedSec1 (){
 				d.x += (2*width/3 - d.x)*simulation.alpha();
 			}
 			d.y += (height/2 - d.y)*simulation.alpha();
-		}) 
+		})
+		boxforce(circlePos); 
 
 
 		drawCanvasSec1();
@@ -173,7 +187,8 @@ function tickedSec2 (){
 				d.x += (2*width/3 - d.x)*simulation.alpha();
 			}
 			d.y += (height/2 - d.y)*simulation.alpha();
-		}) 
+		})
+		boxforce(circlePosType); 
 
 		drawCanvasSec2();
 
@@ -248,6 +263,7 @@ function tickedSec3 (){
 			}
 			d.y += (height/2 - d.y)*simulation.alpha();
 		})
+		boxforce(circlePosSecteur);
 
 		drawCanvasSec3();
 
@@ -322,6 +338,7 @@ function tickedSec4 (){
 			d.x += ((centers[indice][0]-d.x) * simulation.alpha())
 			d.y += ((centers[indice][1]-d.y) * simulation.alpha())
 		})
+		boxforce(circlePosSecteur);
 
 		drawCanvasSec4();
 
@@ -395,6 +412,7 @@ function tickedSec5 (){
 			d.x += ((centers[indice][0]-d.x) * simulation.alpha())
 			d.y += ((centers[indice][1]-d.y) * simulation.alpha())
 		})
+		boxforce(circleSecteurPos);
 
 		drawCanvasSec5();
 
@@ -469,6 +487,7 @@ function tickedSec6 (){
 			d.x += ((centers[indice][0]-d.x) * simulation.alpha())
 			d.y += ((centers[indice][1]-d.y) * simulation.alpha())
 		})
+		boxforce(circles);
 
 		drawCanvasSec6();
 
@@ -534,6 +553,7 @@ function setupSec6 (){
 
 function tickedSec7 (){
 
+		boxforce(circles);
 		drawCanvasSec7();
 
 }
@@ -636,7 +656,9 @@ function tickedSec8 (){
 			d.x += (places[indice][0] - d.x) * simulation.alpha();
 			d.y += (places[indice][1] - d.y) * simulation.alpha();
 		})*/
-
+		boxforce(circles);
+		boxforce(circleActs);
+		
 		drawCanvasSec8();
 
 }
@@ -721,7 +743,11 @@ function drawCanvasSec8 (){
 		circleActs.each(function (d){
 			var node = d3.select(this);
 			// Affichage du cercle
-			ctx.fillStyle = node.attr("fillStyle");
+				// On doit définir le gradient radial de couleur
+			var radgrad = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, node.attr("r"));
+			radgrad.addColorStop(0.1, actcolor);
+			radgrad.addColorStop(1, backgroundcolor);
+			ctx.fillStyle = radgrad;
 			ctx.beginPath();
 			ctx.moveTo(d.x, d.y);
 			ctx.arc(d.x, d.y, node.attr("r"), 0, 2*Math.PI);
@@ -762,7 +788,7 @@ function setupSec8 (){
 							return d.ID;
 						})
 						.strength(function (d){
-							return 0.4;
+							return 0.1;
 						})
 					)
 					.force("link3", d3.forceLink(actionnairesIndirect)
@@ -770,14 +796,14 @@ function setupSec8 (){
 							return d.ID;
 						})
 						.strength(function (d){
-							return 0.4;
+							return 0.1;
 						})
 					)
 					.force("collide", d3.forceCollide().radius(function (d){
 						if (d.hasOwnProperty("Lobby ID")){
 							return 2*radius + 2*scalablesizes(d["Dépenses Lobby (€)"]);
 						} else {
-							return 2*radius + 2*numlinkradius(d);
+							return 1.5*numlinkradius(d);
 						}
 						
 					}))
