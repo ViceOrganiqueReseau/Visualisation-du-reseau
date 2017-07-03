@@ -15,8 +15,8 @@ function removeListeners (){
 
 function onmove1 (e){
 			// On repère les coordonnées du clic
-		var mouseX = e.layerX;
-		var mouseY = e.layerY;
+		var mouseX = e.offsetX || e.layerX;
+		var mouseY = e.offsetY || e.layerY;
 
 		// On obtient la couleur du pixel puis le noeud
 		// Click sur le canvas visible
@@ -44,8 +44,8 @@ function onmove1 (e){
 
 function onmove2 (e){
 			// On repère les coordonnées du clic
-		var mouseX = e.layerX;
-		var mouseY = e.layerY;
+		var mouseX = e.offsetX || e.layerX;
+		var mouseY = e.offsetY || e.layerY;
 
 		// On obtient la couleur du pixel puis le noeud
 		// Click sur le canvas visible
@@ -73,8 +73,8 @@ function onmove2 (e){
 
 function onmove3 (e){
 			// On repère les coordonnées du clic
-		var mouseX = e.layerX;
-		var mouseY = e.layerY;
+		var mouseX = e.offsetX || e.layerX;
+		var mouseY = e.offsetY || e.layerY;
 
 		// On obtient la couleur du pixel puis le noeud
 		// Click sur le canvas visible
@@ -103,8 +103,8 @@ function onmove3 (e){
 
 function onmove4 (e){
 			// On repère les coordonnées du clic
-		var mouseX = e.layerX;
-		var mouseY = e.layerY;
+		var mouseX = e.offsetX || e.layerX;
+		var mouseY = e.offsetY || e.layerY;
 
 		// On obtient la couleur du pixel puis le noeud
 		// Click sur le canvas visible
@@ -133,8 +133,8 @@ function onmove4 (e){
 
 function onmove5 (e){
 			// On repère les coordonnées du clic
-		var mouseX = e.layerX;
-		var mouseY = e.layerY;
+		var mouseX = e.offsetX || e.layerX;
+		var mouseY = e.offsetY || e.layerY;
 
 		// On obtient la couleur du pixel puis le noeud
 		// Click sur le canvas visible
@@ -162,8 +162,8 @@ function onmove5 (e){
 
 function onmove6 (e){
 			// On repère les coordonnées du clic
-		var mouseX = e.layerX;
-		var mouseY = e.layerY;
+		var mouseX = e.offsetX || e.layerX;
+		var mouseY = e.offsetY || e.layerY;
 
 		// On obtient la couleur du pixel puis le noeud
 		// Click sur le canvas visible
@@ -191,8 +191,8 @@ function onmove6 (e){
 
 function onmove7 (e){
 			// On repère les coordonnées du clic
-		var mouseX = e.layerX;
-		var mouseY = e.layerY;
+		var mouseX = e.offsetX || e.layerX;
+		var mouseY = e.offsetY || e.layerY;
 
 		// On obtient la couleur du pixel puis le noeud
 		// Click sur le canvas visible
@@ -220,8 +220,8 @@ function onmove7 (e){
 
 function onmove8 (e){
 			// On repère les coordonnées du clic
-		var mouseX = e.layerX;
-		var mouseY = e.layerY;
+		var mouseX = e.offsetX || e.layerX;
+		var mouseY = e.offsetY || e.layerY;
 
 		// On obtient la couleur du pixel puis le noeud
 		// Click sur le canvas visible

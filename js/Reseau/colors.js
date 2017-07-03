@@ -116,14 +116,14 @@ function setMeanSectorColors (data){
 			var coefsup = (d.value["SUPPORT"])/(d.value["TOTAL"]);
 			var coefopp = (d.value["OPPOSE"])/(d.value["TOTAL"]);
 			if (lobyist[theme]==="SUPPORT"){
-				var red = coefsup*color1[0] + coefopp*color2[0];
-				var green = coefsup*color1[1] + coefopp*color2[1];
-				var blue = coefsup*color1[2] + coefopp*color2[2];
+				var red = Math.round(coefsup*color1[0] + coefopp*color2[0]);
+				var green = Math.round(coefsup*color1[1] + coefopp*color2[1]);
+				var blue = Math.round(coefsup*color1[2] + coefopp*color2[2]);
 				return "rgb("+([red,green,blue].join(","))+")";
 			} else {
-				var red = coefopp*color1[0] + coefsup*color2[0];
-				var green = coefopp*color1[1] + coefsup*color2[1];
-				var blue = coefopp*color1[2] + coefsup*color2[2];
+				var red = Math.round(coefopp*color1[0] + coefsup*color2[0]);
+				var green = Math.round(coefopp*color1[1] + coefsup*color2[1]);
+				var blue = Math.round(coefopp*color1[2] + coefsup*color2[2]);
 				return "rgb("+([red,green,blue].join(","))+")";
 			}
 		} else {
@@ -139,7 +139,7 @@ function setMeanSectorColors (data){
 	}
 
 	sectorhalo = function (d){
-		var color = sectorcolor(d).split("(")[1].split(")")[0].split(",").map(Number);
+		var color = sectorcolor(d).split("(")[1].split(")")[0].split(",");
 		return "rgba("+color.join(",")+",0.3)";
 	}
 }

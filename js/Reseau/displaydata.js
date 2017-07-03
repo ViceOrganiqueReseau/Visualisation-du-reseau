@@ -392,10 +392,10 @@ function drawCanvasSec5 (){
 		// Le halo proportionnel aux dépenses
 		circleSecteurPos.each(function (d){
 			// Affichage du halo
+			ctx.fillStyle = d3.select(this).attr("fillHalo");
 			ctx.beginPath();
 			ctx.moveTo(d.x, d.y);
 			ctx.arc(d.x, d.y, d3.select(this).attr("r"), 0, 2*Math.PI);
-			ctx.fillStyle = d3.select(this).attr("fillHalo");
 			ctx.fill();
 		})
 

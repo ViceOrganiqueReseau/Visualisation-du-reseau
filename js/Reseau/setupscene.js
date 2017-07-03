@@ -13,6 +13,7 @@ var canvas = vue.append("canvas")
 // Canvas caché qui diférencie les noeuds, 
 // pour gérer les animation
 var hidden = vue.append("canvas")
+      .attr("class", "cache")
       .attr("width", width)
       .attr("height", height)
       .style("display", "none");

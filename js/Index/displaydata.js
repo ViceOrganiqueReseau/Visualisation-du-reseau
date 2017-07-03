@@ -145,7 +145,7 @@ function scrollTransitPie (index, pos){
 // Gestion du survol
 function hoverize (){
 	var cercles = d3.selectAll("g.loby"+choices.length+" path");
-	if ((window.innerHeight + window.scrollY) + 15 >= document.body.offsetHeight){
+	if ((window.innerHeight + window.scrollY) + 70 >= document.body.offsetHeight){
 
 		cercles.on("mouseover", function (d,i){
 			var avirer = d3.selectAll("g:not(.cercle"+i+").loby"+choices.length);
@@ -186,7 +186,7 @@ function hoverize (){
 
 // Gestion du choix utilisateur : click
 function clickable (){
-	if ((window.innerHeight + window.scrollY) + 15 >= document.body.offsetHeight){
+	if ((window.innerHeight + window.scrollY) + 70 >= document.body.offsetHeight){
 		var cercles = d3.selectAll("g.loby"+choices.length+" path")
 						.style("cursor", "pointer");
 		cercles.on("click", function (d,i){
