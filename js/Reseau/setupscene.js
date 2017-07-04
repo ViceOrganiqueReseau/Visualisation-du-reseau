@@ -1,21 +1,26 @@
 // Informations sur #vue
+
+var CONST = {};
 var vue = document.getElementById("vue");
-var vuepos = vue.getBoundingClientRect();
-var height = vue.offsetHeight - 2 * 5; // 5 est le padding de #vue
-var width = vue.offsetWidth - 2 * 5;
+
+CONST.VUE = {};
+CONST.VUE.POSITION = vue.getBoundingClientRect();
+CONST.VUE.PADDING = 5;
+CONST.VUE.HEIGHT = vue.offsetHeight - 2 * CONST.VUE.PADDING;
+CONST.VUE.WIDTH = vue.offsetWidth - 2 * CONST.VUE.PADDING;
 
 vue = d3.select("#vue");
 // Dessin affiché dans la vue
 var canvas = vue.append("canvas")
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", CONST.VUE.WIDTH)
+      .attr("height", CONST.VUE.HEIGHT)
       .attr("class", "visible");
 // Canvas caché qui diférencie les noeuds, 
 // pour gérer les animation
 var hidden = vue.append("canvas")
       .attr("class", "cache")
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", CONST.VUE.WIDTH)
+      .attr("height", CONST.VUE.HEIGHT)
       .style("display", "none");
 // colToNode : couleur sur canvas caché --> noeud
 var colToNode = {};
@@ -26,8 +31,8 @@ var ctxhid = hidden.node().getContext("2d");
 
 // Efface le canvas
 function clearCanvas (){
-  ctx.clearRect(0,0,width,height);
-  ctxhid.clearRect(0,0,width,height);
+  ctx.clearRect(0,0,CONST.VUE.WIDTH,CONST.VUE.HEIGHT);
+  ctxhid.clearRect(0,0,CONST.VUE.WIDTH,CONST.VUE.HEIGHT);
   colToNode = {};
   nextCol = 1;
   // Sans cette ligne, problème au survol en section 8
@@ -64,14 +69,14 @@ var far = 10000;
 
 // Creation of a new WebGL renderer, camera a,d scene
 var renderer = new THREE.WebGLRenderer({alpha: true});
-var camera = new THREE.PerspectiveCamera(45, width/height, near, far);
+var camera = new THREE.PerspectiveCamera(45, CONST.VUE.WIDTH/CONST.VUE.HEIGHT, near, far);
 var scene = new THREE.Scene();
 
 // Add camera to scene
 scene.add(camera);
 
 // Start the renderer
-renderer.setSize(width, height)
+renderer.setSize(CONST.VUE.WIDTH, CONST.VUE.HEIGHT)
 renderer.setClearColor( 0x000000, 0 );
 
 // Attach the renderer-supplied DOM element. 

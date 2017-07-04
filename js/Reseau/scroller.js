@@ -58,30 +58,39 @@ function position() {
 // argument index : indice de la nouvelle section
 function majvue(index) {
   // Modifications lors d'un changement de section
-    if (index===0){
+    switch (index){
+    case 0:
       setupSec1();
       animSec1();
-    } else if (index===1){
+      break;
+    case 1:
       setupSec2();
       animSec2();
-    } else if (index===2){
+      break;
+    case 2:
       setupSec3();
       animSec3();
-    } else if (index===3){
+      break;
+    case 3:
       setupSec4();
       animSec4();
-    } else if (index===4){
+      break;
+    case 4:
       setupSec5();
       animSec5();
-    } else if (index===5){
+      break;
+    case 5:
       setupSec6();
       animSec6();
-    } else if (index===6){
+      break;
+    case 6:
       setupSec7();
       animSec7();
-    } else if (index===7){
+      break;
+    case 7:
       setupSec8();
       animSec8();
+      break;
     }
 }
 

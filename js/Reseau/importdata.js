@@ -44,7 +44,6 @@ var dataBySecteurPos;
 // Section 8 : Les actionnaires
 var allActors;
 
-var nodes;
 // Faux DOM d'objets graphiques (un SVG-like)
 var circles;
 var circlePos;
@@ -72,9 +71,9 @@ var depmax=0;
 detachedContainer = document.createElement("custom")
 var CustomDOM = d3.select(detachedContainer);
 // Rayon des noyaux
-var radius = 3;
+CONST.RADIUS = 3;
 // Coeficient donnant la courbure des liens
-var curvecoef = 0.1;
+CONST.CURVECOEF = 0.1;
 
 // Cette fonction permet d'ajuster le diamètre
 // des noeuds aux dépenses du lobyist
@@ -84,7 +83,7 @@ function scalablesizes (x){
 	if (Number(x)){
 		coef = 1 + 7*Math.pow(x/depmax,1/3);
 	}
-	return coef * radius;
+	return coef * CONST.RADIUS;
 }
 
 function agregcoef (d){
@@ -94,7 +93,7 @@ function agregcoef (d){
 function numlinkradius (d){
 	var coef = 2;
 	coef += numlinks[d.ID]/2;
-	return coef*radius;
+	return coef*CONST.RADIUS;
 }
 
 
@@ -102,6 +101,7 @@ function numlinkradius (d){
 d3.csv("data/Noeud19juin.csv", function (data){
 	// On récupère les données
 	dataset=data;
+	CONST.ALL_NODES = data.slice();
 	nbloby=dataset.length;
 
 });
@@ -109,23 +109,27 @@ d3.csv("data/Noeud19juin.csv", function (data){
 d3.csv("data/Noeuds-ActionnairesIndirect.csv", function (data){
 	// On récupère les données
 	actionnaires = data;
+	CONST.ALL_ACTIONNAIRES_NODES = data.slice();
 
 });
 
 d3.csv("data/liensActionnairesDirect.csv", function (data){
 	// On récupère les données
 	actionnairesDirect = data;
+	CONST.ALL_ACTIONNAIRES_DIRECTS = data.slice();
 
 });
 
 d3.csv("data/liensActionnairesIndirect.csv", function (data){
 	// On récupère les données
 	actionnairesIndirect = data;
+	CONST.ALL_ACTIONNAIRES_INDIRECTS = data.slice();
 
 });
 
 d3.csv("data/Affiliation19juin.csv", function (data){
 	affiliations = data;
+	CONST.ALL_AFFILIATIONS = data.slice();
 
 	// Récupération du choix utilisateur
 	// On crée la liste des ID (c'est un intervalle discontinu)
