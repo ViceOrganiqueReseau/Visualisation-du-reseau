@@ -55,40 +55,53 @@ function majvue(index) {
 function scrollAnim(index, pos) {
   if (nbloby===1){
     displayResult(pos);
-  } // Index 1 thème
-  else if (index===1){
-    scrollAnimPie(index, pos);
-  } // Index 2 transition thème - position
-  else if (index===2){
-    scrollTransitPie(index, pos);
-  } // Index 3 position
-  else if (index===3){
-    scrollAnimPie(index, pos);
-  } // Index 4 transition position - type
-  else if (index===4){
-    scrollTransitPie(index, pos);
-  } // Index 5 type
-  else if (index===5){
-    scrollAnimPie(index, pos);
-  } // Index 6 transition type - secteur
-  else if (index===6){
-    scrollTransitPie(index, pos);
-  } // Index 7 secteur
-  else if (index===7){
-    scrollAnimPie(index, pos);
-  } // Index 8 transition Secteur - Country
-  else if (index===8){
-    scrollTransitPie(index, pos);
-  } // Index 9 Country
-  else if (index===9){
-    scrollAnimPie(index, pos);
-  } // Index 10 transition Country Name
-  else if (index===10){
-    scrollTransitPie(index, pos);
-  } // Index 11 Name
-  else if (index===11){
-    scrollAnimPie(index, pos);
-  }
+  } 
+  else switch (index){
+    // Index 1 thème
+    case 1:
+      scrollAnimPie(index, pos);
+      break;
+    // Index 2 transition thème - position
+    case 2:
+      scrollTransitPie(index, pos);
+      break;
+    // Index 3 position
+    case 3:
+      scrollAnimPie(index, pos);
+      break;
+    // Index 4 transition position - type
+    case 4:
+      scrollTransitPie(index, pos);
+      break;
+    // Index 5 type
+    case 5:
+      scrollAnimPie(index, pos);
+      break;
+    // Index 6 transition type - secteur
+    case 6:
+      scrollTransitPie(index, pos);
+      break;
+    // Index 7 secteur
+    case 7:
+      scrollAnimPie(index, pos);
+      break;
+    // Index 8 transition Secteur - Country
+    case 8:
+      scrollTransitPie(index, pos);
+      break;
+    // Index 9 Country
+    case 9:
+      scrollAnimPie(index, pos);
+      break;
+    // Index 10 transition Country Name
+    case 10:
+      scrollTransitPie(index, pos);
+      break;
+    // Index 11 Name
+    case 11:
+      scrollAnimPie(index, pos);
+      break;
+  } 
 }
 
 // On déclenche la fonction position à chaque scroll de la page

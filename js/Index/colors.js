@@ -8,19 +8,13 @@ var colormousenoton;
 
 // Couleurs des diques en fonction de l'indice
 function color (i){
-	if (i===0){
-		return "rgb(1, 95, 102)";
-	} else if (i===1) {
-		return "rgb(45, 241, 255)";
-	} else if (i===2) {
-		return "rgb(34, 86, 150)";
-	} else if (i===3) {
-		return "rgb(0, 132, 88)";
-	} else if (i===4) {
-		return "rgb(56, 255, 188)";
-	} else if (i===5) {
-		return "rgb(77, 168, 137)";
-	} else {
-		return "rgb(1, 95, 102)";
+	switch (i){
+		case 0: return "rgb(1, 95, 102)";
+		case 1: return "rgb(45, 241, 255)";
+		case 2: return "rgb(34, 86, 150)";
+		case 3: return "rgb(0, 132, 88)";
+		case 4: return "rgb(56, 255, 188)";
+		case 5: return "rgb(77, 168, 137)";
+		default: return "rgb(1, 95, 102)";
 	}
 }

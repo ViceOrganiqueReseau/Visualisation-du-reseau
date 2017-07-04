@@ -1,18 +1,29 @@
+// Les constantes, noter que pour certaines, leur valeur n'est pas encore connue
+var CONST = {};
+
+CONST.VUE = {};
+
 var vue = document.getElementById("vue");
-var vuepos = vue.getBoundingClientRect();
-var height = vue.offsetHeight - 2 * 5; // 5 est le padding de #vue
-var width = vue.offsetWidth - 2 * 5;
-var svg = d3.select("#vue").append("svg").attr("width", width).attr("height", height);
-var pie = d3.pie();
-var dataset;
+CONST.VUE.POSITION = vue.getBoundingClientRect();
+CONST.VUE.PADDING = 5;
+// height
+CONST.VUE.HEIGHT = vue.offsetHeight - 2 * CONST.VUE.PADDING;
+CONST.VUE.WIDTH = vue.offsetWidth - 2 * CONST.VUE.PADDING;
+
+var svg = d3.select("#vue")
+				.append("svg")
+				.attr("width", CONST.VUE.WIDTH)
+				.attr("height", CONST.VUE.HEIGHT);
+var pie = d3.pie();;
 var nbthemes;
 var themelist;
+var alldatafiltre = [];
 var datafiltre;
 var piedata;
 var piezeddata;
 var arc;
 var arcs;
-var outerRadius = width/10;
+var outerRadius = CONST.VUE.WIDTH/10;
 var setDefaultTheme;
 // Nombre de lobbyists restants
 var nbloby;
@@ -22,11 +33,12 @@ var tabnbloby;
 var idToTheme;
 
 d3.csv("data/Noeud19juin.csv", function (data){
-	dataset=data;
-	datafiltre=dataset.slice();
-	nbloby = dataset.length
+	CONST.DATASET=data;
+	datafiltre=CONST.DATASET.slice();
+	alldatafiltre.push(datafiltre.slice());
+	nbloby = CONST.DATASET.length
 	tabnbloby=[nbloby];
-	console.log(dataset);
+	console.log(CONST.DATASET);
 
 	// Faire ici l'initialisation de la vue
 	// Renseigner les fonctions modifiant la vue en dehors
@@ -82,7 +94,7 @@ d3.csv("data/Noeud19juin.csv", function (data){
 					.attr("class", function (d,i){
 						return "cercle"+i+" "+"loby"+0+" cercle"+i+"loby"+0;
 					})
-					.attr("transform", "translate("+(0.5*width)+", "+(0.5*height)+")");
+					.attr("transform", "translate("+(0.5*CONST.VUE.WIDTH)+", "+(0.5*CONST.VUE.HEIGHT)+")");
 
 	arcs.append("path")
 		.attr("d", arc)
@@ -92,7 +104,7 @@ d3.csv("data/Noeud19juin.csv", function (data){
 
 	arcs.append("text")
 		.text(function (d,i){ return themelist[i]+" ("+piezeddata[i].data+" réponses)" })
-		.style("font-size", 0.45*width/height+"em")
+		.style("font-size", 0.45*CONST.VUE.WIDTH/CONST.VUE.HEIGHT+"em")
 		.attr("transform", function (d,i) {
 			var string = "translate(";
 			var angle = 0.5 * (piezeddata[i].startAngle + piezeddata[i].endAngle);
@@ -112,7 +124,7 @@ d3.csv("data/Noeud19juin.csv", function (data){
 	setDefaultTheme = function (){
 		arcs.transition()
 			.duration(30)
-			.attr("transform", "translate("+(0.5*width)+", "+(0.5*height)+")");
+			.attr("transform", "translate("+(0.5*CONST.VUE.WIDTH)+", "+(0.5*CONST.VUE.HEIGHT)+")");
 
 		arcs.selectAll("text")
 			.transition()

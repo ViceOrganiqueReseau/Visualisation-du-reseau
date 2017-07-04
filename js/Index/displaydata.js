@@ -2,7 +2,7 @@
 
 Attention, les fonctions utilisées dans ce script
 sont prévues pour s'exécuter après chargement
-total de la page et des données dans dataset
+total de la page et des données dans CONST.DATASET
 (appel à d3.csv asynchrone)
 
 Ces fonctions seront appelées dans le scroller
@@ -16,7 +16,7 @@ NE RIEN EXECUTER ICI
 // Largeur de la plage de scroll en pixels
 var scrollheight = 870;
 // Durée des transitions
-var timetransition = 500;
+CONST.TIMETRANSITION = 500;
 // Tableau qui recence les choix utilisateurs
 var choices = [];
 // Pas vertical d'affichage du résultat
@@ -64,9 +64,9 @@ function scrollAnimPie (index, pos){
 				.attr("transform", function (d,i){
 					var angle = 0.5 * (piezeddata[i].startAngle + piezeddata[i].endAngle);
 					if (angle>Math.PI){
-						return "translate("+(0.5*width+2*alpha*0.25*width*Math.sin(angle))+", "+(0.5*height+(-2*alpha*0.3*height*Math.cos(angle)))+")"		
+						return "translate("+(0.5*CONST.VUE.WIDTH+2*alpha*0.25*CONST.VUE.WIDTH*Math.sin(angle))+", "+(0.5*CONST.VUE.HEIGHT+(-2*alpha*0.3*CONST.VUE.HEIGHT*Math.cos(angle)))+")"		
 					} else {
-						return "translate("+(0.5*width+2*alpha*0.15*width*Math.sin(angle))+", "+(0.5*height+(-2*alpha*0.2*height*Math.cos(angle)))+")"
+						return "translate("+(0.5*CONST.VUE.WIDTH+2*alpha*0.15*CONST.VUE.WIDTH*Math.sin(angle))+", "+(0.5*CONST.VUE.HEIGHT+(-2*alpha*0.2*CONST.VUE.HEIGHT*Math.cos(angle)))+")"
 					}
 					
 				});
@@ -150,24 +150,24 @@ function hoverize (){
 		cercles.on("mouseover", function (d,i){
 			var avirer = d3.selectAll("g:not(.cercle"+i+").loby"+choices.length);
 			avirer.transition()
-				.duration(0.5*timetransition)
+				.duration(0.5*CONST.TIMETRANSITION)
 				.attr("opacity", 0.3)
 
 			avirer.select("path")
 				.transition()
-				.duration(0.5*timetransition)
+				.duration(0.5*CONST.TIMETRANSITION)
 				.attr("fill", "gray");
 		})
 
 		cercles.on("mouseout", function (d,i){
 			var avirer = d3.selectAll("g:not(.cercle"+i+").loby"+choices.length);
 			avirer.transition()
-				.duration(0.5*timetransition)
+				.duration(0.5*CONST.TIMETRANSITION)
 				.attr("opacity", 1)
 
 			avirer.select("path")
 				.transition()
-				.duration(0.5*timetransition)
+				.duration(0.5*CONST.TIMETRANSITION)
 				.attr("fill", function (d,j){
 					if (j<i){
 						return color(j);
@@ -184,6 +184,69 @@ function hoverize (){
 	}
 }
 
+// Animation du cercle cliqué
+// Mémorisation du choix utilisateur
+function circleonclick (i){
+	// On vire les cercles non selectionnés
+		var avirer = d3.selectAll("g:not(.cercle"+i+"loby"+choices.length+")")
+		avirer.transition()
+				.duration(CONST.TIMETRANSITION)
+				.attr("transform", "translate("+(-2500)+", "+2500+")");
+
+		// Traitement de l'élément cliqué
+		var selected = d3.select("g.cercle"+i+"loby"+choices.length);
+		selected.transition()
+				.duration(CONST.TIMETRANSITION)
+				.attr("transform", "translate("+(0.5*CONST.VUE.WIDTH)+", "+(0.5*CONST.VUE.HEIGHT)+")")
+		selected.select("path")
+				.transition()
+				.duration(CONST.TIMETRANSITION)
+				.attr("d", arc.outerRadius(function (){
+					return outerRadius;
+				}))
+		selected.select("text")
+				.transition()
+				.duration(CONST.TIMETRANSITION)
+				.attr("transform", function (){
+					var textpos = this.getBoundingClientRect();
+					var string="translate(";
+					string += (-textpos.right + textpos.left)/2;
+					string += ", ";
+					string += (-0.3*CONST.VUE.HEIGHT);
+					string += ")";
+					return string;
+				})
+
+		// Mémorisation du choix utilisateur
+			var indice = Number(selected.attr("class")[6]);
+			choices.push(themelist[indice]);
+			nbloby = piedata[indice];
+			console.log("nbloby = "+nbloby);
+			tabnbloby.push(nbloby);
+			console.log(tabnbloby);
+}
+
+// Fonction qui crée les nouvelles sections
+function createsections (){
+	d3.select("#sections")
+		.append("section")
+		.attr("id", "sec"+(currentIndex+1))
+		.append("p")
+		.text(function (){
+			return "Chargement de nouvelles données"
+		})
+	// Si nbloby = 1, une section suffit pour afficher le résultat
+	if (nbloby!==1){
+		d3.select("#sections")
+			.append("section")
+			.attr("id", "sec"+(currentIndex+2))
+			.append("p")
+			.text(function (){
+				return "Ceci est un test"
+			})
+	}
+}
+
 // Gestion du choix utilisateur : click
 function clickable (){
 	if ((window.innerHeight + window.scrollY) + 70 >= document.body.offsetHeight){
@@ -195,86 +258,41 @@ function clickable (){
 			cercles.on("mouseout", function (){});
 			cercles.on("click", function (){});
 
-			// On vire les cercles non selectionnés
-			var avirer = d3.selectAll("g:not(.cercle"+i+"loby"+choices.length+")")
-			avirer.transition()
-					.duration(timetransition)
-					.attr("transform", "translate("+(-2500)+", "+2500+")");
-
-			// Traitement de l'élément cliqué
-			var selected = d3.select("g.cercle"+i+"loby"+choices.length);
-			selected.transition()
-					.duration(timetransition)
-					.attr("transform", "translate("+(0.5*width)+", "+(0.5*height)+")")
-			selected.select("path")
-					.transition()
-					.duration(timetransition)
-					.attr("d", arc.outerRadius(function (){
-						return outerRadius;
-					}))
-			selected.select("text")
-					.transition()
-					.duration(timetransition)
-					.attr("transform", function (){
-						var textpos = this.getBoundingClientRect();
-						var string="translate(";
-						string += (-textpos.right + textpos.left)/2;
-						string += ", ";
-						string += (-0.3*height);
-						string += ")";
-						return string;
-					})
-
-			// Mémorisation du choix utilisateur
-			var indice = Number(selected.attr("class")[6]);
-			choices.push(themelist[indice]);
-			nbloby = piedata[indice];
-			console.log("nbloby = "+nbloby);
-			tabnbloby.push(nbloby);
-			console.log(tabnbloby);
+			// On bouge les cercles
+			circleonclick(i);
 
 			// Affichage du choix utilisateur dans #answers
 			var nbchoix = choices.length;
-			if (nbchoix===1){
-				var element = d3.select("span.theme");
-				element.text(choices[0]);
-			} else if (nbchoix===2){
-				var element = d3.select("span.position");
-				element.text(choices[1]);
-			} else if (nbchoix===3){
-				var element = d3.select("span.type");
-				element.text(choices[2]);
-			} else if (nbchoix===4){
-				var element = d3.select("span.secteur");
-				element.text(choices[3]);
-			} else if (nbchoix===5){
-				var element = d3.select("span.country");
-				element.text(choices[4]);
-			}
+			switch (nbchoix){
+				case 1:
+					var element = d3.select("span.theme");
+					element.text(choices[0]);
+					break;
+				case 2:
+					var element = d3.select("span.position");
+					element.text(choices[1]);
+					break;
+				case 3:
+					var element = d3.select("span.type");
+					element.text(choices[2]);
+					break;
+				case 4:
+					var element = d3.select("span.secteur");
+					element.text(choices[3]);
+					break;
+				case 5:
+					var element = d3.select("span.country");
+					element.text(choices[4]);
+					break;	
+			} 
 
 			// Création des nouvelles sections	
-			d3.select("#sections")
-				.append("section")
-				.attr("id", "sec"+(currentIndex+1))
-				.append("p")
-				.text(function (){
-					return "Chargement de nouvelles données"
-				})
-			// Si nbloby = 1, une section suffit pour afficher le résultat
-			if (nbloby!==1){
-				d3.select("#sections")
-					.append("section")
-					.attr("id", "sec"+(currentIndex+2))
-					.append("p")
-					.text(function (){
-						return "Ceci est un test"
-					})
-			}
+			createsections();
 
 			// MAJ des coordonnées des sections
 			majsectionspos();
 
-			// On charge les données pour le choix suivant
+			// On charge les données pour le choix suivant s'il y en a un
 			loadNewData();
 			if (nbloby===1){
 				setlinkURL();
@@ -289,6 +307,38 @@ function clickable (){
 		cercles.on("click", function (){});
 	}
 }
+
+// On charge des données : remplissage des variables graphiques utiles
+function filterAndLoad (filter, value, nextissue){
+	// On filtre les données selon la position choisie
+	for (var i=0; i<datafiltre.length; i++){
+		if (datafiltre[i][filter]===value){
+			//console.log("On garde !")
+		} else {
+			datafiltre[i]=0;
+		}
+	} 
+	while (datafiltre.indexOf(0)!==-1){
+		datafiltre.splice(datafiltre.indexOf(0), 1);
+	}
+	alldatafiltre.push(datafiltre.slice());
+
+	// On génère le jeu de variables graphiques
+	themelist=[];
+	piedata=[];
+	for (var i=0; i<datafiltre.length; i++){
+		var donnee = datafiltre[i][nextissue]
+		var indice = themelist.indexOf(donnee);
+		if (indice===-1){
+			themelist.push(donnee);
+			piedata.push(1);
+		} else {
+			piedata[indice]++;
+		}
+	}
+	piezeddata = pie(piedata);
+}
+
 
 // On charge les nouvelles données
 function loadNewData (){
@@ -328,11 +378,14 @@ function loadNewData (){
 
 		// nbloby=1, On génère le résultat dans generateResult
 
-	} else if (choices.length===1) {
+	} else 
+	switch (choices.length) {
+	case 1:
 		/* Seul le thème a été choisi, 
 		charger la position SUPPORTS/OPPOSES 
 		du thème choisi */
 
+// On ne peux pas appeler filterAndLoad ici, on le fait manuellement 
 		// On filtre les données selon le thème choisi
 		for (var i=0; i<datafiltre.length; i++){
 			if (datafiltre[i][choices[0]]){
@@ -356,136 +409,47 @@ function loadNewData (){
 		}
 		piezeddata = pie(piedata);
 		themelist = ["SUPPORT", "OPPOSE"];
-	} else if (choices.length===2) {
+		alldatafiltre.push(alldatafiltre.slice());
+		break;
+
+	case 2:
 		/* L'utilisateur a choisi son thème
 		ainsi que sa position par rapport à ce thème. 
 		Charger maintenant la catégorie de lobbyist */
 
-		// On filtre les données selon la position choisie
-		for (var i=0; i<datafiltre.length; i++){
-			if (datafiltre[i][choices[0]]===choices[1]){
-				//console.log("On garde !")
-			} else {
-				datafiltre[i]=0;
-			}
-		} 
-		while (datafiltre.indexOf(0)!==-1){
-			datafiltre.splice(datafiltre.indexOf(0), 1);
-		}
+		filterAndLoad(choices[0], choices[1], "Type");
+		break;
 
-		// On génère le jeu de variables graphiques
-		themelist=[];
-		piedata=[];
-		for (var i=0; i<datafiltre.length; i++){
-			var donnee = datafiltre[i]["Type"]
-			var indice = themelist.indexOf(donnee);
-			if (indice===-1){
-				themelist.push(donnee);
-				piedata.push(1);
-			} else {
-				piedata[indice]++;
-			}
-		}
-		piezeddata = pie(piedata);
-	} else if (choices.length===3) {
+	case 3:
 		/* L'utilisateur a choisi son thème
 		ainsi que sa position par rapport à ce thème. 
 		Il vient de choisir le type de structure qui lui convient. 
 		Charger maintenant le secteur de lobby */
 
-		// On filtre les données selon le type choisi
-		for (var i=0; i<datafiltre.length; i++){
-			if (datafiltre[i]["Type"]===choices[2]){
-				//console.log("On garde !")
-			} else {
-				datafiltre[i]=0;
-			}
-		} 
-		while (datafiltre.indexOf(0)!==-1){
-			datafiltre.splice(datafiltre.indexOf(0), 1);
-		}
+		filterAndLoad("Type", choices[2], "Secteurs d’activité");
+		break;
 
-		// On génère le jeu de variables graphiques
-		themelist=[];
-		piedata=[];
-		for (var i=0; i<datafiltre.length; i++){
-			var donnee = datafiltre[i]["Secteurs d’activité"]
-			var indice = themelist.indexOf(donnee);
-			if (indice===-1){
-				themelist.push(donnee);
-				piedata.push(1);
-			} else {
-				piedata[indice]++;
-			}
-		}
-		piezeddata = pie(piedata);
-	} else if (choices.length===4) {
+	case 4:
 		/* L'utilisateur a choisi son thème
 		ainsi que sa position par rapport à ce thème. 
 		Il a choisi le type de structure qui lui convient. 
 		Il vient de choisir le secteur qui lui convient. 
 		Charger maintenant le pays de lobby */
 
-		// On filtre les données selon le secteur choisi
-		for (var i=0; i<datafiltre.length; i++){
-			if (datafiltre[i]["Secteurs d’activité"]===choices[3]){
-				//console.log("On garde !")
-			} else {
-				datafiltre[i]=0;
-			}
-		} 
-		while (datafiltre.indexOf(0)!==-1){
-			datafiltre.splice(datafiltre.indexOf(0), 1);
-		}
+		filterAndLoad("Secteurs d’activité", choices[3], "Pays/Région");
+		break;
 
-		// On génère le jeu de variables graphiques
-		themelist=[];
-		piedata=[];
-		for (var i=0; i<datafiltre.length; i++){
-			var donnee = datafiltre[i]["Pays/Région"]
-			var indice = themelist.indexOf(donnee);
-			if (indice===-1){
-				themelist.push(donnee);
-				piedata.push(1);
-			} else {
-				piedata[indice]++;
-			}
-		}
-		piezeddata = pie(piedata);
-	} else if (choices.length===5) {
+	case 5:
 		/* L'utilisateur a choisi son thème,
 		sa position par rapport à ce thème ainsi que 
 		le type de structure qui lui convient et son secteur. 
 		Il vient de choisir son pays de prédilection. 
 		On prop */
 
-		// On filtre les données selon le type choisi
-		for (var i=0; i<datafiltre.length; i++){
-			if (datafiltre[i]["Pays/Région"]===choices[4]){
-				//console.log("On garde !")
-			} else {
-				datafiltre[i]=0;
-			}
-		} 
-		while (datafiltre.indexOf(0)!==-1){
-			datafiltre.splice(datafiltre.indexOf(0), 1);
-		}
+		filterAndLoad("Pays/Région", choices[4], "Nom")
+		break;
 
-		// On génère le jeu de variables graphiques
-		themelist=[];
-		piedata=[];
-		for (var i=0; i<datafiltre.length; i++){
-			var donnee = datafiltre[i]["Nom"]
-			var indice = themelist.indexOf(donnee);
-			if (indice===-1){
-				themelist.push(donnee);
-				piedata.push(1);
-			} else {
-				piedata[indice]++;
-			}
-		}
-		piezeddata = pie(piedata);
-	}
+	} 
 }
 
 // Affichage d'une nouvelle pie à partir de themelist et piezeddata
@@ -503,7 +467,7 @@ function generatePie (){
 					.attr("class", function (d,i){
 						return "cercle"+i+" "+"loby"+choices.length+" cercle"+i+"loby"+choices.length;
 					})
-					.attr("transform", "translate("+(0.5*width)+", "+(0.5*height)+")")
+					.attr("transform", "translate("+(0.5*CONST.VUE.WIDTH)+", "+(0.5*CONST.VUE.HEIGHT)+")")
 					.attr("opacity", 0);
 
 	arcs.append("path")
@@ -515,7 +479,7 @@ function generatePie (){
 	arcs.append("text")
 		.text(function (d,i){ return themelist[i]+" ("+piezeddata[i].data+")" })
 		.style("font-size", function (d){
-			return 0.6*width/height+"em"
+			return 0.6*CONST.VUE.WIDTH/CONST.VUE.HEIGHT+"em"
 		})
 		.attr("transform", function (d,i) {
 			var string = "translate(";
@@ -569,46 +533,46 @@ function generateResult (){
 	svg.select("text.abr")
 		.attr("x", function(){
 			var textpos = this.getBoundingClientRect();
-			return width/2 - (textpos.right - textpos.left)/2;
+			return CONST.VUE.WIDTH/2 - (textpos.right - textpos.left)/2;
 		})
 		.attr("y", function(){
-			return height/3;
+			return CONST.VUE.HEIGHT/3;
 		});
 
 	svg.select("text.nom")
 		.attr("x", function(){
 			var textpos = this.getBoundingClientRect();
-			return width/2 - (textpos.right - textpos.left)/2;
+			return CONST.VUE.WIDTH/2 - (textpos.right - textpos.left)/2;
 		})
 		.attr("y", function(){
-			return height/3 + 1.5*pas;
+			return CONST.VUE.HEIGHT/3 + 1.5*pas;
 		});
 
 	svg.select("text.secteur")
 		.attr("x", function(){
 			var textpos = this.getBoundingClientRect();
-			return width/2 - (textpos.right - textpos.left)/2;
+			return CONST.VUE.WIDTH/2 - (textpos.right - textpos.left)/2;
 		})
 		.attr("y", function(){
-			return height/3 + 1.5*pas + 1*pas;
+			return CONST.VUE.HEIGHT/3 + 1.5*pas + 1*pas;
 		});
 
 	svg.select("text.country")
 		.attr("x", function(){
 			var textpos = this.getBoundingClientRect();
-			return width/2 - (textpos.right - textpos.left)/2;
+			return CONST.VUE.WIDTH/2 - (textpos.right - textpos.left)/2;
 		})
 		.attr("y", function(){
-			return height/3 + 1.5*pas + 2*pas;
+			return CONST.VUE.HEIGHT/3 + 1.5*pas + 2*pas;
 		});
 
 	svg.select("text.costs")
 		.attr("x", function(){
 			var textpos = this.getBoundingClientRect();
-			return width/2 - (textpos.right - textpos.left)/2;
+			return CONST.VUE.WIDTH/2 - (textpos.right - textpos.left)/2;
 		})
 		.attr("y", function(){
-			return height/3 + 1.5*pas + 3*pas;
+			return CONST.VUE.HEIGHT/3 + 1.5*pas + 3*pas;
 		});
 
 	// MAJ des données de answers
