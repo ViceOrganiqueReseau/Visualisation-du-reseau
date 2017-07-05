@@ -98,9 +98,11 @@ function numlinkradius (d){
 
 function getFullName(x){
   if (x["Nom2"]){
-    return x["Nom2"]
+    return x["Nom2"];
+  } else if (x["Nom1"]) {
+    return x["Nom1"];
   } else {
-    return x["Nom1"]
+    return x["Nom"];
   }
 }
 

@@ -67,7 +67,7 @@ section {
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
-  align-content: flex-start;
+  align-content: flex-end;
 }
 
 #answers p {
