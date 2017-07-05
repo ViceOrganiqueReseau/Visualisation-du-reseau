@@ -131,6 +131,25 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	affiliations = data;
 	CONST.ALL_AFFILIATIONS = data.slice();
 
+	// On prépare l'affichage des données
+	// Récupération choix utilisateur, épuration
+	initviz();
+
+	// On crée les listes de données utiles
+	createdatasets();
+
+	// On crée les éléments graphiques
+	creategraphDOM();
+	
+
+	// Initialisation après l'import des données : 
+	// Affichage de la section 1
+	setupSec1();
+	animSec1();
+
+});
+
+function initviz(){
 	// Récupération du choix utilisateur
 	// On crée la liste des ID (c'est un intervalle discontinu)
 	AllIDlist = [];
@@ -149,11 +168,9 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	for (var i=0; i<dataset.length; i++){
 		if (Number(dataset[i].ID) === lobyID){
 			lobyist = dataset[i];
+			break;
 		}
 	}
-
-	// On charge les couleurs
-	setcolor();
 
 	// On récupère la liste des thèmes 
 	// et le thème choisi
@@ -211,6 +228,9 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 				.text(lobyist[theme]);
 		}
 	}
+
+	// On charge les couleurs
+	setcolor();
 
 	// On retire les acteurs non pertinents : 
 	// Ceux qui ne se sont pas prononcé
@@ -331,7 +351,9 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 			}	
 		}
 	}
+}
 
+function createdatasets (){
 	// Créer ici les listes de données par regroupement
 	// Section 1 par position
 	dataByPos = d3.nest()
@@ -430,8 +452,9 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 	for (var i=0; i<dataBySecteurPos.length; i++){
 		secteurslist.push(dataBySecteurPos[i].key)
 	}
+}
 
-
+function creategraphDOM (){
 	// Créer ici les éléments graphqiues (faux DOM)
 	// Les noeuds qui correspondent aux organisations
 	circles = CustomDOM.selectAll("custom.actor")
@@ -596,10 +619,4 @@ d3.csv("data/Affiliation19juin.csv", function (data){
 					.attr("class", "act")
 					.attr("r", numlinkradius)
 	allActors = dataset.concat(actionnaires);
-
-	// Initialisation après l'import des données : 
-	// Affichage de la section 1
-	setupSec1();
-	animSec1();
-
-});
+}
