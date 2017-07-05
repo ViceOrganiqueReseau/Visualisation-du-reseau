@@ -1,0 +1,217 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  /*Attention cette valeur est utilisée sans récupération dans le JS*/
+  /*La modifier ici implique de la modifier dans JS aussi (colors.js)*/
+  background-color: rgb(0, 5, 15); 
+  color: white;
+}
+
+#container {
+  display: inline-block;
+}
+
+#left-container {
+  display: inline-block;
+  width: 24%;
+  padding: 15px;
+  margin: auto;
+}
+
+#sections {
+  z-index: 1;
+}
+
+/* La valeur qu'il faut pour scroller convenablement */
+section {
+  margin-bottom: 800px;
+}
+
+#sec0 {
+  margin-top: 300px;
+}
+
+#fixpart {
+  position: fixed;
+  z-index: 1;
+  display: inline-block;
+  width: 75%;
+  margin: auto;
+  height: 100%;
+}
+
+#vue {
+  padding: 5px;
+  height: 100%;
+}
+
+#vue canvas {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#answers {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  z-index: 2;
+  background-color: rgb(0, 5, 15);
+  height: 30%;
+  width: 24%;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
+#answers p {
+  padding: 3px;
+  margin: 0px;
+  font-size: 14px;
+  color: rgb(186, 186, 186);
+  white-space: nowrap;
+}
+
+#answers p.small {
+  margin-top: 15px;
+  width: 100px;
+}
+
+#answers > p > a {
+  text-decoration: none;
+  color: rgb(186, 186, 186);;
+}
+
+#answers > p > span {
+  box-sizing: content-box;
+  border: solid rgb(45, 82, 252) 1px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  height: 14px;
+  margin-bottom: -3px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+span.nom {
+  width: 240px;
+}
+
+span.country {
+  width: 240px;
+}
+
+span.secteur {
+  width: 212px;
+}
+
+span.type {
+  width: 196px;
+}
+
+span.theme {
+  width: 199px;
+}
+
+span.position {
+  width: 270px;
+}
+
+span.fonction {
+  width: 265px;
+}
+
+a#backloby {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  background-color: rgb(191, 191, 191);
+  border: solid black 2px;
+  border-radius: 10px;
+  padding: 3px;
+  text-align: center;
+  width: 140px;
+  right: 31px;
+  top: 60px;
+  font-weight: bold;
+  font-size: 15px;
+  color: black;
+  text-decoration: none;
+}
+
+a#backloby:hover {
+  background-color: green;
+  cursor: pointer;
+}
+
+#links {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 40%;
+  width: 30%;
+  background-color: rgba(0, 5, 15, 0.5); 
+}
+
+#links p {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#links a {
+  z-index: 10;
+  background-color: rgb(191, 191, 191);
+  border: solid black 2px;
+  border-radius: 10px;
+  padding: 3px;
+  text-align: center;
+  width: 45%;
+  font-weight: bold;
+  font-size: 15px;
+  color: black;
+  text-decoration: none;
+  margin: 8px;
+}
+
+#links a:hover {
+  background-color: green;
+  cursor: pointer;
+}
+
+#boxes-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-content: space-arround;
+}
+
+#reloadbox {
+  position: fixed;
+  z-index: 10;
+  background-color: rgb(191, 191, 191);
+  border: solid black 2px;
+  border-radius: 10px;
+  padding: 3px;
+  text-align: center;
+  width: 140px;
+  right: 31px;
+  top: 25px;
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
+}
+
+#reloadbox:hover {
+  background-color: orange;
+  cursor: pointer;
+}

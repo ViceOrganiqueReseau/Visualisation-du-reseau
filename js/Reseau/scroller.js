@@ -9,7 +9,7 @@ var sectionPositions;
 // Mise à jour des positions dès le chargement de la page
 majsectionspos();
 // Adapte la vue à la position initiale au chargement de la page
-position();
+//position();
 
 // Met à jour les positions de toutes les sections sur la page
 // Utile lors de la création de sections notamment
@@ -47,17 +47,50 @@ function position() {
     majvue.call(this, sectionIndex);
   }
   scrollAnim();
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight){
+    displaylinksEnd();
+  } else {
+    invisiblelinks();
+  }
 }
 
 // Fonction à appeler pour mettre la vue à jour
 // argument index : indice de la nouvelle section
 function majvue(index) {
   // Modifications lors d'un changement de section
-  // Changement de la couleur de fond pour la demo et pour aider au dev
-    if (index%2===0){
-        d3.select("#vue").style("background-color", "rgb(0, 6, 35)");
-    } else {
-        d3.select("#vue").style("background-color", "rgb(0, 10, 61)");
+    switch (index){
+    case 0:
+      setupSec1();
+      animSec1();
+      break;
+    case 1:
+      setupSec2();
+      animSec2();
+      break;
+    case 2:
+      setupSec3();
+      animSec3();
+      break;
+    case 3:
+      setupSec4();
+      animSec4();
+      break;
+    case 4:
+      setupSec5();
+      animSec5();
+      break;
+    case 5:
+      setupSec6();
+      animSec6();
+      break;
+    case 6:
+      setupSec7();
+      animSec7();
+      break;
+    case 7:
+      setupSec8();
+      animSec8();
+      break;
     }
 }
 

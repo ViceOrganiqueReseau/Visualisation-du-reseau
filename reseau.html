@@ -1,0 +1,104 @@
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Visualisation du réseau</title>
+    <link rel="stylesheet" href="css/Reseau/styles.css">
+  </head>
+
+  <body>
+
+    <header>
+    <div id="reloadbox">
+        Back to Top
+    </div>
+    <a id="backloby" href="index.html">
+      Identifiez-vous !
+    </a>
+    </header>
+
+    <div class="container">
+
+      <div id="left-container">
+      <div id="sections">
+        <section id="sec0">
+          <h2>Section 1</h2>
+          <p>SUPPORT vs/ OPPOSE</p>
+        </section>
+        <section id="sec1">
+          <h2>Section 2</h2>
+          <p>Division par Type de structure</p>
+        </section>
+        <section id="sec2">
+          <h2>Section 3</h2>
+          <p>Division par secteurs</p>
+        </section>
+        <section id="sec3">
+          <h2>Section 4</h2>
+          <p>Regroupement par secteurs</p>
+        </section>
+        <section id="sec4">
+          <h2>Section 5</h2>
+          <p>Fusion des secteurs</p>
+        </section>
+        <section id="sec5">
+          <h2>Section 6</h2>
+          <p>Tous les acteurs</p>
+        </section>
+        <section id="sec6">
+          <h2>Section 7</h2>
+          <p>Affichage des liens</p>
+        </section>
+        <section id="sec6">
+          <h2>Section 8</h2>
+          <p>Affichage des actionnaires</p>
+          <p>Scroll jusqu'en bas !</p>
+        </section>
+      </div>
+
+      <div id="answers">
+        <!---Cet élément recevra les
+        réponses successives données -->
+        <p>Identification : <span class="nom"></span></p>
+        <p>Pays/Région : <span class="country"></span></p>
+        <p>Secteur d'activité : <span class="secteur"></span></p>
+        <p>Type d'organisation : <span class="type"></span></p>
+        <p>Sujet d'intervention : <span class="theme"></span></p>
+        <p>Position : <span class="position"></span></p>
+        <p>Fonction : <span class="fonction">Lobbyiste</span></p>
+        <p class="small"><a href="">A propos</a></p>
+        <p class="small"><a href="">Crédits</a></p>
+      </div>
+      </div>
+
+      <div id="fixpart">
+
+
+        <div id="vue">
+        <!--- Cet élément recevra les   visualisations -->
+        </div>
+
+        <div id="links">
+        <!--- Cet élément recevra les liens vers les thèmes et le questionnaire -->
+        <p>Ceci est un test !</p>
+        <div id="boxes-container">
+        <!--- Le conteneur flex des liens -->
+        </div>
+        </div>
+        
+      </div>
+
+    </div>
+    <script type="text/javascript" src="js/Reseau/return.js"></script>
+    <script type="text/javascript" src="js/Reseau/getURL.js"></script>
+    <script type="text/javascript" src="js/d3js/d3.js"></script>
+    <script type="text/javascript" src="js/Three.js/three.min.js"></script>
+    <script type="text/javascript" src="js/Reseau/setupscene.js"></script>
+    <script type="text/javascript" src="js/Reseau/importdata.js"></script>
+    <script type="text/javascript" src="js/Reseau/colors.js"></script>
+    <script type="text/javascript" src="js/Reseau/displaydata.js"></script>
+    <script type="text/javascript" src="js/Reseau/animdata.js"></script>
+    <script type="text/javascript" src="js/Reseau/scroller.js"></script>
+    <script type="text/javascript" src="js/Reseau/linksToLoby.js"></script>
+  </body>
+</html>

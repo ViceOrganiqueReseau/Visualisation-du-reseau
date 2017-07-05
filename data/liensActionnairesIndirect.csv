@@ -1,0 +1,143 @@
+source,Source Name,target,Target Name,Valeur (supp à%)
+488,Aberdeen Asset Managers Limited ,279,RSA Insurance,1
+488,Aberdeen Asset Managers Limited ,352,Bord Gais,1
+489,Amundi Asset Management SA,295,SOLVAY,1
+489,Amundi Asset Management SA,302,BASF,1
+489,Amundi Asset Management SA,330,E.ON,1
+490,"BlackRock, Inc. ",341,ENI,1
+490,"BlackRock, Inc. ",322,TAURON Polska Energia SA,1
+490,"BlackRock, Inc. ",330,E.ON,1
+490,"BlackRock, Inc. ",315,ENEL,1
+490,"BlackRock, Inc. ",310,Iberdola,1
+490,"BlackRock, Inc. ",295,SOLVAY,1
+490,"BlackRock, Inc. ",256,LAFARGE,1
+490,"BlackRock, Inc. ",308,SSE,1
+490,"BlackRock, Inc. ",302,BASF,1
+490,"BlackRock, Inc. ",261,Kingfisher PLC,1
+490,"BlackRock, Inc. ",282,Dow Chemical,1
+490,"BlackRock, Inc. ",351,RWE,1
+490,"BlackRock, Inc. ",355,GE - General Electric,1
+490,"BlackRock, Inc. ",262,Schneider Electric,1
+490,"BlackRock, Inc. ",317,EDP - Energias de Portugal,1
+490,"BlackRock, Inc. ",347,TOTAL,1
+490,"BlackRock, Inc. ",260,First Solar GmbH,1
+490,"BlackRock, Inc. ",350,Valero,1
+490,"BlackRock, Inc. ",352,Bord Gais,1
+490,"BlackRock, Inc. ",323,National Grid,1
+490,"BlackRock, Inc. ",353,BP - British Petroleum,1
+490,"BlackRock, Inc. ",340,SHELL,1
+490,"BlackRock, Inc. ",287,3M,1
+491,Caisse Des Dépôts & Consignations,342,GDF SUEZ,1
+491,Caisse Des Dépôts & Consignations,271,VEOLIA ENVIRONNEMENT,1
+492,Caixabank ,328,Repsol,1
+492,Caixabank ,316,Gas Natural Fenosa,10
+493,Chase Nominees Limited ,332,"CEZ, a.s",1
+493,Chase Nominees Limited ,340,SHELL,1
+494,Clearstream Banking,294,Hydro,1
+494,Clearstream Banking,332,"CEZ, a.s",1
+495,Commerzbank AG,300,ThyssenKrupp,1
+495,Commerzbank AG,351,RWE,1
+496,Dimensional Fund Advisors,322,TAURON Polska Energia SA,1
+496,Dimensional Fund Advisors,257,Wienerberger AG,1
+497,Dodge & Cox ,342,GDF SUEZ,1
+497,Dodge & Cox ,256,LAFARGE,1
+497,Dodge & Cox ,262,Schneider Electric,1
+498,Etat Autrichien,280,OMV Aktiengesellschaft,10
+498,Etat Autrichien,336,VERBUND AG,50
+498,Etat Autrichien,298,OBB,50
+499,Etat Espagnol,417,Enagas,1
+499,Etat Espagnol,321,"Red Eléctrica de España, SAU",10
+500,Etat Finlandais,293,Neste Oil Corporation,50
+500,Etat Finlandais,346,FORTUM,50
+501,Etat Français,281,ALSTOM,10
+501,Etat Français,342,GDF SUEZ,10
+501,Etat Français,348,AREVA,10
+501,Etat Français,327,EDF,50
+502,Etat Hollandais,337,TenneT,50
+502,Etat Hollandais,338,N.V. Nederlandse Gasunie,50
+503,Etat Irlandais,356,ESB - Electriciy Supply Board,50
+503,Etat Irlandais,478,BORD NA MÓNA POWERGEN,50
+504,Etat Italien,341,ENI,1
+504,Etat Italien,315,ENEL,10
+505,Etat Norvégien,294,Hydro,10
+505,Etat Norvégien,333,STATOIL,50
+505,Etat Norvégien,325,Statkraft,50
+506,Etat Polonais,322,TAURON Polska Energia SA,10
+506,Etat Polonais,306,ENEA Trading,50
+506,Etat Polonais,312,PGNiG SA,50
+507,Etat Suédois,343,Vattenfall AB,50
+507,Etat Suédois,297,LKAB,50
+508,Folketrygdfondet ,333,STATOIL,1
+508,Folketrygdfondet ,294,Hydro,1
+509,Franklin Templeton Investments,302,BASF,1
+509,Franklin Templeton Investments,282,Dow Chemical,1
+509,Franklin Templeton Investments,300,ThyssenKrupp,1
+509,Franklin Templeton Investments,260,First Solar GmbH,1
+510,Groupe Bruxelles Lambert ,347,TOTAL,1
+510,Groupe Bruxelles Lambert ,256,LAFARGE,1
+511,Ilmarinen Mutual Pension,288,Wärtsilä,1
+511,Ilmarinen Mutual Pension,301,Metsä Group,1
+512,Invesco,308,SSE,1
+512,Invesco,352,Bord Gais,1
+513,Nationale-Nederlanden,312,PGNiG SA,1
+513,Nationale-Nederlanden,306,ENEA Trading,1
+513,Nationale-Nederlanden,322,TAURON Polska Energia SA,1
+514,Norges Bank,315,ENEL,1
+514,Norges Bank,280,OMV Aktiengesellschaft,1
+514,Norges Bank,351,RWE,1
+514,Norges Bank,341,ENI,1
+514,Norges Bank,267,VESTAS,1
+514,Norges Bank,303,RHI,1
+514,Norges Bank,271,VEOLIA ENVIRONNEMENT,1
+514,Norges Bank,308,SSE,1
+514,Norges Bank,330,E.ON,1
+514,Norges Bank,302,BASF,1
+514,Norges Bank,257,Wienerberger AG,1
+514,Norges Bank,319,A2A,1
+514,Norges Bank,310,Iberdola,1
+514,Norges Bank,262,Schneider Electric,1
+514,Norges Bank,258,Novozymes,1
+515,PZU,312,PGNiG SA,1
+515,PZU,306,ENEA Trading,10
+516,Qatar Investment Authority,271,VEOLIA ENVIRONNEMENT,1
+516,Qatar Investment Authority,310,Iberdola,1
+517,Schroders,281,ALSTOM,1
+517,Schroders,352,Bord Gais,10
+518,State Street Corp,294,Hydro,1
+518,State Street Corp,332,"CEZ, a.s",1
+518,State Street Corp,417,Enagas,1
+518,State Street Corp,281,ALSTOM,1
+518,State Street Corp,282,Dow Chemical,1
+518,State Street Corp,355,GE - General Electric,1
+518,State Street Corp,350,Valero,1
+518,State Street Corp,287,3M,10
+519,"The Capital Group Companies, Inc. ",315,ENEL,1
+519,"The Capital Group Companies, Inc. ",355,GE - General Electric,1
+519,"The Capital Group Companies, Inc. ",310,Iberdola,1
+519,"The Capital Group Companies, Inc. ",323,National Grid,1
+519,"The Capital Group Companies, Inc. ",340,SHELL,1
+519,"The Capital Group Companies, Inc. ",339,ACCIONA,1
+519,"The Capital Group Companies, Inc. ",261,Kingfisher PLC,1
+519,"The Capital Group Companies, Inc. ",260,First Solar GmbH,1
+519,"The Capital Group Companies, Inc. ",308,SSE,10
+519,"The Capital Group Companies, Inc. ",317,EDP - Energias de Portugal,10
+519,"The Capital Group Companies, Inc. ",259,DONG Energy,1
+520,"The Vanguard Group, Inc. ",312,PGNiG SA,1
+520,"The Vanguard Group, Inc. ",280,OMV Aktiengesellschaft,1
+520,"The Vanguard Group, Inc. ",295,SOLVAY,1
+520,"The Vanguard Group, Inc. ",341,ENI,1
+520,"The Vanguard Group, Inc. ",300,ThyssenKrupp,1
+520,"The Vanguard Group, Inc. ",315,ENEL,1
+520,"The Vanguard Group, Inc. ",351,RWE,1
+520,"The Vanguard Group, Inc. ",330,E.ON,1
+520,"The Vanguard Group, Inc. ",417,Enagas,1
+520,"The Vanguard Group, Inc. ",302,BASF,1
+520,"The Vanguard Group, Inc. ",267,VESTAS,1
+520,"The Vanguard Group, Inc. ",261,Kingfisher PLC,1
+520,"The Vanguard Group, Inc. ",260,First Solar GmbH,1
+520,"The Vanguard Group, Inc. ",282,Dow Chemical,1
+520,"The Vanguard Group, Inc. ",355,GE - General Electric,1
+520,"The Vanguard Group, Inc. ",350,Valero,1
+520,"The Vanguard Group, Inc. ",287,3M,10
+521,Wiener Stadtwerke,345,Wien Energie GmbH,50
+521,Wiener Stadtwerke,336,VERBUND AG,10
