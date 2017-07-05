@@ -5,6 +5,7 @@ La couleur de fond se modifie dans le fichier styles.css*/
 
 // Couleur d'un élément qui s'efface au survol d'un autre
 var colormousenoton;
+var colorlastanswer = "rgb(45, 82, 252)";
 
 // Couleurs des diques en fonction de l'indice
 function color (i){

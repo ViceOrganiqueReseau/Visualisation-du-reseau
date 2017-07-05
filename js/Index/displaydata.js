@@ -184,6 +184,17 @@ function hoverize (){
   }
 }
 
+// On gère la couleur des #answers au choix utilisateur
+function resetcolors (){
+  d3.select("p.nom").style("color", "rgb(186, 186, 186)");
+  d3.select("p.country").style("color", "rgb(186, 186, 186)");
+  d3.select("p.secteur").style("color", "rgb(186, 186, 186)");
+  d3.select("p.type").style("color", "rgb(186, 186, 186)");
+  d3.select("p.theme").style("color", "rgb(186, 186, 186)");
+  d3.select("p.position").style("color", "rgb(186, 186, 186)");
+  d3.select("p.fonction").style("color", "rgb(186, 186, 186)");
+}
+
 // Animation du cercle cliqué
 // Mémorisation du choix utilisateur
 function circleonclick (i){
@@ -263,26 +274,42 @@ function clickable (){
 
       // Affichage du choix utilisateur dans #answers
       var nbchoix = choices.length;
+
       switch (nbchoix){
         case 1:
           var element = d3.select("span.theme");
           element.text(choices[0]);
+          resetcolors();
+          d3.select("p.theme").style("color", colorlastanswer);
+          d3.select("p.position").style("display", "block");
           break;
         case 2:
           var element = d3.select("span.position");
           element.text(choices[1]);
+          resetcolors();
+          d3.select("p.position").style("color", colorlastanswer);
+          d3.select("p.type").style("display", "block");
           break;
         case 3:
           var element = d3.select("span.type");
           element.text(choices[2]);
+          resetcolors();
+          d3.select("p.type").style("color", colorlastanswer);
+          d3.select("p.secteur").style("display", "block");
           break;
         case 4:
           var element = d3.select("span.secteur");
           element.text(choices[3]);
+          resetcolors();
+          d3.select("p.secteur").style("color", colorlastanswer);
+          d3.select("p.country").style("display", "block");
           break;
         case 5:
           var element = d3.select("span.country");
           element.text(choices[4]);
+          resetcolors();
+          d3.select("p.country").style("color", colorlastanswer);
+          d3.select("p.nom").style("display", "block");
           break;  
       } 
 
@@ -579,7 +606,21 @@ function generateResult (){
   d3.select("span.type").text(datafiltre[0]["Type"]);
   d3.select("span.secteur").text(datafiltre[0]["Secteurs d’activité"]);
   d3.select("span.country").text(datafiltre[0]["Pays/Région"]);
-
+  d3.select("span.nom").text(datafiltre[0]["Nom1"]);
+  resetcolors();
+  d3.select("p.nom").style("color", colorlastanswer);
+  if (choices.length<=5){
+    d3.select("p.country").style("color", colorlastanswer);
+  }
+  if (choices.length<=4){
+    d3.select("p.secteur").style("color", colorlastanswer);
+  }
+  if (choices.length<=3){
+    d3.select("p.type").style("color", colorlastanswer);
+  }
+  d3.select("p.secteur").style("display", "block");
+  d3.select("p.country").style("display", "block");
+  d3.select("p.nom").style("display", "block");
 }
 
 function displayResult (pos){

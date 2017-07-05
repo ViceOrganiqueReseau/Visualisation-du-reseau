@@ -4,7 +4,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: rgb(0, 6, 35);
+  background-color: rgb(22, 27, 48);
   color: white;
 }
 
@@ -12,12 +12,15 @@ body {
   display: inline-block;
 }
 
-#sections {
+#left-container {
   display: inline-block;
-  z-index: 1;
-  width: 34%;
+  width: 24%;
   padding: 15px;
   margin: auto;
+}
+
+#sections {
+  z-index: 1;
 }
 
 /* La valeur qu'il faut pour scroller convenablement */
@@ -33,14 +36,14 @@ section {
   position: fixed;
   z-index: 1;
   display: inline-block;
-  width: 65%;
+  width: 75%;
   margin: auto;
   height: 100%;
 }
 
 #vue {
   padding: 5px;
-  height: 85%;
+  height: 100%;
 }
 
 a#network {
@@ -53,7 +56,7 @@ a#network {
   padding: 3px;
   text-align: center;
   width: 180px;
-  right: 28%;
+  right: 32%;
   top: 70%;
   font-weight: bold;
   font-size: 20px;
@@ -67,20 +70,98 @@ a#network:hover {
 }
 
 #answers {
-  height: 14%;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  z-index: 2;
+  background-color: rgb(22, 27, 48);
+  height: 30%;
+  width: 24%;
   padding: 5px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
-  align-content: space-around;
+  align-content: flex-end;
 }
 
 #answers p {
-  width: 49%;
   padding: 3px;
   margin: 0px;
-  font-size: 17px;
+  font-size: 14px;
+  color: rgb(186, 186, 186);
+  white-space: nowrap;
+}
+
+#answers p.small {
+  margin-top: 15px;
+  width: 100px;
+}
+
+#answers > p > a {
+  text-decoration: none;
+  color: rgb(186, 186, 186);;
+}
+
+#answers > p > span {
+  box-sizing: content-box;
+  border: solid rgb(45, 82, 252) 1px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  height: 14px;
+  margin-bottom: -3px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+#answers > p.nom {
+  display: none;
+}
+
+#answers > p.country {
+  display: none;
+}
+
+#answers > p.secteur {
+  display: none;
+}
+
+#answers > p.type {
+  display: none;
+}
+
+#answers > p.position {
+  display: none;
+}
+
+span.nom {
+  width: 240px;
+}
+
+span.country {
+  width: 240px;
+}
+
+span.secteur {
+  width: 212px;
+}
+
+span.type {
+  width: 196px;
+}
+
+span.theme {
+  width: 199px;
+}
+
+span.position {
+  width: 270px;
+}
+
+span.fonction {
+  width: 265px;
 }
 
 #reloadbox {

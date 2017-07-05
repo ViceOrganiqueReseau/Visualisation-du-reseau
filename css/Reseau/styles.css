@@ -6,7 +6,7 @@ body {
   font-family: Arial, sans-serif;
   /*Attention cette valeur est utilisée sans récupération dans le JS*/
   /*La modifier ici implique de la modifier dans JS aussi (colors.js)*/
-  background-color: rgb(0, 6, 35); 
+  background-color: rgb(0, 5, 15); 
   color: white;
 }
 
@@ -14,12 +14,15 @@ body {
   display: inline-block;
 }
 
-#sections {
+#left-container {
   display: inline-block;
-  z-index: 1;
   width: 24%;
   padding: 15px;
   margin: auto;
+}
+
+#sections {
+  z-index: 1;
 }
 
 /* La valeur qu'il faut pour scroller convenablement */
@@ -42,7 +45,7 @@ section {
 
 #vue {
   padding: 5px;
-  height: 85%;
+  height: 100%;
 }
 
 #vue canvas {
@@ -52,20 +55,78 @@ section {
 }
 
 #answers {
-  height: 14%;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  z-index: 2;
+  background-color: rgb(0, 5, 15);
+  height: 30%;
+  width: 24%;
   padding: 5px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
-  align-content: space-around;
+  align-content: flex-start;
 }
 
 #answers p {
-  width: 49%;
   padding: 3px;
   margin: 0px;
-  font-size: 17px;
+  font-size: 14px;
+  color: rgb(186, 186, 186);
+  white-space: nowrap;
+}
+
+#answers p.small {
+  margin-top: 15px;
+  width: 100px;
+}
+
+#answers > p > a {
+  text-decoration: none;
+  color: rgb(186, 186, 186);;
+}
+
+#answers > p > span {
+  box-sizing: content-box;
+  border: solid rgb(45, 82, 252) 1px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+  height: 14px;
+  margin-bottom: -3px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+span.nom {
+  width: 240px;
+}
+
+span.country {
+  width: 240px;
+}
+
+span.secteur {
+  width: 212px;
+}
+
+span.type {
+  width: 196px;
+}
+
+span.theme {
+  width: 199px;
+}
+
+span.position {
+  width: 270px;
+}
+
+span.fonction {
+  width: 265px;
 }
 
 a#backloby {
@@ -97,7 +158,7 @@ a#backloby:hover {
   top: 30%;
   left: 40%;
   width: 30%;
-  background-color: rgba(0, 6, 35, 0.5); 
+  background-color: rgba(0, 5, 15, 0.5); 
 }
 
 #links p {
