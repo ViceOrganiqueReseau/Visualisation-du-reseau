@@ -49,7 +49,7 @@ function position() {
 // Fonction à appeler pour mettre la vue à jour
 // argument index : indice de la nouvelle section
 function majvue(index) {
-	//displayPie();
+  //displayPie();
 }
 
 function scrollAnim(index, pos) {

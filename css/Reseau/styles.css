@@ -1,156 +1,156 @@
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	font-family: Arial, sans-serif;
-	/*Attention cette valeur est utilisée sans récupération dans le JS*/
-	/*La modifier ici implique de la modifier dans JS aussi (colors.js)*/
-	background-color: rgb(0, 6, 35); 
-	color: white;
+  font-family: Arial, sans-serif;
+  /*Attention cette valeur est utilisée sans récupération dans le JS*/
+  /*La modifier ici implique de la modifier dans JS aussi (colors.js)*/
+  background-color: rgb(0, 6, 35); 
+  color: white;
 }
 
 #container {
-	display: inline-block;
+  display: inline-block;
 }
 
 #sections {
-	display: inline-block;
-	z-index: 1;
-	width: 24%;
-	padding: 15px;
-	margin: auto;
+  display: inline-block;
+  z-index: 1;
+  width: 24%;
+  padding: 15px;
+  margin: auto;
 }
 
 /* La valeur qu'il faut pour scroller convenablement */
 section {
-	margin-bottom: 800px;
+  margin-bottom: 800px;
 }
 
 #sec0 {
-	margin-top: 300px;
+  margin-top: 300px;
 }
 
 #fixpart {
-	position: fixed;
-	z-index: 1;
-	display: inline-block;
-	width: 75%;
-	margin: auto;
-	height: 100%;
+  position: fixed;
+  z-index: 1;
+  display: inline-block;
+  width: 75%;
+  margin: auto;
+  height: 100%;
 }
 
 #vue {
-	padding: 5px;
-	height: 85%;
+  padding: 5px;
+  height: 85%;
 }
 
 #vue canvas {
-	position: absolute;
-	top: 10px;
-	left: 10px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 #answers {
-	height: 14%;
-	padding: 5px;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-content: space-around;
+  height: 14%;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: space-around;
 }
 
 #answers p {
-	width: 49%;
-	padding: 3px;
-	margin: 0px;
-	font-size: 17px;
+  width: 49%;
+  padding: 3px;
+  margin: 0px;
+  font-size: 17px;
 }
 
 a#backloby {
-	display: none;
-	position: fixed;
-	z-index: 10;
-	background-color: rgb(191, 191, 191);
-	border: solid black 2px;
-	border-radius: 10px;
-	padding: 3px;
-	text-align: center;
-	width: 140px;
-	right: 31px;
-	top: 60px;
-	font-weight: bold;
-	font-size: 15px;
-	color: black;
-	text-decoration: none;
+  display: none;
+  position: fixed;
+  z-index: 10;
+  background-color: rgb(191, 191, 191);
+  border: solid black 2px;
+  border-radius: 10px;
+  padding: 3px;
+  text-align: center;
+  width: 140px;
+  right: 31px;
+  top: 60px;
+  font-weight: bold;
+  font-size: 15px;
+  color: black;
+  text-decoration: none;
 }
 
 a#backloby:hover {
-	background-color: green;
-	cursor: pointer;
+  background-color: green;
+  cursor: pointer;
 }
 
 #links {
-	display: none;
-	position: fixed;
-	top: 30%;
-	left: 40%;
-	width: 30%;
-	background-color: rgba(0, 6, 35, 0.5); 
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 40%;
+  width: 30%;
+  background-color: rgba(0, 6, 35, 0.5); 
 }
 
 #links p {
-	text-align: center;
-	font-weight: bold;
-	font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 #links a {
-	z-index: 10;
-	background-color: rgb(191, 191, 191);
-	border: solid black 2px;
-	border-radius: 10px;
-	padding: 3px;
-	text-align: center;
-	width: 45%;
-	font-weight: bold;
-	font-size: 15px;
-	color: black;
-	text-decoration: none;
-	margin: 8px;
+  z-index: 10;
+  background-color: rgb(191, 191, 191);
+  border: solid black 2px;
+  border-radius: 10px;
+  padding: 3px;
+  text-align: center;
+  width: 45%;
+  font-weight: bold;
+  font-size: 15px;
+  color: black;
+  text-decoration: none;
+  margin: 8px;
 }
 
 #links a:hover {
-	background-color: green;
-	cursor: pointer;
+  background-color: green;
+  cursor: pointer;
 }
 
 #boxes-container {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	justify-content: center;
-	align-content: space-arround;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-content: space-arround;
 }
 
 #reloadbox {
-	position: fixed;
-	z-index: 10;
-	background-color: rgb(191, 191, 191);
-	border: solid black 2px;
-	border-radius: 10px;
-	padding: 3px;
-	text-align: center;
-	width: 140px;
-	right: 31px;
-	top: 25px;
-	font-weight: bold;
-	font-size: 20px;
-	color: black;
+  position: fixed;
+  z-index: 10;
+  background-color: rgb(191, 191, 191);
+  border: solid black 2px;
+  border-radius: 10px;
+  padding: 3px;
+  text-align: center;
+  width: 140px;
+  right: 31px;
+  top: 25px;
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
 }
 
 #reloadbox:hover {
-	background-color: orange;
-	cursor: pointer;
+  background-color: orange;
+  cursor: pointer;
 }
