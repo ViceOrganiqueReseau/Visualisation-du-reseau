@@ -117,7 +117,7 @@ function onmove6 (e){
   if (node){
     var data = nodeToData(node);
     drawCanvasSec6();
-    drawText(data.Nom, data.x-14, data.y-8, 8);
+    drawText(getFullName(data), data.x-14, data.y-8, 8);
   } else {
     drawCanvasSec6();
   }
@@ -131,7 +131,7 @@ function onmove7 (e){
   if (node){
     var data = nodeToData(node);
     drawCanvasSec7();
-    drawText(data.Nom, data.x-14, data.y-8, 8)
+    drawText(getFullName(data), data.x-14, data.y-8, 8)
   } else {
     drawCanvasSec7();
   }
@@ -145,7 +145,7 @@ function onmove8 (e){
   if (node){
     var data = nodeToData(node);
     drawCanvasSec8();
-    drawText(data.Nom, data.x-14, data.y-8, 8);
+    drawText(getFullName(data), data.x-14, data.y-8, 8);
     // ce code devrait plutôt être dans drawCanvasSec8 à mon avis.
     if (idActlist.indexOf(data.ID)!==-1){
       // Afficher les liens d'actionnaires indirects
@@ -173,7 +173,7 @@ function onmove8 (e){
           ctx.globalAlpha = 1;
           ctx.fillStyle = "white"
           var indice = allIDToIndex[d.target.ID];
-          ctx.fillText(allActors[indice].Nom, allActors[indice].x-14, allActors[indice].y-8)
+          ctx.fillText(getFullName(allActors[indice]), allActors[indice].x-14, allActors[indice].y-8)
 
         }
       });

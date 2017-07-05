@@ -96,9 +96,17 @@ function numlinkradius (d){
   return coef*CONST.RADIUS;
 }
 
+function getFullName(x){
+  if (x["Nom2"]){
+    return x["Nom2"]
+  } else {
+    return x["Nom1"]
+  }
+}
 
 
-d3.csv("data/Noeud19juin.csv", function (data){
+
+d3.csv("data/Noeud4juillet.csv", function (data){
   // On récupère les données
   dataset=data;
   CONST.ALL_NODES = data.slice();
@@ -177,8 +185,8 @@ function initviz(){
   themelist = Object.keys(dataset[0]);
   themelist.splice(themelist.indexOf("ID"), 1);
   themelist.splice(themelist.indexOf("Lobby ID"), 1);
-  themelist.splice(themelist.indexOf("Nom"), 1);
-  themelist.splice(themelist.indexOf("Abréviation"), 1);
+  themelist.splice(themelist.indexOf("Nom2"), 1);
+  themelist.splice(themelist.indexOf("Nom1"), 1);
   themelist.splice(themelist.indexOf("Pays/Région"), 1);
   themelist.splice(themelist.indexOf("Type"), 1);
   themelist.splice(themelist.indexOf("Secteurs d’activité"), 1);
@@ -216,7 +224,7 @@ function initviz(){
   }
   if (lobyist){
     d3.select("#answers span.nom")
-      .text(lobyist["Nom"]);
+      .text(lobyist["Nom1"]);
     d3.select("#answers span.type")
       .text(lobyist["Type"]);
     d3.select("#answers span.secteur")

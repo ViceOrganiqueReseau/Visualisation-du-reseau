@@ -32,7 +32,15 @@ var tabnbloby;
 // Tableau référençant les thèmes : utile pour la transmission au réseau par URL
 var idToTheme;
 
-d3.csv("data/Noeud19juin.csv", function (data){
+function getFullName(x){
+  if (x["Nom2"]){
+    return x["Nom2"]
+  } else {
+    return x["Nom1"]
+  }
+}
+
+d3.csv("data/Noeud4juillet.csv", function (data){
   CONST.DATASET=data;
   datafiltre=CONST.DATASET.slice();
   alldatafiltre.push(datafiltre.slice());
@@ -50,8 +58,8 @@ d3.csv("data/Noeud19juin.csv", function (data){
   themelist = Object.keys(data[0]);
   themelist.splice(themelist.indexOf("ID"), 1);
   themelist.splice(themelist.indexOf("Lobby ID"), 1);
-  themelist.splice(themelist.indexOf("Nom"), 1);
-  themelist.splice(themelist.indexOf("Abréviation"), 1);
+  themelist.splice(themelist.indexOf("Nom2"), 1);
+  themelist.splice(themelist.indexOf("Nom1"), 1);
   themelist.splice(themelist.indexOf("Pays/Région"), 1);
   themelist.splice(themelist.indexOf("Type"), 1);
   themelist.splice(themelist.indexOf("Secteurs d’activité"), 1);

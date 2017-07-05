@@ -367,7 +367,7 @@ function loadNewData (){
         }
       }
       if (nbchoix>=6){
-        if (datafiltre[i]["Nom"]!==choices[5]){
+        if (datafiltre[i]["Nom1"]!==choices[5]){
           datafiltre[i]=0
         }
       }
@@ -446,7 +446,7 @@ function loadNewData (){
     Il vient de choisir son pays de prédilection. 
     On prop */
 
-    filterAndLoad("Pays/Région", choices[4], "Nom")
+    filterAndLoad("Pays/Région", choices[4], "Nom1")
     break;
 
   } 
@@ -507,12 +507,12 @@ function generateResult (){
   svg.append("text")
     .attr("class", "result abr")
     .attr("opacity", 0)
-    .text(datafiltre[0]["Abréviation"])
+    .text(datafiltre[0]["Nom1"])
 
   svg.append("text")
     .attr("class", "result nom")
     .attr("opacity", 0)
-    .text(datafiltre[0]["Nom"]);
+    .text(getFullName(datafiltre[0]));
 
   svg.append("text")
     .attr("class", "result secteur")
