@@ -145,7 +145,7 @@ function onmove8 (e){
   if (node){
     var data = nodeToData(node);
     drawCanvasSec8();
-    drawText(getFullName(data), data.x-14, data.y-8, 8);
+    drawText(data.Nom, data.x-14, data.y-8, 8);
     // ce code devrait plutôt être dans drawCanvasSec8 à mon avis.
     if (idActlist.indexOf(data.ID)!==-1){
       // Afficher les liens d'actionnaires indirects
