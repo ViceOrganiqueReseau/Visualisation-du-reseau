@@ -1,3 +1,7 @@
 *.zip
 *.txt
 .~lock.*
+
+# vim files 
+*.swp
+*.swo
