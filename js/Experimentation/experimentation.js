@@ -1,5 +1,4 @@
 'strict';
-
 var DEBUG = true;
 var simulation, stats;
 // tire aléatoirement un nombre entre `min` et `max`
@@ -9,6 +8,8 @@ var randPick = function(arr){ return arr[Math.round(rand(0, arr.length-1))]; };
 // retourne aléatoirement 1 ou -1
 var randSign = function(){ return Math.random()>0.5 ? 1:-1 };
 
+// on ajoute une classe de debug au contoles si nécessaire pour pouvoir cliquer dessus. 
+d3.select('.controls').classed('controls--debug', DEBUG);
 if(DEBUG){
   stats = new Stats();
   stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -18,19 +19,20 @@ if(DEBUG){
 var width = 960;
 var height = 500;
 
-// circle constants
+// circle varants
 var SHOW_CIRCLE_POINTS = false;
 var PHI = Math.PI * 4;
 var POINTS_PER_CIRCLE = 22;
 var CURVE =  d3.curveBasisClosed;    
 var RADIUS_JITTER = 0.12;
 
-// hull constants
+// hull varants
 var SHOW_HULL = true;
 var HULL_PADDING = 10;
+var HULL_DISTANCE = 200;
 var HULL_CURVE =  CURVE;
 
-// animations constants
+// animations varants
 var UPDATE_SIMULATION_INTERVAL = 500;
 var animations = {
   position: {
@@ -63,20 +65,6 @@ var radialLine = d3.radialLine()
 var hull = d3.concaveHull().padding(20).distance(200);
 var hullLine = d3.line()
   .curve(HULL_CURVE);
-
-
-var initControls = function(simulation){
-  this.simulation = simulation; 
-  this.onNextClicked = function(){
-    simulation.nextSection();
-  }
-
-  this.onPreviousClicked = function(){
-    simulation.previousSection();
-  }
-  d3.select('.control--next').on('click', this.onNextClicked.bind(this));
-  d3.select('.control--previous').on('click', this.onPreviousClicked.bind(this));
-};
 
 var circlePoints = function(radius, nbPoints){
     var stepAngle = PHI/nbPoints;
@@ -115,10 +103,11 @@ var reshapeCircle = function(circle, duration){
 };
 
 var moveCircle = (circle, duration)=>{
+  circle.animating = true;
   var offsetX = randSign() * circle.radius * 0.3;
   var offsetY = randSign() * circle.radius * 0.3;
 
-  var otherPosition = Object.assign({}, circle, {
+  var otherPosition = objectAssign({}, circle, {
     x: circle.x + offsetX,
     y: circle.y + offsetY
   });
@@ -127,7 +116,6 @@ var moveCircle = (circle, duration)=>{
   var revInterpolator = d3.interpolateObject(otherPosition, circle); 
 
   var timer = d3.timer(function(time){
-    circle.animating = true;
     var timeRatio = time/duration; 
     var _interpolator = timeRatio <= 0.5 ? interpolator : revInterpolator;
     var pos = _interpolator(timeRatio);
@@ -140,22 +128,6 @@ var moveCircle = (circle, duration)=>{
 
   });
 };
-// intervals, used to animate regularly the viz
-d3.interval(()=>(simulation.alpha(0.2)), UPDATE_SIMULATION_INTERVAL);
-d3.interval((time)=>{
-  var _circles = circles.filter((circle)=>!circle.reshaping);
-  if(_circles.length){
-    var circle = randPick(_circles);
-    reshapeCircle(circle, animations.shape.duration);
-  } 
-});
-d3.interval(function(time){
-  var _circles = circles.filter(function(circle){ return !circle.animating; });
-  if(_circles.length){
-    var circle = randPick(_circles);
-    moveCircle(circle, animations.position.duration);
-  } 
-}, animations.position.interval);
 
 
 var drawNodes = function(nodes){
@@ -173,16 +145,19 @@ var drawNodes = function(nodes){
 };
 
 var drawHull = function(nodes, padding){
-  const x = function(p){return Math.cos(p.angle) * (p.radius+padding);};
-  const y = function(p){return Math.sin(p.angle) * (p.radius+padding);};
+  var x = function(p){return Math.cos(p.angle) * (p.radius+padding);};
+  var y = function(p){return Math.sin(p.angle) * (p.radius+padding);};
 
-  const points = nodes.map(function(node){
-    const {x:cx, y:cy} = node;
-    return node.points.map((p)=>[ cx+x(p), cy+y(p) ]);
-  }).reduce((a,b)=>a.concat(b));
+  // map -> récupération des coordonnées absolue dans le canvas
+  var points = nodes.map(function(node){
+    var {x:cx, y:cy} = node;
+    return node.points.map(function(p){
+      return [ cx+x(p), cy+y(p) ];
+    });
+  }).reduce((a,b)=>a.concat(b)); // reduce -> permet d'aplatir le tableau
 
 
-  const path = hullLine(hull(points)[0]);
+  var path = hullLine(hull(points)[0]);
 
   context.beginPath();
   context.fillStyle = 'rgba(0,0,0,0)';
@@ -201,33 +176,77 @@ var drawHull = function(nodes, padding){
   }
 }
 var sections = [
-    { show processData: function(){}, forces: {}}
+    { showClusterMembrane: true, processData: function(){}, forces: {}},
 ];
+
 var configSimulation = function(data, sectionsConfig, drawNodes){
-  var simulation;
+  var _simulation;
   var currentSectionIndex = 0;
   var sections = sectionsConfig;  
-  var ticks = 0;
+  // var ticks = 0;
   var config = {};
- 
-  var currentSection = function(){
-    return sections[currentSectionIndex];
-  };
+
+  // met à jour régulièrement la simulation.
+  d3.interval(function(){
+    _simulation.alpha(0.2)
+  }, UPDATE_SIMULATION_INTERVAL);
 
   
+  var reshapeIntervalCallback = function(time){
+    var _circles = circles.filter((circle)=>!circle.reshaping);
+    if(_circles.length){
+      var circle = randPick(_circles);
+      reshapeCircle(circle, animations.shape.duration);
+    } 
+  };
+
+  var reshapeInterval = d3.interval( reshapeIntevalCallback, animations.shape.interval);
+
+  var moveIntervalCallback = function(time){
+    var _circles = circles.filter(function(circle){ return !circle.animating; });
+    if(_circles.length){
+      var circle = randPick(_circles);
+      moveCircle(circle, animations.position.duration);
+    } 
+  };
+  var moveInterval = d3.interval( moveIntervalCallback, animations.position.interval);
+
+
+  var startReshaping = function(){
+    reshapeInterval.restart(reshapeIntervalCallback, animations.shape.interval);
+  };
+
+  var stopReshaping = function(){
+    reshapeInterval.stop();
+  };
+
+  var getSectionAt = function(i){ return sections[i]; };
+
+  var getPreviousSection = function(){
+    return getSectionAt(previousSectionIndex);
+  }
+  var getCurrentSection = function(){
+    return getSectionAt(currentSectionIndex);
+  };
+
+  var setCurrentSection = function(i){
+    previousSectionIndex = currentSectionIndex;
+    currentSectionIndex = i;
+  };
+
   var previousSection = function(){
-    currentSectionIndex = currentSectionIndex > 0 ? (currentSectionIndex - 1) : currentSectionIndex;
+    setSection(currentSectionIndex > 0 ? (currentSectionIndex - 1) : currentSectionIndex);
     updateSimulation();
   };
 
   var nextSection = function(){
     currentSectionIndex = currentSectionIndex < sections.length - 1 ? (currentSectionIndex + 1) : currentSectionIndex;
     updateSimulation();
-  } 
-   
+  };
+
   var onTick = function(){
+    var currentSection = getCurrentSection();
     DEBUG && stats.begin();
-    ticks = ticks + 1;
     context.clearRect(0, 0, width, height);
     drawNodes(data);
     if(SHOW_HULL){
@@ -235,41 +254,54 @@ var configSimulation = function(data, sectionsConfig, drawNodes){
     }
     DEBUG && stats.end();
   };
-  
-  var simulation = d3.forceSimulation().on('tick', onTick);
-  
- 
+
+  _simulation = d3.forceSimulation().on('tick', onTick);
+
+
   var updateSimulation = function(){
     updateForces();
     updateData();
   };
 
   var updateForces = function(){
-    var currentSection = currentSection();
-    for(var i in currentSection.forces){
-      simulation.force(i, currentSection.forces[i]);
+    var section = getCurrentSection();
+    for(var i in section.forces){
+      simulation.force(i, section.forces[i]);
     }
   };
 
   var updateData = function(){
     // peut-être pas nécessaire. 
   }
+
   return {
+    alpha: function(a){ simulation.alpha(a) },
     simulation: simulation,
     nextSection: nextSection,
+    setCurrentSection: setCurrentSection, 
     previousSection: previousSection
   };
-
-
-
-  
-
 }
+
+var initControls = function(simulation){
+  this.simulation = simulation; 
+  this.onNextClicked = function(){
+    simulation.nextSection();
+  }
+
+  this.onPreviousClicked = function(){
+    simulation.previousSection();
+  }
+  d3.select('.control--next').on('click', this.onNextClicked.bind(this));
+  d3.select('.control--previous').on('click', this.onPreviousClicked.bind(this));
+};
+
+
 // first initialisation of circles
 circles.forEach(function(c){
   c.points = circlePoints(c.radius, POINTS_PER_CIRCLE);
 });
 
-simulation = configSimulation(circles, drawNodes);
+simulation = configSimulation(circles, sections, drawNodes);
 
 initControls(simulation);

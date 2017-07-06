@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <title>Questionnaire lobbyist</title>
     <link rel="stylesheet" href="css/Index/styles.css">
-    <link rel="stylesheet" type="text/css" href="css/Reseau/svgstyles.css">
     <style>
+    .controls.controls--debug {
+      margin-top: 50px;
+    }
     button.control {
       background: #bbb;
       color: white;
@@ -14,12 +16,17 @@
     </style>
   </head>
   <body>
-    <button class="control control--next">&gt;</button>
-    <button class="control control--previous">&lt</button>
-
-    <script type="text/javascript" src="js/d3js/d3.js"></script>
-    <script type="text/javascript" src="js/Experimentation/d3-concaveHull.js"></script>
+    <div class="controls">
+      <button class="control control--previous">&lt</button>
+      <button class="control control--next">&gt;</button>
+    </div>
+    <script type="text/javascript" src="js/vendor/object-assign.js"></script>
+    <script type="text/javascript" src="js/vendor/stats.min.js"></script>
+    <script type="text/javascript" src="js/vendor/d3.js"></script>
+    <script type="text/javascript" src="js/vendor/d3-concaveHull.js"></script>
+    <script type="text/javascript" src="js/vendor/d3-force-cluster.js"></script>
     <script type="text/javascript" src="js/Experimentation/experimentation.js"></script>
+    <script type="text/javascript" src="js/Experimentation/importdata.js"></script>
   </body>
 
 </html>
