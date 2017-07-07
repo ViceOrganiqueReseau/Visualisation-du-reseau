@@ -122,7 +122,9 @@ var moveCircle = (circle, duration)=>{
     circle.x = pos.x;
     circle.y = pos.y;
     if(timeRatio > 1.0){
-      circle.animating = false;
+      olor = d3.scaleSequential(d3.interpolateRainbow)
+            .domain(d3.range(m));
+      rcle.animating = false;
       timer.stop();
     }
 
@@ -175,9 +177,6 @@ var drawHull = function(nodes, padding){
     });
   }
 }
-var sections = [
-    { showClusterMembrane: true, processData: function(){}, forces: {}},
-];
 
 var configSimulation = function(data, sectionsConfig, drawNodes){
   var _simulation;
@@ -283,25 +282,5 @@ var configSimulation = function(data, sectionsConfig, drawNodes){
   };
 }
 
-var initControls = function(simulation){
-  this.simulation = simulation; 
-  this.onNextClicked = function(){
-    simulation.nextSection();
-  }
-
-  this.onPreviousClicked = function(){
-    simulation.previousSection();
-  }
-  d3.select('.control--next').on('click', this.onNextClicked.bind(this));
-  d3.select('.control--previous').on('click', this.onPreviousClicked.bind(this));
-};
 
 
-// first initialisation of circles
-circles.forEach(function(c){
-  c.points = circlePoints(c.radius, POINTS_PER_CIRCLE);
-});
-
-simulation = configSimulation(circles, sections, drawNodes);
-
-initControls(simulation);

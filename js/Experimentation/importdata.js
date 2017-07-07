@@ -74,7 +74,7 @@ var processData = function(files){
   // filtrage par theme des lobbies 
   var lobbyNodes = filterNodesByTheme(lobbyNodes, theme);
   // filtrage des liens d'affiliation & propriétés pertinents
-  vatexr affiliationLinks = filterLinksByNodes(files[4], lobbyNodes);
+  var affiliationLinks = filterLinksByNodes(files[4], lobbyNodes);
   var directProprietaryLinks = filterLinksByNodes(files[2], lobbyNodes);
   // filtrage des liens & noeuds de propriétés indirect
   var indirectProprietaryLinks = filterLinksByTargets(files[3], lobbyNodes);
@@ -97,10 +97,19 @@ var processData = function(files){
   };
 
   data = filterDataByTheme(data, theme);
+  
+  // nous configurons les sections 
+  // voir Experimentation/sections.js
+  var sections = configureSections(data);
 
-  var sections = configureSection(data);
+
+  // nous initialisons la simulation;
   // voir Experimentation/experimentation.js
-  initSimulation(data, sections);
+  var simulation = initSimulation(data, sections);
+
+  // enfin nous initialisons les controles de la simulation.
+  // voir Experimentation/controls.js
+  var controls = initControls(simulation);
 }
 
 var importData = function(){
