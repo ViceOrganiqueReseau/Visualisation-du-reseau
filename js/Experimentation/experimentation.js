@@ -19,7 +19,7 @@ if(DEBUG){
 var width = 960;
 var height = 500;
 
-// circle varants
+// node varants
 var SHOW_CIRCLE_POINTS = false;
 var PHI = Math.PI * 4;
 var POINTS_PER_CIRCLE = 22;
@@ -44,16 +44,10 @@ var animations = {
     duration: 1000
   }
 };
-var circles = [
-{ animating: false, x: 340, y: 150, radius: 23, color: 'cyan' },
-{ animating: false, x: 540, y: 127, radius: 106, color: 'red' },
-{ animating: false, x: 200, y: 200, radius: 76, color: 'blue' },
-{ animating: false, x: 403, y: 370, radius: 80, color: 'green' },
-];
 
 var canvas = d3.select("body").append("canvas")
-.attr("width", width)
-.attr("height", height);
+  .attr("width", width)
+  .attr("height", height);
 
 var context = canvas.node().getContext('2d');
 
@@ -66,7 +60,7 @@ var hull = d3.concaveHull().padding(20).distance(200);
 var hullLine = d3.line()
   .curve(HULL_CURVE);
 
-var circlePoints = function(radius, nbPoints){
+  var nodePoints = function(radius, nbPoints){
     var stepAngle = PHI/nbPoints;
     var points = [];
     for(var i=0; i<nbPoints; i++){
@@ -85,46 +79,44 @@ var circlePoints = function(radius, nbPoints){
     return points;
   };
 
-var reshapeCircle = function(circle, duration){
-  circle.reshaping = true;
-  var oldPoints = circle.points;
-  var newPoints = circlePoints(circle.radius, oldPoints.length);
+var reshapeNode = function(node, duration){
+  node.reshaping = true;
+  var oldPoints = node.points;
+  var newPoints = nodePoints(circle.radius, oldPoints.length);
   var interpolator = d3.interpolateArray(oldPoints,newPoints);
   var timer = d3.timer((time)=>{
     var timeRatio = time/duration;
     var points = interpolator(timeRatio);
     // console.log(points);
-    circle.points = points;
+    node.points = points;
     if(timeRatio > 1.0){
       timer.stop();
-      circle.reshaping = false;
+      node.reshaping = false;
     }
   })
 };
 
-var moveCircle = (circle, duration)=>{
-  circle.animating = true;
-  var offsetX = randSign() * circle.radius * 0.3;
-  var offsetY = randSign() * circle.radius * 0.3;
+var moveNode = (node, duration)=>{
+  node.moving = true;
+  var offsetX = randSign() * node.radius * 0.3;
+  var offsetY = randSign() * node.radius * 0.3;
 
-  var otherPosition = objectAssign({}, circle, {
-    x: circle.x + offsetX,
-    y: circle.y + offsetY
+  var otherPosition = objectAssign({}, node, {
+    x: node.x + offsetX,
+    y: node.y + offsetY
   });
 
-  var interpolator = d3.interpolateObject(circle, otherPosition);
-  var revInterpolator = d3.interpolateObject(otherPosition, circle); 
+  var interpolator = d3.interpolateObject(node, otherPosition);
+  var revInterpolator = d3.interpolateObject(otherPosition, node); 
 
   var timer = d3.timer(function(time){
     var timeRatio = time/duration; 
     var _interpolator = timeRatio <= 0.5 ? interpolator : revInterpolator;
     var pos = _interpolator(timeRatio);
-    circle.x = pos.x;
-    circle.y = pos.y;
+    node.x = pos.x;
+    node.y = pos.y;
     if(timeRatio > 1.0){
-      olor = d3.scaleSequential(d3.interpolateRainbow)
-            .domain(d3.range(m));
-      rcle.animating = false;
+      node.moving = false;
       timer.stop();
     }
 
@@ -146,42 +138,62 @@ var drawNodes = function(nodes){
   });  
 };
 
-var drawHull = function(nodes, padding){
+var drawMembranes = function(section, padding){
   var x = function(p){return Math.cos(p.angle) * (p.radius+padding);};
   var y = function(p){return Math.sin(p.angle) * (p.radius+padding);};
 
-  // map -> récupération des coordonnées absolue dans le canvas
-  var points = nodes.map(function(node){
-    var {x:cx, y:cy} = node;
-    return node.points.map(function(p){
-      return [ cx+x(p), cy+y(p) ];
-    });
-  }).reduce((a,b)=>a.concat(b)); // reduce -> permet d'aplatir le tableau
+  sections.clusters.forEach(function(cluster){
+    var nodes = cluster.nodes;
+
+    // map -> récupération des coordonnées absolue dans le canvas
+    var points = nodes.map(function(node){
+      var {x:cx, y:cy} = node;
+      return node.points.map(function(p){
+        return [ cx+x(p), cy+y(p) ];
+      });
+    }).reduce((a,b)=>a.concat(b)); // reduce -> permet d'aplatir le tableau
 
 
-  var path = hullLine(hull(points)[0]);
+    var path = hullLine(hull(points)[0]);
 
-  context.beginPath();
-  context.fillStyle = 'rgba(0,0,0,0)';
-  context.strokeStyle = '#bbb';
-  context.stroke(new Path2D(path));
-  context.closePath();
+    context.beginPath();
+    context.fillStyle = 'rgba(0,0,0,0)';
+    context.strokeStyle = '#bbb';
+    context.stroke(new Path2D(path));
+    context.closePath();
+  });
+};
 
-  if(SHOW_CIRCLE_POINTS){
-    points.forEach((point)=>{
-      context.beginPath();
-      context.fillStyle = '#bbb';
-      context.arc(point[0], point[1], 2,0, Math.PI*2);
-      context.fill();
-      context.closePath();
-    });
-  }
+var drawLinks = function(links){
 }
 
-var configSimulation = function(data, sectionsConfig, drawNodes){
-  var _simulation;
+var draw = function(currentSection, previousSection){
+  var sectionChanged = !previousSection || (previousSection && (currentSection.id != previousSection.id));
+  var shouldHideMembrane = !currentSection.showClustersMembrane; 
+  var shouldShowMembrane = !shouldHideMembrane;
+  var shouldUseTransition = currentSection.showClustersMembrane != (previousSection||{}).showClustersMembrane;
+
+  if(currentSection.id != previousSection){}
+
+  drawNodes(currentSection.nodes);
+
+  if(currentSection.links){
+    drawLinks(currentSection.links);
+  }
+
+  if(shouldShowMembrane){
+    drawMembranes(currentSection);
+  }
+};
+
+var configureSimulation = function(data, sectionsConfig){
+  var _simulation, reshapeInterval;
   var currentSectionIndex = 0;
-  var sections = sectionsConfig;  
+  var previousSectionIndex;
+  var sections = sectionsConfig;
+  var animationStatus = {
+    isReshapingNodes: false
+  };
   // var ticks = 0;
   var config = {};
 
@@ -190,38 +202,45 @@ var configSimulation = function(data, sectionsConfig, drawNodes){
     _simulation.alpha(0.2)
   }, UPDATE_SIMULATION_INTERVAL);
 
-  
+
   var reshapeIntervalCallback = function(time){
-    var _circles = circles.filter((circle)=>!circle.reshaping);
-    if(_circles.length){
-      var circle = randPick(_circles);
-      reshapeCircle(circle, animations.shape.duration);
+    var _nodes = nodes.filter((circle)=>!circle.reshaping);
+    if(_nodes.length){
+      var node = randPick(_nodes);
+      reshapeNode(node, animations.shape.duration);
     } 
   };
 
-  var reshapeInterval = d3.interval( reshapeIntevalCallback, animations.shape.interval);
-
   var moveIntervalCallback = function(time){
-    var _circles = circles.filter(function(circle){ return !circle.animating; });
-    if(_circles.length){
-      var circle = randPick(_circles);
-      moveCircle(circle, animations.position.duration);
+    var _nodes = nodes.filter(function(circle){ return !circle.animating; });
+    if(_nodes.length){
+      var node = randPick(_nodes);
+      moveNode(node, animations.position.duration);
     } 
   };
   var moveInterval = d3.interval( moveIntervalCallback, animations.position.interval);
 
 
   var startReshaping = function(){
-    reshapeInterval.restart(reshapeIntervalCallback, animations.shape.interval);
+    animationStatus.isReshapingNodes = true;
+    if(!reshapeInterval){
+      d3.interval( reshapeIntervalCallback, animations.shape.interval);
+    } else {
+      reshapeInterval.restart(reshapeIntervalCallback, animations.shape.interval);
+    }
   };
 
   var stopReshaping = function(){
     reshapeInterval.stop();
+    animationStatus.isReshapingNodes = false;
   };
 
-  var getSectionAt = function(i){ return sections[i]; };
+  var getSectionAt = function(i){
+    return sections[i];
+  };
 
   var getPreviousSection = function(){
+    if(!previousSectionIndex){ return null; }
     return getSectionAt(previousSectionIndex);
   }
   var getCurrentSection = function(){
@@ -244,13 +263,18 @@ var configSimulation = function(data, sectionsConfig, drawNodes){
   };
 
   var onTick = function(){
+    var previousSection = getPreviousSection();
     var currentSection = getCurrentSection();
+
+    // montre les FPS si nous somme en DEBUG.
     DEBUG && stats.begin();
+
+    // vide le canvas.
     context.clearRect(0, 0, width, height);
-    drawNodes(data);
-    if(SHOW_HULL){
-      drawHull(data, HULL_PADDING);
-    }
+
+    draw(currentSection, previousSection);
+
+    // nécessaire pour la capture des FPS en DEBUG.
     DEBUG && stats.end();
   };
 
@@ -258,19 +282,34 @@ var configSimulation = function(data, sectionsConfig, drawNodes){
 
 
   var updateSimulation = function(){
-    updateForces();
     updateData();
+    updateAnimations();
+    updateForces();
+  };
+
+  var updateAnimations = function(){
+    var section = getCurrentSection();
+    if(section.showClusterMembrane){
+      if(animationsStatus.isReshapingNodes){
+        stopReshaping();
+      }
+    } else {
+      if(!animationStatus.isReshapingNodes){
+        startReshaping();
+      }
+    }
   };
 
   var updateForces = function(){
     var section = getCurrentSection();
     for(var i in section.forces){
-      simulation.force(i, section.forces[i]);
+      _simulation.force(i, section.forces[i]);
     }
   };
 
   var updateData = function(){
-    // peut-être pas nécessaire. 
+    var section = getCurrentSection();
+    _simulation.nodes(section.updateNodes());
   }
 
   return {
@@ -278,7 +317,8 @@ var configSimulation = function(data, sectionsConfig, drawNodes){
     simulation: simulation,
     nextSection: nextSection,
     setCurrentSection: setCurrentSection, 
-    previousSection: previousSection
+    previousSection: previousSection,
+    start: updateSimulation
   };
 }
 

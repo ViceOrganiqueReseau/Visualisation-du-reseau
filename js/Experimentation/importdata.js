@@ -72,7 +72,7 @@ var filterNodesByLinkSource = function(nodes, links){
 var processData = function(files){
   var theme = getTheme();
   // filtrage par theme des lobbies 
-  var lobbyNodes = filterNodesByTheme(lobbyNodes, theme);
+  var lobbyNodes = filterNodesByTheme(files[0], theme);
   // filtrage des liens d'affiliation & propriétés pertinents
   var affiliationLinks = filterLinksByNodes(files[4], lobbyNodes);
   var directProprietaryLinks = filterLinksByNodes(files[2], lobbyNodes);
@@ -82,22 +82,40 @@ var processData = function(files){
 
   // assignation des types de noeuds & liens 
   lobbyNodes = setType(lobbyNodes, TYPES.NODE.LOBBY);
-  affiliationLinks = setType(affilationLinks, TYPES.LINK.AFFILIATION);
+  affiliationLinks = setType(affiliationLinks, TYPES.LINK.AFFILIATION);
   directProprietaryLinks = setType(directProprietaryLinks, TYPES.LINK.PROPRIETARY.DIRECT);
   indirectProprietaryLinks = setType(indirectProprietaryLinks, TYPES.LINK.PROPRIETARY.INDIRECT);
   proprietaryNodes = setType(proprietaryNodes, TYPES.NODE.PROPRIETARY);
-
-  var data = {
-    nodes: flattenArray([lobbyNodes, proprietaryNodes]),
-    links: flattenArray([
+  var allNodes = flattenArray([lobbyNodes, proprietaryNodes]); 
+  var allLinks = flattenArray([
       directProprietaryLinks,
       indirectProprietaryLinks,
       affiliationLinks
-    ])
+  ]);
+  var data = {
+    theme: getTheme(),
+    nodes: allNodes, 
+    links: allLinks,
+    // fonctions utilitaires pour filtrer les données.
+    utils: {
+      nodes: {
+        all: function(){ return allNodes; },
+        lobbies: function(){ return allNodes.filter(function(d){ return d.type == TYPES.NODE.LOBBY; })}
+      },
+      links: {
+        all: function(){ return allLinks; },
+        affiliations: function(){
+          return allLinks.filter(function(link){ return link.type === TYPES.LINK.AFFILIATION });
+        },
+        affiliationsAndDirect: function(){
+          return allLinks.filter(function(link){
+            return [ TYPES.LINK.AFFILIATION, TYPES.LINK.PROPRIETY.DIRECT ].indexOf(link.type) > 0;
+          });
+        }
+      }
+    }
   };
 
-  data = filterDataByTheme(data, theme);
-  
   // nous configurons les sections 
   // voir Experimentation/sections.js
   var sections = configureSections(data);
@@ -105,11 +123,15 @@ var processData = function(files){
 
   // nous initialisons la simulation;
   // voir Experimentation/experimentation.js
-  var simulation = initSimulation(data, sections);
+  var simulation = configureSimulation(data, sections);
 
   // enfin nous initialisons les controles de la simulation.
   // voir Experimentation/controls.js
   var controls = initControls(simulation);
+
+  // nous démarrons ensuite la simulation
+  simulation.start();
+  console.log("OK");
 }
 
 var importData = function(){
@@ -128,3 +150,5 @@ var importData = function(){
     processData(files);
   });
 }
+
+importData();
