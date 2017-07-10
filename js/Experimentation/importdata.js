@@ -1,3 +1,5 @@
+var CIRCLES_RADIUS_RANGE = [0, 30];
+var SPENDING_KEY = 'Dépenses Lobby (€)';
 var TYPES = {
   NODE: {
     LOBBY: 'node/lobby',
@@ -30,7 +32,7 @@ var flattenArray = function(arrays){
   return arrays.reduce(function(a,b){ return a.concat(b); });
 }
 
-var getTheme = function(){
+var getSelectedTheme = function(){
   // TODO: remplacer avec le vrai choix du thème.
   return 'Efficacité énergétique';
 }
@@ -38,7 +40,8 @@ var getTheme = function(){
 // ne retourne que les nodes ayant une position sur le thème donné
 var filterNodesByTheme = function(nodes, theme){
   return nodes.filter(function(node){
-    return node[theme] != null;
+    var position = node[theme];
+    return position != null && position != '';
   });
 };
 
@@ -70,7 +73,7 @@ var filterNodesByLinkSource = function(nodes, links){
 };
 
 var processData = function(files){
-  var theme = getTheme();
+  var theme = getSelectedTheme();
   // filtrage par theme des lobbies 
   var lobbyNodes = filterNodesByTheme(files[0], theme);
   // filtrage des liens d'affiliation & propriétés pertinents
@@ -79,6 +82,14 @@ var processData = function(files){
   // filtrage des liens & noeuds de propriétés indirect
   var indirectProprietaryLinks = filterLinksByTargets(files[3], lobbyNodes);
   var proprietaryNodes = filterNodesByLinkSource(files[1], indirectProprietaryLinks);
+  
+  var spendingDomain = d3.extent(lobbyNodes, function(d){ return parseInt(d[SPENDING_KEY]); });
+  var spendingScale = d3.scaleLog().domain(spendingDomain).range(CIRCLES_RADIUS_RANGE);
+  // on calcul, pour chaque noeuds, le radius du cercle de base
+  lobbyNodes.forEach(function(node){
+    node.radius = spendingScale(parseInt(node[SPENDING_KEY]));
+    node.points = circlePoints(node.radius);
+  });
 
   // assignation des types de noeuds & liens 
   lobbyNodes = setType(lobbyNodes, TYPES.NODE.LOBBY);
@@ -93,7 +104,7 @@ var processData = function(files){
       affiliationLinks
   ]);
   var data = {
-    theme: getTheme(),
+    theme: getSelectedTheme(),
     nodes: allNodes, 
     links: allLinks,
     // fonctions utilitaires pour filtrer les données.
