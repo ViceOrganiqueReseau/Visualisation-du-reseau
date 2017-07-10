@@ -1,9 +1,7 @@
-var COLLIDE_PADDING = 10;
-var initClusterForce = function(clusters){
-};
-
+var COLLIDE_PADDING = 2;
+var PACK_PADDING = 15;
 var getSize = function(){
-  var $canvas = d3.select('canvas').node();
+  var $canvas = d3.select('canvas.experimentation').node();
   return [ $canvas.width, $canvas.height ];
 }
 
@@ -11,28 +9,52 @@ var firstSection = function(data){
   var filteredData = { nodes: data.utils.nodes.lobbies() };
  // assignation des clusters sur les nodes.
   // configuration de la section à proprement parler.
+  var canvasSize = getSize();
+  var pack = d3.pack()
+    .padding(PACK_PADDING)
+    .radius(function(node){ return node.value; })
+    .size(canvasSize);
   
-  var clusterForce = d3.forceCluster().centers(function(d){return d.cluster; });
-  var collideForce = d3.forceCollide().radius(function(d){ return d.radius + COLLIDE_PADDING; });
+  var collideForce = d3.forceCollide().radius(function(d){ return (d.radius||d.value||0) + COLLIDE_PADDING; });
   // cluster par position sur le theme choisi (support vs oppose)
   var nest = d3.nest().key(function(d){ return d[data.theme]; }); 
-
+  
   var updateNodes = function(){
+    console.log('updateNodes');
+    var self = this;
+    this.clusters = {};
     var nested = nest.entries(this.data.nodes);
-    var hierarchy = d3.hierarchy({ values: nested});
-    var pack = d3.pack(hierarchy).size(getSize());
+    var hierarchy = d3.hierarchy({ values: nested}, function(d){ return d.values; })
+        .sum(function(node){ return node.radius; });
+    
+    var packedHierarchy = pack(hierarchy);
     // utile pour tracer les clusters par la suite.
-    this.clusters = pack;
-    return hierarchy.leaves();
+    hierarchy.children.forEach(function(c){
+      self.clusters[c.data.key] = {
+        key: c.data.key+'',
+        x: 0+c.x,
+        y: 0+c.y,
+        children: c.children
+      };
+    });
+    var leaves = hierarchy.leaves();
+    leaves.forEach(function(l){ l.radius = l.value; });
+    this.data.nodes = leaves;
+    this.forces.cluster = d3.forceCluster().centers(function(d){ 
+      var cluster = self.clusters[d.parent.data.key];
+      return cluster;
+    });
+    this.forces.cluster.initialize(leaves);
+    return leaves;
   };
 
   return {
     data: filteredData,
     updateNodes: updateNodes, 
-    showClustersMembrane: false,
+    showClustersMembrane: true,
     showLinks: false,
     forces:{
-      cluster: clusterForce,
+      cluster: null, // clusterForce,
       collide: collideForce
     }
   };

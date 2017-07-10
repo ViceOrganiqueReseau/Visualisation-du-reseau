@@ -22,7 +22,7 @@ var height = 500;
 // node constants
 var SHOW_CIRCLE_POINTS = false;
 var PHI = Math.PI * 4;
-var POINTS_PER_CIRCLE = 22;
+var POINTS_PER_CIRCLE = 20;
 var CURVE =  d3.curveBasisClosed;    
 var RADIUS_JITTER = 0.12;
 
@@ -30,13 +30,18 @@ var RADIUS_JITTER = 0.12;
 var SHOW_HULL = true;
 var HULL_PADDING = 10;
 var HULL_DISTANCE = 200;
-var HULL_CURVE =  CURVE;
+var HULL_CURVE =  d3.curveBasisClosed;
+
+var COLORS = {
+  SUPPORT: 'rgba(0, 255, 0, 1)',
+  OPPOSE: 'rgba(255, 0, 0, 1)'
+};
 
 // animations constants
 var UPDATE_SIMULATION_INTERVAL = 500;
 var animations = {
   position: {
-    interval: 350,
+    interval: 50,
     duration: 2000
   },
   shape: {
@@ -46,6 +51,7 @@ var animations = {
 };
 
 var canvas = d3.select("body").append("canvas")
+  .classed('experimentation', true)
   .attr("width", width)
   .attr("height", height);
 
@@ -56,21 +62,23 @@ var radialLine = d3.radialLine()
   .radius(function(d){ return d.radius; })
   .curve(CURVE);
 
-var hull = d3.concaveHull().padding(20).distance(200);
+var hull = d3.concaveHull().padding(HULL_PADDING).distance(1000);
+
+// var hull = function(vertices){ return d3.polygonHull(vertices); };
 var hullLine = d3.line()
   .curve(HULL_CURVE);
 
-var circlePoints = function(radius, nbPoints){
-  var stepAngle = PHI/nbPoints;
+var circlePoints = function(radius){
+  var stepAngle = PHI/POINTS_PER_CIRCLE;
   var points = [];
-  for(var i=0; i<nbPoints; i++){
-    var jitterAngle = randSign()*(Math.random()/nbPoints);
+  for(var i=0; i<POINTS_PER_CIRCLE; i++){
+    var jitterAngle = randSign()*(Math.random()/POINTS_PER_CIRCLE);
     var angle = stepAngle*i;
 
     sign = Math.round(Math.random()) == 0 ? 1 : -1;
     var jitterRadius = sign * Math.round(
-        (radius*RADIUS_JITTER)*(Math.random())
-        );
+      (radius*RADIUS_JITTER)*(Math.random())
+    );
     points.push({
       angle: angle,
       radius: radius + jitterRadius,
@@ -81,8 +89,8 @@ var circlePoints = function(radius, nbPoints){
 
 var reshapeNode = function(node, duration){
   node.reshaping = true;
-  var oldPoints = node.points;
-  var newPoints = circlePoints(node.radius, oldPoints.length);
+  var oldPoints = node.data.points;
+  var newPoints = circlePoints(node.value, oldPoints.length);
   var interpolator = d3.interpolateArray(oldPoints,newPoints);
   var timer = d3.timer((time)=>{
     var timeRatio = time/duration;
@@ -97,6 +105,7 @@ var reshapeNode = function(node, duration){
 };
 
 var moveNode = (node, duration)=>{
+  console.log('moveNode');
   node.moving = true;
   var offsetX = randSign() * node.radius * 0.3;
   var offsetY = randSign() * node.radius * 0.3;
@@ -106,15 +115,18 @@ var moveNode = (node, duration)=>{
     y: node.y + offsetY
   });
 
-  var interpolator = d3.interpolateObject(node, otherPosition);
-  var revInterpolator = d3.interpolateObject(otherPosition, node); 
+  var interpolateX = d3.interpolateNumber(node.x, otherPosition.x);
+  var interpolateY = d3.interpolateNumber(node.y, otherPosition.y);
+
+  var revInterpolateX = d3.interpolateNumber(otherPosition.x, node.x); 
+  var revInterpolateY = d3.interpolateNumber(otherPosition.y, node.y); 
 
   var timer = d3.timer(function(time){
     var timeRatio = time/duration; 
-    var _interpolator = timeRatio <= 0.5 ? interpolator : revInterpolator;
-    var pos = _interpolator(timeRatio);
-    node.x = pos.x;
-    node.y = pos.y;
+    var _interpolatorX = timeRatio <= 0.5 ? interpolateX : revInterpolateX;
+    var _interpolatorY = timeRatio <= 0.5 ? interpolateY : revInterpolateY;
+    node.x = _interpolatorX(timeRatio);
+    node.y = _interpolatorY(timeRatio);
     if(timeRatio > 1.0){
       node.moving = false;
       timer.stop();
@@ -126,14 +138,12 @@ var moveNode = (node, duration)=>{
 
 var drawNodes = function(nodes){
   nodes.forEach(function(node){
-    if(!node.points){
-      node.points = circlePoints(node.radius, POINTS_PER_CIRCLE);
-    }
     context.translate(node.x, node.y);
     context.beginPath();
 
-    var path = radialLine(node.points);
-    context.fillStyle = node.color;
+    var path = radialLine(node.data.points);
+    var nodeColor = COLORS[node.parent.data.key];
+    context.fillStyle = nodeColor;
     context.fill(new Path2D(path));
     context.closePath();
     context.translate(-node.x, -node.y);
@@ -141,30 +151,28 @@ var drawNodes = function(nodes){
   });  
 };
 
-var drawMembranes = function(section, padding){
-  var x = function(p){return Math.cos(p.angle) * (p.radius+padding);};
-  var y = function(p){return Math.sin(p.angle) * (p.radius+padding);};
-
-  sections.clusters.forEach(function(cluster){
-    var nodes = cluster.nodes;
-
+var drawMembranes = function(section){
+  var x = function(p){ return Math.cos(p.angle) * ((p.radius||0)+HULL_PADDING); };
+  var y = function(p){ return Math.sin(p.angle) * ((p.radius||0)+HULL_PADDING); };
+  for(var i in section.clusters){
+    var cluster = section.clusters[i];
+    var nodes = cluster.children;
     // map -> récupération des coordonnées absolue dans le canvas
     var points = nodes.map(function(node){
-      var {x:cx, y:cy} = node;
-      return node.points.map(function(p){
+      var cx = node.x, cy = node.y;
+      return node.data.points.map(function(p){
         return [ cx+x(p), cy+y(p) ];
       });
     }).reduce((a,b)=>a.concat(b)); // reduce -> permet d'aplatir le tableau
-
-
-    var path = hullLine(hull(points)[0]);
+    var membraneColor = COLORS[cluster.key];
+    var h = hull(points)[0];
+    var path = hullLine(h);
 
     context.beginPath();
-    context.fillStyle = 'rgba(0,0,0,0)';
-    context.strokeStyle = '#bbb';
-    context.stroke(new Path2D(path));
+    context.fillStyle = membraneColor; 
+    context.fill(new Path2D(path));
     context.closePath();
-  });
+  }
 };
 
 var drawLinks = function(links){
@@ -173,13 +181,15 @@ var drawLinks = function(links){
 var draw = function(currentSection, previousSection){
   var sectionChanged = !previousSection || (previousSection && (currentSection.id != previousSection.id));
   var shouldHideMembrane = !currentSection.showClustersMembrane; 
-  var shouldShowMembrane = !shouldHideMembrane;
+  var shouldShowMembrane = currentSection.showClustersMembrane;
   var shouldUseTransition = currentSection.showClustersMembrane != (previousSection||{}).showClustersMembrane;
 
   if(currentSection.id != previousSection){}
 
-  drawNodes(currentSection.data.nodes);
-
+  // if(!shouldShowMembrane){
+  var nodes = currentSection.data.nodes;
+  drawNodes(nodes);
+  // }
   if(currentSection.links){
     drawLinks(currentSection.links);
   }
@@ -214,7 +224,6 @@ var configureSimulation = function(data, sectionsConfig){
       reshapeNode(node, animations.shape.duration);
     } 
   };
-
   var moveIntervalCallback = function(time){
     var section = getCurrentSection();
     var _nodes = section.data.nodes.filter(function(circle){ return !circle.animating; });
@@ -224,7 +233,6 @@ var configureSimulation = function(data, sectionsConfig){
     } 
   };
   var moveInterval = d3.interval( moveIntervalCallback, animations.position.interval);
-
 
   var startReshaping = function(){
     animationStatus.isReshapingNodes = true;
@@ -283,13 +291,14 @@ var configureSimulation = function(data, sectionsConfig){
     DEBUG && stats.end();
   };
 
-  _simulation = d3.forceSimulation().on('tick', onTick);
+  _simulation = d3.forceSimulation().on('tick', onTick).stop();
 
 
   var updateSimulation = function(){
-    updateData();
+    updateSectionData();
     updateAnimations();
     updateForces();
+    updateSimulationData();
   };
 
   var updateAnimations = function(){
@@ -308,14 +317,20 @@ var configureSimulation = function(data, sectionsConfig){
   var updateForces = function(){
     var section = getCurrentSection();
     for(var i in section.forces){
+      console.log('set force', i);
       _simulation.force(i, section.forces[i]);
     }
   };
 
-  var updateData = function(){
+  var updateSectionData = function(){
     var section = getCurrentSection();
-    _simulation.nodes(section.updateNodes());
-  }
+    section.updateNodes();
+  };
+
+  var updateSimulationData = function(){
+    _simulation.nodes(getCurrentSection().data.nodes);
+    _simulation.restart();
+  };
 
   return {
     alpha: function(a){ simulation.alpha(a) },
