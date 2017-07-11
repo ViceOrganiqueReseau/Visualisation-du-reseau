@@ -16,8 +16,8 @@ if(DEBUG){
   document.body.appendChild( stats.dom );
 }
 
-var width = 960;
-var height = 500;
+var width = 1800;
+var height = 1200;
 
 // node constants
 var SHOW_CIRCLE_POINTS = false;
@@ -62,9 +62,9 @@ var radialLine = d3.radialLine()
   .radius(function(d){ return d.radius; })
   .curve(CURVE);
 
-var hull = d3.concaveHull().padding(HULL_PADDING).distance(1000);
+// var hull = d3.concaveHull().padding(HULL_PADDING).distance(1000);
 
-// var hull = function(vertices){ return d3.polygonHull(vertices); };
+var hull = function(vertices){ return d3.polygonHull(vertices); };
 var hullLine = d3.line()
   .curve(HULL_CURVE);
 
@@ -95,7 +95,6 @@ var reshapeNode = function(node, duration){
   var timer = d3.timer((time)=>{
     var timeRatio = time/duration;
     var points = interpolator(timeRatio);
-    // console.log(points);
     node.points = points;
     if(timeRatio > 1.0){
       timer.stop();
@@ -105,7 +104,6 @@ var reshapeNode = function(node, duration){
 };
 
 var moveNode = (node, duration)=>{
-  console.log('moveNode');
   node.moving = true;
   var offsetX = randSign() * node.radius * 0.3;
   var offsetY = randSign() * node.radius * 0.3;
@@ -154,8 +152,9 @@ var drawNodes = function(nodes){
 var drawMembranes = function(section){
   var x = function(p){ return Math.cos(p.angle) * ((p.radius||0)+HULL_PADDING); };
   var y = function(p){ return Math.sin(p.angle) * ((p.radius||0)+HULL_PADDING); };
-  for(var i in section.clusters){
-    var cluster = section.clusters[i];
+  var clusters = section.clusters;
+  for(var i in clusters){
+    var cluster = clusters[i];
     var nodes = cluster.children;
     // map -> récupération des coordonnées absolue dans le canvas
     var points = nodes.map(function(node){
@@ -165,9 +164,15 @@ var drawMembranes = function(section){
       });
     }).reduce((a,b)=>a.concat(b)); // reduce -> permet d'aplatir le tableau
     var membraneColor = COLORS[cluster.key];
-    var h = hull(points)[0];
+    var h = hull(points);
     var path = hullLine(h);
-
+    /*
+    var previousPath = cluster.path;
+    if(previousPath){
+      var interpolator = d3.interpolatePath(previousPath, path);
+      path = interpolator(0.7);
+    }*/
+    cluster.path = path; 
     context.beginPath();
     context.fillStyle = membraneColor; 
     context.fill(new Path2D(path));
