@@ -85,6 +85,7 @@ var secondSection = function(data){
       .sum(function(node){ return node.radius; }); 
     var pack = packLayout.size(getSize());
     var packed = pack(hierarchy);
+    debugger;
     this.data.nodes = hierarchy.leaves();
     hierarchy.children.forEach(function(c){
       c.children.forEach(function(d){

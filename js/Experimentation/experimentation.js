@@ -1,3 +1,27 @@
+/**
+ * Actuellement la mise à jour de la position d'une node de façon fluide est 
+ * impossible lors d'une transition. Pour qu'elle le devienne il faut changer
+ * la façon de dessiner les nodes. À la place de tracer de façon "bête" les 
+ * nodes (avec des boucles) nous devons en prioriété utiliser le mécanisme
+ * de jointure des données. En effet il nous faut mettre à jour la position
+ * des noeuds et non pas recréer des données. 
+ *
+ * Ceci implique:
+ * - Qu'afin de faire fonctionner la mise à jour des membrane nous devons avoir
+ *   tracer les cluster différment. La façon de trouver la position des points
+ *   doit changer. Au lieu de garder des références vers les noeuds nous devons
+ *   a la place se baser sur les noeuds présent dans le DOM (virtuel ici).
+ *   Par exemple:
+ *   drawMembrane = (cluster)=>{
+ *     nodes = selection d3 des noeuds du réseau.
+ *     nodes.filter(function(d){
+ *       var node = d.data();
+ *       return cluster.nodeIDS.indexOf(node.ID) != -1;
+ *     });
+ *     // calcul des points du cluster à partir des coordonnées de la node.
+ * - Pour la transition entre un nouveau cluster il nous faut mélanger transition
+ *   les forces. 
+ */
 'strict';
 var DEBUG = true;
 var simulation, stats;
@@ -271,12 +295,12 @@ var configureSimulation = function(data, sectionsConfig){
   };
 
   var previousSection = function(){
-    setSection(currentSectionIndex > 0 ? (currentSectionIndex - 1) : currentSectionIndex);
+    setCurrentSection(currentSectionIndex > 0 ? (currentSectionIndex - 1) : currentSectionIndex);
     updateSimulation();
   };
 
   var nextSection = function(){
-    currentSectionIndex = currentSectionIndex < sections.length - 1 ? (currentSectionIndex + 1) : currentSectionIndex;
+    setCurrentSection(currentSectionIndex < sections.length - 1 ? (currentSectionIndex + 1) : currentSectionIndex);
     updateSimulation();
   };
 
@@ -302,7 +326,6 @@ var configureSimulation = function(data, sectionsConfig){
   var updateSimulation = function(){
     updateSectionData();
     updateAnimations();
-    updateForces();
     updateSimulationData();
   };
 
@@ -333,12 +356,15 @@ var configureSimulation = function(data, sectionsConfig){
   };
 
   var updateSimulationData = function(){
-    _simulation.nodes(getCurrentSection().data.nodes);
-    _simulation.restart();
+    var previousSection = getSectionAt(currentSectionIndex-1);
+    var section = getCurrentSection();
+    updateForces();
+    _simulation.nodes(section.data.nodes);
+    _simulation.alphaTarget(0.3).restart();
   };
 
   return {
-    alpha: function(a){ simulation.alpha(a) },
+    alpha: function(a){ _simulation.alpha(a) },
     simulation: simulation,
     nextSection: nextSection,
     setCurrentSection: setCurrentSection, 

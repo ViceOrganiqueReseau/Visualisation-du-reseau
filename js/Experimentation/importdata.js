@@ -120,7 +120,7 @@ var processData = function(files){
         },
         affiliationsAndDirect: function(){
           return allLinks.filter(function(link){
-            return [ TYPES.LINK.AFFILIATION, TYPES.LINK.PROPRIETY.DIRECT ].indexOf(link.type) > 0;
+            return [ TYPES.LINK.AFFILIATION, TYPES.LINK.PROPRIETY.DIRECT ].indexOf(link.type) != -1;
           });
         }
       }
