@@ -1,6 +1,7 @@
 "use strict";
 
 var CONSTANTS = {
+  USE_CANVAS: true,
   DEBUG: true,
   PHI: Math.PI * 4,
   WIDTH: 1800,
@@ -14,11 +15,11 @@ var CONSTANTS = {
     CURVE: d3.curveBasisClosed
   },
   CIRCLE: {
-    KERNEL_RADIUS: 10,
+    KERNEL_RADIUS: 6,
     POINTS_NUMBER: 20,
     CURVE: d3.curveBasisClosed,
     RADIUS_JITTER: 0.12,
-    RADIUS_RANGE: [0, 30]
+    RADIUS_RANGE: [7, 30]
   },
   FORCES: {
     COLLIDE_PADDING: 2,
@@ -53,6 +54,7 @@ var CONSTANTS = {
 var UPDATE_SIMULATION_INTERVAL = 500;
 var animations = {
   position: {
+    animate: false,
     interval: 50,
     duration: 2000
   },

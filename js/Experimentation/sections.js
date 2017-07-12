@@ -1,8 +1,10 @@
 'use strict';
 
 var getSize = function(){
-  var $canvas = d3.select('.experimentation').node();
-  return [ $canvas.width, $canvas.height ];
+  var $canvas = d3.select('.experimentation');
+  return [
+    parseInt($canvas.attr('width')), parseInt($canvas.attr('height')) 
+  ];
 }
 
 var packLayout = d3.pack()
@@ -25,15 +27,19 @@ var firstSection = function(data){
 
   // applique le layout de placement.  
   pack(hierarchy);
+  console.log(hierarchy);
   // utile pour tracer les clusters par la suite.
   hierarchy.children.forEach(function(c){
-    clusters.push({
+    var cluster = {
       key: c.data.key+'',
-      x: 0+c.x,
-      y: 0+c.y,
+      x: c.x,
+      y: c.y,
       nodeIDS: c.children.map(function(node){ return node.data['ID']; })
-    });
+    };
+    console.log('cluster', cluster);
+    clusters.push(cluster);
   });
+  console.log('clusters created:', clusters);
 
   return {
     id: 0,

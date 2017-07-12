@@ -163,7 +163,9 @@ var draw = function(current, previous){
 };
 
 var configureSimulation = function(scene, data, sectionsConfig){
-  var _simulation, reshapeInterval, $nodes, $membranes;
+  var _simulation, 
+    // animations intervals
+    reshapeInterval, moveInterval, $nodes, $membranes;
   var currentSectionIndex = 0;
   var previousSectionIndex;
   var sections = sectionsConfig;
@@ -195,7 +197,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
       moveNode(node, animations.position.duration);
     } 
   };
-  var moveInterval = d3.interval( moveIntervalCallback, animations.position.interval);
+   
 
   var startReshaping = function(){
     animationStatus.isReshapingNodes = true;
@@ -205,7 +207,14 @@ var configureSimulation = function(scene, data, sectionsConfig){
       reshapeInterval.restart(reshapeIntervalCallback, animations.shape.interval);
     }
   };
-
+  var startMoving = function(){ 
+    animationStatus.isMovingNodes = true;
+    if(!moveInterval){
+      moveInterval = d3.interval( moveIntervalCallback, animations.position.interval);
+    } else {
+      reshapeInterval.restart(moveIntervalCallback, animations.position.interval);
+    }
+  };
   var findNodeCluster = function(d){
     var section = getCurrentSection();
     var clusters = section.clusters;
@@ -312,8 +321,12 @@ var configureSimulation = function(scene, data, sectionsConfig){
         return d3.interpolateNumber(1,0); })
       .remove();
   }
-  
+  var ticked = false;
   var onTick = function(){
+    if(!ticked){
+      ticked = true;
+      console.log('onTick started');
+    }
     var DEBUG = CONSTANTS.DEBUG;
     // var previousSection = getPreviousSection();
     // var currentSection = getCurrentSection();
@@ -322,9 +335,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     if(DEBUG){ stats.begin(); }
 
 
-    $nodes.attr('transform', function(d){
-      if(isNaN(d.x) || isNaN(d.y)){ debugger; } 
-      return 'translate('+ d.x +','+ d.y +')'; });
+    $nodes.attr('transform', function(d){ return 'translate('+ d.x +','+ d.y +')'; });
     
     // nécessaire pour la capture des FPS en DEBUG.
     if(DEBUG){ stats.end(); }
@@ -332,20 +343,24 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
 
   var initializeSimulation = function(){
+    var kernelRadius = CONSTANTS.CIRCLE.KERNEL_RADIUS;
+    var collidePadding = CONSTANTS.FORCES.COLLIDE_PADDING;
     var nodes = getCurrentSection().data.nodes;
     _simulation = d3.forceSimulation(nodes)
       .on('tick', onTick)
       .force('collide', d3.forceCollide()
           .radius(function(d){
-            return (d.radius||CONSTANTS.CIRCLE.KERNEL_RADIUS) + CONSTANTS.FORCES.COLLIDE_PADDING;
+            return (d.radius > kernelRadius ? d.radius : kernelRadius) + collidePadding;
           }))
-    .force('cluster', d3.forceCluster().centers(function(d){
-      var cluster = findNodeCluster(d);
-      return cluster;
-    }));
-
+      .force('cluster', d3.forceCluster()
+          .centers(function(d){
+            var cluster = findNodeCluster(d);
+            return cluster;
+          })
+          .centerInertia(1));
     updateMembranes();
     updateNodes();
+    updateAnimations();
   };
 
   var updateSimulation = function(){
@@ -366,6 +381,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
       if(!animationStatus.isReshapingNodes){
         startReshaping();
       }
+    }
+    if(animations.position.animate){
+      startMoving();
     }
   };
 
