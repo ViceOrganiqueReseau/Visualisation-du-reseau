@@ -1,121 +1,84 @@
-var COLLIDE_PADDING = 2;
-var PACK_PADDING = 15;
+'use strict';
+
 var getSize = function(){
-  var $canvas = d3.select('canvas.experimentation').node();
+  var $canvas = d3.select('.experimentation').node();
   return [ $canvas.width, $canvas.height ];
 }
 
-var packLayout = d3.pack().padding(PACK_PADDING).radius(function(node){ return node.value; });
+var packLayout = d3.pack()
+  .padding(CONSTANTS.FORCES.PACK_PADDING)
+  .radius(function(node){ return node.value; });
 
 var firstSection = function(data){
-  var clusters = {};
-  var filteredData = { nodes: data.utils.nodes.lobbies() };
+  var clusters = [];
+  var nodes = data.utils.nodes.lobbies();
  // assignation des clusters sur les nodes.
   // configuration de la section à proprement parler.
   var canvasSize = getSize();
   var pack = packLayout.size(getSize());
   
-  var clusterForce = d3.forceCluster().centers(function(d){ 
-    return clusters[d.parent.data.key];
-  });
-
-  var collideForce = d3.forceCollide().radius(function(d){ return (d.radius||d.value||0) + COLLIDE_PADDING; });
   // cluster par position sur le theme choisi (support vs oppose)
   var nest = d3.nest().key(function(d){ return d[data.theme]; }); 
+  var nested = nest.entries(nodes);
+  var hierarchy = d3.hierarchy({ values: nested}, function(d){ return d.values; })
+    .sum(function(node){ return node.radius; });
 
-  var updateNodes = function(){
-    console.log('updateNodes');
-    var self = this;
-    var nested = nest.entries(this.data.nodes);
-    var hierarchy = d3.hierarchy({ values: nested}, function(d){ return d.values; })
-      .sum(function(node){ return node.radius; });
-
-    // applique le layout de placement.  
-    pack(hierarchy);
-    // utile pour tracer les clusters par la suite.
-    hierarchy.children.forEach(function(c){
-      clusters[c.data.key] = {
-        key: c.data.key+'',
-        x: 0+c.x,
-        y: 0+c.y,
-        children: c.children
-      };
+  // applique le layout de placement.  
+  pack(hierarchy);
+  // utile pour tracer les clusters par la suite.
+  hierarchy.children.forEach(function(c){
+    clusters.push({
+      key: c.data.key+'',
+      x: 0+c.x,
+      y: 0+c.y,
+      nodeIDS: c.children.map(function(node){ return node.data['ID']; })
     });
-    var leaves = hierarchy.leaves();
-    leaves.forEach(function(l){ l.radius = l.value; });
-    this.data.nodes = leaves;
-    this.forces.cluster.initialize(leaves);
-    return leaves;
-  };
+  });
 
   return {
+    id: 0,
     clusters: clusters,
-    data: filteredData,
-    updateNodes: updateNodes, 
+    data: { nodes: nodes, links: [] },
     showClustersMembrane: true,
     showLinks: false,
-    forces:{
-      cluster: clusterForce,
-      collide: collideForce
-    }
   };
 }
 
 var secondSection = function(data){
-  var clusters = {};
-  // clusters par type de structure PUIS par position.
-  var nest = d3.nest()
-    .key(function(d){ return d['Type']; })
-    .key(function(d){ return d[data.theme]; });
-
-
-  var filteredData = {
-    nodes: data.utils.nodes.lobbies()
-  };
-  
+  var clusters = [];
   var clusterKey = function(c){
     var parent = c.parent;
     return parent.data.key + "-" + c.data.key;
   };
-
-  var updateNodes = function(){
-    console.log('2nd Section.updateNodes')
-    var nested = nest.entries(filteredData.nodes);
-    var hierarchy = d3.hierarchy({ values: nested }, function(d){ return d.values; })
-      .sum(function(node){ return node.radius; }); 
-    var pack = packLayout.size(getSize());
-    var packed = pack(hierarchy);
-    debugger;
-    this.data.nodes = hierarchy.leaves();
-    hierarchy.children.forEach(function(c){
-      c.children.forEach(function(d){
-        clusters[clusterKey(d)] = {
-          x: 0+c.x,
-          y: 0+c.y,
-          children: d.children
-        };
-
+  // clusters par type de structure PUIS par position.
+  var nest = d3.nest()
+    .key(function(d){ return d['Type']; })
+    .key(function(d){ return d[data.theme]; });
+  // les données nous intéressant pour cette section
+  var nodes = data.utils.nodes.lobbies();
+  var nested = nest.entries(nodes);
+  var hierarchy = d3.hierarchy({ values: nested }, function(d){ return d.values; })
+    .sum(function(node){ return node.radius; }); 
+  var pack = packLayout.size(getSize());
+  var packed = pack(hierarchy);
+  // creation des clusters 
+  hierarchy.children.forEach(function(c){
+    c.children.forEach(function(d){
+      clusters.push({
+        key: clusterKey(d),
+        x: 0+c.x,
+        y: 0+c.y,
+        nodeIDS: d.children.map(function(node){ return node.data['ID']; })
       });
     });
-  };
-
-  var clusterForce = d3.forceCluster().centers(function(d){
-    var cluster = clusters[clusterKey(d.parent)];
-    console.log('cluster found', cluster);
-    return cluster;  
   });
 
-  var collideForce = d3.forceCollide().radius(function(d){ return d.radius + COLLIDE_PADDING; });
   return {
+    id: 1,
     clusters: clusters, 
-    data: filteredData,
-    updateNodes: updateNodes,
+    data: { nodes: nodes, links: []},
     showClustersMembrane: true,
     showLinks: false,
-    forces: {
-      cluster: clusterForce,
-      collide: collideForce
-    }
   }
 };
 var thirdSection = function(data){};

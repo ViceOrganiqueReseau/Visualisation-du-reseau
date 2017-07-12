@@ -1,26 +1,4 @@
-var CIRCLES_RADIUS_RANGE = [0, 30];
-var SPENDING_KEY = 'Dépenses Lobby (€)';
-var TYPES = {
-  NODE: {
-    LOBBY: 'node/lobby',
-    PROPRIETARY: 'node/proprietary',
-  },
-  LINK: {
-    AFFILIATION: 'link/affiliation',
-    PROPRIETARY: {
-      DIRECT: 'link/proprietary/direct',
-      INDIRECT: 'link/proprietary/indirect',
-    }
-  }
-};
-
-var CSVs = [
-  "data/Noeud4juillet.csv",
-  "data/Noeuds-ActionnairesIndirect.csv",
-  "data/liensActionnairesDirect.csv",
-  "data/liensActionnairesIndirect.csv",
-  "data/Affiliation19juin.csv"
-];
+var TYPES = CONSTANTS.DATA.TYPES; 
 
 var setType = function(arr, type){
   return arr.map(function(el){
@@ -73,6 +51,7 @@ var filterNodesByLinkSource = function(nodes, links){
 };
 
 var processData = function(files){
+  // récupération du thème choisi par l'utilisateur
   var theme = getSelectedTheme();
   // filtrage par theme des lobbies 
   var lobbyNodes = filterNodesByTheme(files[0], theme);
@@ -83,12 +62,22 @@ var processData = function(files){
   var indirectProprietaryLinks = filterLinksByTargets(files[3], lobbyNodes);
   var proprietaryNodes = filterNodesByLinkSource(files[1], indirectProprietaryLinks);
   
-  var spendingDomain = d3.extent(lobbyNodes, function(d){ return parseInt(d[SPENDING_KEY]); });
-  var spendingScale = d3.scaleLog().domain(spendingDomain).range(CIRCLES_RADIUS_RANGE);
+  var spendingDomain = [1, d3.max(lobbyNodes, function(d){
+    return parseInt(d[CONSTANTS.DATA.SPENDING_KEY])||0; 
+  })];
+  
+  var spendingScale = d3.scaleLog().domain(spendingDomain).range(CONSTANTS.CIRCLE.RADIUS_RANGE);
   // on calcul, pour chaque noeuds, le radius du cercle de base
   lobbyNodes.forEach(function(node){
-    node.radius = spendingScale(parseInt(node[SPENDING_KEY]));
-    node.points = circlePoints(node.radius);
+    var spending = parseInt(node[CONSTANTS.DATA.SPENDING_KEY])||0;
+    if(spending > 0){
+      node.radius = spendingScale(spending);
+      node.points = circlePoints(node.radius);
+    } else {
+      node.radius = 0;
+      node.points = [];
+    }
+    node.kernelPoints = circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS);
   });
 
   // assignation des types de noeuds & liens 
@@ -103,7 +92,7 @@ var processData = function(files){
       indirectProprietaryLinks,
       affiliationLinks
   ]);
-  var data = {
+  return {
     theme: getSelectedTheme(),
     nodes: allNodes, 
     links: allLinks,
@@ -126,29 +115,12 @@ var processData = function(files){
       }
     }
   };
-
-  // nous configurons les sections 
-  // voir Experimentation/sections.js
-  var sections = configureSections(data);
-
-
-  // nous initialisons la simulation;
-  // voir Experimentation/experimentation.js
-  var simulation = configureSimulation(data, sections);
-
-  // enfin nous initialisons les controles de la simulation.
-  // voir Experimentation/controls.js
-  var controls = initControls(simulation);
-
-  // nous démarrons ensuite la simulation
-  simulation.start();
-  console.log("OK");
 }
 
 var importData = function(){
   var queue = d3.queue();
 
-  CSVs.forEach(function(file){
+  CONSTANTS.DATA.CSV_FILES.forEach(function(file){
     queue = queue.defer(d3.csv, file);
   });
 
@@ -158,7 +130,9 @@ var importData = function(){
     }
     // on récupère tout les noms de fichiers passés en argument.
     var files = Array.from(arguments).slice(1).map(function(csv){ return csv.slice(); });
-    processData(files);
+    var data = processData(files);
+    // enfin nous lançons l'expérimentation avec les data obtenues.
+    runExperimentation(data);
   });
 }
 

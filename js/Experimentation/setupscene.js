@@ -8,10 +8,11 @@ var setupScene = function(){
     stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild( stats.dom );
   }
-  scene = d3.select("body").append("canvas")
+  scene = d3.select("body").append("svg")
     .classed('experimentation', true)
     .attr("width", CONSTANTS.WIDTH)
     .attr("height", CONSTANTS.HEIGHT);
+    // .canvas(true);
 
   return {
     getCanvas: function(){ return scene; },
