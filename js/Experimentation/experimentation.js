@@ -47,31 +47,31 @@ var radialLine = d3.radialLine()
   .radius(function(d){ return d.radius; })
   .curve(CONSTANTS.CIRCLE.CURVE);
 
-// var hull = d3.concaveHull().padding(CONSTANTS.MEMBRANE.PADDING).distance(1000);
+  // var hull = d3.concaveHull().padding(CONSTANTS.MEMBRANE.PADDING).distance(1000);
 
-var hull = function(vertices){ return d3.polygonHull(vertices); };
+  var hull = function(vertices){ return d3.polygonHull(vertices); };
 var hullLine = d3.line()
   .curve(CONSTANTS.MEMBRANE.CURVE);
 
-var circlePoints = function(radius, nbPoints){
-  nbPoints = nbPoints || CONSTANTS.CIRCLE.POINTS_NUMBER;
-  var radiusJitter = CONSTANTS.CIRCLE.RADIUS_JITTER;
-  var stepAngle = CONSTANTS.PHI/nbPoints;
-  var points = [];
-  for(var i=0; i<nbPoints; i++){
-    var jitterAngle = randSign()*(Math.random()/nbPoints);
-    var angle = stepAngle*i;
+  var circlePoints = function(radius, nbPoints){
+    nbPoints = nbPoints || CONSTANTS.CIRCLE.POINTS_NUMBER;
+    var radiusJitter = CONSTANTS.CIRCLE.RADIUS_JITTER;
+    var stepAngle = CONSTANTS.PHI/nbPoints;
+    var points = [];
+    for(var i=0; i<nbPoints; i++){
+      var jitterAngle = randSign()*(Math.random()/nbPoints);
+      var angle = stepAngle*i;
 
-    var jitterRadius = randSign() * Math.round(
-      (radius*radiusJitter)*(Math.random())
-    );
-    points.push({
-      angle: angle,
-      radius: radius + jitterRadius,
-    });
-  }
-  return points;
-};
+      var jitterRadius = randSign() * Math.round(
+          (radius*radiusJitter)*(Math.random())
+          );
+      points.push({
+        angle: angle,
+        radius: radius + jitterRadius,
+      });
+    }
+    return points;
+  };
 
 var membranePath = function(nodes, cluster){
   var padding = CONSTANTS.MEMBRANE.PADDING;
@@ -164,8 +164,8 @@ var draw = function(current, previous){
 
 var configureSimulation = function(scene, data, sectionsConfig){
   var _simulation, 
-    // animations intervals
-    reshapeInterval, moveInterval, $nodes, $membranes;
+  // animations intervals
+  reshapeInterval, moveInterval, $nodes, $membranes;
   var currentSectionIndex = 0;
   var previousSectionIndex;
   var sections = sectionsConfig;
@@ -176,10 +176,14 @@ var configureSimulation = function(scene, data, sectionsConfig){
   var config = {};
 
   // met à jour régulièrement la simulation.
-  d3.interval(function(){
-    _simulation.alpha(0.2)
-  }, UPDATE_SIMULATION_INTERVAL);
+  var updateAtEvery = function(interval){
+    interval = interval || CONSTANTS.UPDATE_INTERVAL;
+    d3.interval(function(){
+      _simulation.alpha(0.2)
+    }, UPDATE_SIMULATION_INTERVAL);
 
+
+  };
 
   var reshapeIntervalCallback = function(time){
     var section = getCurrentSection();
@@ -197,7 +201,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
       moveNode(node, animations.position.duration);
     } 
   };
-   
+
 
   var startReshaping = function(){
     animationStatus.isReshapingNodes = true;
@@ -223,7 +227,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     });
   }; 
 
-  
+
   var stopReshaping = function(){
     reshapeInterval.stop();
     animationStatus.isReshapingNodes = false;
@@ -256,14 +260,14 @@ var configureSimulation = function(scene, data, sectionsConfig){
     updateSimulation();
   };
 
-  
+
   var updateLinks = function(){
     var TYPES = CONSTANTS.DATA.TYPES.LINK;
     var links = getCurrentSection().data.links;
     var link = canvas.selectAll('.link').data(links);
     // var linkEnter = link.enter().append('');
   };
-  
+
   var updateMembranes = function(){
     var section = getCurrentSection();
     var membranes = section.clusters;
@@ -276,7 +280,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
     var membraneEnter = membrane.enter()
       .append('path')
       .attr('d', function(cluster){
-        return membranePath(nodes, cluster);
+        var path = membranePath(nodes, cluster);
+        console.log('path', path);
+        return path;
       });
 
     $membranes = membraneEnter.merge(membrane);
@@ -301,6 +307,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
     // premier cercle, la membrane externe.
     lobbyNodeEnter.append('path')
       .classed('circle-membrane', true)
+      .attr('stroke', '')
+      .attr('fill', 'rgba(255,255,255,0.5)')
       .attr('d', function(d){
         return radialLine(d.points);
       });
@@ -308,6 +316,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
     // deuxième cercle, le noyau.
     lobbyNodeEnter.append('path')
       .classed('circle-kernel', true)
+      .attr('stroke', 'rgba(255,255,255,1)')
+      .attr('fill', 'rgba(255,255,255,1)')
       .attr('d', function(d){
         return radialLine(d.kernelPoints);
       });
@@ -320,31 +330,54 @@ var configureSimulation = function(scene, data, sectionsConfig){
       .attrTween('opacity', function(){
         return d3.interpolateNumber(1,0); })
       .remove();
-  }
-  var ticked = false;
-  var onTick = function(){
-    if(!ticked){
-      ticked = true;
-      console.log('onTick started');
-    }
-    var DEBUG = CONSTANTS.DEBUG;
-    // var previousSection = getPreviousSection();
-    // var currentSection = getCurrentSection();
-
-    // montre les FPS si nous somme en DEBUG.
-    if(DEBUG){ stats.begin(); }
-
-
-    $nodes.attr('transform', function(d){ return 'translate('+ d.x +','+ d.y +')'; });
-    
-    // nécessaire pour la capture des FPS en DEBUG.
-    if(DEBUG){ stats.end(); }
   };
 
+  var ticked = false;
+  var forceTransition = function(name, fromStrength, toStrength, duration){
+    // trouver la différence entre `from` et `toi`
+    var strengthOffset = Math.abs(toStrength - fromStrength);
+    var force = _simulation.force(name);
+    force.strength(fromStrength);
+    var t = d3.timer(function(elleapsed){
+    
+      var strength = fromStrength;
+      var dt = elleapsed / duration;
+      if(dt > 1.0){
+        t.stop();
+        dt = 1.0;
+      }
+      var sign = fromStrength < toStrength ? 1 : -1;
+      strength += sign * Math.pow(dt, 3) * strengthOffset;
+      force.strength(strength);
+    });
+  };
+  
+  var initializeNodesPosition = function(){
+    var section = getCurrentSection();
+    section.data.nodes.forEach(function(node){
+      var cluster = findNodeCluster(node);
+      node.x = cluster.x;
+      node.y = cluster.y;
+    });
+  };
+  var updateAnimations = function(){
+  };
+
+  var updateSimulationData = function(){
+    var previousSection = getSectionAt(currentSectionIndex-1);
+    var section = getCurrentSection();
+    _simulation.nodes(section.data.nodes);
+    _simulation.alphaTarget(0.3).restart();
+
+    forceTransition('collide', 0.0, 0.5, 2000);
+    forceTransition('cluster', 0.7, 0.3, 1000);
+  };
 
   var initializeSimulation = function(){
     var kernelRadius = CONSTANTS.CIRCLE.KERNEL_RADIUS;
     var collidePadding = CONSTANTS.FORCES.COLLIDE_PADDING;
+    initializeNodesPosition();
+
     var nodes = getCurrentSection().data.nodes;
     _simulation = d3.forceSimulation(nodes)
       .on('tick', onTick)
@@ -352,15 +385,23 @@ var configureSimulation = function(scene, data, sectionsConfig){
           .radius(function(d){
             return (d.radius > kernelRadius ? d.radius : kernelRadius) + collidePadding;
           }))
-      .force('cluster', d3.forceCluster()
-          .centers(function(d){
-            var cluster = findNodeCluster(d);
-            return cluster;
-          })
-          .centerInertia(1));
+    .force('cluster', d3.forceCluster()
+        .centers(function(d){
+          var cluster = findNodeCluster(d);
+          return cluster;
+        })
+        .centerInertia(1));
+
+    _simulation.stop();
+    _simulation.alphaTarget(0.3).restart();
+    forceTransition('cluster', 0.5, 0.3, 1000);
+    forceTransition('collide', 0.0, 0.5, 1500);
     updateMembranes();
     updateNodes();
-    updateAnimations();
+
+    setTimeout(function(){
+      _simulation.alphaTarget(0);
+    }, 2000); 
   };
 
   var updateSimulation = function(){
@@ -371,33 +412,32 @@ var configureSimulation = function(scene, data, sectionsConfig){
     updateSimulationData();
   };
 
-  var updateAnimations = function(){
-    var section = getCurrentSection();
-    if(section.showClusterMembrane){
-      if(animationsStatus.isReshapingNodes){
-        stopReshaping();
-      }
-    } else {
-      if(!animationStatus.isReshapingNodes){
-        startReshaping();
-      }
+  var transform = function(node){
+    return [
+      'translate(', node.x, ',', node.y, ')'
+    ].join('');
+  };
+
+  var onTick = function(){
+    if(!ticked){
+      ticked = true;
+      console.log('onTick started');
     }
-    if(animations.position.animate){
-      startMoving();
+    var DEBUG = CONSTANTS.DEBUG;
+    // var previousSection = getPreviousSection();
+    // var currentSection = getCurrentSection();
+
+    // montre les FPS si nous somme en DEBUG.
+
+    if(DEBUG){ stats.begin(); }
+
+    $nodes.attr('transform', transform);
+    // nécessaire pour la capture des FPS en DEBUG.
+    if(DEBUG){
+      stats.end();
     }
   };
 
-  var updateSimulationData = function(){
-    var previousSection = getSectionAt(currentSectionIndex-1);
-    var section = getCurrentSection();
-    _simulation.nodes(section.data.nodes);
-    _simulation.alphaTarget(0.3).restart();
-  };
-
-  var start = function(){
-    initializeSimulation();
-    updateSimulation();
-  };
   return {
     alpha: function(a){ _simulation.alpha(a) },
     simulation: simulation,
@@ -407,7 +447,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     previousSection: previousSection,
     start: initializeSimulation
   };
-}
+};
 
 // appellée une fois les données chargées
 // Voir importdata.js

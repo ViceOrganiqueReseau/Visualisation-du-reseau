@@ -1,11 +1,11 @@
 "use strict";
 
 var CONSTANTS = {
-  USE_CANVAS: true,
+  USE_CANVAS: false,
   DEBUG: true,
   PHI: Math.PI * 4,
-  WIDTH: 1800,
-  HEIGHT: 1200,
+  WIDTH: 1600,
+  HEIGHT: 800,
   COLORS: {
     SUPPORT: 'rgba(0, 255, 0, 1)',
     OPPOSE: 'rgba(255, 0, 0, 1)'
@@ -22,9 +22,10 @@ var CONSTANTS = {
     RADIUS_RANGE: [7, 30]
   },
   FORCES: {
-    COLLIDE_PADDING: 2,
-    PACK_PADDING: 15,
+    COLLIDE_PADDING: 3,
+    PACK_PADDING: 2,
   },
+  UPDATE_INTERVAL: 500,
   DATA: {
     SPENDING_KEY: 'Dépenses Lobby (€)',
     TYPES:{
@@ -51,7 +52,6 @@ var CONSTANTS = {
 };
 
 // animations constants
-var UPDATE_SIMULATION_INTERVAL = 500;
 var animations = {
   position: {
     animate: false,
