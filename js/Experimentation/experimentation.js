@@ -49,29 +49,29 @@ var radialLine = d3.radialLine()
 
   // var hull = d3.concaveHull().padding(CONSTANTS.MEMBRANE.PADDING).distance(1000);
 
-  var hull = function(vertices){ return d3.polygonHull(vertices); };
+var hull = function(vertices){ return d3.polygonHull(vertices); };
 var hullLine = d3.line()
   .curve(CONSTANTS.MEMBRANE.CURVE);
 
-  var circlePoints = function(radius, nbPoints){
-    nbPoints = nbPoints || CONSTANTS.CIRCLE.POINTS_NUMBER;
-    var radiusJitter = CONSTANTS.CIRCLE.RADIUS_JITTER;
-    var stepAngle = CONSTANTS.PHI/nbPoints;
-    var points = [];
-    for(var i=0; i<nbPoints; i++){
-      var jitterAngle = randSign()*(Math.random()/nbPoints);
-      var angle = stepAngle*i;
+var circlePoints = function(radius, nbPoints){
+  nbPoints = nbPoints || CONSTANTS.CIRCLE.POINTS_NUMBER;
+  var radiusJitter = CONSTANTS.CIRCLE.RADIUS_JITTER;
+  var stepAngle = CONSTANTS.PHI/nbPoints;
+  var points = [];
+  for(var i=0; i<nbPoints; i++){
+    var jitterAngle = randSign()*(Math.random()/nbPoints);
+    var angle = stepAngle*i;
 
-      var jitterRadius = randSign() * Math.round(
-          (radius*radiusJitter)*(Math.random())
-          );
-      points.push({
-        angle: angle,
-        radius: radius + jitterRadius,
-      });
-    }
-    return points;
-  };
+    var jitterRadius = randSign() * Math.round(
+        (radius*radiusJitter)*(Math.random())
+    );
+    points.push({
+      angle: angle,
+      radius: radius + jitterRadius,
+    });
+  }
+  return points;
+};
 
 var membranePath = function(nodes, cluster){
   var padding = CONSTANTS.MEMBRANE.PADDING;
@@ -84,13 +84,17 @@ var membranePath = function(nodes, cluster){
 
   var points = clusterNodes.map(function(node){
     var cx = node.x, cy = node.y;
-    return node.points.map(function(p){
+    var points = node.points.length > 0 ? node.points : node.kernelPoints;
+    return points.map(function(p){
       return [ cx+x(p), cy+y(p) ];
     });
   }).reduce((a,b)=>a.concat(b)); // reduce -> permet d'aplatir le tableau
-  var membraneColor = COLORS[cluster.key];
   var h = hull(points);
-  return hullLine(h);
+  if(h && h.length > 0){
+    return hullLine(h);
+  } else {
+    return '';
+  }
 };
 
 
@@ -165,15 +169,15 @@ var draw = function(current, previous){
 var configureSimulation = function(scene, data, sectionsConfig){
   var _simulation, 
   // animations intervals
-  reshapeInterval, moveInterval, $nodes, $membranes;
+  reshapeInterval, moveInterval,
+  // d3 selections
+  membraneExit, $nodes, $membranes;
   var currentSectionIndex = 0;
   var previousSectionIndex;
   var sections = sectionsConfig;
   var animationStatus = {
     isReshapingNodes: false
   };
-  // var ticks = 0;
-  var config = {};
 
   // met à jour régulièrement la simulation.
   var updateAtEvery = function(interval){
@@ -274,23 +278,37 @@ var configureSimulation = function(scene, data, sectionsConfig){
     if(!section.showMembranes){
       membranes = [];
     }
+    console.log('membranes to show', membranes);
     var membrane = canvas.selectAll('.membrane')
-      .data(membranes);
+      .data(membranes, function(c){ return c.key; });
 
     var membraneEnter = membrane.enter()
       .append('path')
+      .classed('membrane', true)
       .attr('d', function(cluster){
-        var path = membranePath(nodes, cluster);
-        console.log('path', path);
-        return path;
+        return membranePath(section.data.nodes, cluster);
       });
+
+    // update
+    membraneEnter.transition()
+      .delay(100)
+      .duration(1000)
+      .attrTween('fill-opacity', function(){ return d3.interpolateNumber(0,1);});
+
 
     $membranes = membraneEnter.merge(membrane);
 
     // on cache les membrane qui ne seront plus utilisées.
     // TODO: ajouter une constante 
-    membrane.exit().transition(300)
+    membraneExit = membrane.exit();
+    
+    membraneExit.transition().duration(1000)
       .attrTween('fill-opacity', function(){ return d3.interpolateNumber(1,0); });
+    
+    membraneExit.transition().delay(1000).remove();
+
+    
+    $membranes = $membranes.merge(membraneExit);
   };
 
   var updateNodes = function(){
@@ -339,7 +357,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     var force = _simulation.force(name);
     force.strength(fromStrength);
     var t = d3.timer(function(elleapsed){
-    
+
       var strength = fromStrength;
       var dt = elleapsed / duration;
       if(dt > 1.0){
@@ -351,7 +369,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
       force.strength(strength);
     });
   };
-  
+
   var initializeNodesPosition = function(){
     var section = getCurrentSection();
     section.data.nodes.forEach(function(node){
@@ -370,7 +388,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     _simulation.alphaTarget(0.3).restart();
 
     forceTransition('collide', 0.0, 0.5, 2000);
-    forceTransition('cluster', 0.7, 0.3, 1000);
+    forceTransition('cluster', 0.5, 0.2, 1500);
   };
 
   var initializeSimulation = function(){
@@ -396,17 +414,16 @@ var configureSimulation = function(scene, data, sectionsConfig){
     _simulation.alphaTarget(0.3).restart();
     forceTransition('cluster', 0.5, 0.3, 1000);
     forceTransition('collide', 0.0, 0.5, 1500);
-    updateMembranes();
     updateNodes();
-
+    updateMembranes();
     setTimeout(function(){
       _simulation.alphaTarget(0);
     }, 2000); 
   };
 
   var updateSimulation = function(){
-    updateMembranes();
     updateNodes();
+    updateMembranes();
     updateLinks();
     updateAnimations();
     updateSimulationData();
@@ -416,37 +433,41 @@ var configureSimulation = function(scene, data, sectionsConfig){
     return [
       'translate(', node.x, ',', node.y, ')'
     ].join('');
-  };
+    };
 
-  var onTick = function(){
-    if(!ticked){
-      ticked = true;
-      console.log('onTick started');
-    }
-    var DEBUG = CONSTANTS.DEBUG;
-    // var previousSection = getPreviousSection();
-    // var currentSection = getCurrentSection();
+    var onTick = function(){
+      var n = nextSection;
+      if(!ticked){
+        ticked = true;
+        console.log('onTick started');
+      }
+      var section = getCurrentSection();
+      var DEBUG = CONSTANTS.DEBUG;
+      // var previousSection = getPreviousSection();
+      // var currentSection = getCurrentSection();
 
-    // montre les FPS si nous somme en DEBUG.
+      // montre les FPS si nous somme en DEBUG.
 
-    if(DEBUG){ stats.begin(); }
+      if(DEBUG){ stats.begin(); }
 
-    $nodes.attr('transform', transform);
-    // nécessaire pour la capture des FPS en DEBUG.
-    if(DEBUG){
-      stats.end();
-    }
-  };
+      $nodes.attr('transform', transform);
+      $membranes.attr('d', function(d){return membranePath(section.data.nodes, d); });
+      membraneExit.attr('d', function(d){return membranePath(section.data.nodes, d); });
+      // nécessaire pour la capture des FPS en DEBUG.
+      if(DEBUG){
+        stats.end();
+      }
+    };
 
-  return {
-    alpha: function(a){ _simulation.alpha(a) },
-    simulation: simulation,
-    nextSection: nextSection,
-    setCurrentSection: setCurrentSection,
-    getCurrentSection: getCurrentSection,
-    previousSection: previousSection,
-    start: initializeSimulation
-  };
+    return {
+      alpha: function(a){ _simulation.alpha(a) },
+      simulation: simulation,
+      nextSection: nextSection,
+      setCurrentSection: setCurrentSection,
+      getCurrentSection: getCurrentSection,
+      previousSection: previousSection,
+      start: initializeSimulation
+    };
 };
 
 // appellée une fois les données chargées

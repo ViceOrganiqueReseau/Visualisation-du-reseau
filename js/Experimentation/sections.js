@@ -45,7 +45,7 @@ var firstSection = function(data){
     id: 0,
     clusters: clusters,
     data: { nodes: nodes, links: [] },
-    showClustersMembrane: true,
+    showMembranes: true,
     showLinks: false,
   };
 }
@@ -83,7 +83,7 @@ var secondSection = function(data){
     id: 1,
     clusters: clusters, 
     data: { nodes: nodes, links: []},
-    showClustersMembrane: true,
+    showMembranes: true,
     showLinks: false,
   }
 };
