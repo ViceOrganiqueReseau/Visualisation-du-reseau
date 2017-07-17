@@ -9,11 +9,14 @@ var setType = function(arr, type){
 var flattenArray = function(arrays){
   return arrays.reduce(function(a,b){ return a.concat(b); });
 }
+// TODO: remplacer par le vrai choix de lobbyist.
+var userChoice = {
+  lobbyID: '11',
+  theme: 'Efficacité énergétique',
+  position: 'SUPPORT'
+};
 
-var getSelectedTheme = function(){
-  // TODO: remplacer avec le vrai choix du thème.
-  return 'Efficacité énergétique';
-}
+var getUserChoice = function(){ return userChoice; };
 
 // ne retourne que les nodes ayant une position sur le thème donné
 var filterNodesByTheme = function(nodes, theme){
@@ -52,7 +55,7 @@ var filterNodesByLinkSource = function(nodes, links){
 
 var processData = function(files){
   // récupération du thème choisi par l'utilisateur
-  var theme = getSelectedTheme();
+  var theme = getUserChoice().theme;
   // filtrage par theme des lobbies 
   var lobbyNodes = filterNodesByTheme(files[0], theme);
   // filtrage des liens d'affiliation & propriétés pertinents
@@ -93,7 +96,7 @@ var processData = function(files){
       affiliationLinks
   ]);
   return {
-    theme: getSelectedTheme(),
+    userChoice: getUserChoice(),
     nodes: allNodes, 
     links: allLinks,
     // fonctions utilitaires pour filtrer les données.

@@ -167,11 +167,12 @@ var draw = function(current, previous){
 };
 
 var configureSimulation = function(scene, data, sectionsConfig){
-  var _simulation, 
+  var _simulation,
   // animations intervals
   reshapeInterval, moveInterval,
   // d3 selections
   membraneExit, $nodes, $membranes;
+  var userChoice = data.userChoice;
   var currentSectionIndex = 0;
   var previousSectionIndex;
   var sections = sectionsConfig;
@@ -287,11 +288,14 @@ var configureSimulation = function(scene, data, sectionsConfig){
       .classed('membrane', true)
       .attr('d', function(cluster){
         return membranePath(section.data.nodes, cluster);
-      });
+      })
+      .attr('fill', function(cluster){
+        return chroma(cluster.color);
+      }).attr('fill-opacity', 0);
 
     // update
     membraneEnter.transition()
-      .delay(100)
+      .delay(300)
       .duration(1000)
       .attrTween('fill-opacity', function(){ return d3.interpolateNumber(0,1);});
 
@@ -302,10 +306,10 @@ var configureSimulation = function(scene, data, sectionsConfig){
     // TODO: ajouter une constante 
     membraneExit = membrane.exit();
     
-    membraneExit.transition().duration(1000)
+    membraneExit.transition().duration(300)
       .attrTween('fill-opacity', function(){ return d3.interpolateNumber(1,0); });
     
-    membraneExit.transition().delay(1000).remove();
+    membraneExit.transition().delay(500).remove();
 
     
     $membranes = $membranes.merge(membraneExit);
@@ -318,6 +322,17 @@ var configureSimulation = function(scene, data, sectionsConfig){
     var nodeEnter = node.enter().append('g')
       .classed('node', true);
 
+    var nodeColor = function(d){
+      var colors = CONSTANTS.COLORS;
+      if(userChoice.lobbyID == d.ID){
+        return colors.ALLY;
+      }
+      if(userChoice.enemyID == d.ID){
+        return colors.ENMEMY;
+      }
+      return d[userChoice.theme] === userChoice.position ? colors.SAME_POSITION : colors.DIFFERENT_POSITION;
+    };
+      
     var lobbyNodeEnter = nodeEnter.filter(function(d){
       return d.type == TYPES.LOBBY;
     });
@@ -326,7 +341,10 @@ var configureSimulation = function(scene, data, sectionsConfig){
     lobbyNodeEnter.append('path')
       .classed('circle-membrane', true)
       .attr('stroke', '')
-      .attr('fill', 'rgba(255,255,255,0.5)')
+      .attr('fill', function(d){
+        var color = nodeColor(d);
+        return chroma(color).alpha(0.5);
+      })
       .attr('d', function(d){
         return radialLine(d.points);
       });
@@ -334,8 +352,11 @@ var configureSimulation = function(scene, data, sectionsConfig){
     // deuxième cercle, le noyau.
     lobbyNodeEnter.append('path')
       .classed('circle-kernel', true)
-      .attr('stroke', 'rgba(255,255,255,1)')
-      .attr('fill', 'rgba(255,255,255,1)')
+      .attr('stroke', function(d){ return chroma(nodeColor(d)); })
+      .attr('fill', function(d){
+        var color = nodeColor(d);
+        return chroma(color);
+      })
       .attr('d', function(d){
         return radialLine(d.kernelPoints);
       });
@@ -388,7 +409,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     _simulation.alphaTarget(0.3).restart();
 
     forceTransition('collide', 0.0, 0.5, 2000);
-    forceTransition('cluster', 0.5, 0.2, 1500);
+    forceTransition('cluster', 0.7, 0.2, 1500);
   };
 
   var initializeSimulation = function(){

@@ -7,8 +7,10 @@ var CONSTANTS = {
   WIDTH: 1600,
   HEIGHT: 800,
   COLORS: {
-    SUPPORT: 'rgba(0, 255, 0, 1)',
-    OPPOSE: 'rgba(255, 0, 0, 1)'
+    ENEMY: 'rgb(255,165,0)',
+    ALLY: 'rgb(0, 165, 255)',
+    SAME_POSITION: '4d8d9c',
+    DIFFERENT_POSITION: 'b17d1d'
   },
   MEMBRANE: {
     PADDING: 10,
@@ -23,7 +25,7 @@ var CONSTANTS = {
   },
   FORCES: {
     COLLIDE_PADDING: 3,
-    PACK_PADDING: 2,
+    PACK_PADDING: 5,
   },
   UPDATE_INTERVAL: 500,
   DATA: {
