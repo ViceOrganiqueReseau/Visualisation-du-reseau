@@ -145,27 +145,6 @@ var moveNode = function(node, duration){
 };
 
 
-var draw = function(current, previous){
-  var sectionChanged = !previous || (previous && (current.id != previous.id));
-  var shouldHideMembrane = !current.showClustersMembrane; 
-  var shouldShowMembrane = current.showClustersMembrane;
-  var shouldUseTransition = current.showClustersMembrane != (previous||{}).showClustersMembrane;
-
-  if(current.id != previous){}
-
-  // if(!shouldShowMembrane){
-  var nodes = current.data.nodes;
-  drawNodes(nodes);
-  // }
-  if(current.links){
-    drawLinks(current.links);
-  }
-
-  if(shouldShowMembrane){
-    drawMembranes(current);
-  }
-};
-
 var configureSimulation = function(scene, data, sectionsConfig){
   var _simulation,
   // animations intervals
@@ -345,6 +324,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
         var color = nodeColor(d);
         return chroma(color).alpha(0.5);
       })
+      .attr('fill-opacity', 0.33)
       .attr('d', function(d){
         return radialLine(d.points);
       });
