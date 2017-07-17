@@ -82,8 +82,8 @@ var secondSection = function(data){
       clusters.push({
         color: color,
         key: clusterKey(d),
-        x: 0+c.x,
-        y: 0+c.y,
+        x: 0+d.x,
+        y: 0+d.y,
         nodeIDS: d.children.map(function(node){ return node.data['ID']; })
       });
     });
@@ -125,8 +125,8 @@ var thirdSection = function(data){
       clusters.push({
         color: color,
         key: clusterKey(d),
-        x: 0+c.x,
-        y: 0+c.y,
+        x: 0+d.x,
+        y: 0+d.y,
         nodeIDS: d.children.map(function(node){ return node.data['ID']; })
       });
     });
@@ -191,10 +191,47 @@ var fourthSection = function(data){
     showMembranes: true,
     showLinks: false,
   }
-
-
 };
-var fifthSection = function(data){};
+
+/*
+ * Cinquième section
+ * Agrégat par secteur (pas de membranes)
+ */
+var fifthSection = function(data){
+  var clusters = [];
+  var clusterKey = function(c){
+    var parent = c.parent;
+    return parent.data.key + "-" + c.data.key;
+  };
+  // clusters par secteurs d'activité PUIS par position.
+  var nest = d3.nest()
+    .key(function(d){ return d['Secteurs d’activité']; });
+
+  // les données nous intéressant pour cette section
+  var nodes = data.utils.nodes.lobbies();
+  var nested = nest.entries(nodes);
+  var hierarchy = d3.hierarchy({ values: nested }, function(d){ return d.values; })
+    .sum(function(node){ return node.radius; });
+
+  var packed = packLayout(hierarchy);
+  // creation des clusters 
+  hierarchy.children.forEach(function(c){
+    clusters.push({
+      key: c.data.key,
+      nodeIDS: c.children.map(function(d){ return d.data.ID; }),
+      x: 0+c.x,
+      y: 0+c.y
+    });
+  });
+  return {
+    id: 2,
+    clusters: clusters, 
+    data: { nodes: nodes, links: []},
+    showMembranes: false,
+    showLinks: false,
+  }
+};
+
 var sixthSection = function(data){};
 var seventhSection = function(data){};
 var eighthSection = function(data){};

@@ -13,7 +13,7 @@ var CONSTANTS = {
     DIFFERENT_POSITION: 'b17d1d'
   },
   MEMBRANE: {
-    PADDING: 10,
+    PADDING: 6,
     CURVE: d3.curveBasisClosed
   },
   CIRCLE: {
@@ -25,7 +25,7 @@ var CONSTANTS = {
   },
   FORCES: {
     COLLIDE_PADDING: 3,
-    PACK_PADDING: 5,
+    PACK_PADDING: 8,
   },
   UPDATE_INTERVAL: 500,
   DATA: {
