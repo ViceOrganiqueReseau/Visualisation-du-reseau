@@ -1,10 +1,11 @@
+var LINK_CURVE_DISTANCE = 20;
 var shapePath = function(shape){
   var startcap = shape.startcap,
     endcap = shape.endcap,
     forward = shape.forward,
     back = shape.back,
     rnd = Math.round,
-    coords = function(pt){ return rnd(ptx)+','+rnd(y); };
+    coords = function(pt){ return rnd(pt.x)+','+rnd(pt.y); };
 
   var path = 'M'+coords(startcap.points[0])
     + 'L'+coords(startcap.points[2])
@@ -48,8 +49,8 @@ var linkBodyPath = function(link){
     x:(a.x+b.x)*midP, 
     y:(a.y+b.y)*midP
   });
-  var scale = CONSTANTS.LINKS.KERNEL_SCALE;
-  var r = scale * (link.data.source.radius || 10) - 4;
+  var scale = CONSTANTS.LINK.KERNEL_SCALE;
+  var r = scale * CONSTANTS.CIRCLE.KERNEL_RADIUS;
   var _mid = mid(src,tgt);
 
   var angle = Math.atan2(tgt.y-src.y, tgt.x-src.x)*180/Math.PI;
@@ -80,13 +81,12 @@ var drawLinks = function(links){
     .classed('link-base', true)
     .attr('comp-op', 'src')
     .attr('d', (d)=>(radialLine(d.data.source.kernelPoints)))
-    .attr('transform', function(link){ return transform(link.data.source, scale); })
+    .attr('transform', function(link){ return Utils.transform(link.data.source, scale); })
     .attr('fill', Color.link);
 
   $linksEnter.append('path')
     .classed('link-body', true)
-    .attr('fill', linkColor)
-    .attr('comp-op', 'src-out')
+    .attr('fill', Color.link)
     .attr('d', (d)=>linkBodyPath(d).shape);
 
   $linksEnter.append('path')
@@ -94,5 +94,14 @@ var drawLinks = function(links){
     .attr('fill', 'none')
     .attr('stroke','black');
 
-  return $links;
+
+  var $linksExit = $links.exit();
+
+  $linksExit.transition().duration(2000).style('opacity', 0);
+
+  $linksExit.transition().delay(2000).remove();
+  
+  $links = $links.merge($linksEnter);
+  
+  return {links: $links, linksExit:$linksExit};
 }

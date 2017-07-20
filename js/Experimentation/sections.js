@@ -224,17 +224,29 @@ var fifthSection = function(data){
     });
   });
   return {
-    id: 2,
+    id: 4,
     clusters: clusters, 
     data: { nodes: nodes, links: []},
-    showMembranes: true,
+    showMembranes: false,
     showLinks: false,
   }
 };
 /* 
  * Sixième section 
  */
-var sixthSection = function(data){};
+var sixthSection = function(data){
+  var nodes = data.utils.nodes.lobbies();
+  var links = data.utils.links.affiliations();
+  return {
+    id: 5,
+    clusters: [],
+    data: {
+      nodes:nodes, links:links,
+    },
+    showMembranes: false,
+    showLinks: true,
+  };
+};
 var seventhSection = function(data){};
 var eighthSection = function(data){};
 

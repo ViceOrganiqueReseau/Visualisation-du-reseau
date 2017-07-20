@@ -95,6 +95,13 @@ var processData = function(files){
       indirectProprietaryLinks,
       affiliationLinks
   ]);
+
+  allLinks.forEach(function(link){
+    link.data = {
+      source: allNodes.find(function(node){ return node.ID === link.source }),
+      target: allNodes.find(function(node){ return node.ID === link.target })
+    };
+  });
   return {
     userChoice: getUserChoice(),
     nodes: allNodes, 

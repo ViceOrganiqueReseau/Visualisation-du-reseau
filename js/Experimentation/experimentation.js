@@ -69,11 +69,11 @@ var moveNode = function(node, duration){
 
 
 var configureSimulation = function(scene, data, sectionsConfig){
-  var _simulation,
+  var _simulation, ticks = 0,
   // animations intervals
   reshapeInterval, moveInterval,
   // d3 selections
-  $nodes, $membranes, $membranesExit, $links;
+  $nodes, $membranes, $membranesExit, $links, $linksExit;
   var userChoice = data.userChoice;
   var currentSectionIndex = 0;
   var previousSectionIndex;
@@ -171,7 +171,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
   var updateLinks = function(){
     var TYPES = CONSTANTS.DATA.TYPES.LINK;
     var links = getCurrentSection().data.links;
-    $links = drawLinks(links);
+    var drawn = drawLinks(links);
+    $links = drawn.links;
+    $linksExit = drawn.linksExit;
     // var linkEnter = link.enter().append('');
   };
 
@@ -223,10 +225,30 @@ var configureSimulation = function(scene, data, sectionsConfig){
     var previousSection = getSectionAt(currentSectionIndex-1);
     var section = getCurrentSection();
     _simulation.nodes(section.data.nodes);
+    _simulation.force('link').links(section.data.links);
     _simulation.alphaTarget(0.45).restart();
 
+    var addLinkTransition = section.showLinks && !previousSection.showLinks;
+    var removeLinkTransition = !section.showLinks && previousSection.showLinks; 
+    var noLinkTransition = !section.showLinks && !previousSection.showLinks;
+
+
     forceTransition('collide', 0.0, 0.7, 3500);
-    forceTransition('cluster', 0.65, 0.3, 3000);
+    
+    if(addLinkTransition){
+      _simulation.force('cluster').strength(0);
+      forceTransition('link', 0, 0.2, 3500);
+      forceTransition('many', 0, 0.4, 3000);
+    }
+
+    if(removeLinkTransition){
+      _simulation.force('link').strength(0);
+      _simulation.force('many').strength(0); 
+      forceTransition('cluster', 0.7, 0.5, 3000);
+    }
+    if(noLinkTransition){
+      forceTransition('cluster', 0.7, 0.5, 3000);
+    }
   };
 
   var initializeSimulation = function(){
@@ -240,6 +262,11 @@ var configureSimulation = function(scene, data, sectionsConfig){
     
     _simulation = d3.forceSimulation(nodes)
       .on('tick', onTick)
+      .force('many', d3.forceManyBody().strength(0).distanceMin(100))
+      .force('link', d3.forceLink()
+          .strength(0)
+          .distance(100)
+          .id(function(node){ return node.ID; }))
       .force('collide', d3.forceCollide()
           .radius(function(d){
             return (d.radius > kernelRadius ? d.radius : kernelRadius) + collidePadding;
@@ -266,9 +293,18 @@ var configureSimulation = function(scene, data, sectionsConfig){
     updateLinks();
     updateSimulationData();
   };
+  var updateLink = function($link){
+    if(!$link){ return; }
+    $links.select('.link-base').attr('transform', function(link){ return transform(link.source);});
+    
+    $links.select('.link-body').attr('d', function(d){
+      var path = linkBodyPath(d).shape;
+      return path;
+    });
 
+  }
   var onTick = function(){
-    var n = nextSection;
+    ticks+=1;
     var nodes = this.nodes();
     if(!ticked){
       ticked = true;
@@ -286,6 +322,10 @@ var configureSimulation = function(scene, data, sectionsConfig){
     $nodes.attr('transform', function(node){ return transform(node); });
     $membranes.attr('d', function(d){return membranePath(nodes, d); });
     $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
+    if(ticks % 5 === 0){
+    updateLink($links);
+    updateLink($linksExit);
+    }
     // nécessaire pour la capture des FPS en DEBUG.
     if(DEBUG){
       stats.end();

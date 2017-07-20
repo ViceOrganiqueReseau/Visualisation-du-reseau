@@ -22,6 +22,7 @@ var Utils = {
     pick: randPick,
     sign: randSign,
   },
+  transform: transform,
   flattenArray: flattenArray,
   fade: fade
 };
