@@ -121,9 +121,20 @@ var processData = function(files){
 }
 
 var importData = function(){
+  var csv = CONSTANTS.DATA.CSV_FILES;
   var queue = d3.queue();
-
-  CONSTANTS.DATA.CSV_FILES.forEach(function(file){
+  // cette façon de faire nous permet d'assurer l'ordre du chargement des fichiers.
+  // c'est particulièrement utile pour permettre à la fonction processData de savoir
+  // à quoi correspondent les données passées en paramètre.
+  var files = [
+    csv.NODES,
+    csv.NODES_PROPRIETARY,
+    csv.LINKS_PROPRIETARY,
+    csv.LINKS_INDIRECT_PROPRIETARY,
+    csv.LINKS_AFFILIATION
+  ];
+  // ajoute à la queue le chargement du chargement du fichier
+  files.forEach(function(file){
     queue = queue.defer(d3.csv, file);
   });
 

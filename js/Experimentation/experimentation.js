@@ -32,87 +32,8 @@
  * - les transitions en canvas: https://github.com/quantmind/d3-canvas-transition
  * - utilisation des fx et fy dans les forceSimulation https://bl.ocks.org/mbostock/2990a882e007f8384b04827617752738
  */
+/* Variables globales */
 var simulation, stats, scene, canvas;
-// tire aléatoirement un nombre entre `min` et `max`
-var rand  = function(min , max){ return Math.random()*max + min; };
-// tire aléatoirement un élément du tableau `arr`. 
-var randPick = function(arr){ return arr[Math.round(rand(0, arr.length-1))]; };
-// retourne aléatoirement 1 ou -1
-var randSign = function(){ return Math.random()>0.5 ? 1:-1 };
-
-// var context = canvas.node().getContext('2d');
-
-var radialLine = d3.radialLine()
-  .angle(function(d){ return d.angle; })
-  .radius(function(d){ return d.radius; })
-  .curve(CONSTANTS.CIRCLE.CURVE);
-
-  // var hull = d3.concaveHull().padding(CONSTANTS.MEMBRANE.PADDING).distance(1000);
-
-var hull = function(vertices){ return d3.polygonHull(vertices); };
-var hullLine = d3.line()
-  .curve(CONSTANTS.MEMBRANE.CURVE);
-
-var circlePoints = function(radius, nbPoints){
-  nbPoints = nbPoints || CONSTANTS.CIRCLE.POINTS_NUMBER;
-  var radiusJitter = CONSTANTS.CIRCLE.RADIUS_JITTER;
-  var stepAngle = CONSTANTS.PHI/nbPoints;
-  var points = [];
-  for(var i=0; i<nbPoints; i++){
-    var jitterAngle = randSign()*(Math.random()/nbPoints);
-    var angle = stepAngle*i;
-
-    var jitterRadius = randSign() * Math.round(
-        (radius*radiusJitter)*(Math.random())
-    );
-    points.push({
-      angle: angle,
-      radius: radius + jitterRadius,
-    });
-  }
-  return points;
-};
-
-var membranePath = function(nodes, cluster){
-  var padding = CONSTANTS.MEMBRANE.PADDING;
-  var x = function(p){ return Math.cos(p.angle) * ((p.radius||0)+padding); };
-  var y = function(p){ return Math.sin(p.angle) * ((p.radius||0)+padding); };
-
-  var clusterNodes = nodes.filter(function(node){
-    return cluster.nodeIDS.indexOf(node['ID']) >= 0; 
-  });
-
-  var points = clusterNodes.map(function(node){
-    var cx = node.x, cy = node.y;
-    var points = node.points.length > 0 ? node.points : node.kernelPoints;
-    return points.map(function(p){
-      return [ cx+x(p), cy+y(p) ];
-    });
-  }).reduce((a,b)=>a.concat(b)); // reduce -> permet d'aplatir le tableau
-  var h = hull(points);
-  if(h && h.length > 0){
-    return hullLine(h);
-  } else {
-    return '';
-  }
-};
-
-
-var reshapeNode = function(node, duration){
-  node.reshaping = true;
-  var oldPoints = node.points;
-  var newPoints = circlePoints(node.radius, oldPoints.length);
-  var interpolator = d3.interpolateArray(oldPoints,newPoints);
-  var timer = d3.timer((time)=>{
-    var timeRatio = time/duration;
-    var points = interpolator(timeRatio);
-    node.points = points;
-    if(timeRatio > 1.0){
-      timer.stop();
-      node.reshaping = false;
-    }
-  })
-};
 
 var moveNode = function(node, duration){
   node.moving = true;
@@ -145,12 +66,14 @@ var moveNode = function(node, duration){
 };
 
 
+
+
 var configureSimulation = function(scene, data, sectionsConfig){
   var _simulation,
   // animations intervals
   reshapeInterval, moveInterval,
   // d3 selections
-  membraneExit, $nodes, $membranes;
+  $nodes, $membranes, $membranesExit, $links;
   var userChoice = data.userChoice;
   var currentSectionIndex = 0;
   var previousSectionIndex;
@@ -248,107 +171,23 @@ var configureSimulation = function(scene, data, sectionsConfig){
   var updateLinks = function(){
     var TYPES = CONSTANTS.DATA.TYPES.LINK;
     var links = getCurrentSection().data.links;
-    var link = canvas.selectAll('.link').data(links);
+    $links = drawLinks(links);
     // var linkEnter = link.enter().append('');
   };
 
   var updateMembranes = function(){
     var section = getCurrentSection();
-    var membranes = section.clusters;
-    if(!section.showMembranes){
-      membranes = [];
-    }
-    console.log('membranes to show', membranes);
-    var membrane = canvas.selectAll('.membrane')
-      .data(membranes, function(c){ return c.key; });
+    var membranes = section.showMembranes ? section.clusters: [];
 
-    var membraneEnter = membrane.enter()
-      .append('path')
-      .classed('membrane', true)
-      .attr('d', function(cluster){
-        return membranePath(section.data.nodes, cluster);
-      })
-      .attr('fill', function(cluster){
-        return chroma(cluster.color);
-      }).attr('fill-opacity', 0);
-
-    // update
-    membraneEnter.transition()
-      .delay(300)
-      .duration(1000)
-      .attrTween('fill-opacity', function(){ return d3.interpolateNumber(0,1);});
-
-
-    $membranes = membraneEnter.merge(membrane);
-
-    // on cache les membrane qui ne seront plus utilisées.
-    // TODO: ajouter une constante 
-    membraneExit = membrane.exit();
+    var drawn = drawMembranes(section.data.nodes, membranes);
+    $membranes = drawn.membranes;
+    $membranesExit = drawn.membranesExit;
     
-    membraneExit.transition().duration(300)
-      .attrTween('fill-opacity', function(){ return d3.interpolateNumber(1,0); });
-    
-    membraneExit.transition().delay(500).remove();
-
-    
-    $membranes = $membranes.merge(membraneExit);
   };
 
   var updateNodes = function(){
-    var TYPES = CONSTANTS.DATA.TYPES.NODE;
     var nodes = getCurrentSection().data.nodes;
-    var node = canvas.selectAll('.node').data(nodes);
-    var nodeEnter = node.enter().append('g')
-      .classed('node', true);
-
-    var nodeColor = function(d){
-      var colors = CONSTANTS.COLORS;
-      if(userChoice.lobbyID == d.ID){
-        return colors.ALLY;
-      }
-      if(userChoice.enemyID == d.ID){
-        return colors.ENMEMY;
-      }
-      return d[userChoice.theme] === userChoice.position ? colors.SAME_POSITION : colors.DIFFERENT_POSITION;
-    };
-      
-    var lobbyNodeEnter = nodeEnter.filter(function(d){
-      return d.type == TYPES.LOBBY;
-    });
-
-    // premier cercle, la membrane externe.
-    lobbyNodeEnter.append('path')
-      .classed('circle-membrane', true)
-      .attr('stroke', '')
-      .attr('fill', function(d){
-        var color = nodeColor(d);
-        return chroma(color).alpha(0.5);
-      })
-      .attr('fill-opacity', 0.33)
-      .attr('d', function(d){
-        return radialLine(d.points);
-      });
-
-    // deuxième cercle, le noyau.
-    lobbyNodeEnter.append('path')
-      .classed('circle-kernel', true)
-      .attr('stroke', function(d){ return chroma(nodeColor(d)); })
-      .attr('fill', function(d){
-        var color = nodeColor(d);
-        return chroma(color);
-      })
-      .attr('d', function(d){
-        return radialLine(d.kernelPoints);
-      });
-
-    $nodes = nodeEnter.merge(node);
-
-    // suppresion des noeuds supprimé (propriété par exemple)
-    // TODO: rajouter une constante. 
-    node.exit().transition(1000)
-      .attrTween('opacity', function(){
-        return d3.interpolateNumber(1,0); })
-      .remove();
+    $nodes = drawNodes(nodes);
   };
 
   var ticked = false;
@@ -379,17 +218,15 @@ var configureSimulation = function(scene, data, sectionsConfig){
       node.y = cluster.y;
     });
   };
-  var updateAnimations = function(){
-  };
 
   var updateSimulationData = function(){
     var previousSection = getSectionAt(currentSectionIndex-1);
     var section = getCurrentSection();
     _simulation.nodes(section.data.nodes);
-    _simulation.alphaTarget(0.3).restart();
+    _simulation.alphaTarget(0.45).restart();
 
-    forceTransition('collide', 0.0, 0.5, 2000);
-    forceTransition('cluster', 0.7, 0.2, 1500);
+    forceTransition('collide', 0.0, 0.7, 3500);
+    forceTransition('cluster', 0.65, 0.3, 3000);
   };
 
   var initializeSimulation = function(){
@@ -398,6 +235,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
     initializeNodesPosition();
 
     var nodes = getCurrentSection().data.nodes;
+    updateNodes();
+    updateMembranes();
+    
     _simulation = d3.forceSimulation(nodes)
       .on('tick', onTick)
       .force('collide', d3.forceCollide()
@@ -412,63 +252,55 @@ var configureSimulation = function(scene, data, sectionsConfig){
         .centerInertia(1));
 
     _simulation.stop();
-    _simulation.alphaTarget(0.3).restart();
-    forceTransition('cluster', 0.5, 0.3, 1000);
-    forceTransition('collide', 0.0, 0.5, 1500);
-    updateNodes();
-    updateMembranes();
+    _simulation.alpha(0.5).restart();
+    forceTransition('cluster', 0.5, 0.3, 600);
+    forceTransition('collide', 0.0, 0.5, 500);
     setTimeout(function(){
-      _simulation.alphaTarget(0);
-    }, 2000); 
+      _simulation.alphaTarget(0.3);
+    }, 3000); 
   };
 
   var updateSimulation = function(){
     updateNodes();
     updateMembranes();
     updateLinks();
-    updateAnimations();
     updateSimulationData();
   };
 
-  var transform = function(node){
-    return [
-      'translate(', node.x, ',', node.y, ')'
-    ].join('');
-    };
+  var onTick = function(){
+    var n = nextSection;
+    var nodes = this.nodes();
+    if(!ticked){
+      ticked = true;
+      console.log('onTick started');
+    }
+    var section = getCurrentSection();
+    var DEBUG = CONSTANTS.DEBUG;
+    // var previousSection = getPreviousSection();
+    // var currentSection = getCurrentSection();
 
-    var onTick = function(){
-      var n = nextSection;
-      if(!ticked){
-        ticked = true;
-        console.log('onTick started');
-      }
-      var section = getCurrentSection();
-      var DEBUG = CONSTANTS.DEBUG;
-      // var previousSection = getPreviousSection();
-      // var currentSection = getCurrentSection();
+    // montre les FPS si nous somme en DEBUG.
 
-      // montre les FPS si nous somme en DEBUG.
+    if(DEBUG){ stats.begin(); }
 
-      if(DEBUG){ stats.begin(); }
+    $nodes.attr('transform', function(node){ return transform(node); });
+    $membranes.attr('d', function(d){return membranePath(nodes, d); });
+    $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
+    // nécessaire pour la capture des FPS en DEBUG.
+    if(DEBUG){
+      stats.end();
+    }
+  };
 
-      $nodes.attr('transform', transform);
-      $membranes.attr('d', function(d){return membranePath(section.data.nodes, d); });
-      membraneExit.attr('d', function(d){return membranePath(section.data.nodes, d); });
-      // nécessaire pour la capture des FPS en DEBUG.
-      if(DEBUG){
-        stats.end();
-      }
-    };
-
-    return {
-      alpha: function(a){ _simulation.alpha(a) },
-      simulation: simulation,
-      nextSection: nextSection,
-      setCurrentSection: setCurrentSection,
-      getCurrentSection: getCurrentSection,
-      previousSection: previousSection,
-      start: initializeSimulation
-    };
+  return {
+    alpha: function(a){ _simulation.alpha(a) },
+    simulation: simulation,
+    nextSection: nextSection,
+    setCurrentSection: setCurrentSection,
+    getCurrentSection: getCurrentSection,
+    previousSection: previousSection,
+    start: initializeSimulation
+  };
 };
 
 // appellée une fois les données chargées

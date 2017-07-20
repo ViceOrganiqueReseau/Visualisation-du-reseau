@@ -185,7 +185,7 @@ var fourthSection = function(data){
     });
   });
   return {
-    id: 2,
+    id: 4,
     clusters: clusters, 
     data: { nodes: nodes, links: []},
     showMembranes: true,
@@ -227,11 +227,13 @@ var fifthSection = function(data){
     id: 2,
     clusters: clusters, 
     data: { nodes: nodes, links: []},
-    showMembranes: false,
+    showMembranes: true,
     showLinks: false,
   }
 };
-
+/* 
+ * Sixième section 
+ */
 var sixthSection = function(data){};
 var seventhSection = function(data){};
 var eighthSection = function(data){};
