@@ -1,126 +1,95 @@
 var LINK_CURVE_DISTANCE = 20;
+var radToDeg = function(rad){ return (rad*180)/Math.PI; };
+var degToRad = function(deg){ return (deg*Math.PI)/180; };
 
+var getNormalAngle = function(a,b){
+  var angle = radToDeg(Math.atan2(b.y-a.y, b.x-a.x));
+  return degToRad(angle - 90);
+};
 var coords = function(pt, i){ return pt['x'+i]+','+pt['y'+i]; };
-
-var shapePath = function(shape){
-  var start = shape.start;
-  var middle = shape.middle;
-  var end  = shape.end;
-  return 'M' + coords(start, 2)
-    + ' L'+ coords(start, 1)
-    + ' Q'+ coords(middle, 1)
-    + ' ' + coords(end,1)
-    + ' L'+ coords(end,2)
-    + ' Q'+ coords(middle,2)
-    + ' ' + coords(start,2);
-};
 /*
-var shapePath = function(shape){
-  var startcap = shape.startcap,
-    endcap = shape.endcap,
-    forward = shape.forward,
-    back = shape.back,
-    rnd = Math.round;
-  var path = 'M'+coords(startcap.points[0])
-    + 'L'+coords(startcap.points[2])
-    + forward.map(function(curve){
-        var pts = curve.points;
-        return 'C'+coords(pts[1])+' '+coords(pts[2])+' '+coords(pts[3]);
-      }).join(' ')
-    + back.map(function(curve){
-        var pts = curve.points;
-        return 'C'+coords(pts[1])+' '+coords(pts[2])+' '+coords(pts[3]);
-      }).join(' ');
-  return path;
-};
-*/
-
-var outlineShapes = function(curve, d1,d2,d3,d4, t){
-  var utils = Bezier.getUtils();
-  var outline = curve.outline(d1,d2,d3,d4).curves;
-  return { 
-    startcap: outline[0],
-    forward: outline.slice(1,3),
-    endcap: outline[3], 
-    back: outline.slice(-2)
+ * Génère les points servant à dessiner l'aire du lien.
+ * @param `points`
+ *  tableau des points de la courbe, chaque point étant sous la forme suivante:
+ *    {
+ *      at:0.0, // pourcentage du placement du point sur la ligne entre `source` et `target`
+ *      width: 5, // largeur de la bande à cet endroit.
+ *      offset: -2 // distance par rapport à la ligne `source` <-> `target`
+ *    }
+ *    
+ */
+var areaPoints = function(link, points){
+  var source = link.source.x ? link.source : link.data.source;
+  var target = link.target.x ? link.target : link.data.target;
+  var normalAngle = getNormalAngle(source, target);
+  
+  var x = function(pt){
+    return source.x
+      + (target.x - source.x)*pt.at 
+      + pt.offset*Math.cos(normalAngle);
   };
-};
+  
+  var y = function(pt){
+    return source.y
+      + (target.y - source.y)*pt.at 
+      + pt.offset*Math.sin(normalAngle);
+  };
+
+  var x0 = function(pt){
+    return x(pt) - pt.width*Math.cos(normalAngle);
+  }
+  var x1 = function(pt){
+    return x(pt) + pt.width*Math.cos(normalAngle);
+  }
+  var y0 = function(pt){
+    return y(pt) - pt.width*Math.sin(normalAngle);
+  }
+  var y1 = function(pt){
+    return y(pt) + pt.width*Math.sin(normalAngle);
+  }
+  var _points = points.map(function(pt){
+    return {
+      x0: x0(pt), x1: x1(pt),
+      y0: y0(pt), y1: y1(pt)
+    };
+  });
+  return _points;
+} 
+var areaPath = d3.area()
+  .x0(function(pt){return pt.x0; })
+  .x1(function(pt){return pt.x1; })
+  .y0(function(pt){return pt.y0; })
+  .y1(function(pt){return pt.y1; });
+
 
 var linkBodyPath = function(link){
-  var radToDeg = function(rad){ return (rad*180)/Math.PI; };
-  var degToRad = function(deg){ return (deg*Math.PI)/180; };
+  var base_radius = CONSTANTS.CIRCLE.KERNEL_RADIUS * CONSTANTS.LINK.KERNEL_SCALE - 2;
+  var end_link_width = base_radius * 0.25;
 
-  var getNormalAngle = function(a,b){
-    var angle = radToDeg(Math.atan2(b.y-a.y, b.x-a.x));
-    return degToRad(angle - 90);
-  };
-
-  var outline;
-  // console.log('linkBodyPath', link.data.source.ID, link.data.target.ID);
-  var src = link.data.source;
-  var tgt = link.data.target;
-
-  if(link.source.x){
-    src = link.source;
-    tgt = link.target;
-  }
-
-  var midP = 0.5;
-  var d = 4;
-  var mid = (a,b)=>({
-    x:(a.x+b.x)*midP, 
-    y:(a.y+b.y)*midP
-  });
-  var scale = CONSTANTS.LINK.KERNEL_SCALE;
-  var r = scale * CONSTANTS.CIRCLE.KERNEL_RADIUS;
-  var _mid = mid(src,tgt);
-
-  
-  var normalAngle = getNormalAngle(src, tgt);
-  // le point de control central
-  _mid.x += d*Math.cos(normalAngle);
-  _mid.y += d*Math.sin(normalAngle);
-  
-  var middleNormalAngle = getNormalAngle(src, _mid);
-  var endNormalAngle = getNormalAngle(_mid, tgt);
-//  debugger; 
-  // génération de la courbe "générale" du lien. 
-  var shape = {
-    start: {
-      x1: src.x + (r-3)*Math.cos(normalAngle),
-      y1: src.y + (r-3)*Math.sin(normalAngle),
-      x2: src.x - (r-3)*Math.cos(normalAngle),
-      y2: src.y - (r-3)*Math.cos(normalAngle)
-    },
-    middle: {
-      x1: _mid.x + r*0.5*Math.cos(middleNormalAngle),
-      y1: _mid.y + r*0.5*Math.sin(middleNormalAngle),
-      x2: _mid.x - r*0.5*Math.cos(middleNormalAngle),
-      y2: _mid.y - r*0.5*Math.sin(middleNormalAngle),
-    },
-    end: {
-      x1: tgt.x + r*0.1*Math.cos(endNormalAngle),
-      y1: tgt.y + r*0.1*Math.sin(endNormalAngle),
-      x2: tgt.x - r*0.1*Math.cos(endNormalAngle),
-      y2: tgt.y - r*0.1*Math.sin(endNormalAngle),
-    }
-  };
-  // génération des formes autour de ce lien.
-  var path = shapePath(shape);
-  return path;
+  var conf = [
+    { at: 0.0, width: base_radius, offset: 0 },
+    { at: 0.2, width: base_radius*0.33, offset: 0 },
+    { at: 0.5, width: end_link_width, offset: base_radius*0.33 },
+    { at: 0.75, width: end_link_width, offset: -3 },
+    { at: 1.0, width: end_link_width, offset: 0}
+  ];
+  var points = areaPoints(link, conf);
+  return areaPath(points);
 };
 
-
 var drawLinks = function(links){
+  var TYPES = CONSTANTS.DATA.TYPES.LINK;
   var canvas = scene.getCanvas();
   var $links = canvas.selectAll('.link').data(links);
   var scale = CONSTANTS.LINK.KERNEL_SCALE;
-  
+
   var $linksEnter = $links.enter()
     .append('g')
     .attr('comp-op', 'src')
     .style('opacity', 0.7)
     .classed('link', true);
+
+  var $affiliations = $linksEnter.filter(function(link){ return link.type === TYPES.AFFILIATION });
 
   $linksEnter.append('path')
     .classed('link-base', true)
@@ -132,21 +101,15 @@ var drawLinks = function(links){
   $linksEnter.append('path')
     .classed('link-body', true)
     .attr('fill', Color.link)
-    .attr('d', (d)=>linkBodyPath(d));
-
-  $linksEnter.append('path')
-    .classed('link-curve', true)
-    .attr('fill', 'none')
-    .attr('stroke','black');
-
+    .attr('d', linkBodyPath);
 
   var $linksExit = $links.exit();
 
-  $linksExit.transition().duration(2000).style('opacity', 0);
+  $linksExit.transition().duration(1000).style('opacity', 0);
 
-  $linksExit.transition().delay(2000).remove();
-  
+  $linksExit.transition().delay(1000).remove();
+
   $links = $links.merge($linksEnter);
-  
+
   return {links: $links, linksExit:$linksExit};
 }
