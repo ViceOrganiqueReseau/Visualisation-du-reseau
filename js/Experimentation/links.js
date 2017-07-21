@@ -1,6 +1,6 @@
 var LINK_CURVE_DISTANCE = 20;
 
-var coords = function(pt, i){ return Math.round(pt['x'+i])+','+Math.round(pt['y'+i]); };
+var coords = function(pt, i){ return pt['x'+i]+','+pt['y'+i]; };
 
 var shapePath = function(shape){
   var start = shape.start;
@@ -52,7 +52,7 @@ var linkBodyPath = function(link){
 
   var getNormalAngle = function(a,b){
     var angle = radToDeg(Math.atan2(b.y-a.y, b.x-a.x));
-    return degToRad(90-angle);
+    return degToRad(angle - 90);
   };
 
   var outline;

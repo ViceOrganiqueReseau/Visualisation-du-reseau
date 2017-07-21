@@ -17,7 +17,7 @@ var setupScene = function(){
 
   return {
     getCanvas: function(){ return scene; },
-    getSize: function(){ return [ scene.attr('width'), scene.attr('height') ]; }
+    getSize: function(){ return [ parseInt(scene.attr('width')), parseInt(scene.attr('height')) ]; }
   };
 };
 

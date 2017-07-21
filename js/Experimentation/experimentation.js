@@ -220,7 +220,43 @@ var configureSimulation = function(scene, data, sectionsConfig){
       node.y = cluster.y;
     });
   };
+  
+  var initializeSimulation = function(){
+    var kernelRadius = CONSTANTS.CIRCLE.KERNEL_RADIUS;
+    var collidePadding = CONSTANTS.FORCES.COLLIDE_PADDING;
+    initializeNodesPosition();
 
+    var nodes = getCurrentSection().data.nodes;
+    updateNodes();
+    updateMembranes();
+    
+    _simulation = d3.forceSimulation(nodes)
+      .on('tick', onTick)
+      .force('many', d3.forceManyBody().strength(0).distanceMin(5).distanceMax(800))
+      .force('link', d3.forceLink()
+          .distance(40)
+          .strength(0)
+          .id(function(node){ return node.ID; }))
+      .force('collide', d3.forceCollide()
+          .radius(function(d){
+            return (d.radius > kernelRadius ? d.radius : kernelRadius) + collidePadding;
+          }))
+    .force('cluster', d3.forceCluster()
+        .centers(function(d){
+          var cluster = findNodeCluster(d);
+          return cluster;
+        })
+        .centerInertia(1));
+
+    _simulation.stop();
+    _simulation.alpha(0.5).restart();
+    forceTransition('cluster', 0.5, 0.3, 600);
+    forceTransition('collide', 0.0, 0.5, 500);
+    setTimeout(function(){
+      _simulation.alphaTarget(0.3);
+    }, 3000); 
+  };
+  
   var updateSimulationData = function(){
     var previousSection = getSectionAt(currentSectionIndex-1);
     var section = getCurrentSection();
@@ -252,40 +288,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     }
   };
 
-  var initializeSimulation = function(){
-    var kernelRadius = CONSTANTS.CIRCLE.KERNEL_RADIUS;
-    var collidePadding = CONSTANTS.FORCES.COLLIDE_PADDING;
-    initializeNodesPosition();
-
-    var nodes = getCurrentSection().data.nodes;
-    updateNodes();
-    updateMembranes();
-    
-    _simulation = d3.forceSimulation(nodes)
-      .on('tick', onTick)
-      .force('many', d3.forceManyBody().strength(0).distanceMin(5).distanceMax(800))
-      .force('link', d3.forceLink()
-          .strength(0)
-          .id(function(node){ return node.ID; }))
-      .force('collide', d3.forceCollide()
-          .radius(function(d){
-            return (d.radius > kernelRadius ? d.radius : kernelRadius) + collidePadding;
-          }))
-    .force('cluster', d3.forceCluster()
-        .centers(function(d){
-          var cluster = findNodeCluster(d);
-          return cluster;
-        })
-        .centerInertia(1));
-
-    _simulation.stop();
-    _simulation.alpha(0.5).restart();
-    forceTransition('cluster', 0.5, 0.3, 600);
-    forceTransition('collide', 0.0, 0.5, 500);
-    setTimeout(function(){
-      _simulation.alphaTarget(0.3);
-    }, 3000); 
-  };
+  
 
   var updateSimulation = function(){
     updateNodes();
