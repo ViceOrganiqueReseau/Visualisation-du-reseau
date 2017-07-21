@@ -1,12 +1,26 @@
 var LINK_CURVE_DISTANCE = 20;
+
+var coords = function(pt, i){ return Math.round(pt['x'+i])+','+Math.round(pt['y'+i]); };
+
+var shapePath = function(shape){
+  var start = shape.start;
+  var middle = shape.middle;
+  var end  = shape.end;
+  return 'M' + coords(start, 2)
+    + ' L'+ coords(start, 1)
+    + ' Q'+ coords(middle, 1)
+    + ' ' + coords(end,1)
+    + ' L'+ coords(end,2)
+    + ' Q'+ coords(middle,2)
+    + ' ' + coords(start,2);
+};
+/*
 var shapePath = function(shape){
   var startcap = shape.startcap,
     endcap = shape.endcap,
     forward = shape.forward,
     back = shape.back,
-    rnd = Math.round,
-    coords = function(pt){ return rnd(pt.x)+','+rnd(pt.y); };
-
+    rnd = Math.round;
   var path = 'M'+coords(startcap.points[0])
     + 'L'+coords(startcap.points[2])
     + forward.map(function(curve){
@@ -18,8 +32,8 @@ var shapePath = function(shape){
         return 'C'+coords(pts[1])+' '+coords(pts[2])+' '+coords(pts[3]);
       }).join(' ');
   return path;
-
 };
+*/
 
 var outlineShapes = function(curve, d1,d2,d3,d4, t){
   var utils = Bezier.getUtils();
@@ -30,11 +44,19 @@ var outlineShapes = function(curve, d1,d2,d3,d4, t){
     endcap: outline[3], 
     back: outline.slice(-2)
   };
-
 };
 
 var linkBodyPath = function(link){
+  var radToDeg = function(rad){ return (rad*180)/Math.PI; };
+  var degToRad = function(deg){ return (deg*Math.PI)/180; };
+
+  var getNormalAngle = function(a,b){
+    var angle = radToDeg(Math.atan2(b.y-a.y, b.x-a.x));
+    return degToRad(90-angle);
+  };
+
   var outline;
+  // console.log('linkBodyPath', link.data.source.ID, link.data.target.ID);
   var src = link.data.source;
   var tgt = link.data.target;
 
@@ -44,7 +66,7 @@ var linkBodyPath = function(link){
   }
 
   var midP = 0.5;
-  var d = LINK_CURVE_DISTANCE;
+  var d = 4;
   var mid = (a,b)=>({
     x:(a.x+b.x)*midP, 
     y:(a.y+b.y)*midP
@@ -53,16 +75,39 @@ var linkBodyPath = function(link){
   var r = scale * CONSTANTS.CIRCLE.KERNEL_RADIUS;
   var _mid = mid(src,tgt);
 
-  var angle = Math.atan2(tgt.y-src.y, tgt.x-src.x)*180/Math.PI;
-  var normalAngle = ((90-angle)*Math.PI)/180;
-
+  
+  var normalAngle = getNormalAngle(src, tgt);
+  // le point de control central
   _mid.x += d*Math.cos(normalAngle);
   _mid.y += d*Math.sin(normalAngle);
+  
+  var middleNormalAngle = getNormalAngle(src, _mid);
+  var endNormalAngle = getNormalAngle(_mid, tgt);
+//  debugger; 
   // génération de la courbe "générale" du lien. 
-  var curve = Bezier.quadraticFromPoints(src, _mid, tgt);
+  var shape = {
+    start: {
+      x1: src.x + (r-3)*Math.cos(normalAngle),
+      y1: src.y + (r-3)*Math.sin(normalAngle),
+      x2: src.x - (r-3)*Math.cos(normalAngle),
+      y2: src.y - (r-3)*Math.cos(normalAngle)
+    },
+    middle: {
+      x1: _mid.x + r*0.5*Math.cos(middleNormalAngle),
+      y1: _mid.y + r*0.5*Math.sin(middleNormalAngle),
+      x2: _mid.x - r*0.5*Math.cos(middleNormalAngle),
+      y2: _mid.y - r*0.5*Math.sin(middleNormalAngle),
+    },
+    end: {
+      x1: tgt.x + r*0.1*Math.cos(endNormalAngle),
+      y1: tgt.y + r*0.1*Math.sin(endNormalAngle),
+      x2: tgt.x - r*0.1*Math.cos(endNormalAngle),
+      y2: tgt.y - r*0.1*Math.sin(endNormalAngle),
+    }
+  };
   // génération des formes autour de ce lien.
-  var shapes = outlineShapes(curve, r, r, 4, 4);
-  return { shape: shapePath(shapes), curve: curve.toSVG() }
+  var path = shapePath(shape);
+  return path;
 };
 
 
@@ -74,7 +119,7 @@ var drawLinks = function(links){
   var $linksEnter = $links.enter()
     .append('g')
     .attr('comp-op', 'src')
-    .style('opacity', 0.3)
+    .style('opacity', 0.7)
     .classed('link', true);
 
   $linksEnter.append('path')
@@ -87,7 +132,7 @@ var drawLinks = function(links){
   $linksEnter.append('path')
     .classed('link-body', true)
     .attr('fill', Color.link)
-    .attr('d', (d)=>linkBodyPath(d).shape);
+    .attr('d', (d)=>linkBodyPath(d));
 
   $linksEnter.append('path')
     .classed('link-curve', true)

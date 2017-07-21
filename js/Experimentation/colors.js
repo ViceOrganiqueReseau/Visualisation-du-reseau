@@ -7,7 +7,8 @@ var nodeColor = function(d){
   if(userChoice.enemyID == d.ID){
     return colors.ENMEMY;
   }
-  return d[userChoice.theme] === userChoice.position ? colors.SAME_POSITION : colors.DIFFERENT_POSITION;
+  var color = d[userChoice.theme] === userChoice.position ? colors.SAME_POSITION : colors.DIFFERENT_POSITION;
+  return chroma(color);
 };
 
 var linkColor = function(link){

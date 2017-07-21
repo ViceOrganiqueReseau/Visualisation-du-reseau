@@ -237,13 +237,14 @@ var configureSimulation = function(scene, data, sectionsConfig){
     
     if(addLinkTransition){
       _simulation.force('cluster').strength(0);
-      forceTransition('link', 0, 0.2, 3500);
-      forceTransition('many', 0, 0.4, 3000);
+      forceTransition('link', 0.7, 0.2, 2000);
+      forceTransition('many', 0.7, 0.2, 3000);
     }
 
     if(removeLinkTransition){
       _simulation.force('link').strength(0);
-      _simulation.force('many').strength(0); 
+      _simulation.force('many').strength(0);
+      _simulation.force('center').strength(0);
       forceTransition('cluster', 0.7, 0.5, 3000);
     }
     if(noLinkTransition){
@@ -262,10 +263,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
     
     _simulation = d3.forceSimulation(nodes)
       .on('tick', onTick)
-      .force('many', d3.forceManyBody().strength(0).distanceMin(100))
+      .force('many', d3.forceManyBody().strength(0).distanceMin(5).distanceMax(800))
       .force('link', d3.forceLink()
           .strength(0)
-          .distance(100)
           .id(function(node){ return node.ID; }))
       .force('collide', d3.forceCollide()
           .radius(function(d){
@@ -298,8 +298,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     $links.select('.link-base').attr('transform', function(link){ return transform(link.source);});
     
     $links.select('.link-body').attr('d', function(d){
-      var path = linkBodyPath(d).shape;
-      return path;
+      return linkBodyPath(d);
     });
 
   }
@@ -322,10 +321,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     $nodes.attr('transform', function(node){ return transform(node); });
     $membranes.attr('d', function(d){return membranePath(nodes, d); });
     $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
-    if(ticks % 5 === 0){
     updateLink($links);
-    updateLink($linksExit);
-    }
     // nécessaire pour la capture des FPS en DEBUG.
     if(DEBUG){
       stats.end();
