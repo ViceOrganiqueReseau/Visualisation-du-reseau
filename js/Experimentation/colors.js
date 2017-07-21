@@ -12,7 +12,12 @@ var nodeColor = function(d){
 };
 
 var linkColor = function(link){
-  return nodeColor(link.data.source);
+  var TYPES = CONSTANTS.DATA.TYPES.LINK;
+  var color = CONSTANTS.LINK.PROPRIETARY_COLOR;
+  if(TYPES.AFFILIATION){
+    color = nodeColor(link.data.source);
+  }
+  return color;
 }
 
 

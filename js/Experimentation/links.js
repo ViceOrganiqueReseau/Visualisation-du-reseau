@@ -77,25 +77,72 @@ var linkBodyPath = function(link){
   return areaPath(points);
 };
 
-var drawLinks = function(links){
+var proprietyOpacity = function(link){
+  var value = link['Valeur (supp à%)'];
+  var opacity = 0.15;
+  if(value >= 50){
+    opacity = 0.8;
+  } else if(value >= 10){
+    opacity = 0.4;
+  }
+  return opacity;
+
+};
+
+var linkOpacity = function(link){
+  var NTYPES = CONSTANTS.DATA.TYPES.NODE;
   var TYPES = CONSTANTS.DATA.TYPES.LINK;
+  var opacity;
+  switch(link.type){
+    case TYPES.AFFILIATION:
+      if(link.data.source.type === NTYPES.LOBBY){
+        opacity = CONSTANTS.LINK.AFFILIATION_OPACITY;
+      } else {
+        opacity = 0;
+        debugger;
+      }
+      break; 
+    case TYPES.PROPRIETARY.DIRECT:
+      opacity = proprietyOpacity(link);
+      break;
+    default:
+      opacity = 0.0;
+      break;
+  }
+  return opacity; 
+};
+var drawLinks = function(links){
   var canvas = scene.getCanvas();
-  var $links = canvas.selectAll('.link').data(links);
+  var $links = canvas.selectAll('.link').data(links, function(link){
+    return link.source + '--' + link.target;
+  });
   var scale = CONSTANTS.LINK.KERNEL_SCALE;
 
   var $linksEnter = $links.enter()
     .append('g')
+    .attr('class', function(link){
+      return link.type.split('/').join('-') +' source-'+link.data.source.ID;
+    })
     .attr('comp-op', 'src')
-    .style('opacity', 0.7)
+    .style('opacity', linkOpacity)
     .classed('link', true);
-
-  var $affiliations = $linksEnter.filter(function(link){ return link.type === TYPES.AFFILIATION });
 
   $linksEnter.append('path')
     .classed('link-base', true)
     .attr('comp-op', 'src')
     .attr('d', (d)=>(radialLine(d.data.source.kernelPoints)))
-    .attr('transform', function(link){ return Utils.transform(link.data.source, scale); })
+    .attr('transform', function(link){
+      var source = link.data.source;
+      if(link.source.x){
+        source = link.source;
+      }
+      if(!source.x){
+        var size = scene.getSize();
+        source.x = size[0]/2;
+        source.y = size[1]/2;
+      }
+
+      return Utils.transform(source, scale); })
     .attr('fill', Color.link);
 
   $linksEnter.append('path')
@@ -109,7 +156,7 @@ var drawLinks = function(links){
 
   $linksExit.transition().delay(1000).remove();
 
-  $links = $links.merge($linksEnter);
+  $links = $linksEnter.merge($links);
 
   return {links: $links, linksExit:$linksExit};
 }

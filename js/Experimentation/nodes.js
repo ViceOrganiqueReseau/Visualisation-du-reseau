@@ -42,31 +42,40 @@ var reshapeCircle = ($circle, circle, duration)=>{
   });
 };
 
-
-var drawNodes = function(nodes){
+var nodeFill = function(node){
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var colors = CONSTANTS.COLORS;
-  var $nodes = scene.getCanvas().selectAll('.node').data(nodes);
-  var nodeEnter = $nodes.enter().append('g')
-    .classed('node', true);
-
   
-  var lobbyNodeEnter = nodeEnter.filter(function(d){
-    return d.type == TYPES.LOBBY;
-  });
+  if(node.type === TYPES.LOBBY){
+    return fade(nodeColor(node), colors.BACKGROUND, 0.5);
+  } else {
+    return 'url(#radialGradient)'
+  }
+}; 
 
-  // premier cercle, la membrane externe.
-  lobbyNodeEnter.append('path')
+var drawNodes = function(nodes){
+  console.log('nodes',nodes);
+  var TYPES = CONSTANTS.DATA.TYPES.NODE;
+  var $nodes = scene.getCanvas()
+    .selectAll('.node')
+    .data(nodes, function(node){ return node.ID; });
+
+  var nodeEnter = $nodes.enter().append('g')
+    .classed('node', true)
+    .attr('id', function(d){ return d.ID; });
+
+ 
+  nodeEnter.append('path')
     .classed('circle-membrane', true)
     .attr('id', function(d){ return d.ID; })
     .attr('stroke', 'none')
-    .attr('fill', function(d){
-      var color = nodeColor(d);
-      return fade(color, colors.BACKGROUND, 0.33);
-    })
+    .attr('fill', nodeFill)
     .attr('d', function(d){
       return radialLine(d.points);
     });
+  var lobbyNodeEnter = nodeEnter.filter(function(d){
+    return d.type == TYPES.LOBBY;
+  });
 
   // deuxième cercle, le noyau.
   lobbyNodeEnter.append('path')
@@ -80,14 +89,43 @@ var drawNodes = function(nodes){
       return radialLine(d.kernelPoints);
     });
 
-  $nodes = nodeEnter.merge($nodes);
-
+  var proprietaryNodeEnter = nodeEnter.filter(function(d){
+    return d.type == TYPES.PROPRIETARY;
+  });
+  
+  proprietaryNodeEnter.select('.circle-membrane').on('mouveover', function(e){
+    
+  });
   // suppresion des noeuds supprimé (propriété par exemple)
   // TODO: rajouter une constante. 
-  $nodes.exit().transition(300)
+  $nodes.exit().transition()
+    .duration(300)
     .attrTween('opacity', function(){
       return d3.interpolateNumber(1,0); })
     .remove();
+
+  $nodes = nodeEnter.merge($nodes);
+
+  $nodes.on('mouseover', function(node){
+    if(node.type === TYPES.PROPRIETARY){
+      var $nodeLinks = canvas.selectAll('.link')
+        .filter(function(link){
+          return link.data.source.ID == node.ID;
+        });
+      $nodeLinks.transition().duration(300)
+        .style('opacity', 1)
+
+    }
+  }).on('mouseout', function(node){
+    if(node.type === TYPES.PROPRIETARY){
+      var $nodeLinks = canvas.selectAll('.link')
+        .filter(function(link){
+          return link.data.source.ID == node.ID;
+        });
+      $nodeLinks.transition().duration(300)
+        .style('opacity', 0);
+    }
+  });
 
   return $nodes;
 }

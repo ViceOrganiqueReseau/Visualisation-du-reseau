@@ -14,7 +14,27 @@ var setupScene = function(){
     .attr("width", CONSTANTS.WIDTH)
     .attr("height", CONSTANTS.HEIGHT)
     .canvas(shouldUseCanvas);
-
+  
+  var defs = scene.append('defs');
+  var gradient = defs.append('radialGradient')
+    .attr('id', 'radialGradient');
+ 
+  var stopColor = function(opacity){
+    var propColor = chroma(CONSTANTS.COLORS.PROPRIETARY);
+    var c = propColor.alpha(opacity).rgba();
+    return 'rgba('+c[0]+','+c[1]+','+c[2]+','+c[3]+')';
+  }
+  gradient.append('stop')
+    .attr('stop-color', stopColor(0.7))
+    .attr('offset', '0%');
+  /*
+  gradient.append('stop')
+    .attr('offset', '60%')
+    .attr('stop-color', stopColor(0.5));
+  */
+  gradient.append('stop')
+    .attr('offset', '100%')
+    .attr('stop-color', stopColor(0)); 
   return {
     getCanvas: function(){ return scene; },
     getSize: function(){ return [ parseInt(scene.attr('width')), parseInt(scene.attr('height')) ]; }

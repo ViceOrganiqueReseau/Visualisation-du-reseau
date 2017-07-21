@@ -129,6 +129,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
   var findNodeCluster = function(d){
     var section = getCurrentSection();
     var clusters = section.clusters;
+    if(!clusters){ return null; }
     return clusters.find(function(cluster){
       return cluster.nodeIDS.indexOf(d['ID']) >= 0;
     });
@@ -232,9 +233,13 @@ var configureSimulation = function(scene, data, sectionsConfig){
     
     _simulation = d3.forceSimulation(nodes)
       .on('tick', onTick)
-      .force('many', d3.forceManyBody().strength(0).distanceMin(5).distanceMax(800))
+      .force('many', d3.forceManyBody()
+          .strength(0)
+          .distanceMin(300)
+          .distanceMax(800))
       .force('link', d3.forceLink()
-          .distance(40)
+          .iterations(5)
+          .distance(60)
           .strength(0)
           .id(function(node){ return node.ID; }))
       .force('collide', d3.forceCollide()
@@ -262,28 +267,30 @@ var configureSimulation = function(scene, data, sectionsConfig){
     var section = getCurrentSection();
     _simulation.nodes(section.data.nodes);
     _simulation.force('link').links(section.data.links);
-    _simulation.alphaTarget(0.45).restart();
+    _simulation.alphaTarget(0.4).restart();
 
     var addLinkTransition = section.showLinks && !previousSection.showLinks;
     var removeLinkTransition = !section.showLinks && previousSection.showLinks; 
     var noLinkTransition = !section.showLinks && !previousSection.showLinks;
 
 
-    forceTransition('collide', 0.0, 0.7, 3500);
     
     if(addLinkTransition){
+      forceTransition('collide', 0.0, 0.4, 2000);
       _simulation.force('cluster').strength(0);
-      forceTransition('link', 0.7, 0.2, 2000);
-      forceTransition('many', 0.7, 0.2, 3000);
+      forceTransition('link', 0.0, 0.07, 2000);
+      forceTransition('many', -10, -1, 3000);
     }
 
     if(removeLinkTransition){
+      forceTransition('collide', 0.0, 0.7, 3500);
       _simulation.force('link').strength(0);
       _simulation.force('many').strength(0);
       _simulation.force('center').strength(0);
       forceTransition('cluster', 0.7, 0.5, 3000);
     }
     if(noLinkTransition){
+      forceTransition('collide', 0.0, 0.7, 3500);
       forceTransition('cluster', 0.7, 0.5, 3000);
     }
   };
@@ -300,11 +307,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
     if(!$link){ return; }
     $links.select('.link-base').attr('transform', function(link){ return transform(link.source);});
     
-    $links.select('.link-body').attr('d', function(d){
-      return linkBodyPath(d);
-    });
+    $links.select('.link-body').attr('d', linkBodyPath);
+  };
 
-  }
   var onTick = function(){
     ticks+=1;
     var nodes = this.nodes();
@@ -325,6 +330,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     $membranes.attr('d', function(d){return membranePath(nodes, d); });
     $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
     updateLink($links);
+    updateLink($linksExit);
     // nécessaire pour la capture des FPS en DEBUG.
     if(DEBUG){
       stats.end();

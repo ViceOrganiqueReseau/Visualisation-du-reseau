@@ -235,19 +235,29 @@ var fifthSection = function(data){
  * Sixième section 
  */
 var sixthSection = function(data){
-  var nodes = data.utils.nodes.lobbies();
-  var links = data.utils.links.affiliations();
   return {
     id: 5,
     clusters: [],
     data: {
-      nodes:nodes, links:links,
+      nodes:data.utils.nodes.lobbies(), 
+      links:data.utils.links.affiliations()
     },
     showMembranes: false,
     showLinks: true,
   };
 };
-var seventhSection = function(data){};
+var seventhSection = function(data){
+  return {
+    id: 6,
+    cluters: [],
+    data: {
+      nodes: data.utils.nodes.all(),
+      links: data.utils.links.all()
+    },
+    showMembranes: false,
+    showLinks: true
+  };
+};
 var eighthSection = function(data){};
 
 var configureSections = function(data){
@@ -269,6 +279,6 @@ var configureSections = function(data){
   // voir Experimentation/sections/seventh.js
   allSections.push(seventhSection(data));
   // voir Experimentation/sections/eighth.js
-  allSections.push(eighthSection(data));
+  // allSections.push(eighthSection(data));
   return allSections;
 }

@@ -29,8 +29,12 @@ var filterNodesByTheme = function(nodes, theme){
 // ne retourne que les liens ayant un target et un source présent dans le tableau de noeuds donné
 var filterLinksByNodes = function(links, nodes){
   return links.filter(function(link){
-    var targetPresent = nodes.find(function(node){ return node['ID'] === link.target}) != null;
-    var sourcePresent = nodes.find(function(node){ return node['ID'] === link.source}) != null;
+    var targetPresent = nodes.find(function(node){
+      return parseInt(node['ID']) === parseInt(link.target);
+    }) != null;
+    var sourcePresent = nodes.find(function(node){
+      return parseInt(node['ID']) === parseInt(link.source);
+    }) != null;
     return targetPresent && sourcePresent;
   });
 };
@@ -52,6 +56,11 @@ var filterNodesByLinkSource = function(nodes, links){
     }) != null;
   });
 };
+// 0:csv.NODES
+// 1:csv.NODES_PROPRIETARY
+// 2:csv.LINKS_PROPRIETARY
+// 3:csv.LINKS_INDIRECT_PROPRIETARY
+// 4:csv.LINKS_AFFILIATION
 
 var processData = function(files){
   // récupération du thème choisi par l'utilisateur
@@ -69,7 +78,7 @@ var processData = function(files){
     return parseInt(d[CONSTANTS.DATA.SPENDING_KEY])||0; 
   })];
   
-  var spendingScale = d3.scaleLog().domain(spendingDomain).range(CONSTANTS.CIRCLE.RADIUS_RANGE);
+  var spendingScale = CONSTANTS.CIRCLE.SCALE().domain(spendingDomain).range(CONSTANTS.CIRCLE.RADIUS_RANGE);
   // on calcul, pour chaque noeuds, le radius du cercle de base
   lobbyNodes.forEach(function(node){
     var spending = parseInt(node[CONSTANTS.DATA.SPENDING_KEY])||0;
@@ -80,7 +89,6 @@ var processData = function(files){
       node.radius = 0;
       node.points = [];
     }
-    node.kernelPoints = circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS);
   });
 
   // assignation des types de noeuds & liens 
@@ -89,13 +97,20 @@ var processData = function(files){
   directProprietaryLinks = setType(directProprietaryLinks, TYPES.LINK.PROPRIETARY.DIRECT);
   indirectProprietaryLinks = setType(indirectProprietaryLinks, TYPES.LINK.PROPRIETARY.INDIRECT);
   proprietaryNodes = setType(proprietaryNodes, TYPES.NODE.PROPRIETARY);
+
+  proprietaryNodes.forEach(function(node){
+    node.points = circlePoints(CONSTANTS.CIRCLE.PROPRIETARY_RADIUS);
+  }); 
+
   var allNodes = flattenArray([lobbyNodes, proprietaryNodes]); 
   var allLinks = flattenArray([
       directProprietaryLinks,
       indirectProprietaryLinks,
       affiliationLinks
   ]);
-
+  allNodes.forEach(function(node){
+    node.kernelPoints = circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS);
+  });
   allLinks.forEach(function(link){
     link.data = {
       source: allNodes.find(function(node){ return node.ID === link.source }),
