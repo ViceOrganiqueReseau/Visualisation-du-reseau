@@ -20,7 +20,7 @@ var CONSTANTS = {
   },
   LINK:{
     CURVE: d3.curveBasis,
-    DISTANCE: 100,
+    DISTANCE: 130,
     PROPRIETARY_COLOR: 'bbb',
     AFFILIATION_OPACITY: 0.7,
     KERNEL_SCALE: 1.33,

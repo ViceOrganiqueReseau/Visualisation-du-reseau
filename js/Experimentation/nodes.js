@@ -22,19 +22,47 @@ var circlePoints = function(radius, nbPoints){
   return points;
 };
 
-var reshapeCircle = ($circle, circle, duration)=>{
-  $circle.classed('reshaping', true);
-
-  var old = $circle.attr('d') || circle.path;
-  var newPath = radialLine(circlePoints(circle.radius, circle.points.length));
-  var interpolator = d3.interpolatePath(old,newPath); 
-  $circle.transition().duration(duration)
-    .attrTween('d', function(){
-      return d3.interpolatePath(old, newPath);
+var stopReshapeNodes = function($nodes){
+  $nodes.interrupt('reshape');
+};
+var reshapeNodes = function($nodes){
+  var duration = animations.circleShapes.duration;
+  var attrTween = function(node){
+    var old = d3.select(this).attr('d');
+    var newPoints = circlePoints(node.radius, node.points.length);
+    var newPath = radialLine(newPoints);
+    node.points = newPoints;
+    return d3.interpolatePath(old, newPath);
+  };
+  $nodes
+    .filter(function(node){
+      return node.points && node.points.length;
     })
-    .on('end', function(){ $circle.classed('reshaping', false); });
+    .select('.circle-membrane')
+      .each(function(d,i){
+        var _d = duration;
+        var delay = i * 30;
+        var $node = d3.select(this)
+
+        function loop($node, delay, duration){
+          $node.transition('reshape')
+            .delay(delay)
+            .duration(duration)
+            .attrTween('d', attrTween)
+            .on('end', function(){
+              loop($node, 0, _d); 
+            });
+        }
+        loop($node, delay, _d);
+      });
 };
 
+var nodeAnimations = {
+  shape:{
+    start: reshapeNodes,
+    stop: stopReshapeNodes,
+  }
+};
 var moveNode = function(node, duration){
   node.moving = true;
   var offsetX = randSign() * node.radius * 0.3;
@@ -55,21 +83,24 @@ var moveNode = function(node, duration){
     var timeRatio = time/duration; 
     var _interpolatorX = timeRatio <= 0.5 ? interpolateX : revInterpolateX;
     var _interpolatorY = timeRatio <= 0.5 ? interpolateY : revInterpolateY;
-    node.x = _interpolatorX(timeRatio);
-    node.y = _interpolatorY(timeRatio);
+    node.fx = _interpolatorX(timeRatio);
+    node.fy = _interpolatorY(timeRatio);
     if(timeRatio > 1.0){
       node.moving = false;
       timer.stop();
     }
-
   });
+};
+
+var moveNodes = function(nodes){
+
 };
 
 
 var nodeFill = function(node){
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var colors = CONSTANTS.COLORS;
-  
+
   if(node.type === TYPES.LOBBY){
     return fade(nodeColor(node), colors.BACKGROUND, 0.5);
   } else {
@@ -88,7 +119,7 @@ var drawNodes = function(nodes){
     .attr('transform', Utils.transform)
     .attr('id', function(d){ return d.ID; });
 
- 
+
   nodeEnter.append('path')
     .classed('circle-membrane', true)
     .attr('id', function(d){ return d.ID; })
@@ -109,16 +140,16 @@ var drawNodes = function(nodes){
       var color = Color.node(d);
       return chroma(color);
     })
-    .attr('d', function(d){
-      return radialLine(d.kernelPoints);
-    });
+  .attr('d', function(d){
+    return radialLine(d.kernelPoints);
+  });
 
   var proprietaryNodeEnter = nodeEnter.filter(function(d){
     return d.type == TYPES.PROPRIETARY;
   });
-  
+
   proprietaryNodeEnter.select('.circle-membrane').on('mouveover', function(e){
-    
+
   });
   // suppresion des noeuds supprimé (propriété par exemple)
   // TODO: rajouter une constante. 
@@ -153,5 +184,4 @@ var drawNodes = function(nodes){
 
   return $nodes;
 }
-
 

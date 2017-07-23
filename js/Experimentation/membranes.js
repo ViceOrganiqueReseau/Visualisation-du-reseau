@@ -13,7 +13,7 @@ var membranePath = function(nodes, cluster){
 
   var points = clusterNodes.map(function(node){
     var cx = node.x, cy = node.y;
-    var points = node.points.length > 0 ? node.points : node.kernelPoints;
+    var points = node.points && node.points.length > 0 ? node.points : node.kernelPoints;
     return points.map(function(p){
       return [ cx+x(p), cy+y(p) ];
     });

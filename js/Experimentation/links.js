@@ -126,13 +126,10 @@ var reshapeLinks = function(links){
     reshapeLink(pick(), animations.linkShapes.duration);
     reshapeLink(pick(), animations.linkShapes.duration);
   };
-  if(!this.interval){
-    this.interval = d3.interval(intervalCallback, animations.linkShapes.interval);
-  } else {
-    this.interval.restart(intervalCallback, animations.linkShapes.interval);
-  }
+  this.interval = d3.interval(intervalCallback, animations.linkShapes.interval);
 }
 var stopReshapeLinks = function(){
+  console.log('stopReshapeLinks', this.interval);
   if(this.interval){
     this.interval.stop();
   }

@@ -262,8 +262,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
     if(addLinkTransition){
       forceTransition('collide', 0.0, 0.4, 2000);
       _simulation.force('cluster').strength(0);
-      forceTransition('link', 0.0, 0.07, 2000);
-      forceTransition('many', -10, 0, 3000);
+      forceTransition('link', 0.0, 0.2, 2000);
+      forceTransition('many', -10, 0, 1000);
     }
 
     if(removeLinkTransition){
@@ -272,6 +272,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
       _simulation.force('many').strength(0);
       _simulation.force('center').strength(0);
       forceTransition('cluster', 0.7, 0.5, 3000);
+      linkAnimations.stop();
     }
     if(noLinkTransition){
       forceTransition('collide', 0.0, 0.7, 3500);
@@ -279,7 +280,17 @@ var configureSimulation = function(scene, data, sectionsConfig){
     }
     initializeNodesPosition();
     if(linkTransition){
+      forceTransition('collide', 0.0, 0.4, 3500);
+      forceTransition('link', 0.0, 0.2, 4000);
+      forceTransition('many', 0.0, 2);
+      linkAnimations.stop();
       linkAnimations.start(section.data.links);
+    }
+
+    if(!section.showMembranes){
+      console.log('should reshape nodes');
+      nodeAnimations.shape.stop($nodes);
+      nodeAnimations.shape.start($nodes, animations.circleShapes.duration);
     }
   };
 
