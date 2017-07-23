@@ -147,7 +147,8 @@ var thirdSection = function(data){
  */ 
 var fourthSection = function(data){
   var colors = CONSTANTS.COLORS;
-  var colorScale = chroma.scale([colors.SAME_POSITION, colors.DIFFERENT_POSITION]);
+  var valueScale = d3.scaleLinear().range([0.0,1.0]);
+  var colorScale = chroma.scale([colors.DIFFERENT_POSITION, colors.SAME_POSITION]);
   var clusters = [];
   var clusterKey = function(c){
     var parent = c.parent;
@@ -157,6 +158,7 @@ var fourthSection = function(data){
   var nest = d3.nest()
     .key(function(d){ return d['Secteurs d’activité']; })
     .key(function(d){ return d[data.userChoice.theme]; });
+
   // les données nous intéressant pour cette section
   var nodes = data.utils.nodes.lobbies();
   var nested = nest.entries(nodes);
@@ -166,16 +168,24 @@ var fourthSection = function(data){
   var packed = packLayout(hierarchy);
   // creation des clusters 
   hierarchy.children.forEach(function(c){
+    // montant total pour ce cluster
+    var total = d3.sum(c.children, function(d){
+      d.data.total = d3.sum(d.children, function(e){ return e.data.spending; });
+      return d.data.total;
+    });
+
     // couleur moyenne
     var samePositionCluster = c.children.find(function(d){
       return d.data.key == data.userChoice.position;
     });
-    var samePositionNumber = samePositionCluster ? samePositionCluster.children.length : 0;
+    var samePositionTotal = samePositionCluster ? samePositionCluster.data.total : 0; 
     var clusterNodes = c.children
       .map(function(d){ return d.children; })
       .reduce(function(a,b){ return a.concat(b); });
+
+    var ratio = samePositionTotal / total;
     
-    var clusterColor = colorScale(samePositionNumber / clusterNodes.length);
+    var clusterColor = colorScale(ratio);
     clusters.push({
       key: c.data.key,
       color: clusterColor,

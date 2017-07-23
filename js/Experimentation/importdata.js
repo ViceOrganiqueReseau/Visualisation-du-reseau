@@ -89,6 +89,7 @@ var processData = function(files){
       node.radius = 0;
       node.points = [];
     }
+    node.spending = spending;
   });
 
   // assignation des types de noeuds & liens 
