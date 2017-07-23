@@ -83,8 +83,7 @@ var animations = {
     duration: 2000
   },
   circleShapes: {
-    interval:311,
-    duration: 1000
+    duration: 2000
   },
   linkShapes: {
     interval: 200,

@@ -41,12 +41,13 @@ var reshapeNodes = function($nodes){
     .select('.circle-membrane')
       .each(function(d,i){
         var _d = duration;
-        var delay = i * 30;
+        var delay = i * 50;
         var $node = d3.select(this)
 
         function loop($node, delay, duration){
           $node.transition('reshape')
             .delay(delay)
+            .ease(d3.easeLinear)
             .duration(duration)
             .attrTween('d', attrTween)
             .on('end', function(){
