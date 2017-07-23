@@ -7,7 +7,7 @@ var CONSTANTS = {
   WIDTH: 1600,
   HEIGHT: 800,
   COLORS: {
-    PROPRIETARY: 'bbb',
+    PROPRIETARY: '7d7d7d',
     BACKGROUND: 'rgb(22, 27, 48)',
     ENEMY: 'rgb(255,165,0)',
     ALLY: 'rgb(0, 165, 255)',
@@ -19,9 +19,10 @@ var CONSTANTS = {
     CURVE: d3.curveBasisClosed
   },
   LINK:{
+    DISTANCE: 100,
     PROPRIETARY_COLOR: 'bbb',
     AFFILIATION_OPACITY: 0.7,
-    KERNEL_SCALE: 1.33
+    KERNEL_SCALE: 1.33,
   },
   CIRCLE: {
     PROPRIETARY_RADIUS: 20,
@@ -62,6 +63,17 @@ var CONSTANTS = {
   }
 };
 
+var baseLinkWidth = CONSTANTS.CIRCLE.KERNEL_RADIUS * CONSTANTS.LINK.KERNEL_SCALE - 2;
+var endLinkWidth = baseLinkWidth*0.25;
+
+CONSTANTS.LINK.DEFAULT_BODY = [
+  { at: 0.0, width: baseLinkWidth, offset: 0 },
+  { at: 0.2, width: baseLinkWidth*0.33, offset: 0 },
+  { at: 0.5, width: endLinkWidth, offset: baseLinkWidth*0.33 },
+  { at: 0.75, width: endLinkWidth, offset: -3 },
+  { at: 1.0, width: endLinkWidth, offset: 0}
+];
+
 // animations constants
 var animations = {
   position: {
@@ -69,8 +81,12 @@ var animations = {
     interval: 50,
     duration: 2000
   },
-  shape: {
+  circleShapes: {
     interval:311,
+    duration: 1000
+  },
+  linkShapes: {
+    interval: 200,
     duration: 1000
   }
 };

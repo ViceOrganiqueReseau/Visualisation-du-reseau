@@ -10,13 +10,23 @@ var flattenArray = function(arrays){
   return arrays.reduce(function(a,b){ return a.concat(b); });
 };
 
-var transform = function(pt, scale){
-  scale = scale || 1.0;
-  var scaleStr = scale !== 1.0 ? ' scale('+scale+')':'';
-  return 'translate('+pt.x+','+pt.y+')'+scaleStr;
+var transform = function(pt){
+  return 'translate('+pt.x+','+pt.y+')';
+};
+
+var copy = function(o){
+  var _out, v, _key;
+  _out = Array.isArray(o) ? [] : {};
+  for (_key in o) {
+    v = o[_key];
+    _out[_key] = (typeof v === "object") ? copy(v) : v;
+  }
+  return _out;
 };
 
 var Utils = {
+  copy: copy,
+  sign: function(n){ return n >= 0 ? 1 : -1; },
   rand: {
     number: rand,
     pick: randPick,

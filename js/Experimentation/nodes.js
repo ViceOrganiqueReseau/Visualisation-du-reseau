@@ -9,10 +9,9 @@ var circlePoints = function(radius, nbPoints){
   var stepAngle = CONSTANTS.PHI/nbPoints;
   var points = [];
   for(var i=0; i<nbPoints; i++){
-    var jitterAngle = randSign()*(Math.random()/nbPoints);
     var angle = stepAngle*i;
 
-    var jitterRadius = randSign() * Math.round(
+    var jitterRadius = Utils.rand.sign() * Math.round(
         (radius*radiusJitter)*(Math.random())
     );
     points.push({
@@ -29,18 +28,43 @@ var reshapeCircle = ($circle, circle, duration)=>{
   var old = $circle.attr('d') || circle.path;
   var newPath = radialLine(circlePoints(circle.radius, circle.points.length));
   var interpolator = d3.interpolatePath(old,newPath); 
+  $circle.transition().duration(duration)
+    .attrTween('d', function(){
+      return d3.interpolatePath(old, newPath);
+    })
+    .on('end', function(){ $circle.classed('reshaping', false); });
+};
 
-  var t = d3.timer((p)=>{
-    var r = p/duration;
-    if(r>1.0){
-      t.stop();
-      r = 1.0;
-      $circle.classed('reshaping', false);
+var moveNode = function(node, duration){
+  node.moving = true;
+  var offsetX = randSign() * node.radius * 0.3;
+  var offsetY = randSign() * node.radius * 0.3;
+
+  var otherPosition = objectAssign({}, node, {
+    x: node.x + offsetX,
+    y: node.y + offsetY
+  });
+
+  var interpolateX = d3.interpolateNumber(node.x, otherPosition.x);
+  var interpolateY = d3.interpolateNumber(node.y, otherPosition.y);
+
+  var revInterpolateX = d3.interpolateNumber(otherPosition.x, node.x); 
+  var revInterpolateY = d3.interpolateNumber(otherPosition.y, node.y); 
+
+  var timer = d3.timer(function(time){
+    var timeRatio = time/duration; 
+    var _interpolatorX = timeRatio <= 0.5 ? interpolateX : revInterpolateX;
+    var _interpolatorY = timeRatio <= 0.5 ? interpolateY : revInterpolateY;
+    node.x = _interpolatorX(timeRatio);
+    node.y = _interpolatorY(timeRatio);
+    if(timeRatio > 1.0){
+      node.moving = false;
+      timer.stop();
     }
-    var path = interpolator(r);
-    $circle.attr('d', path);
+
   });
 };
+
 
 var nodeFill = function(node){
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
@@ -54,7 +78,6 @@ var nodeFill = function(node){
 }; 
 
 var drawNodes = function(nodes){
-  console.log('nodes',nodes);
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var $nodes = scene.getCanvas()
     .selectAll('.node')
@@ -62,6 +85,7 @@ var drawNodes = function(nodes){
 
   var nodeEnter = $nodes.enter().append('g')
     .classed('node', true)
+    .attr('transform', Utils.transform)
     .attr('id', function(d){ return d.ID; });
 
  
@@ -112,7 +136,7 @@ var drawNodes = function(nodes){
         .filter(function(link){
           return link.data.source.ID == node.ID;
         });
-      $nodeLinks.transition().duration(300)
+      $nodeLinks.transition().duration(200)
         .style('opacity', 1)
 
     }
@@ -122,7 +146,7 @@ var drawNodes = function(nodes){
         .filter(function(link){
           return link.data.source.ID == node.ID;
         });
-      $nodeLinks.transition().duration(300)
+      $nodeLinks.transition().duration(150)
         .style('opacity', 0);
     }
   });

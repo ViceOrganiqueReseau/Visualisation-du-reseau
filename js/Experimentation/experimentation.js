@@ -35,36 +35,6 @@
 /* Variables globales */
 var simulation, stats, scene, canvas;
 
-var moveNode = function(node, duration){
-  node.moving = true;
-  var offsetX = randSign() * node.radius * 0.3;
-  var offsetY = randSign() * node.radius * 0.3;
-
-  var otherPosition = objectAssign({}, node, {
-    x: node.x + offsetX,
-    y: node.y + offsetY
-  });
-
-  var interpolateX = d3.interpolateNumber(node.x, otherPosition.x);
-  var interpolateY = d3.interpolateNumber(node.y, otherPosition.y);
-
-  var revInterpolateX = d3.interpolateNumber(otherPosition.x, node.x); 
-  var revInterpolateY = d3.interpolateNumber(otherPosition.y, node.y); 
-
-  var timer = d3.timer(function(time){
-    var timeRatio = time/duration; 
-    var _interpolatorX = timeRatio <= 0.5 ? interpolateX : revInterpolateX;
-    var _interpolatorY = timeRatio <= 0.5 ? interpolateY : revInterpolateY;
-    node.x = _interpolatorX(timeRatio);
-    node.y = _interpolatorY(timeRatio);
-    if(timeRatio > 1.0){
-      node.moving = false;
-      timer.stop();
-    }
-
-  });
-};
-
 
 
 
@@ -217,9 +187,20 @@ var configureSimulation = function(scene, data, sectionsConfig){
     var section = getCurrentSection();
     section.data.nodes.forEach(function(node){
       var cluster = findNodeCluster(node);
-      node.x = cluster.x;
-      node.y = cluster.y;
+      if(!cluster){
+        var size = scene.getSize();
+        cluster = {
+          x: size[0]/2,
+          y: size[0]/2,
+        };
+      }
+      node.x = node.x || cluster.x;
+      node.y = node.y || cluster.y;
+      if(!node.x || isNaN(node.x)){
+        debugger;
+      }
     });
+    console.log('init node positions', section.data.nodes);
   };
   
   var initializeSimulation = function(){
@@ -239,12 +220,15 @@ var configureSimulation = function(scene, data, sectionsConfig){
           .distanceMax(800))
       .force('link', d3.forceLink()
           .iterations(5)
-          .distance(60)
+          .distance(function(l){
+            return CONSTANTS.LINK.DISTANCE - Math.pow(2,l.curbature||0);
+          })
           .strength(0)
           .id(function(node){ return node.ID; }))
       .force('collide', d3.forceCollide()
           .radius(function(d){
-            return (d.radius > kernelRadius ? d.radius : kernelRadius) + collidePadding;
+            return (d.radius > kernelRadius ? d.radius : kernelRadius) 
+              + collidePadding;
           }))
     .force('cluster', d3.forceCluster()
         .centers(function(d){
@@ -271,15 +255,15 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
     var addLinkTransition = section.showLinks && !previousSection.showLinks;
     var removeLinkTransition = !section.showLinks && previousSection.showLinks; 
+    var linkTransition = section.showLinks;
     var noLinkTransition = !section.showLinks && !previousSection.showLinks;
-
 
     
     if(addLinkTransition){
       forceTransition('collide', 0.0, 0.4, 2000);
       _simulation.force('cluster').strength(0);
       forceTransition('link', 0.0, 0.07, 2000);
-      forceTransition('many', -10, -1, 3000);
+      forceTransition('many', -10, 0, 3000);
     }
 
     if(removeLinkTransition){
@@ -293,6 +277,10 @@ var configureSimulation = function(scene, data, sectionsConfig){
       forceTransition('collide', 0.0, 0.7, 3500);
       forceTransition('cluster', 0.7, 0.5, 3000);
     }
+    initializeNodesPosition();
+    if(linkTransition){
+      linkAnimations.start(section.data.links);
+    }
   };
 
   
@@ -305,7 +293,14 @@ var configureSimulation = function(scene, data, sectionsConfig){
   };
   var updateLink = function($link){
     if(!$link){ return; }
-    $links.select('.link-base').attr('transform', function(link){ return transform(link.source);});
+    $links.attr('transform', function(link){
+      var source = link.source.x ? link.source : link.data.source;
+      if(!source.x){
+        source.x = 0;
+        source.y = 0;
+      }
+      return Utils.transform(source);
+    });
     
     $links.select('.link-body').attr('d', linkBodyPath);
   };
@@ -326,7 +321,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
     if(DEBUG){ stats.begin(); }
 
-    $nodes.attr('transform', function(node){ return transform(node); });
+    $nodes.attr('transform', Utils.transform);
+    
     $membranes.attr('d', function(d){return membranePath(nodes, d); });
     $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
     updateLink($links);
