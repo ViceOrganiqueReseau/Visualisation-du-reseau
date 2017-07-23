@@ -19,6 +19,7 @@ var CONSTANTS = {
     CURVE: d3.curveBasisClosed
   },
   LINK:{
+    CURVE: d3.curveBasis,
     DISTANCE: 100,
     PROPRIETARY_COLOR: 'bbb',
     AFFILIATION_OPACITY: 0.7,

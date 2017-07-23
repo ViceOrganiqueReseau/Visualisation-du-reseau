@@ -1,4 +1,3 @@
-var LINK_CURVE_DISTANCE = 20;
 var radToDeg = function(rad){ return (rad*180)/Math.PI; };
 var degToRad = function(deg){ return (deg*Math.PI)/180; };
 
@@ -61,6 +60,7 @@ var areaPoints = function(link){
   return _points;
 } 
 var areaPath = d3.area()
+  .curve(CONSTANTS.LINK.CURVE)
   .x0(function(pt){return pt.x0; })
   .x1(function(pt){return pt.x1; })
   .y0(function(pt){return pt.y0; })
