@@ -109,7 +109,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
   var ticked = false;
   var forceTransition = function(name, fromStrength, toStrength, duration){
-    // trouver la différence entre `from` et `toi`
+    // trouver la différence entre `from` et `to`
     var strengthOffset = Math.abs(toStrength - fromStrength);
     var force = _simulation.force(name);
     force.strength(fromStrength);
@@ -155,6 +155,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     
     _simulation = d3.forceSimulation(nodes)
       .on('tick', onTick)
+      .force('movement', randomMovementForce().strength(0))
       .force('many', d3.forceManyBody()
           .strength(0)
           .distanceMin(120)
@@ -176,20 +177,25 @@ var configureSimulation = function(scene, data, sectionsConfig){
           return cluster;
         })
         .centerInertia(1));
-
-    _simulation.stop();
-    _simulation.alpha(0.4).restart();
-    forceTransition('cluster', 0.5, 0.3, 600);
+    _simulation.alphaTarget(0.5).restart();
+    forceTransition('cluster', 0.0, 0.2, 600);
     forceTransition('collide', 0.0, 0.5, 500);
+    forceTransition('movement', 0, 1, 1000);
+    _simulation.on('end', function(){
+      console.log('on end');      
+      _simulation.alphaTarget(0.4).restart();
+    });
+
+
   };
- 
+
   var updateSimulationData = function(){
     var section = getCurrentSection();
 
     _simulation.nodes(section.data.nodes);
     _simulation.force('link').links(section.data.links);
 
-    
+
   };
 
   var updateAnimations = function(){
@@ -201,6 +207,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
     var noLinkTransition = !section.showLinks && !previousSection.showLinks;
 
     _simulation.alphaTarget(0.3).restart();
+
+    forceTransition('movement', 0, 1, 1000);
 
     if(addLinkTransition){
       console.log('addLinkTransition');
@@ -228,9 +236,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
     if(linkTransition){
       _simulation.stop();
       _simulation.alphaTarget(0.05).restart();
-    
+
       forceTransition('many', -20, 0, 5000);
-      
+
       // _simulation.force('link').strength(0.1);
 
       forceTransition('collide', 0, 0.4, 5000);
@@ -258,7 +266,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     updateLinks();
     updateAnimations();
   };
- 
+
 
   var onTick = function(){
     var nodes = this.nodes();
@@ -289,7 +297,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     $links.attr('transform', function(d){ return Utils.transform(constraintNode(d.source)); });
 
     $links.select('.link-body').attr('d', linkBodyPath);
-    
+
     if(DEBUG){
       stats.end();
     }
@@ -297,7 +305,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
   return {
     alpha: function(a){ _simulation.alpha(a) },
-    simulation: simulation,
+    simulation: _simulation,
     nextSection: nextSection,
     setCurrentSection: setCurrentSection,
     getCurrentSection: getCurrentSection,

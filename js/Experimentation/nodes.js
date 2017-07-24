@@ -23,7 +23,7 @@ var circlePoints = function(radius, nbPoints){
 };
 
 var stopReshapeNodes = function($nodes){
-  $nodes.interrupt('reshape');
+  $nodes.interrupt();
 };
 var reshapeNodes = function($nodes){
   var duration = animations.circleShapes.duration;
@@ -96,6 +96,47 @@ var moveNode = function(node, duration){
 var moveNodes = function(nodes){
 
 };
+
+var randomMovementForce = function(){
+  var nodes = [], strength = 1;
+
+  function newTarget(node){
+    node.tx = randSign() * Utils.rand.number(0, 5);
+    node.ty = randSign() * Utils.rand.number(0, 5);
+  }
+  
+  function initialize(){
+    nodes.forEach(newTarget);
+  }
+
+  function force(alpha){
+    var i, n = nodes.length, node;
+    
+    for(i = 0; i < n; i++){
+      node = nodes[i];
+      var mx = node.tx * alpha * strength * 0.5;
+      var my = node.ty * alpha * strength * 0.5;
+      node.vx += mx;
+      node.vy += my;
+      node.tx -= mx;
+      node.ty -= my;
+      if(Math.abs(node.tx) < 1e-2 && Math.abs(node.ty) < 1e-2){
+        newTarget(node);
+      }
+      // debugger;
+    }
+  }
+  force.strength = function(_){
+    strength = _;
+    return force;
+  };
+
+  force.initialize = function(_){
+      nodes = _;
+      initialize();
+  };
+  return force;
+}
 
 
 var nodeFill = function(node){

@@ -86,7 +86,7 @@ var processData = function(files){
       node.radius = spendingScale(spending);
       node.points = circlePoints(node.radius);
     } else {
-      node.radius = 0;
+      node.radius = CONSTANTS.CIRCLE.KERNEL_RADIUS;
       node.points = [];
     }
     node.spending = spending;
