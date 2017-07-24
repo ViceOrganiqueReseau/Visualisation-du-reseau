@@ -163,7 +163,6 @@ var configureSimulation = function(scene, data, sectionsConfig){
           .distanceMin(100)
           .distanceMax(400))
       .force('link', d3.forceLink()
-          .iterations(3)
           .distance(function(l){
             return CONSTANTS.LINK.DISTANCE - Math.pow(2,l.curbature||0);
           })
@@ -194,7 +193,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     var section = getCurrentSection();
 
     _simulation.nodes(section.data.nodes);
-    _simulation.alphaTarget(0.4).restart();
+    _simulation.alphaTarget(0.3).restart();
     _simulation.force('link').links(section.data.links);
 
     
@@ -210,14 +209,19 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
 
     if(addLinkTransition){
-      forceTransition('collide', 0.0, 0.4, 2000);
+      _simulation.force('collide').strength(0);
       _simulation.force('cluster').strength(0);
-      forceTransition('link', 0.0, 0.1, 3000);
+      forceTransition('link', 0.0, 0.1, 2500);
       _simulation.alphaTarget(0.2);
-      forceTransition('many', -5, 0, 2000);
+      forceTransition('many', -10, 0, 1500);
+      setTimeout(function(){
+        _simulation.force('many').strength(5);
+//        forceTransition('many', 0, 5, 1000);
+      }, 1500);
     }
 
     if(removeLinkTransition){
+      console.log('removeLinkTransition');
       forceTransition('collide', 0.0, 0.7, 3500);
       _simulation.force('link').strength(0);
       _simulation.force('many').strength(0);
@@ -229,14 +233,20 @@ var configureSimulation = function(scene, data, sectionsConfig){
       forceTransition('cluster', 0.7, 0.5, 3000);
     }
     if(linkTransition){
-      forceTransition('collide', 0.0, 0.4, 3000);
+      _simulation.alphaTarget(0.1); 
+      console.log('linkTransition');
+//      _simulation.alphaTarget(0.05).restart();
+      forceTransition('many', -10, 0, 4000);
+      // forceTransition('collide', 0, 0.2, 3000);
+      forceTransition('link', 0, 0.1, 3000);
+
+      // forceTransition('collide', 0.0, 0.1, 2000);
       // _simulation.force('link').strength(0.2);
-      forceTransition('link', 0.0, 0.2, 2500);
       linkAnimations.stop($links);
       setTimeout(function(){
+        // _simulation.force('many').strength(5);
         linkAnimations.start($links);
-      }, 3000);
-      _simulation.alphaTarget(0.01);
+      }, 5000);
     }
 
     if(!section.showMembranes){
