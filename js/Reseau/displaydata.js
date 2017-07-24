@@ -273,12 +273,12 @@ function tickedSec3 (){
 
     // Esapcement ! Recentrage !
     circlePosSecteur.each(function (d){
-      if (d.key.split(",")[0] === "SUPPORT"){
-        d.x += (CONST.VUE.WIDTH/3 - d.x)*simulation.alpha();
-      } else {
-        d.x += (2*CONST.VUE.WIDTH/3 - d.x)*simulation.alpha();
-      }
-      d.y += (CONST.VUE.HEIGHT/2 - d.y)*simulation.alpha();
+      // L'indice du secteur dans la liste des secteurs
+      // Cet indice permet de lepositionner sur centers[indice]
+      var virgule = d.key.indexOf(",");
+      var indice = secteurslist.indexOf(d.key.slice(virgule+1));
+      d.x += ((centers[indice][0]-d.x) * simulation.alpha())
+      d.y += ((centers[indice][1]-d.y) * simulation.alpha())
     })
     boxforce(circlePosSecteur);
 
@@ -298,10 +298,10 @@ function setupSec3 (){
   // Renseigner ici les paramètres de la simulation
   // forces, faux liens s'il en faut pour manipuler le graphe
   simulation = d3.forceSimulation().nodes(dataByPosSecteur)
-          .force("center", d3.forceCenter(CONST.VUE.WIDTH/2,CONST.VUE.HEIGHT/2))
+          //.force("center", d3.forceCenter(CONST.VUE.WIDTH/2,CONST.VUE.HEIGHT/2))
           .force("charge", d3.forceManyBody().strength(-1))
           .force("collide", d3.forceCollide().radius(function (d){
-            return 2*CONST.RADIUS + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
+            return CONST.RADIUS + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
           }))
           // Permettent d'éviter le hors champ lors du drag
           //.force("x", d3.forceX(CONST.VUE.WIDTH/2).strength(0.4))
@@ -316,50 +316,6 @@ function setupSec3 (){
 function tickedSec4 (){
 
     // Esapcement ! Recentrage !
-    circlePosSecteur.each(function (d){
-      // L'indice du secteur dans la liste des secteurs
-      // Cet indice permet de lepositionner sur centers[indice]
-      var virgule = d.key.indexOf(",");
-      var indice = secteurslist.indexOf(d.key.slice(virgule+1));
-      d.x += ((centers[indice][0]-d.x) * simulation.alpha())
-      d.y += ((centers[indice][1]-d.y) * simulation.alpha())
-    })
-    boxforce(circlePosSecteur);
-
-    drawCanvasSec4();
-
-}
-
-function drawCanvasSec4 (){
-
-    clearCanvas();
-    
-    drawAgreg(circlePosSecteur);  
-}
-
-function setupSec4 (){
-
-  // Renseigner ici les paramètres de la simulation
-  // forces, faux liens s'il en faut pour manipuler le graphe
-  simulation = d3.forceSimulation().nodes(dataByPosSecteur)
-          //.force("center", d3.forceCenter(CONST.VUE.WIDTH/2,CONST.VUE.HEIGHT/2))
-          .force("charge", d3.forceManyBody().strength(-1))
-          .force("collide", d3.forceCollide().radius(function (d){
-            return CONST.RADIUS + agregcoef(d)*scalablesizes(d.value["Dépenses Lobby (€)"]);
-          }))
-          // Permettent d'éviter le hors champ lors du drag
-          //.force("x", d3.forceX(CONST.VUE.WIDTH/2).strength(0.4))
-          //.force("y", d3.forceY(CONST.VUE.HEIGHT/2).strength(0.4));
-
-  //simulation.alphaMin(0.02);
-  // Appel de la simulation
-  simulation.on("tick", tickedSec4);
-
-}
-
-function tickedSec5 (){
-
-    // Esapcement ! Recentrage !
     circleSecteurPos.each(function (d){
       // L'indice du secteur dans la liste des secteurs
       // Cet indice permet de lepositionner sur centers[indice]
@@ -369,18 +325,18 @@ function tickedSec5 (){
     })
     boxforce(circleSecteurPos);
 
-    drawCanvasSec5();
+    drawCanvasSec4();
 
 }
 
-function drawCanvasSec5 (){
+function drawCanvasSec4 (){
 
     clearCanvas();
     
     drawAgreg(circleSecteurPos);
 }
 
-function setupSec5 (){
+function setupSec4 (){
 
   // Renseigner ici les paramètres de la simulation
   // forces, faux liens s'il en faut pour manipuler le graphe
@@ -396,11 +352,11 @@ function setupSec5 (){
 
   //simulation.alphaMin(0.02);
   // Appel de la simulation
-  simulation.on("tick", tickedSec5);
+  simulation.on("tick", tickedSec4);
 
 }
 
-function tickedSec6 (){
+function tickedSec5 (){
 
     // Esapcement ! Recentrage !
     defIDToIndex();
@@ -413,18 +369,18 @@ function tickedSec6 (){
     })
     boxforce(circles);
 
-    drawCanvasSec6();
+    drawCanvasSec5();
 
 }
 
-function drawCanvasSec6 (){
+function drawCanvasSec5 (){
 
     clearCanvas();
     
     drawOrgnizations();
 }
 
-function setupSec6 (){
+function setupSec5 (){
 
   // Renseigner ici les paramètres de la simulation
   // forces, faux liens s'il en faut pour manipuler le graphe
@@ -440,18 +396,18 @@ function setupSec6 (){
 
   //simulation.alphaMin(0.02);
   // Appel de la simulation
-  simulation.on("tick", tickedSec6);
+  simulation.on("tick", tickedSec5);
 
 }
 
-function tickedSec7 (){
+function tickedSec6 (){
 
     boxforce(circles);
-    drawCanvasSec7();
+    drawCanvasSec6();
 
 }
 
-function drawCanvasSec7 (){
+function drawCanvasSec6 (){
 
     clearCanvas();
 
@@ -460,7 +416,7 @@ function drawCanvasSec7 (){
     drawOrgnizations();  
 }
 
-function setupSec7 (){
+function setupSec6 (){
 
   // Renseigner ici les paramètres de la simulation
   // forces, faux liens s'il en faut pour manipuler le graphe
@@ -485,11 +441,11 @@ function setupSec7 (){
 
   //simulation.alphaMin(0.02);
   // Appel de la simulation
-  simulation.on("tick", tickedSec7);
+  simulation.on("tick", tickedSec6);
 
 }
 
-function tickedSec8 (){
+function tickedSec7 (){
 
     defallIDToIndex();
 
@@ -502,11 +458,11 @@ function tickedSec8 (){
     boxforce(circles);
     boxforce(circleActs);
     
-    drawCanvasSec8();
+    drawCanvasSec7();
 
 }
 
-function drawCanvasSec8 (){
+function drawCanvasSec7 (){
 
     clearCanvas();
 
@@ -560,7 +516,7 @@ function drawCanvasSec8 (){
 
 }
 
-function setupSec8 (){
+function setupSec7 (){
 
   // Renseigner ici les paramètres de la simulation
   // forces, faux liens s'il en faut pour manipuler le graphe
@@ -606,6 +562,6 @@ function setupSec8 (){
 
   //simulation.alphaMin(0.02);
   // Appel de la simulation
-  simulation.on("tick", tickedSec8);
+  simulation.on("tick", tickedSec7);
 
 }

@@ -10,7 +10,6 @@ function removeListeners (){
   moncanvas.removeEventListener("mousemove", onmove5);
   moncanvas.removeEventListener("mousemove", onmove6);
   moncanvas.removeEventListener("mousemove", onmove7);
-  moncanvas.removeEventListener("mousemove", onmove8);
 }
 
 function getNodeFromPosition(e){
@@ -73,8 +72,8 @@ function onmove3 (e){
   // Sinon, redissiner pour effacer les autres noms
   if (node){
     var data = nodeToData(node);
-    var virgule = data.key.indexOf(",");
     drawCanvasSec3();
+    var virgule = data.key.indexOf(",");
     drawText(data.key.slice(virgule+1), data.x-30, data.y-8)
   } else {
     drawCanvasSec3();
@@ -83,14 +82,12 @@ function onmove3 (e){
 
 function onmove4 (e){
   var node = getNodeFromPosition(e);
-
   // Si on est sur un noeud, afficher son nom
   // Sinon, redissiner pour effacer les autres noms
   if (node){
     var data = nodeToData(node);
     drawCanvasSec4();
-    var virgule = data.key.indexOf(",");
-    drawText(data.key.slice(virgule+1), data.x-30, data.y-8)
+    drawText(data.key, data.x-30, data.y-8)
   } else {
     drawCanvasSec4();
   }
@@ -98,12 +95,13 @@ function onmove4 (e){
 
 function onmove5 (e){
   var node = getNodeFromPosition(e);
+
   // Si on est sur un noeud, afficher son nom
   // Sinon, redissiner pour effacer les autres noms
   if (node){
     var data = nodeToData(node);
     drawCanvasSec5();
-    drawText(data.key, data.x-30, data.y-8)
+    drawText(getFullName(data), data.x-14, data.y-8, 8);
   } else {
     drawCanvasSec5();
   }
@@ -117,7 +115,7 @@ function onmove6 (e){
   if (node){
     var data = nodeToData(node);
     drawCanvasSec6();
-    drawText(getFullName(data), data.x-14, data.y-8, 8);
+    drawText(getFullName(data), data.x-14, data.y-8, 8)
   } else {
     drawCanvasSec6();
   }
@@ -131,20 +129,6 @@ function onmove7 (e){
   if (node){
     var data = nodeToData(node);
     drawCanvasSec7();
-    drawText(getFullName(data), data.x-14, data.y-8, 8)
-  } else {
-    drawCanvasSec7();
-  }
-}
-
-function onmove8 (e){
-  var node = getNodeFromPosition(e);
-
-  // Si on est sur un noeud, afficher son nom
-  // Sinon, redissiner pour effacer les autres noms
-  if (node){
-    var data = nodeToData(node);
-    drawCanvasSec8();
     drawText(getFullName(data), data.x-14, data.y-8, 8);
     // ce code devrait plutôt être dans drawCanvasSec8 à mon avis.
     if (idActlist.indexOf(data.ID)!==-1){
@@ -180,7 +164,7 @@ function onmove8 (e){
     }
     ctx.restore();
   } else {
-    drawCanvasSec8();
+    drawCanvasSec7();
   }
 }
 
@@ -235,14 +219,6 @@ function animSec7(){
   moncanvas.addEventListener("mousemove", onmove7);
 
 }
-
-function animSec8(){
-
-  removeListeners();
-  moncanvas.addEventListener("mousemove", onmove8);
-
-}
-
 
 // Ce code permet de faire du drag&slide sur les nodes
 canvas

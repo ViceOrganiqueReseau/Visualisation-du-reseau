@@ -96,6 +96,13 @@ function numlinkradius (d){
   return coef*CONST.RADIUS;
 }
 
+function writeTextInSection (i){
+  var element = d3.select("#sec"+i);
+  element.select("h1").html(CONST.SCENARIO[i]["Titre"]);
+  element.select("p.texte").html(CONST.SCENARIO[i]["Texte"])
+  element.select("p.appel").html(CONST.SCENARIO[i]["Appel d’action"])
+}
+
 function getFullName(x){
   if (x["Nom2"]){
     return x["Nom2"];
@@ -107,6 +114,18 @@ function getFullName(x){
 }
 
 
+
+d3.csv("data/Reseau/Scenario.csv", function (data){
+  // On récupère le scénario
+  CONST.SCENARIO = data;
+
+  for (var i=0; i<8; i++){
+    writeTextInSection(i);
+  }
+
+  majsectionspos();
+
+})
 
 d3.csv("data/Noeud4juillet.csv", function (data){
   // On récupère les données

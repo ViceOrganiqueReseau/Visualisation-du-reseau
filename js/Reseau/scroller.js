@@ -87,10 +87,6 @@ function majvue(index) {
       setupSec7();
       animSec7();
       break;
-    case 7:
-      setupSec8();
-      animSec8();
-      break;
     }
 }
 

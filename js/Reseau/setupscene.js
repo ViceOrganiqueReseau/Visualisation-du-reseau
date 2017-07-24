@@ -1,6 +1,10 @@
-// Informations sur #vue
-
+// Transitions de backgroung-color
 var CONST = {};
+CONST.TIMETRANSITION = 1000;
+d3.select("body").transition().duration(2*CONST.TIMETRANSITION).style("background-color", "rgb(0,5,15)");
+d3.select("#answers").transition().duration(2*CONST.TIMETRANSITION).style("background-color", "rgb(0,5,15)");
+
+// Informations sur #vue
 var vue = document.getElementById("vue");
 
 CONST.VUE = {};
