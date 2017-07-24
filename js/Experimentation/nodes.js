@@ -149,9 +149,6 @@ var drawNodes = function(nodes){
     return d.type == TYPES.PROPRIETARY;
   });
 
-  proprietaryNodeEnter.select('.circle-membrane').on('mouveover', function(e){
-
-  });
   // suppresion des noeuds supprimé (propriété par exemple)
   // TODO: rajouter une constante. 
   $nodes.exit().transition()
@@ -169,7 +166,7 @@ var drawNodes = function(nodes){
           return link.data.source.ID == node.ID;
         });
       $nodeLinks.transition().duration(200)
-        .style('opacity', 1)
+        .style('opacity', 1);
 
     }
   }).on('mouseout', function(node){

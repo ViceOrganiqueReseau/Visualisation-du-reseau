@@ -174,7 +174,7 @@ var linkAnimations = {
 };
 
 // 
-var proprietyOpacity = function(link){
+var proprietaryOpacity = function(link){
   var value = link['Valeur (supp à%)'];
   console.log('proprietyOpacity', value);
   var opacity = 0.15;
@@ -196,7 +196,7 @@ var linkOpacity = function(link){
       opacity = CONSTANTS.LINK.AFFILIATION_OPACITY;
       break; 
     case TYPES.PROPRIETARY.DIRECT:
-      opacity = proprietyOpacity(link);
+      opacity = proprietaryOpacity(link);
       break;
     default:
       opacity = 0.0;
@@ -208,11 +208,10 @@ var drawLinks = function(links){
   var canvas = scene.getCanvas();
   var $links = canvas.selectAll('.link').data(links, function(link){
     var key = link.data.source.ID + '-' + link.data.target.ID;
-    console.log('data key', key)
-      return key;
+    return key;
   });
   var scale = CONSTANTS.LINK.KERNEL_SCALE;
-
+  var TYPES = CONSTANTS.DATA.TYPES.LINK;
   var $linksEnter = $links.enter()
     .append('g')
     .attr('transform', function(link){ return Utils.transform(link.source); })
@@ -236,7 +235,14 @@ var drawLinks = function(links){
     link.body = link.body || CONSTANTS.LINK.DEFAULT_BODY;
     return areaPath(areaPoints(link));
   });
+  var proprietaryLinks = $linksEnter
+    .filter(function(link){ return link.type !== TYPES.AFFILIATION; });
+  proprietaryLinks
+    .select('.link-body').attr('fill-opacity', proprietaryOpacity);
 
+  proprietaryLinks.select('.link-base').attr('fill-opacity', proprietaryOpacity);
+      
+    
   var $linksExit = $links.exit().remove();
 
   return {links: $links.merge($linksEnter), linksExit:$linksExit};

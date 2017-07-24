@@ -4,8 +4,8 @@ var CONSTANTS = {
   USE_CANVAS: false,
   DEBUG: true,
   PHI: Math.PI * 4,
-  WIDTH: 1600,
-  HEIGHT: 800,
+  WIDTH: 1280,
+  HEIGHT: 600,
   COLORS: {
     PROPRIETARY: '7d7d7d',
     BACKGROUND: 'rgb(22, 27, 48)',
