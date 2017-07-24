@@ -1,3 +1,20 @@
+/* 
+ * Sections
+ *
+ * Permet de configurer les différentes sections de l'appliction.
+ * chaque section est représentée par une fonction retournant 
+ * un objet doté de la forme suivante:
+ * {
+ *  id: '' // optionnel. permet juste de s'y retrouver plus simplement. 
+ *  clusters: [{x:0,y:0, nodeIDS:[0,1]], // tableau de clusters permettant de grouper les noeuds.
+ *  data: {
+ *    nodes: [], // les noeuds à utiliser pour cette section
+ *    links: [], // les liens à utiliser
+ *  },
+ *  showMembranes:true|false, // montre ou cache les membranes d'aggrégats.
+ *  showLinks:true,false // permet de plus facilement deviner les transitions entre les sections.
+ * }
+ */
 'use strict';
 
 var getSize = function(){

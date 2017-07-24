@@ -201,9 +201,14 @@ var configureSimulation = function(scene, data, sectionsConfig){
   var updateAnimations = function(){
     var previousSection = getSectionAt(previousSectionIndex);
     var section = getCurrentSection();
+    // les conditions des différentes transitions de liens 
+    // 1. ajout des liens
     var addLinkTransition = section.showLinks && !previousSection.showLinks;
+    // 2. suppression des liens
     var removeLinkTransition = !section.showLinks && previousSection.showLinks; 
+    // 3. transition entre lien
     var linkTransition = section.showLinks && previousSection.showLinks;
+    // 4. autre type de transition.
     var noLinkTransition = !section.showLinks && !previousSection.showLinks;
 
     _simulation.alphaTarget(0.3).restart();
