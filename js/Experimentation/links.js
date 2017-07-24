@@ -5,7 +5,7 @@ var getNormalAngle = function(a,b){
   var angle = radToDeg(Math.atan2(b.y-a.y, b.x-a.x));
   return degToRad(angle - 90);
 };
-var coords = function(pt, i){ return pt['x'+i]+','+pt['y'+i]; };
+
 /*
  * Génère les points servant à dessiner l'aire du lien.
  * @param `points`
@@ -58,7 +58,9 @@ var areaPoints = function(link){
     };
   });
   return _points;
-} 
+};
+// fonction permettant de convertir les coordonnées générées par la 
+// fonction `areaPoints` en chemin SVG (path) 
 var areaPath = d3.area()
   .curve(CONSTANTS.LINK.CURVE)
   .x0(function(pt){return pt.x0; })
@@ -68,6 +70,10 @@ var areaPath = d3.area()
 
 var linkBodyPath = function(link){ return areaPath(areaPoints(link)); }
 
+/*
+ * Fonction responsable de changer les écarts des différents `points`
+ * en fonction de la courbature passée.
+ */
 var changePointsCurbature = function(points, curbature){
   var newPoints = points.slice();
   var sign = Utils.sign(curbature);
@@ -85,6 +91,10 @@ var changePointsCurbature = function(points, curbature){
   return newPoints;
 };
 
+/*
+ * Fonction responsable de la déformation d'un lien.
+ * Tire au hasard une nouvelle courbature et modifie les écarts des points de la courbe (link.body)
+ */
 var reshapeLink = function(link, duration){
   link.reshaping =  true;
   link.body = link.body || CONSTANTS.LINK.DEFAULT_BODY;
@@ -113,8 +123,7 @@ var reshapeLink = function(link, duration){
 }
 var linkReshapeInterval = null;
 
-
-
+// tire au hasard 5 liens à interval régulier pour les déformer.
 var reshapeLinks = function(links){
   var intervalCallback = function(){
     var pick = function(){
@@ -127,12 +136,15 @@ var reshapeLinks = function(links){
     reshapeLink(pick(), animations.linkShapes.duration);
   };
   this.interval = d3.interval(intervalCallback, animations.linkShapes.interval);
-}
-var stopReshapeLinks = function(){
-  console.log('stopReshapeLinks', this.interval);
+};
+
+// arrête la déformation des liens.
+var stopReshapeLinks = function(link){
   if(this.interval){
     this.interval.stop();
   }
+  this.interval = null;
+  link.forEach(function(link){ link.reshaping = false; });
 };
 
 var linkAnimations = {
