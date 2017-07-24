@@ -18,6 +18,7 @@ var getNormalAngle = function(a,b){
  *    
  */
 var areaPoints = function(link){
+  link.body = link.body || CONSTANTS.LINK.DEFAULT_BODY;
   var points = link.body;
   var source = link.source; 
   var target = link.target; 
@@ -57,6 +58,9 @@ var areaPoints = function(link){
       y0: y0(pt), y1: y1(pt)
     };
   });
+  if(link.type != 'link/affiliation'){
+    //debugger;
+  } 
   return _points;
 };
 // fonction permettant de convertir les coordonnées générées par la 
@@ -91,70 +95,88 @@ var changePointsCurbature = function(points, curbature){
   return newPoints;
 };
 
+var timers = {};
+
 /*
  * Fonction responsable de la déformation d'un lien.
  * Tire au hasard une nouvelle courbature et modifie les écarts des points de la courbe (link.body)
  */
-var reshapeLink = function(link, duration){
+/*
+var reshapeLink = function(link, duration, done){
   link.reshaping =  true;
   link.body = link.body || CONSTANTS.LINK.DEFAULT_BODY;
 
   var curbature = Utils.rand.sign() * Utils.rand.number(0, 15);
   var curbatureInterpolator = d3.interpolateNumber(link.curbature||0, curbature);
-  var oldBody = Utils.copy(link.body);
+  var oldBody = link.body;
   var newBody = Utils.copy(oldBody);
   changePointsCurbature(newBody.slice(1,4), curbature);
   
   var bodyInterpolator = d3.interpolateArray(oldBody, newBody);
-
-  var timer = d3.timer(function(elleapsed){
+  link.timer = d3.timer(function(elleapsed){
     var tr = elleapsed / duration;
     if (tr > 1.0){
-      timer.stop();
+      link.timer.stop();
       link.reshaping = false;
       tr = 1.0;
+      done();
     }
 
-    var iCurbature = curbatureInterpolator(tr);
-    link.curbature = iCurbature;
+    link.curbature = curbatureInterpolator(tr);;
     link.body = bodyInterpolator(tr);
   });
-  return timer;
-}
-var linkReshapeInterval = null;
+}; */
 
+var linkReshapeInterval = null;
 // tire au hasard 5 liens à interval régulier pour les déformer.
-var reshapeLinks = function(links){
-  var intervalCallback = function(){
-    var pick = function(){
-      return Utils.rand.pick(links.filter(function(link){ return !link.reshaping; }));
+var reshapeLinks = function($links){
+  var linkBodyTween = function(link){
+    link.body = link.body || CONSTANTS.LINK.DEFAULT_BODY;
+
+    var curbature = Utils.rand.sign() * Utils.rand.number(0, 15);
+    var curbatureInterpolator = d3.interpolateNumber(link.curbature||0, curbature);
+    var oldBody = link.body;
+    var newBody = Utils.copy(oldBody);
+    changePointsCurbature(newBody.slice(1,4), curbature);
+    var bodyInterpolator = d3.interpolateArray(oldBody, newBody);
+    return function(t){
+      link.curbature = curbatureInterpolator(t);
+      link.body = bodyInterpolator(t);
     }
-    reshapeLink(pick(), animations.linkShapes.duration);
-    reshapeLink(pick(), animations.linkShapes.duration);
-    reshapeLink(pick(), animations.linkShapes.duration);
-    reshapeLink(pick(), animations.linkShapes.duration);
-    reshapeLink(pick(), animations.linkShapes.duration);
-  };
-  this.interval = d3.interval(intervalCallback, animations.linkShapes.interval);
+  }
+  $links.select('.link-body').each(function(link, i){
+    var $link = d3.select(this);
+    var delay = i * 20;
+    function loop($link, delay, duration){
+      $link.transition('linkReshape')
+        .delay(delay)
+        .ease(d3.easeLinear)
+        .duration(duration)
+        .tween('linkBody', linkBodyTween)
+        .on('end', function(){
+          loop($link, 0, duration);
+        });
+    }
+    loop($link, delay, animations.linkShapes.duration);
+  });
 };
 
 // arrête la déformation des liens.
-var stopReshapeLinks = function(link){
-  if(this.interval){
-    this.interval.stop();
-  }
-  this.interval = null;
-  link.forEach(function(link){ link.reshaping = false; });
+var stopReshapeLinks = function($links){
+  $links.interrupt();
 };
 
+// objet permettant de controler les animations depuis experimentations
 var linkAnimations = {
   interval: linkReshapeInterval,
   start: reshapeLinks,
   stop: stopReshapeLinks
 };
 
+// 
 var proprietyOpacity = function(link){
   var value = link['Valeur (supp à%)'];
+  console.log('proprietyOpacity', value);
   var opacity = 0.15;
   if(value >= 50){
     opacity = 0.8;
@@ -171,12 +193,7 @@ var linkOpacity = function(link){
   var opacity;
   switch(link.type){
     case TYPES.AFFILIATION:
-      if(link.data.source.type === NTYPES.LOBBY){
-        opacity = CONSTANTS.LINK.AFFILIATION_OPACITY;
-      } else {
-        opacity = 0;
-        debugger;
-      }
+      opacity = CONSTANTS.LINK.AFFILIATION_OPACITY;
       break; 
     case TYPES.PROPRIETARY.DIRECT:
       opacity = proprietyOpacity(link);
@@ -190,43 +207,37 @@ var linkOpacity = function(link){
 var drawLinks = function(links){
   var canvas = scene.getCanvas();
   var $links = canvas.selectAll('.link').data(links, function(link){
-    return link.source + '--' + link.target;
+    var key = link.data.source.ID + '-' + link.data.target.ID;
+    console.log('data key', key)
+      return key;
   });
   var scale = CONSTANTS.LINK.KERNEL_SCALE;
 
   var $linksEnter = $links.enter()
     .append('g')
+    .attr('transform', function(link){ return Utils.transform(link.source); })
     .attr('class', function(link){
       return link.type.split('/').join('-') +' source-'+link.data.source.ID;
     })
-  .attr('comp-op', 'src')
     .style('opacity', linkOpacity)
     .classed('link', true);
 
   $linksEnter.append('path')
     .classed('link-base', true)
-    .attr('comp-op', 'src')
     .attr('d', (d)=>(radialLine(d.data.source.kernelPoints)))
     .attr('fill', Color.link)
     .attr('transform', 'scale('+scale+')'); 
-  
+
 
   $linksEnter.append('path')
-    .classed('link-body', true)
-    .attr('fill', Color.link)
-    .attr('d', function(link){
-      link.body = CONSTANTS.LINK.DEFAULT_BODY;
-      link.path = areaPath(areaPoints(link));
-      return link.path;
-    });
+  .classed('link-body', true)
+  .attr('fill', Color.link)
+  .attr('d', function(link){
+    link.body = link.body || CONSTANTS.LINK.DEFAULT_BODY;
+    return areaPath(areaPoints(link));
+  });
 
   var $linksExit = $links.exit().remove();
-  /*
-     $linksExit.transition().duration(1000).style('opacity', 0);
 
-     $linksExit.transition().delay(1000).remove();
-     */
-  $links = $linksEnter.merge($links);
-
-  return {links: $links, linksExit:$linksExit};
+  return {links: $links.merge($linksEnter), linksExit:$linksExit};
 }

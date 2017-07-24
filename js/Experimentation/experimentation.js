@@ -48,54 +48,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
   var currentSectionIndex = 0;
   var previousSectionIndex;
   var sections = sectionsConfig;
-  var animationStatus = {
-    isReshapingNodes: false
-  };
-
-  // met à jour régulièrement la simulation.
-  var updateAtEvery = function(interval){
-    interval = interval || CONSTANTS.UPDATE_INTERVAL;
-    d3.interval(function(){
-      _simulation.alpha(0.2)
-    }, UPDATE_SIMULATION_INTERVAL);
-
-
-  };
-
-  var reshapeIntervalCallback = function(time){
-    var section = getCurrentSection();
-    var _nodes = section.data.nodes.filter(function(circle){ return !circle.reshaping; });
-    if(_nodes.length){
-      var node = randPick(_nodes);
-      reshapeNode(node, animations.shape.duration);
-    } 
-  };
-  var moveIntervalCallback = function(time){
-    var section = getCurrentSection();
-    var _nodes = section.data.nodes.filter(function(circle){ return !circle.animating; });
-    if(_nodes.length){
-      var node = randPick(_nodes);
-      moveNode(node, animations.position.duration);
-    } 
-  };
-
-
-  var startReshaping = function(){
-    animationStatus.isReshapingNodes = true;
-    if(!reshapeInterval){
-      d3.interval( reshapeIntervalCallback, animations.shape.interval);
-    } else {
-      reshapeInterval.restart(reshapeIntervalCallback, animations.shape.interval);
-    }
-  };
-  var startMoving = function(){ 
-    animationStatus.isMovingNodes = true;
-    if(!moveInterval){
-      moveInterval = d3.interval( moveIntervalCallback, animations.position.interval);
-    } else {
-      reshapeInterval.restart(moveIntervalCallback, animations.position.interval);
-    }
-  };
+  
   var findNodeCluster = function(d){
     var section = getCurrentSection();
     var clusters = section.clusters;
@@ -104,12 +57,6 @@ var configureSimulation = function(scene, data, sectionsConfig){
       return cluster.nodeIDS.indexOf(d['ID']) >= 0;
     });
   }; 
-
-
-  var stopReshaping = function(){
-    reshapeInterval.stop();
-    animationStatus.isReshapingNodes = false;
-  };
 
   var getSectionAt = function(i){
     return sections[i];
@@ -196,11 +143,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
       }
       node.x = node.x || cluster.x;
       node.y = node.y || cluster.y;
-      if(!node.x || isNaN(node.x)){
-        debugger;
-      }
     });
-    console.log('init node positions', section.data.nodes);
   };
   
   var initializeSimulation = function(){
@@ -209,6 +152,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     initializeNodesPosition();
 
     var nodes = getCurrentSection().data.nodes;
+    updateLinks();
     updateNodes();
     updateMembranes();
     
@@ -216,10 +160,10 @@ var configureSimulation = function(scene, data, sectionsConfig){
       .on('tick', onTick)
       .force('many', d3.forceManyBody()
           .strength(0)
-          .distanceMin(300)
-          .distanceMax(800))
+          .distanceMin(100)
+          .distanceMax(400))
       .force('link', d3.forceLink()
-          .iterations(5)
+          .iterations(3)
           .distance(function(l){
             return CONSTANTS.LINK.DISTANCE - Math.pow(2,l.curbature||0);
           })
@@ -245,62 +189,83 @@ var configureSimulation = function(scene, data, sectionsConfig){
       _simulation.alphaTarget(0.3);
     }, 3000); 
   };
-  
+ 
   var updateSimulationData = function(){
+    var section = getCurrentSection();
+
+    _simulation.nodes(section.data.nodes);
+    _simulation.alphaTarget(0.4).restart();
+    _simulation.force('link').links(section.data.links);
+
+    
+  };
+
+  var updateAnimations = function(){
     var previousSection = getSectionAt(currentSectionIndex-1);
     var section = getCurrentSection();
-    _simulation.nodes(section.data.nodes);
-    _simulation.force('link').links(section.data.links);
-    _simulation.alphaTarget(0.4).restart();
-
     var addLinkTransition = section.showLinks && !previousSection.showLinks;
     var removeLinkTransition = !section.showLinks && previousSection.showLinks; 
     var linkTransition = section.showLinks;
     var noLinkTransition = !section.showLinks && !previousSection.showLinks;
 
-    
+
     if(addLinkTransition){
       forceTransition('collide', 0.0, 0.4, 2000);
       _simulation.force('cluster').strength(0);
-      forceTransition('link', 0.0, 0.2, 2000);
-      forceTransition('many', -10, 0, 1000);
+      forceTransition('link', 0.0, 0.1, 3000);
+      _simulation.alphaTarget(0.2);
+      forceTransition('many', -5, 0, 2000);
     }
 
     if(removeLinkTransition){
       forceTransition('collide', 0.0, 0.7, 3500);
       _simulation.force('link').strength(0);
       _simulation.force('many').strength(0);
-      _simulation.force('center').strength(0);
       forceTransition('cluster', 0.7, 0.5, 3000);
-      linkAnimations.stop();
+      linkAnimations.stop($links);
     }
     if(noLinkTransition){
       forceTransition('collide', 0.0, 0.7, 3500);
       forceTransition('cluster', 0.7, 0.5, 3000);
     }
-    initializeNodesPosition();
     if(linkTransition){
-      forceTransition('collide', 0.0, 0.4, 3500);
-      forceTransition('link', 0.0, 0.2, 4000);
-      forceTransition('many', 0.0, 2);
-      linkAnimations.stop();
-      linkAnimations.start(section.data.links);
+      forceTransition('collide', 0.0, 0.4, 3000);
+      // _simulation.force('link').strength(0.2);
+      forceTransition('link', 0.0, 0.2, 2500);
+      linkAnimations.stop($links);
+      setTimeout(function(){
+        linkAnimations.start($links);
+      }, 3000);
+      _simulation.alphaTarget(0.01);
     }
 
     if(!section.showMembranes){
       console.log('should reshape nodes');
       nodeAnimations.shape.stop($nodes);
       nodeAnimations.shape.start($nodes, animations.circleShapes.duration);
+    } else {
+      nodeAnimations.shape.stop($nodes);
     }
-  };
+  }
 
-  
 
   var updateSimulation = function(){
-    updateNodes();
     updateMembranes();
-    updateLinks();
     updateSimulationData();
+    // initializeNodesPosition();
+    updateNodes();
+    updateLinks();
+    updateAnimations();
+  };
+  var updateLinksNodes = function(){
+    var section = getCurrentSection();
+    var links = section.data.links;
+    var nodes = section.data.nodes;
+    links.forEach(function(link){
+      link.source = nodes.find(function(node){ return node.ID == link.data.source.ID; });
+      link.target = nodes.find(function(node){ return node.ID == link.data.target.ID; });
+      console.log(link.source, link.target);
+    }); 
   };
   var updateLink = function($link){
     if(!$link){ return; }
@@ -310,9 +275,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
         source.x = 0;
         source.y = 0;
       }
-      return Utils.transform(source);
+      return Utils.transform(link.source);
     });
-    
+
     $links.select('.link-body').attr('d', linkBodyPath);
   };
 
@@ -333,11 +298,12 @@ var configureSimulation = function(scene, data, sectionsConfig){
     if(DEBUG){ stats.begin(); }
 
     $nodes.attr('transform', Utils.transform);
-    
+
     $membranes.attr('d', function(d){return membranePath(nodes, d); });
     $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
-    updateLink($links);
-    updateLink($linksExit);
+    $links.attr('transform', function(d){ return Utils.transform(d.source); });
+
+    $links.select('.link-body').attr('d', linkBodyPath);
     // nécessaire pour la capture des FPS en DEBUG.
     if(DEBUG){
       stats.end();
