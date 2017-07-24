@@ -35,9 +35,6 @@
 /* Variables globales */
 var simulation, stats, scene, canvas;
 
-
-
-
 var configureSimulation = function(scene, data, sectionsConfig){
   var _simulation, ticks = 0,
   // animations intervals
@@ -216,12 +213,11 @@ var configureSimulation = function(scene, data, sectionsConfig){
       forceTransition('many', -10, 0, 1500);
       setTimeout(function(){
         _simulation.force('many').strength(5);
-//        forceTransition('many', 0, 5, 1000);
       }, 1500);
     }
 
     if(removeLinkTransition){
-      console.log('removeLinkTransition');
+      // console.log('removeLinkTransition');
       forceTransition('collide', 0.0, 0.7, 3500);
       _simulation.force('link').strength(0);
       _simulation.force('many').strength(0);
@@ -234,23 +230,17 @@ var configureSimulation = function(scene, data, sectionsConfig){
     }
     if(linkTransition){
       _simulation.alphaTarget(0.1); 
-      console.log('linkTransition');
-//      _simulation.alphaTarget(0.05).restart();
+      // console.log('linkTransition');
       forceTransition('many', -10, 0, 4000);
-      // forceTransition('collide', 0, 0.2, 3000);
       forceTransition('link', 0, 0.1, 3000);
 
-      // forceTransition('collide', 0.0, 0.1, 2000);
-      // _simulation.force('link').strength(0.2);
       linkAnimations.stop($links);
       setTimeout(function(){
-        // _simulation.force('many').strength(5);
         linkAnimations.start($links);
       }, 5000);
     }
 
     if(!section.showMembranes){
-      console.log('should reshape nodes');
       nodeAnimations.shape.stop($nodes);
       nodeAnimations.shape.start($nodes, animations.circleShapes.duration);
     } else {
@@ -267,29 +257,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     updateLinks();
     updateAnimations();
   };
-  var updateLinksNodes = function(){
-    var section = getCurrentSection();
-    var links = section.data.links;
-    var nodes = section.data.nodes;
-    links.forEach(function(link){
-      link.source = nodes.find(function(node){ return node.ID == link.data.source.ID; });
-      link.target = nodes.find(function(node){ return node.ID == link.data.target.ID; });
-      console.log(link.source, link.target);
-    }); 
-  };
-  var updateLink = function($link){
-    if(!$link){ return; }
-    $links.attr('transform', function(link){
-      var source = link.source.x ? link.source : link.data.source;
-      if(!source.x){
-        source.x = 0;
-        source.y = 0;
-      }
-      return Utils.transform(link.source);
-    });
-
-    $links.select('.link-body').attr('d', linkBodyPath);
-  };
+ 
 
   var onTick = function(){
     ticks+=1;
@@ -304,7 +272,6 @@ var configureSimulation = function(scene, data, sectionsConfig){
     // var currentSection = getCurrentSection();
 
     // montre les FPS si nous somme en DEBUG.
-
     if(DEBUG){ stats.begin(); }
 
     $nodes.attr('transform', Utils.transform);
@@ -314,7 +281,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     $links.attr('transform', function(d){ return Utils.transform(d.source); });
 
     $links.select('.link-body').attr('d', linkBodyPath);
-    // nécessaire pour la capture des FPS en DEBUG.
+    
     if(DEBUG){
       stats.end();
     }
