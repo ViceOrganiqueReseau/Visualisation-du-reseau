@@ -51,7 +51,7 @@ var reshapeNodes = function($nodes){
             .duration(duration)
             .attrTween('d', attrTween)
             .on('end', function(){
-              loop($node, 0, _d); 
+              loop($node, delay, _d); 
             });
         }
         loop($node, delay, _d);
@@ -101,8 +101,8 @@ var randomMovementForce = function(){
   var nodes = [], strength = 1;
 
   function newTarget(node){
-    node.tx = randSign() * Utils.rand.number(0, 5);
-    node.ty = randSign() * Utils.rand.number(0, 5);
+    node.tx = randSign() * Utils.rand.number(0, 6);
+    node.ty = randSign() * Utils.rand.number(0, 6);
   }
   
   function initialize(){
@@ -146,7 +146,8 @@ var nodeFill = function(node){
   if(node.type === TYPES.LOBBY){
     return fade(nodeColor(node), colors.BACKGROUND, 0.5);
   } else {
-    return 'url(#radialGradient)'
+    //return 'url(#radialGradient)'
+    return '#bbb'
   }
 }; 
 

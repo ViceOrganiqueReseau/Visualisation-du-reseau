@@ -259,7 +259,7 @@ var sixthSection = function(data){
 var seventhSection = function(data){
   return {
     id: 6,
-    cluters: [],
+    clusters: [],
     data: {
       nodes: data.utils.nodes.all(),
       links: data.utils.links.all()

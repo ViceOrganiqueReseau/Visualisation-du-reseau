@@ -194,6 +194,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
     _simulation.nodes(section.data.nodes);
     _simulation.force('link').links(section.data.links);
+    _simulation.force('movement').initialize(section.data.nodes.concat(section.clusters));
 
 
   };
