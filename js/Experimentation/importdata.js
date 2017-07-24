@@ -100,6 +100,7 @@ var processData = function(files){
   proprietaryNodes = setType(proprietaryNodes, TYPES.NODE.PROPRIETARY);
 
   proprietaryNodes.forEach(function(node){
+    node.radius = CONSTANTS.CIRCLE.PROPRIETARY_RADIUS;
     node.points = circlePoints(CONSTANTS.CIRCLE.PROPRIETARY_RADIUS);
   }); 
 
