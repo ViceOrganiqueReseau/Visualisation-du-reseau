@@ -14,9 +14,11 @@ var CONSTANTS = {
     SAME_POSITION: '4d8d9c',
     DIFFERENT_POSITION: 'b17d1d'
   },
+  // réglages de la membranes
   MEMBRANE: {
-    PADDING: 6,
-    CURVE: d3.curveBasisClosed
+    // espace entre les points et la membranes.
+    PADDING: 0,
+    CURVE: d3.curveCatmullRomClosed,
   },
   LINK:{
     CURVE: d3.curveBasis,

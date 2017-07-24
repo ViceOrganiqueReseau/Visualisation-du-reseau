@@ -176,7 +176,6 @@ var linkAnimations = {
 // 
 var proprietaryOpacity = function(link){
   var value = link['Valeur (supp à%)'];
-  console.log('proprietyOpacity', value);
   var opacity = 0.15;
   if(value >= 50){
     opacity = 0.8;

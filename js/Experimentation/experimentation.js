@@ -177,16 +177,15 @@ var configureSimulation = function(scene, data, sectionsConfig){
           return cluster;
         })
         .centerInertia(1));
-    _simulation.alphaTarget(0.5).restart();
-    forceTransition('cluster', 0.0, 0.2, 600);
-    forceTransition('collide', 0.0, 0.5, 500);
-    forceTransition('movement', 0, 1, 1000);
+    
     _simulation.on('end', function(){
-      console.log('on end');      
       _simulation.alphaTarget(0.4).restart();
     });
 
-
+    _simulation.alphaTarget(0.5).restart();
+    forceTransition('cluster', 0.0, 0.2, 600);
+    forceTransition('collide', 0.0, 0.5, 500);
+    forceTransition('movement', 0, 0.7, 1000);
   };
 
   var updateSimulationData = function(){
@@ -209,7 +208,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
     _simulation.alphaTarget(0.3).restart();
 
-    forceTransition('movement', 0, 1, 1000);
+    forceTransition('movement', 0, 0.7, 1000);
 
     if(addLinkTransition){
       console.log('addLinkTransition');

@@ -56,12 +56,12 @@ var filterNodesByLinkSource = function(nodes, links){
     }) != null;
   });
 };
+// Ordre des fichiers, voir `processData`
 // 0:csv.NODES
 // 1:csv.NODES_PROPRIETARY
 // 2:csv.LINKS_PROPRIETARY
 // 3:csv.LINKS_INDIRECT_PROPRIETARY
 // 4:csv.LINKS_AFFILIATION
-
 var processData = function(files){
   // récupération du thème choisi par l'utilisateur
   var theme = getUserChoice().theme;
@@ -93,32 +93,60 @@ var processData = function(files){
   });
 
   // assignation des types de noeuds & liens 
-  lobbyNodes = setType(lobbyNodes, TYPES.NODE.LOBBY);
   affiliationLinks = setType(affiliationLinks, TYPES.LINK.AFFILIATION);
   directProprietaryLinks = setType(directProprietaryLinks, TYPES.LINK.PROPRIETARY.DIRECT);
   indirectProprietaryLinks = setType(indirectProprietaryLinks, TYPES.LINK.PROPRIETARY.INDIRECT);
-  proprietaryNodes = setType(proprietaryNodes, TYPES.NODE.PROPRIETARY);
-
-  proprietaryNodes.forEach(function(node){
-    node.radius = CONSTANTS.CIRCLE.PROPRIETARY_RADIUS;
-    node.points = circlePoints(CONSTANTS.CIRCLE.PROPRIETARY_RADIUS);
-  }); 
-
-  var allNodes = flattenArray([lobbyNodes, proprietaryNodes]); 
+  
   var allLinks = flattenArray([
       directProprietaryLinks,
       indirectProprietaryLinks,
       affiliationLinks
   ]);
+  // assignation des source et target à l'avance afin de faciliter
+  // le "binding" des données (voir `$links.data(links, function(){})` 
+  // dans `drawLinks` (links.js)
+  allLinks.forEach(function(link){
+    link.data = {
+      source: lobbyNodes.concat(proprietaryNodes).find(function(node){ return node.ID === link.source }),
+      target: lobbyNodes.concat(proprietaryNodes).find(function(node){ return node.ID === link.target })
+    };
+  });
+
+  lobbyNodes = setType(lobbyNodes, TYPES.NODE.LOBBY);
+  proprietaryNodes = setType(proprietaryNodes, TYPES.NODE.PROPRIETARY);
+  
+  // affecte le nombre de lien de chaque noeud de propriété.
+  proprietaryNodes.forEach(function(node){
+    var links = allLinks.filter(function(link){
+      return parseInt(link.data.source.ID) === parseInt(node.ID);
+    });
+    node.links = links.length;
+  });
+
+  // échelle de calcul du radius du noeud.
+  var proprietaryScale = d3.scaleLinear()
+    .range(CONSTANTS.CIRCLE.RADIUS_RANGE)
+    .domain(
+      // récupère le [ min, max ] du tableau passé en paramètre.
+      d3.extent(
+        // récupère uniquement le nombre de liens des noeuds.
+        proprietaryNodes.map(function(node){ return node.links; })
+      )
+    );
+
+
+  // création de la forme
+  proprietaryNodes.forEach(function(node){
+    node.radius = proprietaryScale(node.links);
+    node.points = circlePoints(node.radius);
+  });
+
+  var allNodes = flattenArray([lobbyNodes, proprietaryNodes]); 
+  
   allNodes.forEach(function(node){
     node.kernelPoints = circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS);
   });
-  allLinks.forEach(function(link){
-    link.data = {
-      source: allNodes.find(function(node){ return node.ID === link.source }),
-      target: allNodes.find(function(node){ return node.ID === link.target })
-    };
-  });
+  
   return {
     userChoice: getUserChoice(),
     nodes: allNodes, 

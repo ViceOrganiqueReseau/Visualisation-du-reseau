@@ -1,13 +1,19 @@
 var nodeColor = function(d){
+  var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var colors = CONSTANTS.COLORS;
-  var userChoice = getUserChoice(); 
-  if(userChoice.lobbyID == d.ID){
-    return colors.ALLY;
+  var color;
+  if(d.type === TYPES.LOBBY){
+    var userChoice = getUserChoice(); 
+    if(userChoice.lobbyID == d.ID){
+      return colors.ALLY;
+    }
+    if(userChoice.enemyID == d.ID){
+      return colors.ENMEMY;
+    }
+    var color = d[userChoice.theme] === userChoice.position ? colors.SAME_POSITION : colors.DIFFERENT_POSITION;
+  } else {
+    color = colors.PROPRIETARY;
   }
-  if(userChoice.enemyID == d.ID){
-    return colors.ENMEMY;
-  }
-  var color = d[userChoice.theme] === userChoice.position ? colors.SAME_POSITION : colors.DIFFERENT_POSITION;
   return chroma(color);
 };
 

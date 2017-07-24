@@ -93,10 +93,7 @@ var moveNode = function(node, duration){
   });
 };
 
-var moveNodes = function(nodes){
-
-};
-
+// force permettant le mouvement des noeuds.
 var randomMovementForce = function(){
   var nodes = [], strength = 1;
 
@@ -120,10 +117,10 @@ var randomMovementForce = function(){
       node.vy += my;
       node.tx -= mx;
       node.ty -= my;
+      // calcul de la fin du mouvement
       if(Math.abs(node.tx) < 1e-2 && Math.abs(node.ty) < 1e-2){
         newTarget(node);
       }
-      // debugger;
     }
   }
   force.strength = function(_){
@@ -142,12 +139,12 @@ var randomMovementForce = function(){
 var nodeFill = function(node){
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var colors = CONSTANTS.COLORS;
-
+  // décommenter pour enlever le dégradé
+  // return fade(Color.node(node), colors.BACKGROUND, 0.5);
   if(node.type === TYPES.LOBBY){
-    return fade(nodeColor(node), colors.BACKGROUND, 0.5);
+    return fade(Color.node(node), colors.BACKGROUND, 0.5);
   } else {
-    //return 'url(#radialGradient)'
-    return '#bbb'
+    return 'url(#radialGradient)'
   }
 }; 
 
@@ -171,6 +168,8 @@ var drawNodes = function(nodes){
     .attr('d', function(d){
       return radialLine(d.points);
     });
+
+
   var lobbyNodeEnter = nodeEnter.filter(function(d){
     return d.type == TYPES.LOBBY;
   });
@@ -187,11 +186,7 @@ var drawNodes = function(nodes){
     return radialLine(d.kernelPoints);
   });
 
-  var proprietaryNodeEnter = nodeEnter.filter(function(d){
-    return d.type == TYPES.PROPRIETARY;
-  });
-
-  // suppresion des noeuds supprimé (propriété par exemple)
+   // suppresion des noeuds supprimé (propriété par exemple)
   // TODO: rajouter une constante. 
   $nodes.exit().transition()
     .duration(300)
