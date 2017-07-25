@@ -28,31 +28,37 @@ var areaPoints = function(link){
   };
   
   var normalAngle = getNormalAngle({x:0,y:0}, tgt);
-  var x = function(pt){
-    return tgt.x*pt.at + pt.offset*Math.cos(normalAngle);
-  };
+
+  var cosNormalAngle = Math.cos(normalAngle);
+  var sinNormalAngle = Math.sin(normalAngle);
   
-  var y = function(pt){
-    return tgt.y*pt.at + pt.offset*Math.sin(normalAngle);
+  var x = function(pt){
+    return tgt.x*pt.at + pt.offset*cosNormalAngle;
   };
 
   var x0 = function(pt){
-    return x(pt) - pt.width*Math.cos(normalAngle);
+    return pt.x - pt.width*cosNormalAngle;
   };
 
   var x1 = function(pt){
-    return x(pt) + pt.width*Math.cos(normalAngle);
+    return pt.x + pt.width*cosNormalAngle;
+  };
+
+  var y = function(pt){
+    return tgt.y*pt.at + pt.offset*sinNormalAngle;
   };
 
   var y0 = function(pt){
-    return y(pt) - pt.width*Math.sin(normalAngle);
+    return pt.y - pt.width*sinNormalAngle;
   };
 
   var y1 = function(pt){
-    return y(pt) + pt.width*Math.sin(normalAngle);
+    return pt.y + pt.width*sinNormalAngle;
   };
 
   var _points = points.map(function(pt){
+    pt.y = y(pt);
+    pt.x = x(pt);
     return {
       x0: x0(pt), x1: x1(pt),
       y0: y0(pt), y1: y1(pt)
