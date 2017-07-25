@@ -211,6 +211,8 @@ var drawLinks = function(links){
   });
   var scale = CONSTANTS.LINK.KERNEL_SCALE;
   var TYPES = CONSTANTS.DATA.TYPES.LINK;
+  var NTYPES = CONSTANTS.DATA.TYPES.NODE;
+  
   var $linksEnter = $links.enter()
     .append('g')
     .attr('transform', function(link){ return Utils.transform(link.source); })
@@ -218,7 +220,9 @@ var drawLinks = function(links){
       return link.type.split('/').join('-') +' source-'+link.data.source.ID;
     })
     .style('opacity', linkOpacity)
-    .classed('link', true);
+    .classed('link', true)
+    // permet de calculer uniquement le chemin des liens visible (pour les perfs)
+    .classed('hidden', function(link){ return link.data.source.type === NTYPES.PROPRIETARY; });
 
   $linksEnter.append('path')
     .classed('link-base', true)

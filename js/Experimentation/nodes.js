@@ -205,6 +205,7 @@ var drawNodes = function(nodes){
       $nodeLinks.transition().duration(200)
         .style('opacity', 1);
 
+      $nodeLinks.classed('hidden', false);
     }
   }).on('mouseout', function(node){
     if(node.type === TYPES.PROPRIETARY){
@@ -214,6 +215,7 @@ var drawNodes = function(nodes){
         });
       $nodeLinks.transition().duration(150)
         .style('opacity', 0);
+      $nodeLinks.classed('hidden', true);
     }
   });
 

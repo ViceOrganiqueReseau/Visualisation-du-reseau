@@ -306,7 +306,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
     $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
     $links.attr('transform', function(d){ return Utils.transform(constraintNode(d.source)); });
 
-    $links.select('.link-body').attr('d', linkBodyPath);
+    $links.filter(':not(.hidden)').select('.link-body').attr('d', linkBodyPath);
 
     if(DEBUG){
       stats.end();
