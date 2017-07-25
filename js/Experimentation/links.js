@@ -76,7 +76,12 @@ var areaPath = d3.area()
   .y0(function(pt){return pt.y0; })
   .y1(function(pt){return pt.y1; });
 
-var linkBodyPath = function(link){ return areaPath(areaPoints(link)); }
+var linkBodyPath = function(link){
+  var points = areaPoints(link);
+  var path = areaPath(points);
+  delete points;
+  return path;
+};
 
 /*
  * Fonction responsable de changer les écarts des différents `points`

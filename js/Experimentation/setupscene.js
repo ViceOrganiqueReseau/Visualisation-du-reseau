@@ -13,7 +13,7 @@ var setupScene = function(){
     .classed('experimentation', true)
     .attr("width", CONSTANTS.WIDTH)
     .attr("height", CONSTANTS.HEIGHT)
-    .canvas(shouldUseCanvas);
+  // .canvas(shouldUseCanvas);
   
   var defs = scene.append('defs');
   var gradient = defs.append('radialGradient')
