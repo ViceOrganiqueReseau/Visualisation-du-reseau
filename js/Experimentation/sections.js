@@ -307,5 +307,22 @@ var configureSections = function(data){
   allSections.push(seventhSection(data));
   // voir Experimentation/sections/eighth.js
   // allSections.push(eighthSection(data));
+  // création d'un objet pour chaque cluster de section
+  // afin d'alléger encore un peu la tache lors du tracé
+  // de la membrane.
+  allSections.forEach(function(section){
+    section.clusters.forEach(function(cluster){
+      cluster.objIDS = {};
+
+      cluster.nodeIDS.forEach(function(id){
+        cluster.objIDS[id] = true;
+      });
+
+      cluster.hasNode = function(node){
+        var test = cluster.objIDS[node.ID]; 
+        return test != null && test;
+      };
+    });
+  });
   return allSections;
 }

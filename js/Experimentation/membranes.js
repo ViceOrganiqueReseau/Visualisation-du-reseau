@@ -4,25 +4,28 @@ var hullLine = d3.line()
 
 var membranePath = function(nodes, cluster){
   var padding = CONSTANTS.MEMBRANE.PADDING;
-  var x = function(p){ return Math.cos(p.angle) * ((p.radius||0)+padding); };
-  var y = function(p){ return Math.sin(p.angle) * ((p.radius||0)+padding); };
-  var points = [];
-  var clusterNodes = nodes.filter(function(node){
-    var cond = cluster.nodeIDS.indexOf(node['ID']) >= 0;
-    // petit hack pour éviter une boucle map.
-    if(cond){
-      var nodePoints = node.points && node.points.length > 0 ? node.points : node.kernelPoints;
-      nodePoints.forEach(function(p){
+  var x = function(p){ return p.cosAngle * ((p.radius||0)+padding); };
+  var y = function(p){ return p.sinAngle * ((p.radius||0)+padding); };
+  var points = [], node, nodePoints;
+  var nodeIndex, nodeNumber = nodes.length;
+  
+  var i, n;
+  for(nodeIndex = 0; nodeIndex < nodeNumber; nodeIndex++){
+    node = nodes[nodeIndex];
+    if(cluster.hasNode(node)){
+      nodePoints = node.points && node.points.length > 0 ? node.points : node.kernelPoints;
+      n = nodePoints.length;
+      for(i=0; i < n; i++){
         points.push([
-          node.x + x(p) - cluster.x,
-          node.y + y(p) - cluster.y
+          node.x + x(nodePoints[i]) - cluster.x,
+          node.y + y(nodePoints[i]) - cluster.y
         ]);
-      });
+      }
     }
-    return cond;
-  });
+  }
 
   var h = hull(points);
+  delete points;
   if(h && h.length > 0){
     return hullLine(h);
   } else {

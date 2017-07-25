@@ -15,6 +15,10 @@ var circlePoints = function(radius, nbPoints){
         (radius*radiusJitter)*(Math.random())
     );
     points.push({
+      // précalcul des cosinus et sinus pour éviter d'avoir à le faire 
+      // lors du calcul de la membrane
+      cosAngle: Math.cos(angle),
+      sinAngle: Math.sin(angle),
       angle: angle,
       radius: radius + jitterRadius,
     });
