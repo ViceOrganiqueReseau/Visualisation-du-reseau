@@ -299,9 +299,10 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
     // montre les FPS si nous somme en DEBUG.
     if(DEBUG){ stats.begin(); }
-
+    // translate le noeuds vers sa position
     $nodes.attr('transform', function(node){ return Utils.transform(constraintNode(node));});
-
+    // idem pour les membranes.
+    $membranes.attr('transform', function(membrane){ return Utils.transform(membrane);});
     $membranes.attr('d', function(d){return membranePath(nodes, d); });
     $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
     

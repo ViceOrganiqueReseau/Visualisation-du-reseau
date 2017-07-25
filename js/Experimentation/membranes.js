@@ -6,18 +6,22 @@ var membranePath = function(nodes, cluster){
   var padding = CONSTANTS.MEMBRANE.PADDING;
   var x = function(p){ return Math.cos(p.angle) * ((p.radius||0)+padding); };
   var y = function(p){ return Math.sin(p.angle) * ((p.radius||0)+padding); };
-
+  var points = [];
   var clusterNodes = nodes.filter(function(node){
-    return cluster.nodeIDS.indexOf(node['ID']) >= 0; 
+    var cond = cluster.nodeIDS.indexOf(node['ID']) >= 0;
+    // petit hack pour éviter une boucle map.
+    if(cond){
+      var nodePoints = node.points && node.points.length > 0 ? node.points : node.kernelPoints;
+      nodePoints.forEach(function(p){
+        points.push([
+          node.x + x(p) - cluster.x,
+          node.y + y(p) - cluster.y
+        ]);
+      });
+    }
+    return cond;
   });
 
-  var points = clusterNodes.map(function(node){
-    var cx = node.x, cy = node.y;
-    var points = node.points && node.points.length > 0 ? node.points : node.kernelPoints;
-    return points.map(function(p){
-      return [ cx+x(p), cy+y(p) ];
-    });
-  }).reduce((a,b)=>a.concat(b)); // reduce -> permet d'aplatir le tableau
   var h = hull(points);
   if(h && h.length > 0){
     return hullLine(h);
