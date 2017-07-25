@@ -55,18 +55,16 @@ var areaPoints = function(link){
   var y1 = function(pt){
     return pt.y + pt.width*sinNormalAngle;
   };
-
-  var _points = points.map(function(pt){
+  var i, n = points.length, _points = [], pt;
+  for(i = 0; i < n; i++){
+    pt = points[i];
     pt.y = y(pt);
     pt.x = x(pt);
-    return {
+    _points.push({
       x0: x0(pt), x1: x1(pt),
       y0: y0(pt), y1: y1(pt)
-    };
-  });
-  if(link.type != 'link/affiliation'){
-    //debugger;
-  } 
+    });
+  }
   return _points;
 };
 // fonction permettant de convertir les coordonnées générées par la 
@@ -103,38 +101,11 @@ var changePointsCurbature = function(points, curbature){
 
 var timers = {};
 
+var linkReshapeInterval = null;
 /*
  * Fonction responsable de la déformation d'un lien.
  * Tire au hasard une nouvelle courbature et modifie les écarts des points de la courbe (link.body)
  */
-/*
-var reshapeLink = function(link, duration, done){
-  link.reshaping =  true;
-  link.body = link.body || CONSTANTS.LINK.DEFAULT_BODY;
-
-  var curbature = Utils.rand.sign() * Utils.rand.number(0, 15);
-  var curbatureInterpolator = d3.interpolateNumber(link.curbature||0, curbature);
-  var oldBody = link.body;
-  var newBody = Utils.copy(oldBody);
-  changePointsCurbature(newBody.slice(1,4), curbature);
-  
-  var bodyInterpolator = d3.interpolateArray(oldBody, newBody);
-  link.timer = d3.timer(function(elleapsed){
-    var tr = elleapsed / duration;
-    if (tr > 1.0){
-      link.timer.stop();
-      link.reshaping = false;
-      tr = 1.0;
-      done();
-    }
-
-    link.curbature = curbatureInterpolator(tr);;
-    link.body = bodyInterpolator(tr);
-  });
-}; */
-
-var linkReshapeInterval = null;
-// tire au hasard 5 liens à interval régulier pour les déformer.
 var reshapeLinks = function($links){
   var linkBodyTween = function(link){
     link.body = link.body || CONSTANTS.LINK.DEFAULT_BODY;
