@@ -36,8 +36,15 @@ var setupScene = function(){
     .attr('offset', '100%')
     .attr('stop-color', stopColor(0)); 
   return {
+    updateSize: function(){ this.size = this._getSize();},
     getCanvas: function(){ return scene; },
-    getSize: function(){ return [ parseInt(scene.attr('width')), parseInt(scene.attr('height')) ]; }
+    getSize: function(){
+      if(!this.size){
+        this.updateSize();
+      }
+      return this.size;
+    },
+    _getSize: function(){ return [ parseInt(scene.attr('width')), parseInt(scene.attr('height')) ]; }
   };
 };
 
