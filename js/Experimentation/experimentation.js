@@ -193,6 +193,11 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
     _simulation.nodes(section.data.nodes);
     _simulation.force('link').links(section.data.links);
+
+    // à vous de voir ici quelles parties des noeuds doivent être en mouvement ou non.
+    // on peut imaginer le code suivant:
+    // var nodeToMove = section.showMembranes ? section.clusters : section.data.nodes;
+    // _simulation.force('mouvement').initialize(nodeToMove);
     _simulation.force('movement').initialize(section.data.nodes.concat(section.clusters));
 
 
