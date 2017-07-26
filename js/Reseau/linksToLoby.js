@@ -4,10 +4,10 @@ var linksloby = d3.select("#links");
 
 function createlinks (){
   // Création des liens vers les thèmes
-  for (var i=0; i<themelist.length; i++){
+  for (var i=0; i<CONSTANTS.THEMELIST.length; i++){
     linksloby.select("#boxes-container")
         .append("a")
-        .text(themelist[i])
+        .text(CONSTANTS.THEMELIST[i])
         .attr("href", "reseau.html?theme="+i);
   }
 
