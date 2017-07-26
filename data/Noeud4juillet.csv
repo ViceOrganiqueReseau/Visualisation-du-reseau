@@ -2,8 +2,8 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 1,74535104992-35,Green Budget Europe,,Europe,ONG,Intérêts public environnementaux,223889,2,1.0,POUR,POUR,,POUR
 2,1651695283-80,INFORSE-Europe,,Europe,ONG,Intérêts public environnementaux,17499,2,1.0,,,,POUR
 3,85103504511-82,ActionAid,,International,ONG,Autres industries / intérêts,226887,3,2.25,,,,POUR
-4,1414929419-24,WWF,World Wildlife Fund,International,ONG,Intérêts public environnementaux,2124999,33,21.75,,,,
-5,75365248559-90,Nature Code,,Autriche,ONG,Intérêts public environnementaux,649999,7,4.0,,,,
+4,1414929419-24,WWF,World Wildlife Fund,International,ONG,Intérêts public environnementaux,2124999,33,21.75,POUR,POUR,CONTRE,POUR
+5,75365248559-90,Nature Code,,Autriche,ONG,Intérêts public environnementaux,649999,7,4.0,POUR,POUR,,POUR
 6,1083162721-43,BirdLife Europe,,Europe,ONG,Intérêts public environnementaux,1374999,18,18.0,,,,
 7,,Institution of Civil Engineers,,Royaume-Uni,Association professionnelle,Autres industries / intérêts,NaN,NaN,NaN,,,,
 8,256351811481-67,Px1NME,Plataforma por un Nuevo Modelo Energético,Espagne,ONG,Énergie (principalement renouvelable),NaN,NaN,NaN,,,,
@@ -24,7 +24,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 23,42119616334-41,Food & Water Europe,,Europe,ONG,Intérêts public environnementaux,74999,3,2.5,,,,
 25,035225320599-22,APERe,,Belgique,ONG,Intérêts public environnementaux,37499,1,0.5,,,,
 26,481513911429-60,Klima-Bündnis Lëtzebuerg,,Luxembourg,ONG,Intérêts public environnementaux,249999,4,4.0,,POUR,CONTRE,POUR
-27,55888811123-49,CAN-Europe,Climate Action Network Europe,Europe,ONG,Intérêts public environnementaux,849999,19,15.75,,,,
+27,55888811123-49,CAN-Europe,Climate Action Network Europe,Europe,ONG,Intérêts public environnementaux,849999,19,15.75,POUR,POUR,CONTRE,POUR
 28,06798511314-27,EEB,European Environmental Bureau,Europe,ONG,Intérêts public environnementaux,3374999,22,19.75,,,,
 29,9832909575-41,Greenpeace,Greenpeace,International,ONG,Intérêts public environnementaux,594233,10,5.0,POUR,POUR,CONTRE,POUR
 30,55481528937-66,Church & Society Commission,,Europe,Communauté religieuse,Autres industries / intérêts,149999,7,1.75,POUR,,,POUR
@@ -100,7 +100,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 100,50098025830-01,Energy Norway,Energy Norway,Norvège,Association professionnelle,Énergie,4999,2,2.0,POUR,CONTRE,POUR,CONTRE
 101,07265875082-72,FFE,Federation of Finnish Enterprises,Finlande,Association professionnelle,Intérêts privés,249999,18,6.0,,CONTRE,,CONTRE
 102,80966174852-38,Oesterreichs Energie,,Autriche,Association professionnelle,Énergie,549999,6,3.5,,,,
-103,64879142323-90,CEFIC,European Chemical Industry Council,Europe,Association professionnelle,Industrie chimique,12100000,78,48.0,,,,
+103,64879142323-90,CEFIC,European Chemical Industry Council,Europe,Association professionnelle,Industrie chimique,12100000,78,48.0,,CONTRE,POUR,CONTRE
 104,255548111478-45,SRI,Swedish Recycling Industries' Association,Suède,Association professionnelle,Autres industries / intérêts,30000,1,0.25,,,,
 105,8111597333-73,Essenscia,Belgian Federation for Chemistry and Life Sciences Industries,Belgique,Association professionnelle,Industrie chimique,549999,9,3.0,,,,
 106,,Confindustria,,Italie,Association professionnelle,Intérêts privés,75000,NaN,NaN,,,,
@@ -129,7 +129,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 129,,ENEF,European Nuclear Energy Forum,Europe,Association professionnelle,Énergie,NaN,NaN,NaN,,,,
 130,780146710855-91,EuLA,European Lime Association,Europe,Association professionnelle,Matériaux,5000,1,0.25,,,,
 131,55820581197-35,UEAPME,"European Associations of Craft, Small and Medium-Sized Enterprises",Europe,Association professionnelle,Intérêts privés,1623893,15,15.0,,,,
-132,286194516022-33,Fedil,Business Federation Luxembourg,Luxembourg,Association professionnelle,Intérêts privés,149999,6,2.75,,,,
+132,286194516022-33,Fedil,Business Federation Luxembourg,Luxembourg,Association professionnelle,Intérêts privés,149999,6,2.75,CONTRE,CONTRE,,CONTRE
 133,471593720714-56,WCA,World Coal Association,International,Association professionnelle,Énergie fossiles (sauf gaz),74999,2,0.5,,,,
 134,1274604847-34,EK,Confederation of Finnish Industries,Finlande,Association professionnelle,Finance,449999,6,3.0,,,,
 135,,APER,Associazione Produttori Energia Rinnovabile,Italie,Consultance,Énergie (principalement renouvelable),NaN,NaN,NaN,,,,
@@ -149,8 +149,8 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 150,29528175589-79,APREN,the Portuguese Renewable Energy Association,Portugal,Syndicat,Énergie (principalement renouvelable),4999,8,6.5,,,,
 151,,SCHP ČR,Association of Chemical Industry of the Czech Republic,République Tchèque,Association professionnelle,Industrie chimique,NaN,NaN,NaN,,,,
 152,143035111648-31,EMIRI,Energy Materials Industrial Research Initiative,Europe,Association professionnelle,Énergie,149999,2,1.25,,,,
-153,4271427696-87,EURELETRIC,,Europe,Association professionnelle,Énergie,549999,18,4.5,,,,
-154,26207914726-42,Fuelseurope,,Europe,Association professionnelle,Énergie fossiles (sauf gaz),2374999,15,10.5,,,,
+153,4271427696-87,EURELETRIC,,Europe,Association professionnelle,Énergie,549999,18,4.5,POUR,CONTRE,,CONTRE
+154,26207914726-42,Fuelseurope,,Europe,Association professionnelle,Énergie fossiles (sauf gaz),2374999,15,10.5,,CONTRE,POUR,CONTRE
 155,9434415651-11,FNI,Federation of Norwegian Industries,Norvège,Autre,Intérêts privés,149999,8,4.0,,CONTRE,,CONTRE
 157,,Czech Chamber of Commerce,,République Tchèque,Association professionnelle,Intérêts privés,NaN,NaN,NaN,,,,
 158,20210641335-88,Orgalime,European Engineering Industries Association,Europe,Association professionnelle,Autres industries / intérêts,449999,12,3.75,,,,
@@ -174,7 +174,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 176,1634450483-86,DAFC,Danish Agriculture & Food Council,Danemark,Association professionnelle,Autres industries / intérêts,549999,6,4.75,,,,
 177,65035217875-61,BV Glas,Bundesverband der Glasindustrie e.V.,Allemagne,Association professionnelle,Matériaux,4999,6,4.5,,CONTRE,POUR,CONTRE
 178,13073098010-57,Swedenergy,,Suède,Association professionnelle,Intérêts privés,4999,4,3.0,,,,
-179,43763731235-75,MEDEF,,France,Association professionnelle,Intérêts privés,649999,12,4.25,,,,
+179,43763731235-75,MEDEF,,France,Association professionnelle,Intérêts privés,649999,12,4.25,,CONTRE,POUR,CONTRE
 180,826982520594-95,SVEBIO,Swedish Bioenergy Association,Suède,Association professionnelle,Énergie (principalement renouvelable),74999,2,0.5,,,,
 181,733257915694-82,European Domestic Glass,,Europe,Association professionnelle,Matériaux,149999,1,1.0,,,,
 182,449131111476-44,Unione Petrolifera,,Italie,Association professionnelle,Énergie fossiles (sauf gaz),70000,NaN,NaN,,,,
@@ -185,7 +185,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 187,479468313744-50,IBEC,Irish Business and Employers Confederation,Irlande,Association professionnelle,Intérêts privés,449999,16,7.5,,,,
 188,569379418624-07,SEDC,Smart Energy Demand Coalition,Europe,Entreprise,Énergie,249999,2,2.0,,,,
 189,1550133398-72,FEVE,the European Container Glass Federation,Europe,Association professionnelle,Matériaux,449999,3,1.5,,,POUR,
-190,3954187491-70,IOGP,International Association of Oil & Gas Producers,International,Association professionnelle,Énergie fossiles (sauf gaz),1750000,9,8.75,,,,
+190,3954187491-70,IOGP,International Association of Oil & Gas Producers,International,Association professionnelle,Énergie fossiles (sauf gaz),1750000,9,8.75,,CONTRE,POUR,CONTRE
 191,42566063487-73,ACI EUROPE,Airports Council International,Europe,Entité/autorité publique,"Construction, immobilier, transports",2124999,15,11.2,,,,
 192,02963738854-41,CEOE,Confederación Española de Organizaciones Empresariales,Espagne,Association professionnelle,Intérêts privés,749999,11,4.75,,,,
 193,841386910709-86,Assovetro,,Italie,Association professionnelle,Matériaux,4999,6,4.5,,,,
@@ -218,7 +218,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 221,,Renewable UK,,Royaume-Uni,Association professionnelle,Énergie (principalement renouvelable),NaN,NaN,NaN,,,,
 222,38589651649-14,EFET,European Federation of Energy Traders,Europe,Association professionnelle,Finance,449999,10,7.5,,,,
 223,,Austropapier,Confederation of Austrian Pulp and Paper industries,Autriche,Association professionnelle,Matériaux,NaN,NaN,NaN,,,,
-224,93038071152-83,EUROFER,European Steel Association,Europe,Association professionnelle,Matériaux,649999,8,2.5,,,,
+224,93038071152-83,EUROFER,European Steel Association,Europe,Association professionnelle,Matériaux,649999,8,2.5,,CONTRE,POUR,CONTRE
 225,18146381379-29,EPPSA,European Power Plant Suppliers Association,Europe,Association professionnelle,Énergie,149999,6,2.5,,,,
 226,76130992074-15,Gas Infrastructure Europe,,Europe,Entreprise,Énergie,1374999,6,6.0,POUR,CONTRE,POUR,CONTRE
 227,157030317994-18,AEE,Spanish Wind Power Association,Espagne,Association professionnelle,Énergie (principalement renouvelable),10500,3,1.25,,,,
@@ -228,7 +228,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 231,,The Energy Partnership,,Europe,Association professionnelle,"Construction, immobilier, transports",NaN,NaN,NaN,,,,
 232,,SPEE-BG,"Alliance of the Producers of Ecological Energy-BG, the Bulgarian Photovoltaic Association, the Bulgarian Wind Energy Association and the Romanian Photovoltaic Industry Association",Bulgarie,Association professionnelle,Énergie (principalement renouvelable),NaN,NaN,NaN,,,,
 233,952322311484-70,EDSO,European Distribution System Operators' Association,Europe,Association professionnelle,Énergie,74999,2,0.5,,,,
-234,,Assoelettrica,,Italie,Association professionnelle,Énergie,NaN,NaN,NaN,,,,
+234,,Assoelettrica,,Italie,Association professionnelle,Énergie,NaN,NaN,NaN,,CONTRE,POUR,CONTRE
 235,09586631237-74,COPA-COGECA,,Europe,Association professionnelle,Autres industries / intérêts,1124999,18,18.0,,,,
 236,89093924456-06,IV,Federation of Austrian Industries,Autriche,Association professionnelle,Intérêts privés,449999,10,3.5,,,,
 237,264048311507-68,EUOEA,European Ocean Energy Association,Europe,Association professionnelle,Énergie,349999,5,5.0,,,,
@@ -236,7 +236,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 239,388419813370-85,Chance for Buildings,,République Tchèque,Association professionnelle,"Construction, immobilier, transports",249999,4,2.0,,,,
 240,,ReNew,Renewable Energy Austria,Autriche,Association professionnelle,Énergie (principalement renouvelable),NaN,NaN,NaN,,,,
 241,281120313987-31,IKEM,Innovation and Chemical Industries in Sweden,Suède,Association professionnelle,Industrie chimique,100000,30,7.5,,,,
-242,72279144480-58,CEPI,Confederation of European Paper Industries,Europe,Association professionnelle,Matériaux,549999,7,2.5,,,,
+242,72279144480-58,CEPI,Confederation of European Paper Industries,Europe,Association professionnelle,Matériaux,549999,7,2.5,,CONTRE,POUR,CONTRE
 243,69382094718-43,CCSA,Carbon Capture and Storage Association,Europe,Association professionnelle,Énergie fossiles (sauf gaz),37499,4,1.8,,,,
 244,13457582538-68,Energy UK,,Royaume-Uni,Association professionnelle,Énergie,120000,6,2.0,,,,
 245,070444714545-60,Building Associations,"ELo, EPF, TEGoVAn, European Historic Houses",Europe,Association professionnelle,"Construction, immobilier, transports",474998,22,18.0,,POUR,,
@@ -268,9 +268,9 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 277,727725510117-60,Hermes- EOS,,Royaume-Uni,Entreprise,Finance,NaN,NaN,NaN,POUR,POUR,,POUR
 278,,AS MC,AS Management & Consulting,Luxembourg,Consultance,"Recherche scientifique, expertise",NaN,NaN,NaN,,,,POUR
 279,,RSA Insurance,,Royaume-Uni,Entreprise,Finance,NaN,NaN,NaN,,,,
-280,94274031992-65,OMV,,Autriche,Entreprise,Énergie fossiles (sauf gaz),549999,2,2.0,,,,
+280,94274031992-65,OMV,,Autriche,Entreprise,Énergie fossiles (sauf gaz),549999,2,2.0,CONTRE,CONTRE,POUR,CONTRE
 281,43284012043-03,Alstom,,France,Entreprise,"Construction, immobilier, transports",249999,2,2.0,POUR,POUR,,POUR
-282,38235121060-73,Dow Chemical,,États-Unis,Entreprise,Industrie chimique,2124999,10,5.5,,,,
+282,38235121060-73,Dow Chemical,,États-Unis,Entreprise,Industrie chimique,2124999,10,5.5,CONTRE,CONTRE,POUR,CONTRE
 283,,Drujba Glassworks,,Bulgarie,Entreprise,Matériaux,NaN,NaN,NaN,,,,
 284,,Steinzeug-Keramo,,Allemagne,Entreprise,Matériaux,NaN,NaN,NaN,,,,
 285,90705737862-82,Finnfjord,,Norvège,Entreprise,Matériaux,75000,NaN,NaN,,CONTRE,,CONTRE
@@ -282,7 +282,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 292,,Yioula Glassworks,,Grèce,Entreprise,Matériaux,NaN,NaN,NaN,,,,
 293,10257354120-19,Neste Oil,,Finlande,Entreprise,Énergie fossiles (sauf gaz),249999,4,3.25,,,,
 294,45060553191-59,Hydro,,Norvège,Entreprise,Matériaux,549999,3,3.0,,,,CONTRE
-295,58089691185-94,Solvay,,Belgique,Entreprise,Industrie chimique,1374999,4,1.0,,,,
+295,58089691185-94,Solvay,,Belgique,Entreprise,Industrie chimique,1374999,4,1.0,,CONTRE,POUR,CONTRE
 296,013755513854-45,Borealis,,Autriche,Association professionnelle,Énergie fossiles (sauf gaz),250000,1,1.0,,CONTRE,POUR,CONTRE
 297,519256623442-26,LKAB,,Suède,Entreprise,Énergie fossiles (sauf gaz),100000,3,1.5,CONTRE,,POUR,
 298,36636102190-34,OBB,,Autriche,Entreprise,"Construction, immobilier, transports",349999,2,1.5,,,,
@@ -299,12 +299,12 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 309,68134637922-07,Enedis,Ex-ERDF,France,Entreprise,Énergie,649999,4,1.0,,,,
 310,41816938101-07,Iberdrola,,Espagne,Entreprise,Énergie,549999,5,3.75,,CONTRE,POUR,CONTRE
 311,02430347902-54,Eneco,,Pays-Bas,Entreprise,Énergie (principalement renouvelable),4999,2,0.75,,,,
-312,70816716119-36,PGNiG SA,,Pologne,Entreprise,Énergie fossiles (sauf gaz),149999,8,5.25,,,,
+312,70816716119-36,PGNiG SA,,Pologne,Entreprise,Énergie fossiles (sauf gaz),149999,8,5.25,CONTRE,CONTRE,,CONTRE
 313,17284292859-45,SWM,Stadtwerke München GmbH,Allemagne,Entreprise,Énergie,349999,1,1.0,,,,
 314,352103717639-15,TVO,,Finlande,Entreprise,Énergie,149999,3,0.75,,,,
 315,06877217926-31,ENEL,,Italie,Entreprise,Énergie,17499,1,0.5,,CONTRE,POUR,CONTRE
 316,67833029261-54,Gas Natural Fenosa,,Espagne,Entreprise,Énergie,37499,4,2.5,,,POUR,CONTRE
-317,56592866496-47,EDP,Energias de Portugal,Portugal,Entreprise,Énergie,149999,1,1.0,,,,
+317,56592866496-47,EDP,Energias de Portugal,Portugal,Entreprise,Énergie,149999,1,1.0,,POUR,POUR,POUR
 318,51375423794-46,Fennovoima,,Finlande,Entreprise,Énergie,74999,1,0.25,POUR,CONTRE,,CONTRE
 319,,A2A,,Italie,Entreprise,Énergie,NaN,NaN,NaN,,,,
 320,66126847778-02,HSE,,Slovénie,Entreprise,Énergie,74999,3,2.75,,,,
@@ -314,13 +314,13 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 324,516404410590-13,Adger Energy,,Norvège,Entreprise,Énergie (principalement renouvelable),4999,1,0.5,,,,
 325,96327066302-56,Statkraft,,Norvège,Entreprise,Énergie (principalement renouvelable),0,6,6.0,,,,
 326,,EDF Energy,,Royaume-Uni,Entreprise,Énergie,NaN,NaN,NaN,POUR,,CONTRE,CONTRE
-327,39966101835-69,EDF,,France,Entreprise,Énergie,2124999,11,11.0,,,,
-328,69240395197-02,Repsol,,Espagne,Entreprise,Énergie fossiles (sauf gaz),749999,8,3.0,,,,
+327,39966101835-69,EDF,,France,Entreprise,Énergie,2124999,11,11.0,,CONTRE,,CONTRE
+328,69240395197-02,Repsol,,Espagne,Entreprise,Énergie fossiles (sauf gaz),749999,8,3.0,,CONTRE,POUR,CONTRE
 329,963142911472-29,BKK,,Norvège,Entreprise,Énergie (principalement renouvelable),4999,8,2.0,,,,
-330,72760517350-57,E.ON,,Allemagne,Entreprise,Énergie,849999,18,6.75,,,,
-332,429600710582-32,CEZ,,République Tchèque,Entreprise,Énergie,149999,5,2.5,,,,
+330,72760517350-57,E.ON,,Allemagne,Entreprise,Énergie,849999,18,6.75,,CONTRE,POUR,CONTRE
+332,429600710582-32,CEZ,,République Tchèque,Entreprise,Énergie,149999,5,2.5,CONTRE,CONTRE,,CONTRE
 333,4447605981-76,Statoil,,Norvège,Entreprise,Énergie fossiles (sauf gaz),2624500,12,7.5,,CONTRE,POUR,CONTRE
-334,401111262-07,Edison,,Italie,Entreprise,Énergie,349999,3,2.0,,,,
+334,401111262-07,Edison,,Italie,Entreprise,Énergie,349999,3,2.0,,CONTRE,POUR,CONTRE
 335,109601212076-63,Paikallisvoima,The Finnish Local Power Association,Finlande,Association professionnelle,Énergie,37499,2,0.5,,,,
 336,09571422185-81,Verbund,,Autriche,Entreprise,Énergie,349999,4,1.75,,,,
 337,289810215426-07,TenneT,,Pays-Bas,Entreprise,Énergie,249999,4,2.75,,,,
@@ -329,7 +329,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 340,05032108616-26,Shell,,Pays-Bas,Entreprise,Énergie fossiles (sauf gaz),4624500,18,11.0,,CONTRE,POUR,CONTRE
 341,99578067285-35,ENI,,Italie,Entreprise,Énergie fossiles (sauf gaz),549999,6,3.0,,,,CONTRE
 342,90947457424-20,Engie,Ex-GDF SUEZ,France,Entreprise,Énergie,2124999,12,11.0,POUR,,POUR,
-343,12955024114-93,Vattenfall,,Suède,Entreprise,Énergie,949999,5,3.5,,,,
+343,12955024114-93,Vattenfall,,Suède,Entreprise,Énergie,949999,5,3.5,,CONTRE,,CONTRE
 344,292576015608-71,SHV Energy,,Pays-Bas,Entreprise,Énergie,749999,4,2.5,,,,
 345,541969311624-32,Wien Energy,,Autriche,Entreprise,Énergie,74999,4,1.0,,,,
 346,03501997362-71,Fortum,,Finlande,Entreprise,Énergie,588000,9,5.5,POUR,CONTRE,POUR,CONTRE
@@ -421,7 +421,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 476,5265780509-97,AmCham,American Chamber of Commerce to the EU,États-Unis,Association professionnelle,Intérêts privés,1124999,25,8.5,,,POUR,CONTRE
 477,20457441380-38,BDEW,Bundesverband der Energie- und Wasserwirtschaft,Allemagne,Association professionnelle,Énergie,2874999,24,13.75,,,,
 478,150712220857-50,Bord Na Móna,,Irlande,Entreprise,Énergie (principalement renouvelable),74999,5,1.75,,,,
-479,73700969875-77,CDC Climat,,France,Consultance,"Recherche scientifique, expertise",NaN,NaN,NaN,,,,
+479,73700969875-77,CDC Climat,,France,Consultance,"Recherche scientifique, expertise",NaN,NaN,NaN,POUR,,,CONTRE
 480,04201463642-88,CECED,The European Committee of Domestic Equipment Manufacturers,Europe,Association professionnelle,Intérêts privés,449999,13,13.0,,,,
 481,38305846546-70,COGEN Europe,,Europe,Association professionnelle,Énergie,449999,6,3.75,,,,
 482,453515910702-95,CPI,Confederation of Paper Industries (UK),Royaume-Uni,Association professionnelle,Matériaux,4999,1,0.5,,,,

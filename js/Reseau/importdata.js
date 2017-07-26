@@ -13,7 +13,7 @@ var flattenArray = function(arrays){
 var userChoice = {
   lobbyID: '11',
   theme: 'Efficacité énergétique',
-  position: 'SUPPORT'
+  position: 'POUR'
 };
 
 var getUserChoice = function(){ return userChoice; };
