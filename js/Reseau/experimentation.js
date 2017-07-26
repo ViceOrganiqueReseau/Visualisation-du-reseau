@@ -193,6 +193,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
     _simulation.nodes(section.data.nodes);
     _simulation.force('link').links(section.data.links);
+    _simulation.force('collide').radius(section.collideRadius)
 
     // à vous de voir ici quelles parties des noeuds doivent être en mouvement ou non.
     // on peut imaginer le code suivant:

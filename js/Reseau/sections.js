@@ -40,6 +40,18 @@ var getClusterColor = function(data, cluster){
   }
 };
 
+var contactCollide = function(d){
+  var kernelRadius = CONSTANTS.CIRCLE.KERNEL_RADIUS;
+  return (d.radius > kernelRadius ? d.radius : kernelRadius) 
+    + CONSTANTS.FORCES.COLLIDE_PADDING;
+}
+
+var spaceCollide =  function(d){
+  var kernelRadius = CONSTANTS.CIRCLE.KERNEL_RADIUS;
+  return (d.radius > kernelRadius ? d.radius : kernelRadius) 
+    + CONSTANTS.FORCES.COLLIDE_PADDING + CONSTANTS.FORCES.SPACE_PADDING;
+}
+
 var firstSection = function(data){
   var clusters = [];
   var nodes = data.utils.nodes.lobbies();
@@ -73,6 +85,7 @@ var firstSection = function(data){
     data: { nodes: nodes, links: [] },
     showMembranes: true,
     showLinks: false,
+    collideRadius: contactCollide,
   };
 }
 /* 
@@ -116,6 +129,7 @@ var secondSection = function(data){
     data: { nodes: nodes, links: []},
     showMembranes: true,
     showLinks: false,
+    collideRadius: contactCollide,
   }
 };
 
@@ -159,6 +173,7 @@ var thirdSection = function(data){
     data: { nodes: nodes, links: []},
     showMembranes: true,
     showLinks: false,
+    collideRadius: contactCollide,
   }
 };
 
@@ -230,6 +245,7 @@ var fourthSection = function(data){
     data: { nodes: nodes, links: []},
     showMembranes: true,
     showLinks: false,
+    collideRadius: contactCollide,
   }
 };
 
@@ -269,6 +285,7 @@ var fifthSection = function(data){
     data: { nodes: nodes, links: []},
     showMembranes: false,
     showLinks: false,
+    collideRadius: contactCollide,
   }
 };
 /* 
@@ -284,6 +301,7 @@ var sixthSection = function(data){
     },
     showMembranes: false,
     showLinks: true,
+    collideRadius: spaceCollide,
   };
 };
 var seventhSection = function(data){
@@ -295,7 +313,8 @@ var seventhSection = function(data){
       links: data.utils.links.all()
     },
     showMembranes: false,
-    showLinks: true
+    showLinks: true,
+    collideRadius: spaceCollide,
   };
 };
 var eighthSection = function(data){};
