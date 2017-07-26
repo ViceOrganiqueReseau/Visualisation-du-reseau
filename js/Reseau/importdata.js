@@ -181,6 +181,10 @@ var writeTextInSection = function (i){
   element.select("p.appel").html(CONSTANTS.SCENARIO[i]["Appel d’action"])
 }
 
+var storestories = function (jsondata){
+  CONSTANTS.STORIES = jsondata;
+}
+
 var importData = function(){
   var csv = CONSTANTS.DATA.CSV_FILES;
   var queue = d3.queue();
@@ -193,19 +197,14 @@ var importData = function(){
     csv.LINKS_PROPRIETARY,
     csv.LINKS_INDIRECT_PROPRIETARY,
     csv.LINKS_AFFILIATION,
+    csv.SCENARIO,
   ];
   // ajoute à la queue le chargement du chargement du fichier
   files.forEach(function(file){
     queue = queue.defer(d3.csv, file);
   });
-
-  d3.csv(csv.SCENARIO, function (scenar){
-    CONSTANTS.SCENARIO = scenar;
-
-    for (var i=0; i<7; i++){
-      writeTextInSection(i);
-    }
-  })
+  //queue.defer(d3.json, CONSTANTS.DATA.JSON_FILES.STORIES, storestories);
+  d3.json(CONSTANTS.DATA.JSON_FILES.STORIES, storestories);
 
   queue.await(function(error){
     if(error){
@@ -213,6 +212,13 @@ var importData = function(){
     }
     // on récupère tout les noms de fichiers passés en argument.
     var files = Array.from(arguments).slice(1).map(function(csv){ return csv.slice(); });
+    console.log("files = ",files)
+    CONSTANTS.SCENARIO = files[5];
+
+    // On écrit le texte des sections
+    for (var i=0; i<7; i++){
+      writeTextInSection(i);
+    }
 
     // On obtient la liste des thèmes
     CONSTANTS.THEMELIST = Object.keys(files[0][0]);
