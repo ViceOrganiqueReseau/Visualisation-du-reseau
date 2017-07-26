@@ -1,5 +1,9 @@
 "use strict";
 
+var vue = document.getElementById("vue");
+// Recopier la valeur dans styles.css
+var vuepadding = 5;
+
 var CONSTANTS = {
   USE_CANVAS: false,
   DEBUG: true,
@@ -13,6 +17,11 @@ var CONSTANTS = {
     ALLY: 'rgb(0, 165, 255)',
     SAME_POSITION: '4d8d9c',
     DIFFERENT_POSITION: 'b17d1d'
+  },
+  VUE: {
+    POSITION: vue.getBoundingClientRect(),
+    WIDTH: vue.offsetWidth - 2*vuepadding,
+    HEIGHT: vue.offsetHeight - 2*vuepadding,
   },
   // réglages de la membranes
   MEMBRANE: {
@@ -61,7 +70,11 @@ var CONSTANTS = {
       NODES_PROPRIETARY:"data/Noeuds-ActionnairesIndirect.csv",
       LINKS_PROPRIETARY:"data/liensActionnairesDirect.csv",
       LINKS_INDIRECT_PROPRIETARY:"data/liensActionnairesIndirect.csv",
-      LINKS_AFFILIATION:"data/Affiliation19juin.csv"
+      LINKS_AFFILIATION:"data/Affiliation19juin.csv",
+      SCENARIO: "data/Reseau/Scenario.csv"
+    },
+    JSON_FILES: {
+      STORIES: "data/Reseau/stories.json"
     }
   }
 };

@@ -1,12 +1,42 @@
+@font-face {
+font-family: 'Open Sans';
+src: url('../font/OpenSans/OpenSans-Regular.eot?') format('eot'),
+     url('../font/OpenSans/OpenSans-Regular.otf') format('truetype'),
+     url('../font/OpenSans/OpenSans-Regular.woff') format('woff'),
+     url('../font/OpenSans/OpenSans-Regular.svg#OpenSansBold') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'Antique Olive Standard Compact';
+src: url('../font/AntiqueOliveStdCompact/AntiqueOliveStd-Compact.eot?') format('eot'),
+     url('../font/AntiqueOliveStdCompact/AntiqueOliveStd-Compact.otf') format('truetype'),
+     url('../font/AntiqueOliveStdCompact/AntiqueOliveStd-Compact.woff') format('woff'),
+     url('../font/AntiqueOliveStdCompact/AntiqueOliveStd-Compact.svg#AntiqueOliveStandardCompactBold') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'Antique Olive Roman';
+src: url('../font/AntiqueOliveRoman/antiqueolivestd_roman.eot?') format('eot'),
+     url('../font/AntiqueOliveRoman/AntiqueOliveStd-Roman.otf') format('truetype'),
+     url('../font/AntiqueOliveRoman/AntiqueOliveStd-Roman.woff') format('woff'),
+     url('../font/AntiqueOliveRoman/AntiqueOliveStd-Roman.svg#AntiqueOliveStandardCompactBold') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Open Sans', Arial, sans-serif;
   /*Attention cette valeur est utilisée sans récupération dans le JS*/
   /*La modifier ici implique de la modifier dans JS aussi (colors.js)*/
-  background-color: rgb(0, 5, 15); 
+  background-color: #222c4f; 
   color: white;
 }
 
@@ -30,6 +60,19 @@ section {
   margin-bottom: 800px;
 }
 
+section > h1 {
+  font-family: 'Antique Olive Standard Compact', Arial, sans-serif;
+}
+
+section > p.texte {
+  font-family: 'Antique Olive Roman', Arial, sans-serif;
+}
+
+section > p.appel {
+  font-family: 'Antique Olive Roman', Arial, sans-serif;
+  font-style: italic;
+}
+
 #sec0 {
   margin-top: 300px;
 }
@@ -48,19 +91,13 @@ section {
   height: 100%;
 }
 
-#vue canvas {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
 #answers {
   position: fixed;
   left: 0px;
   bottom: 0px;
   z-index: 2;
-  background-color: rgb(0, 5, 15);
-  height: 30%;
+  background-color: #222c4f;
+  height: 35%;
   width: 24%;
   padding: 5px;
   display: flex;
@@ -91,8 +128,8 @@ section {
 #answers > p > span {
   box-sizing: content-box;
   border: solid rgb(45, 82, 252) 1px;
-  padding-top: 1px;
-  padding-bottom: 2px;
+  padding-top: 0px;
+  padding-bottom: 4px;
   padding-left: 4px;
   padding-right: 4px;
   height: 14px;
@@ -106,27 +143,27 @@ span.nom {
 }
 
 span.country {
-  width: 240px;
+  width: 247px;
 }
 
 span.secteur {
-  width: 212px;
+  width: 214px;
 }
 
 span.type {
-  width: 196px;
-}
-
-span.theme {
-  width: 199px;
+  width: 197px;
 }
 
 span.position {
-  width: 270px;
+  width: 275px;
+}
+
+span.theme {
+  width: 196px;
 }
 
 span.fonction {
-  width: 265px;
+  width: 271px;
 }
 
 a#backloby {

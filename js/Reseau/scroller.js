@@ -2,7 +2,8 @@
 // liste des sections
 var sectionlist;
 // Indice de la section active
-var currentIndex = -1;
+var currentIndex = 0;
+var prevIndex = 0;
 // Positions des différentes sections sur la page
 var sectionPositions;
 
@@ -32,7 +33,7 @@ function majsectionspos(){
 
 
 // Détermine notre position sur la page et adapte la vue. 
-function position() {
+function position(simulation) {
 
   // Repérage de la position sur la page
   var pos = window.pageYOffset;
@@ -42,9 +43,11 @@ function position() {
   // Si on change la section active
   if (currentIndex !== sectionIndex) {
     // Mise à jour de l'indice de section active
+    prevIndex = currentIndex;
     currentIndex = sectionIndex;
+    console.log("Section : "+currentIndex);
     // Mise en place des modifications de la vue : changement de couleur
-    majvue.call(this, sectionIndex);
+    majvue.call(this, simulation, sectionIndex, prevIndex);
   }
   scrollAnim();
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight){
@@ -56,42 +59,15 @@ function position() {
 
 // Fonction à appeler pour mettre la vue à jour
 // argument index : indice de la nouvelle section
-function majvue(index) {
+function majvue(simulation, index, preced) {
   // Modifications lors d'un changement de section
-    switch (index){
-    case 0:
-      setupSec1();
-      animSec1();
-      break;
-    case 1:
-      setupSec2();
-      animSec2();
-      break;
-    case 2:
-      setupSec3();
-      animSec3();
-      break;
-    case 3:
-      setupSec4();
-      animSec4();
-      break;
-    case 4:
-      setupSec5();
-      animSec5();
-      break;
-    case 5:
-      setupSec6();
-      animSec6();
-      break;
-    case 6:
-      setupSec7();
-      animSec7();
-      break;
-    case 7:
-      setupSec8();
-      animSec8();
-      break;
-    }
+  if (preced===index-1){
+    // On affiche la section suivante
+    simulation.nextSection();
+  } else if (preced===index+1){
+    // On retourne à la section précédente
+    simulation.previousSection();
+  }
 }
 
 // Mettre dans cette fonction les transitions qui s"alignent sur le scroll utilisateur
@@ -102,6 +78,4 @@ function scrollAnim(index, pos) {
   
 }
 
-// On déclenche la fonction position à chaque scroll de la page
-d3.select(window)
-  .on("scroll.scroller", position);
+// On déclenche la fonction position à chaque scroll de la page : dans le fichier experimentation pour avoir accès à simulation

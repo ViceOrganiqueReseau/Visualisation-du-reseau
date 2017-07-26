@@ -344,8 +344,14 @@ var runExperimentation = function(data){
 
   // enfin nous initialisons les controles de la simulation.
   // voir Experimentation/controls.js
-  var controls = initControls(simulation);
+  //var controls = initControls(simulation);
 
   // nous démarrons ensuite la simulation
   simulation.start();
+
+  d3.select(window)
+  .on("scroll.scroller", function (){
+    majsectionspos();
+    position(simulation);
+  });
 };
