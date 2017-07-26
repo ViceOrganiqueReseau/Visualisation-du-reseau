@@ -246,7 +246,7 @@ var importData = function(){
     CONSTANTS.LOADEDDATA = data;
 
     // Récupération du choix utilisateur
-    // On crée la liste des ID (c'est un intervalle discontinu)
+    // On crée la liste des ID (car c'est un intervalle discontinu)
     AllIDlist = [];
     for (var i=0; i<CONSTANTS.LOADEDDATA.nodes.length; i++){
       AllIDlist.push(CONSTANTS.LOADEDDATA.nodes[i].ID);

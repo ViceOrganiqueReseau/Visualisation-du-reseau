@@ -5,12 +5,13 @@ var nodeColor = function(d){
   if(d.type === TYPES.LOBBY){
     var userChoice = getUserChoice(); 
     if(userChoice.lobbyID == d.ID){
-      return colors.ALLY;
+      return chroma(colors.USER);
     }
-    if(userChoice.enemyID == d.ID){
-      return colors.ENMEMY;
+    if (userChoice.position){
+      color = d[userChoice.theme] === userChoice.position ? colors.ALLY : colors.ENEMY;
+    } else {
+      color = d[userChoice.theme] === "POUR" ? colors.SUPPORT : colors.OPPOSE;
     }
-    var color = d[userChoice.theme] === userChoice.position ? colors.SAME_POSITION : colors.DIFFERENT_POSITION;
   } else {
     color = colors.PROPRIETARY;
   }

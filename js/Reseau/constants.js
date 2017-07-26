@@ -12,11 +12,12 @@ var CONSTANTS = {
   HEIGHT: 600,
   COLORS: {
     PROPRIETARY: '7d7d7d',
-    BACKGROUND: 'rgb(22, 27, 48)',
-    ENEMY: 'rgb(255,165,0)',
-    ALLY: 'rgb(0, 165, 255)',
-    SAME_POSITION: '4d8d9c',
-    DIFFERENT_POSITION: 'b17d1d'
+    BACKGROUND: '111627',
+    ENEMY: 'b17d1d',
+    ALLY: '4d8d9c',
+    SUPPORT: '00ff00',
+    OPPOSE: 'ff0000',
+    USER: '00ff90'
   },
   VUE: {
     POSITION: vue.getBoundingClientRect(),

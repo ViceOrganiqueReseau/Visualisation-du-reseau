@@ -31,9 +31,13 @@ var packLayout = d3.pack()
 
 var getClusterColor = function(data, cluster){
   var colors = CONSTANTS.COLORS;
-  var userPosition = data.userChoice.position;
   var clusterPosition = cluster.data.key;
-  return clusterPosition === userPosition ? colors.SAME_POSITION : colors.DIFFERENT_POSITION;
+  if (data.userChoice.position){
+    var userPosition = data.userChoice.position;
+    return clusterPosition === userPosition ? colors.ALLY : colors.ENEMY;
+  } else {
+    return clusterPosition === "POUR" ? colors.SUPPORT : colors.OPPOSE;
+  }
 };
 
 var firstSection = function(data){
@@ -165,7 +169,11 @@ var thirdSection = function(data){
 var fourthSection = function(data){
   var colors = CONSTANTS.COLORS;
   var valueScale = d3.scaleLinear().range([0.0,1.0]);
-  var colorScale = chroma.scale([colors.DIFFERENT_POSITION, colors.SAME_POSITION]);
+  if (data.userChoice.position){
+    var colorScale = chroma.scale([colors.ENEMY, colors.ALLY]);
+  } else {
+    var colorScale = chroma.scale([colors.OPPOSE, colors.SUPPORT]);
+  }
   var clusters = [];
   var clusterKey = function(c){
     var parent = c.parent;
@@ -193,7 +201,12 @@ var fourthSection = function(data){
 
     // couleur moyenne
     var samePositionCluster = c.children.find(function(d){
-      return d.data.key == data.userChoice.position;
+      if (data.userChoice.position){
+        return d.data.key == data.userChoice.position;
+      } else {
+        return d.data.key == "POUR";
+      }
+      
     });
     var samePositionTotal = samePositionCluster ? samePositionCluster.data.total : 0; 
     var clusterNodes = c.children
