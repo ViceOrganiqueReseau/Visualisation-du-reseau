@@ -49,6 +49,21 @@ var drawMembranes = function(nodes, membranes){
       return chroma(cluster.color);
     }).attr('fill-opacity', 0);
 
+  membranes.forEach(function (membrane){
+    var textelem = canvas.append("text")
+      .classed("membranetext", true)
+      .attr("x", membrane.x)
+      .attr("y", membrane.y)
+    textelem.append("tspan")
+      .classed("name", true)
+      .attr("x", membrane.x+10)
+      .attr("y", function (){
+        if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y; }
+        else { return membrane.y + 10; }
+      })
+      .text(membrane.key)
+  })
+
 
   membraneEnter.transition()
     .delay(0)

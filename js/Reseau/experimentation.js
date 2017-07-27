@@ -93,6 +93,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
   };
 
   var updateMembranes = function(){
+    // On efface les textes de membranes
+    d3.selectAll("text.membranetext").remove();
     var section = getCurrentSection();
     var membranes = section.showMembranes ? section.clusters: [];
 
