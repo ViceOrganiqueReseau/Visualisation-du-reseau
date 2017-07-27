@@ -52,6 +52,7 @@ var drawMembranes = function(nodes, membranes){
   membranes.forEach(function (membrane){
     var textelem = canvas.append("text")
       .classed("membranetext", true)
+      .attr("id", "membranetext"+membrane.key)
       .attr("x", membrane.x)
       .attr("y", membrane.y)
     textelem.append("tspan")

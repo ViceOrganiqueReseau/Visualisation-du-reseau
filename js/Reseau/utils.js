@@ -14,6 +14,12 @@ var transform = function(pt){
   return 'translate('+pt.x+','+pt.y+')';
 };
 
+var revtransform = function(string){
+  var x = Number(string.split("(")[1].split(")")[0].split(",")[0]);
+  var y = Number(string.split("(")[1].split(")")[0].split(",")[1]);
+  return {x: x, y: y};
+}
+
 var copy = function(o){
   var _out, v, _key;
   _out = Array.isArray(o) ? [] : {};
@@ -33,6 +39,7 @@ var Utils = {
     sign: randSign,
   },
   transform: transform,
+  revtransform: revtransform,
   flattenArray: flattenArray,
   fade: fade
 };

@@ -276,8 +276,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
     updateMembranes();
     updateSimulationData();
     // initializeNodesPosition();
-    updateNodes();
     updateLinks();
+    updateNodes();
     updateAnimations();
   };
 
@@ -305,6 +305,16 @@ var configureSimulation = function(scene, data, sectionsConfig){
     if(DEBUG){ stats.begin(); }
     // translate le noeuds vers sa position
     $nodes.attr('transform', function(node){ return Utils.transform(constraintNode(node));});
+    // On déplace aussi son texte
+    $nodes.data().forEach(function (node){
+      var textelem = canvas.select("#lobbytext"+node.ID)
+        .attr("x", node.x+CONSTANTS.CIRCLE.TEXTdx)
+        .attr("y", node.y+CONSTANTS.CIRCLE.TEXTdy)
+      textelem.select("tspan.name")
+        .attr("x", node.x+CONSTANTS.CIRCLE.TEXTdx)
+        .attr("y", node.y+CONSTANTS.CIRCLE.TEXTdy)
+        .text(function (d){return node["Nom1"]})
+    })
     // idem pour les membranes.
     $membranes.attr('transform', function(membrane){ return Utils.transform(membrane);});
     $membranes.attr('d', function(d){return membranePath(nodes, d); });

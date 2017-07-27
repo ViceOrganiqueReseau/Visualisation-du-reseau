@@ -44,7 +44,9 @@ var CONSTANTS = {
     CURVE: d3.curveBasisClosed,
     SCALE: d3.scaleLinear,
     RADIUS_JITTER: 0.12,
-    RADIUS_RANGE: [12, 50]
+    RADIUS_RANGE: [12, 50],
+    TEXTdx: -15,
+    TEXTdy: -10
   },
   FORCES: {
     COLLIDE_PADDING: 3,

@@ -190,17 +190,22 @@ var drawNodes = function(nodes){
     return radialLine(d.kernelPoints);
   });
 
-  // Les textes associés aux nodes
-  var textelems = lobbyNodeEnter.append("text")
-    .classed("lobbytext", true)
-    .attr("x", function (d){return 0})
-    .attr("y", function (d){return 0})
-  textelems.append("tspan")
-    .classed("name", true)
-    .attr("x", function (d){return -15})
-    .attr("y", function (d){return -10})
-    .attr("fill-opacity", 0)
-    .text(function (d){return d["Nom1"]})
+  // Les textes associés aux nodes sont ajoutés à la toute fin du canvas
+  // On doit d'abord récupérer les données
+  $nodes.data().forEach(function (node){
+    var coords = Utils.revtransform(canvas.select("#lobby"+node.ID).attr("transform"));
+    var textelem = canvas.append("text")
+      .classed("lobbytext", true)
+      .attr("id", "lobbytext"+node.ID)
+      .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
+      .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy)
+    textelem.append("tspan")
+      .classed("name", true)
+      .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
+      .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy)
+      .attr("fill-opacity", 0)
+      .text(function (d){return node["Nom1"]})
+  })
 
    // suppresion des noeuds supprimé (propriété par exemple)
   // TODO: rajouter une constante. 
@@ -214,7 +219,7 @@ var drawNodes = function(nodes){
 
   $nodes.on('mouseover', function(node){
     // On affiche le texte
-    canvas.select("#lobby"+node.ID).select("tspan.name").attr("fill-opacity", 1);
+    canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", 1);
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){
@@ -227,7 +232,7 @@ var drawNodes = function(nodes){
     }
   }).on('mouseout', function(node){
     // On écrase le texte
-    canvas.select("#lobby"+node.ID).select("tspan.name").attr("fill-opacity", 0);
+    canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", 0);
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){
