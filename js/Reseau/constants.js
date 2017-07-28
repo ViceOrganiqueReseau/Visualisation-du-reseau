@@ -36,8 +36,9 @@ var CONSTANTS = {
     CURVE: d3.curveBasis,
     DISTANCE: 130,
     PROPRIETARY_COLOR: 'bbb',
-    AFFILIATION_OPACITY: 0.7,
+    AFFILIATION_OPACITY: 0.5,
     KERNEL_SCALE: 1.33,
+    END_SCALE: 0.1
   },
   CIRCLE: {
     PROPRIETARY_RADIUS: 20,
@@ -94,12 +95,12 @@ CONSTANTS.CLICK_FICHE = {
 };
 
 var baseLinkWidth = CONSTANTS.CIRCLE.KERNEL_RADIUS * CONSTANTS.LINK.KERNEL_SCALE - 2;
-var endLinkWidth = baseLinkWidth*0.25;
+var endLinkWidth = baseLinkWidth*CONSTANTS.LINK.END_SCALE;
 
 CONSTANTS.LINK.DEFAULT_BODY = [
   { at: 0.0, width: baseLinkWidth, offset: 0 },
-  { at: 0.2, width: baseLinkWidth*0.33, offset: 0 },
-  { at: 0.5, width: endLinkWidth, offset: baseLinkWidth*0.33 },
+  { at: 0.15, width: baseLinkWidth*0.5, offset: 0 },
+  { at: 0.3, width: endLinkWidth, offset: baseLinkWidth*0.33 },
   { at: 0.75, width: endLinkWidth, offset: -3 },
   { at: 1.0, width: endLinkWidth, offset: 0}
 ];
