@@ -160,7 +160,15 @@ var nodeFill = function(node){
   } else {
     return 'url(#radialGradient)'
   }
-}; 
+};
+
+function opacityNotOn (node){
+  if (node["Dépenses Lobby (€)"]>999999.99 && currentIndex>3){
+    return 1;
+  } else {
+    return 0;
+  }
+} 
 
 var drawNodes = function(nodes){
   console.log("nodes = ", nodes)
@@ -214,7 +222,7 @@ var drawNodes = function(nodes){
       .classed("name", true)
       .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
       .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy)
-      .attr("fill-opacity", 0)
+      .attr("fill-opacity", opacityNotOn(node))
       .text(function (){
         switch (node.type){
           case TYPES.PROPRIETARY:
@@ -261,7 +269,7 @@ var drawNodes = function(nodes){
     }
   }).on('mouseout', function(node){
     // On écrase le texte
-    canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", 0);
+    canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", opacityNotOn(node));
     canvas.select("#lobbytext"+node.ID).select("tspan.budget").attr("fill-opacity", 0);
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')

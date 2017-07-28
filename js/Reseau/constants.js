@@ -28,7 +28,7 @@ var CONSTANTS = {
   // réglages de la membranes
   MEMBRANE: {
     // espace entre les points et la membranes.
-    PADDING: 0,
+    PADDING: 5,
     CURVE: d3.curveCatmullRomClosed,
     TEXT_PADDING: 15
   },
