@@ -33,6 +33,21 @@ var membranePath = function(nodes, cluster){
   }
 };
 
+// rend valide des sélecteurs css
+function purgeSpaces(string){
+  return string
+            .replace("(","")
+            .replace(")","")
+            .replace("/","")
+            .replace("-","")
+            .replace(" ","")
+            .replace(" ","")
+            .replace(" ","")
+            .replace(" ","")
+            .replace(",","")
+            .replace(",","");
+}
+
 var drawMembranes = function(nodes, membranes){
   var canvas = scene.getCanvas();
   var $membranes = canvas.selectAll('.membrane')
@@ -54,7 +69,7 @@ var drawMembranes = function(nodes, membranes){
   membranes.forEach(function (membrane){
     var textelem = canvas.append("text")
       .classed("membranetext", true)
-      .attr("id", "membranetext"+membrane.key)
+      .attr("id", "membranetext"+purgeSpaces(membrane.key))
       .attr("x", membrane.x)
       .attr("y", membrane.y)
     textelem.append("tspan")
@@ -65,6 +80,33 @@ var drawMembranes = function(nodes, membranes){
         else { return membrane.y + 10; }
       })
       .text(membrane.key)
+    textelem.append("tspan")
+      .classed("count", true)
+      .attr("fill-opacity", 0)
+      .attr("x", membrane.x+10)
+      .attr("y", function (){
+        if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y + CONSTANTS.MEMBRANE.TEXT_PADDING; }
+        else { return membrane.y + 10 + CONSTANTS.MEMBRANE.TEXT_PADDING; }
+      })
+      .text(membrane.nodeIDS.length+" organisations")
+    textelem.append("tspan")
+      .classed("budget", true)
+      .attr("fill-opacity", 0)
+      .attr("x", membrane.x+10)
+      .attr("y", function (){
+        if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y + 2*CONSTANTS.MEMBRANE.TEXT_PADDING; }
+        else { return membrane.y + 10 + 2*CONSTANTS.MEMBRANE.TEXT_PADDING; }
+      })
+      .text(function (){
+        // On calcule le budget total de lobbying
+        var somme = 0;
+        for (var i=0; i<nodes.length; i++){
+          if (membrane.nodeIDS.indexOf(nodes[i].ID)!==-1 && nodes[i]["Dépenses Lobby (€)"]!=="NaN"){
+            somme += Number(nodes[i]["Dépenses Lobby (€)"]);
+          }
+        }
+        return "Budget Lobby : "+somme+" €";
+      })
   })
 
 
@@ -88,6 +130,17 @@ var drawMembranes = function(nodes, membranes){
   $membranes = membraneEnter.merge($membranes);
 
   membranesExit.transition().delay(500).remove();
+
+  $membranes.on("mouseover", function (membrane){
+    console.log("hover")
+    canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.count").attr("fill-opacity", 1);
+    canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.budget").attr("fill-opacity", 1);
+  })
+
+  $membranes.on("mouseout", function (membrane){
+    canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.count").attr("fill-opacity", 0);
+    canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.budget").attr("fill-opacity", 0);
+  })
   
   return {membranes: $membranes, membranesExit: membranesExit};
 }

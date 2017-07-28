@@ -30,6 +30,7 @@ var CONSTANTS = {
     // espace entre les points et la membranes.
     PADDING: 0,
     CURVE: d3.curveCatmullRomClosed,
+    TEXT_PADDING: 15
   },
   LINK:{
     CURVE: d3.curveBasis,
