@@ -247,7 +247,6 @@ var drawNodes = function(nodes){
     // On affiche le texte
     canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", 1);
     canvas.select("#lobbytext"+node.ID).select("tspan.budget").attr("fill-opacity", 1);
-    canvas.select("#lobby"+node.ID).style("cursor", "pointer");
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){
@@ -257,12 +256,13 @@ var drawNodes = function(nodes){
         .style('opacity', 1);
 
       $nodeLinks.classed('hidden', false);
+    } else {
+      canvas.select("#lobby"+node.ID).style("cursor", "pointer");
     }
   }).on('mouseout', function(node){
     // On écrase le texte
     canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", 0);
     canvas.select("#lobbytext"+node.ID).select("tspan.budget").attr("fill-opacity", 0);
-    canvas.select("#lobby"+node.ID).style("cursor", "default");
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){
@@ -271,9 +271,11 @@ var drawNodes = function(nodes){
         $nodeLinks.transition().duration(150)
         .style('opacity', 0);
         $nodeLinks.classed('hidden', true);
-      }
-    });
+    } else {
+      canvas.select("#lobby"+node.ID).style("cursor", "default");
+    }
+  });
 
-    return $nodes;
+  return $nodes;
 }
 
