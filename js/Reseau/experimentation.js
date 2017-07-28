@@ -173,7 +173,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
             return (d.radius > kernelRadius ? d.radius : kernelRadius) 
               + collidePadding;
           }))
-      .force('center', d3.forceCenter().x(0.5*CONSTANTS.VUE.WIDTH).y(0.5*CONSTANTS.VUE.HEIGHT))
+      .force('center', d3.forceCenter().x(0.4*CONSTANTS.VUE.WIDTH).y(0.5*CONSTANTS.VUE.HEIGHT))
       .force('cluster', d3.forceCluster()
         .centers(function(d){
           var cluster = findNodeCluster(d);

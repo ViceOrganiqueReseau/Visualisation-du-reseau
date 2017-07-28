@@ -12,6 +12,41 @@ svg > text.lobbytext > tspan {
   pointer-events: none;
 }
 
-g.link-affiliation {
+svg g.link-affiliation {
   pointer-events: none;
+}
+
+svg foreignObject.clickfiche {
+  pointer-events: none;
+}
+
+svg foreignObject.clickfiche > div {
+  background-color: rgba(50,50,50,0.35);
+  padding: 5px;
+  overflow: visible;
+}
+
+svg foreignObject.clickfiche > div.foreigncontainer > h1 {
+  font-family: 'Antique Olive Standard Compact';
+  font-size: 20px;
+  margin: 0px;
+  margin-bottom: 13px;
+}
+
+svg foreignObject.clickfiche > div.foreigncontainer > h1.smallname {
+  font-size: 10px;
+}
+
+svg foreignObject.clickfiche > div.foreigncontainer > h2 {
+  font-family: 'Antique Olive Standard Compact';
+  font-size: 16px;
+  margin: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+svg foreignObject.clickfiche > div.foreigncontainer > p {
+  font-family: 'Antique Olive Roman';
+  font-size: 14px;
+  margin: 2px;
 }

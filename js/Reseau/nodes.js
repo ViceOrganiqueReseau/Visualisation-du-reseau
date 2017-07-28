@@ -282,6 +282,10 @@ var drawNodes = function(nodes){
     } else {
       canvas.select("#lobby"+node.ID).style("cursor", "default");
     }
+  }).on("click", function (node){
+    if (node.type === TYPES.LOBBY){
+      setUpClickFiche(node);
+    }
   });
 
   return $nodes;
