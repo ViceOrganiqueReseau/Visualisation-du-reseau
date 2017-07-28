@@ -109,7 +109,7 @@ var animations = {
   },
   linkShapes: {
     interval: 200,
-    duration: 1000
+    duration: 2500
   }
 };
 
