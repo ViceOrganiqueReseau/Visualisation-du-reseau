@@ -25,10 +25,19 @@ var circlePoints = function(radius, nbPoints){
   }
   return points;
 };
-
+// arrete la déformation des noeuds
 var stopReshapeNodes = function($nodes){
+  this.interval && this.interval.stop();
   $nodes.interrupt();
 };
+// démarre la déformation des noeuds à interval régulier.
+var startReshapeNodes = function($nodes){
+  this.stop($nodes);
+  
+  this.interval = d3.interval(function(){
+    reshapeNodes($nodes) }, animations.circleShapes.interval);
+};
+
 var reshapeNodes = function($nodes){
   var duration = animations.circleShapes.duration;
   var attrTween = function(node){
@@ -38,33 +47,34 @@ var reshapeNodes = function($nodes){
     node.points = newPoints;
     return d3.interpolatePath(old, newPath);
   };
-  $nodes
+
+
+  // les nodes non actuellement déformée:
+  var $nodeStill = $nodes.filter(':not(.reshaping)')
     .filter(function(node){
       return node.points && node.points.length;
     })
-    .select('.circle-membrane')
-      .each(function(d,i){
-        var _d = duration;
-        var delay = i * 50;
-        var $node = d3.select(this)
-
-        function loop($node, delay, duration){
-          $node.transition('reshape')
-            .delay(delay)
-            .ease(d3.easeLinear)
-            .duration(duration)
-            .attrTween('d', attrTween)
-            .on('end', function(){
-              loop($node, delay, _d); 
-            });
-        }
-        loop($node, delay, _d);
-      });
+    .select('.circle-membrane');
+  
+    
+  // tire aléatoirement 5 noeuds.
+  Utils.rand.pick($nodeStill.nodes(), 5)
+    .forEach(function(node,i){
+      var delay = i * 10;
+      var $node = d3.select(node)
+      $node.classed('reshaping', true);
+      $node.transition('reshape')
+        .delay(delay)
+        .ease(d3.easeLinear)
+        .duration(duration)
+        .attrTween('d', attrTween)
+        .on('end', function(){ $node.classed('reshaping', false); });
+    });
 };
 
 var nodeAnimations = {
   shape:{
-    start: reshapeNodes,
+    start: startReshapeNodes,
     stop: stopReshapeNodes,
   }
 };
@@ -105,14 +115,14 @@ var randomMovementForce = function(){
     node.tx = randSign() * Utils.rand.number(0, 6);
     node.ty = randSign() * Utils.rand.number(0, 6);
   }
-  
+
   function initialize(){
     nodes.forEach(newTarget);
   }
 
   function force(alpha){
     var i, n = nodes.length, node;
-    
+
     for(i = 0; i < n; i++){
       node = nodes[i];
       var mx = node.tx * alpha * strength * 0.5;
@@ -133,8 +143,8 @@ var randomMovementForce = function(){
   };
 
   force.initialize = function(_){
-      nodes = _;
-      initialize();
+    nodes = _;
+    initialize();
   };
   return force;
 }
@@ -156,23 +166,23 @@ var drawNodes = function(nodes){
   console.log("nodes = ", nodes)
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var $nodes = scene.getCanvas()
-    .selectAll('.node')
-    .data(nodes, function(node){ return node.ID; });
+  .selectAll('.node')
+  .data(nodes, function(node){ return node.ID; });
 
   var nodeEnter = $nodes.enter().append('g')
-    .classed('node', true)
-    .attr('transform', Utils.transform)
-    .attr('id', function(d){ return "lobby"+d.ID; });
+  .classed('node', true)
+  .attr('transform', Utils.transform)
+  .attr('id', function(d){ return "lobby"+d.ID; });
 
 
   nodeEnter.append('path')
-    .classed('circle-membrane', true)
-    .attr('id', function(d){ return d.ID; })
-    .attr('stroke', 'none')
-    .attr('fill', nodeFill)
-    .attr('d', function(d){
-      return radialLine(d.points);
-    });
+  .classed('circle-membrane', true)
+  .attr('id', function(d){ return d.ID; })
+  .attr('stroke', 'none')
+  .attr('fill', nodeFill)
+  .attr('d', function(d){
+    return radialLine(d.points);
+  });
 
 
   var lobbyNodeEnter = nodeEnter.filter(function(d){
@@ -181,12 +191,12 @@ var drawNodes = function(nodes){
 
   // deuxième cercle, le noyau.
   lobbyNodeEnter.append('path')
-    .classed('circle-kernel', true)
-    .attr('stroke', function(d){ return chroma(nodeColor(d)); })
-    .attr('fill', function(d){
-      var color = Color.node(d);
-      return chroma(color);
-    })
+  .classed('circle-kernel', true)
+  .attr('stroke', function(d){ return chroma(nodeColor(d)); })
+  .attr('fill', function(d){
+    var color = Color.node(d);
+    return chroma(color);
+  })
   .attr('d', function(d){
     return radialLine(d.kernelPoints);
   });
@@ -196,10 +206,10 @@ var drawNodes = function(nodes){
   nodes.forEach(function (node){
     var coords = Utils.revtransform(canvas.select("#lobby"+node.ID).attr("transform"));
     var textelem = canvas.append("text")
-      .classed("lobbytext", true)
-      .attr("id", "lobbytext"+node.ID)
-      .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
-      .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy)
+    .classed("lobbytext", true)
+    .attr("id", "lobbytext"+node.ID)
+    .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
+    .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy)
     textelem.append("tspan")
       .classed("name", true)
       .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
@@ -221,18 +231,17 @@ var drawNodes = function(nodes){
         .attr("fill-opacity", 0)
         .text("Budget Lobby : "+node["Dépenses Lobby (€)"]+" €")
     }
-
   })
 
-   // suppresion des noeuds supprimé (propriété par exemple)
+  // suppresion des noeuds supprimé (propriété par exemple)
   // TODO: rajouter une constante. 
   $nodes.exit().transition()
-    .duration(300)
-    .attrTween('opacity', function(){
-      return d3.interpolateNumber(1,0); })
+  .duration(300)
+  .attrTween('opacity', function(){
+    return d3.interpolateNumber(1,0); })
     .remove();
 
-  $nodes = nodeEnter.merge($nodes);
+    $nodes = nodeEnter.merge($nodes);
 
   $nodes.on('mouseover', function(node){
     // On affiche le texte
@@ -244,7 +253,7 @@ var drawNodes = function(nodes){
         .filter(function(link){
           return link.data.source.ID == node.ID;
         });
-      $nodeLinks.transition().duration(200)
+        $nodeLinks.transition().duration(200)
         .style('opacity', 1);
 
       $nodeLinks.classed('hidden', false);
@@ -259,12 +268,12 @@ var drawNodes = function(nodes){
         .filter(function(link){
           return link.data.source.ID == node.ID;
         });
-      $nodeLinks.transition().duration(150)
+        $nodeLinks.transition().duration(150)
         .style('opacity', 0);
-      $nodeLinks.classed('hidden', true);
-    }
-  });
+        $nodeLinks.classed('hidden', true);
+      }
+    });
 
-  return $nodes;
+    return $nodes;
 }
 

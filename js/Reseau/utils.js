@@ -43,7 +43,7 @@ var copy = function(o){
 var Utils = {
   copy: copy,
   sign: function(n){ return n >= 0 ? 1 : -1; },
-  rand: {
+    rand: {
     number: rand,
     pick: randPick,
     sign: randSign,
