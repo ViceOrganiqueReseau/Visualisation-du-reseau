@@ -1,8 +1,18 @@
 /* Fonctions utilitaires */
 // tire aléatoirement un nombre entre `min` et `max`
 var rand  = function(min , max){ return Math.random()*max + min; };
-// tire aléatoirement un élément du tableau `arr`. 
-var randPick = function(arr){ return arr[Math.round(rand(0, arr.length-1))]; };
+// tire aléatoirement un ou plusieurs éléments du tableau `arr`. 
+var randPick = function(arr,n){
+  var _arr = arr.slice(); // shallow copy du tableau passé pour éviter de l'affecter.
+  n = n || 1;
+  r = _arr.splice(rand(0, _arr.length - 1), 1);
+  if(n === 1){
+    return r[0];
+  } else {
+    return r.concat(randPick(_arr, n-1));
+  }
+}
+
 // retourne aléatoirement 1 ou -1
 var randSign = function(){ return Math.random()>0.5 ? 1:-1 };
 
@@ -33,7 +43,7 @@ var copy = function(o){
 var Utils = {
   copy: copy,
   sign: function(n){ return n >= 0 ? 1 : -1; },
-  rand: {
+    rand: {
     number: rand,
     pick: randPick,
     sign: randSign,
