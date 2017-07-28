@@ -273,6 +273,7 @@ var configureSimulation = function(scene, data, sectionsConfig){
 
 
   var updateSimulation = function(){
+    d3.selectAll(".lobbytext").remove();
     updateMembranes();
     updateSimulationData();
     // initializeNodesPosition();
@@ -313,7 +314,6 @@ var configureSimulation = function(scene, data, sectionsConfig){
       textelem.select("tspan.name")
         .attr("x", node.x+CONSTANTS.CIRCLE.TEXTdx)
         .attr("y", node.y+CONSTANTS.CIRCLE.TEXTdy)
-        .text(function (d){return node["Nom1"]})
     })
     // idem pour les membranes.
     $membranes.attr('transform', function(membrane){ return Utils.transform(membrane);});

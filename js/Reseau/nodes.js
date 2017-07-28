@@ -153,6 +153,7 @@ var nodeFill = function(node){
 }; 
 
 var drawNodes = function(nodes){
+  console.log(nodes)
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var $nodes = scene.getCanvas()
     .selectAll('.node')
@@ -192,7 +193,7 @@ var drawNodes = function(nodes){
 
   // Les textes associés aux nodes sont ajoutés à la toute fin du canvas
   // On doit d'abord récupérer les données
-  $nodes.data().forEach(function (node){
+  nodes.forEach(function (node){
     var coords = Utils.revtransform(canvas.select("#lobby"+node.ID).attr("transform"));
     var textelem = canvas.append("text")
       .classed("lobbytext", true)
@@ -204,7 +205,16 @@ var drawNodes = function(nodes){
       .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
       .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy)
       .attr("fill-opacity", 0)
-      .text(function (d){return node["Nom1"]})
+      .text(function (){
+        switch (node.type){
+          case TYPES.PROPRIETARY:
+            console.log(node["Nom"])
+            return node["Nom"];
+          case TYPES.LOBBY:
+            return node["Nom1"];
+        }
+      })
+
   })
 
    // suppresion des noeuds supprimé (propriété par exemple)

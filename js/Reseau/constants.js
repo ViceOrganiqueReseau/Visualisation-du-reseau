@@ -46,7 +46,8 @@ var CONSTANTS = {
     RADIUS_JITTER: 0.12,
     RADIUS_RANGE: [12, 50],
     TEXTdx: -15,
-    TEXTdy: -10
+    TEXTdy: -10,
+    TEXT_PADDING: 11
   },
   FORCES: {
     COLLIDE_PADDING: 3,
