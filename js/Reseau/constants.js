@@ -23,6 +23,7 @@ var CONSTANTS = {
     POSITION: vue.getBoundingClientRect(),
     WIDTH: vue.offsetWidth - 2*vuepadding,
     HEIGHT: vue.offsetHeight - 2*vuepadding,
+    NODE_PADDING: 15
   },
   // réglages de la membranes
   MEMBRANE: {
@@ -51,7 +52,7 @@ var CONSTANTS = {
   },
   FORCES: {
     COLLIDE_PADDING: 3,
-    SPACE_PADDING: 30,
+    SPACE_PADDING: 25,
     PACK_PADDING: 8,
   },
   UPDATE_INTERVAL: 500,

@@ -153,7 +153,7 @@ var nodeFill = function(node){
 }; 
 
 var drawNodes = function(nodes){
-  console.log(nodes)
+  console.log("nodes = ", nodes)
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var $nodes = scene.getCanvas()
     .selectAll('.node')
@@ -208,12 +208,19 @@ var drawNodes = function(nodes){
       .text(function (){
         switch (node.type){
           case TYPES.PROPRIETARY:
-            console.log(node["Nom"])
             return node["Nom"];
           case TYPES.LOBBY:
             return node["Nom1"];
         }
       })
+    if (node.type===TYPES.LOBBY && node["Dépenses Lobby (€)"]!="NaN"){
+      textelem.append("tspan")
+        .classed("budget", true)
+        .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
+        .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy+CONSTANTS.CIRCLE.TEXT_PADDING)
+        .attr("fill-opacity", 0)
+        .text("Budget Lobby : "+node["Dépenses Lobby (€)"]+" €")
+    }
 
   })
 
@@ -230,6 +237,8 @@ var drawNodes = function(nodes){
   $nodes.on('mouseover', function(node){
     // On affiche le texte
     canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", 1);
+    canvas.select("#lobbytext"+node.ID).select("tspan.budget").attr("fill-opacity", 1);
+    canvas.select("#lobby"+node.ID).style("cursor", "pointer");
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){
@@ -243,6 +252,8 @@ var drawNodes = function(nodes){
   }).on('mouseout', function(node){
     // On écrase le texte
     canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", 0);
+    canvas.select("#lobbytext"+node.ID).select("tspan.budget").attr("fill-opacity", 0);
+    canvas.select("#lobby"+node.ID).style("cursor", "default");
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){

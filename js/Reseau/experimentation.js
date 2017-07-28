@@ -289,8 +289,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
       var size = scene.getSize();
       var width = size[0];
       var height = size[1];
-      node.x = Math.max(node.radius, Math.min(width - node.radius, node.x));
-      node.y = Math.max(node.radius, Math.min(height - node.radius, node.y));
+      node.x = Math.max(node.radius+CONSTANTS.VUE.NODE_PADDING, Math.min(width-CONSTANTS.VUE.NODE_PADDING - node.radius, node.x));
+      node.y = Math.max(node.radius+CONSTANTS.VUE.NODE_PADDING, Math.min(height-CONSTANTS.VUE.NODE_PADDING - node.radius, node.y));
       return node;
     }
     if(!ticked){
@@ -314,6 +314,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
       textelem.select("tspan.name")
         .attr("x", node.x+CONSTANTS.CIRCLE.TEXTdx)
         .attr("y", node.y+CONSTANTS.CIRCLE.TEXTdy)
+      textelem.select("tspan.budget")
+        .attr("x", node.x+CONSTANTS.CIRCLE.TEXTdx)
+        .attr("y", node.y+CONSTANTS.CIRCLE.TEXTdy+CONSTANTS.CIRCLE.TEXT_PADDING)
     })
     // idem pour les membranes.
     $membranes.attr('transform', function(membrane){ return Utils.transform(membrane);});
