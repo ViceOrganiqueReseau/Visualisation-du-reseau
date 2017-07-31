@@ -1,6 +1,6 @@
 svg > text.membranetext > tspan {
   fill: white;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: bold;
   pointer-events: none;
 }

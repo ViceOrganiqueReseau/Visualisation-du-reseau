@@ -68,11 +68,11 @@ var drawMembranes = function(nodes, membranes){
     var textelem = canvas.append("text")
       .classed("membranetext", true)
       .attr("id", "membranetext"+purgeSpaces(membrane.key))
-      .attr("x", membrane.x)
+      .attr("x", membrane.x + CONSTANTS.MEMBRANE.TEXTdx)
       .attr("y", membrane.y)
     textelem.append("tspan")
       .classed("name", true)
-      .attr("x", membrane.x+10)
+      .attr("x", membrane.x + CONSTANTS.MEMBRANE.TEXTdx)
       .attr("y", function (){
         if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y; }
         else { return membrane.y + 10; }
@@ -81,7 +81,7 @@ var drawMembranes = function(nodes, membranes){
     textelem.append("tspan")
       .classed("count", true)
       .attr("fill-opacity", 0)
-      .attr("x", membrane.x+10)
+      .attr("x", membrane.x + CONSTANTS.MEMBRANE.TEXTdx)
       .attr("y", function (){
         if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y + CONSTANTS.MEMBRANE.TEXT_PADDING; }
         else { return membrane.y + 10 + CONSTANTS.MEMBRANE.TEXT_PADDING; }
@@ -90,7 +90,7 @@ var drawMembranes = function(nodes, membranes){
     textelem.append("tspan")
       .classed("budget", true)
       .attr("fill-opacity", 0)
-      .attr("x", membrane.x+10)
+      .attr("x", membrane.x + CONSTANTS.MEMBRANE.TEXTdx)
       .attr("y", function (){
         if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y + 2*CONSTANTS.MEMBRANE.TEXT_PADDING; }
         else { return membrane.y + 10 + 2*CONSTANTS.MEMBRANE.TEXT_PADDING; }
