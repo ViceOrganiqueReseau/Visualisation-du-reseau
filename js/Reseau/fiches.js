@@ -1,7 +1,6 @@
 function setUpClickFiche (node){
 
   d3.select(".clickfiche").remove();
-  console.log(Color.node(node))
 
   d3.select("svg").append("foreignObject")
     .classed("clickfiche", true)

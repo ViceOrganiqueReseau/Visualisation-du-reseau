@@ -4,10 +4,10 @@
       "ID": 14,
       "Emission <40 %": true,
       "Efficacité énergétique": true,
-      "Gaz de schiste, charbon, etc.": true,
+      "Gaz de schiste, charbon, etc.": false,
       "Energies renouvelables": true,
-      "titre": "Des sponsors de la COP21 pas très verts",
-      "txt": "Pour l’organisation de la COP21, le gouvernement français comptait sur 20 % du bugdet apporté par des sponsors privés « climato-compatibles ». Malheureusement, à peine 10 % du budget provient de sponsors privés et ceux-ci sont loin d’être des modèles de responsabilité environnementale. La majorité d’entre eux émettent massivement des gaz à effets de serre ou tirent profits des activités polluantes. Par exemple, EDF et Engie possèdent 46 centrales à charbon et leurs émissions cumulées sur l’ensemble des continents équivalent à la moitié des émissions françaises. Les secteurs de l’énergie et des transports sont ceux qui ont contribué le plus au financement du sommet de Paris. Parmi les sponsors ayant répondu à la consultation de la Commission : CDC Climat, Schneider, Engie, Ikea, EDF, ERDF (aujourd'hui Enedis).",
+      "titre": "Quand la COP 21 est sponsorisée par des entreprises peu exemplaires",
+      "txt": "Pour l’organisation de la COP 21, le gouvernement français comptait sur 20 % du bugdet apporté par des sponsors privés « climato-compatibles ». Malheureusement, à peine 10 % du budget provient de sponsors privés et ceux-ci sont loin d’être des modèles de responsabilité environnementale. La majorité d’entre eux émettent massivement des gaz à effet de serre ou tirent profits des activités polluantes. Par exemple, EDF et Engie possèdent 46 centrales à charbon et leurs émissions cumulées sur l’ensemble des continents équivalent à la moitié des émissions françaises. Les secteurs de l’énergie et des transports sont ceux qui ont contribué le plus au financement du sommet de Paris.",
       "sources": [
         {
           "source": "Attac, Sponsors de la COP 21 – qui a donné quoi ?, Novembre 2015",
@@ -18,13 +18,62 @@
           "link": "http://www.amisdelaterre.org/Emissions-d-Etat-stop-a-l.html"
         }
       ],
-      "Noeuds du réseau": [
+      "Noeuds principaux": [
         479,
         262,
         342,
         268,
         327,
         309
+      ],
+      "Noeuds du réseau": [
+        10,
+        51,
+        53,
+        56,
+        57,
+        59,
+        64,
+        66,
+        67,
+        77,
+        82,
+        87,
+        92,
+        96,
+        99,
+        102,
+        109,
+        112,
+        122,
+        126,
+        127,
+        140,
+        144,
+        150,
+        153,
+        158,
+        169,
+        173,
+        179,
+        188,
+        190,
+        222,
+        226,
+        233,
+        237,
+        244,
+        354,
+        395,
+        408,
+        409,
+        411,
+        412,
+        413,
+        451,
+        477,
+        481,
+        485
       ],
       "Nouveau noeud": [
         {
@@ -58,17 +107,17 @@
             "source": 309,
             "target": 537
           }
-        ]  
+        ]
       }
     },
     {
       "ID": 13,
-      "Emission <40 %": true,
+      "Emission <40 %": false,
       "Efficacité énergétique": true,
-      "Gaz de schiste, charbon, etc.": true,
+      "Gaz de schiste, charbon, etc.": false,
       "Energies renouvelables": true,
       "titre": "Qui sont les plus gros pollueurs industriels ?",
-      "txt": "Le CDP a calculé que 25 entreprises représentent aujourd'hui plus de la moitié des émissions industrielles globales de gaz à effets de serre, et 100 entreprises sont à l’origine de 70 % des émissions depuis 1988. Sur les 100 producteurs d’énergies fossiles, 32 % sont la propriété d’investisseurs publics, 9 % appartiennent à des investisseurs privés et 59 % à des états. Parmi les 50 entreprises les plus émettrices depuis 1988, nous retrouvons Shell (9e place), BP (11e), Total (19e), Eni (30e), Statoil (37e), RWE (41e), Respsol (46e).",
+      "txt": "Le CDP a calculé que 25 entreprises représentent aujourd'hui plus de la moitié des émissions industrielles globales de gaz à effet de serre, et 100 entreprises sont à l’origine de 70 % des émissions depuis 1988. Sur les 100 producteurs actifs d’énergies fossiles, 32 % sont la propriété d’investisseurs publics, 9 % appartiennent à des investisseurs privés et 59 % à des états. Parmi les 50 entreprises les plus émettrices depuis 1988, nous retrouvons Shell (9e place), BP (11e), Total (19e), Eni (30e), Statoil (37e), RWE (41e), Respsol (46e).",
       "sources": [
         {
           "source": "CDP, The Carbon Majors Database, Juillet 2017",
@@ -87,12 +136,12 @@
     },
     {
       "ID": 12,
-      "Emission <40 %": true,
-      "Efficacité énergétique": false,
+      "Emission <40 %": false,
+      "Efficacité énergétique": true,
       "Gaz de schiste, charbon, etc.": false,
-      "Energies renouvelables": false,
-      "titre": "Pressions des investissements et désinvestissements",
-      "txt": "En 2015, 25 d’investisseurs institutionnels internationaux coordonnés par ShareAction ont appelé les géants de l’énergie (dont BP, EDF, Statoil, Total) à mettre un terme à leur collaboration avec certains groupes de pression, notamment les associations professionnelles BusinessEurope, Cefic, FuelsEurope, Eurométaux ou IOGP. Ce groupe d’investisseurs représentent 61 milliards d’actifs gérés et comprend notamment le Fonds de pension national suédois (Banque centrale de Norvège) qui a cédé plus de 70 % de ses réserves physiques en charbon dans ses avoirs depuis 2010. Pour ces investisseurs les entreprises ciblés sont contredites par les campagnes des lobbies tentant d’affaiblir le mesures de protection du climat.",
+      "Energies renouvelables": true,
+      "titre": "Quand les investisseurs font pression pour la transition énergétique",
+      "txt": "En 2015, 25 investisseurs institutionnels internationaux coordonnés par ShareAction ont appelé les géants de l’énergie (dont BP, EDF, Statoil, Total) à mettre un terme à leur collaboration avec certains groupes de pression, notamment les associations professionnelles BusinessEurope, Cefic, FuelsEurope, Eurométaux ou IOGP. Ce groupe d’investisseurs représentent 61 milliards d’actifs gérés et comprend notamment le Fonds de pension national suédois (Banque centrale de Norvège) qui a cédé plus de 70 % de ses réserves physiques en charbon dans ses avoirs depuis 2010. Pour ces investisseurs les entreprises ciblés sont contredites par les campagnes des lobbies tentant d’affaiblir les mesures de protection du climat.",
       "sources": [
         {
           "source": "Euractiv, Des investisseurs condamnent le rôle trouble des lobbys européens de l’énergie, Septembre 2015",
@@ -107,7 +156,7 @@
           "link": "https://influencemap.org/report/Clarifying-carbon-ownership-8cb210f5b6643c8e58037dbfaa28d7ae"
         }
       ],
-      "Noeuds du réseau": [
+      "Noeuds principaux": [
         353,
         327,
         333,
@@ -118,16 +167,65 @@
         52,
         190,
         514
-      ]
+      ],
+      "Noeuds du réseau": [
+        315,
+        280,
+        351,
+        341,
+        267,
+        303,
+        271,
+        308,
+        330,
+        302,
+        257,
+        319,
+        310,
+        262,
+        258
+      ],
+      "Nouveau noeud": [
+        {
+          "id": 538,
+          "nom": "Investisseurs"
+        }
+      ],
+      "Liens": {
+        "Participation": [
+          {
+            "source": 514,
+            "target": 538
+          }
+        ],
+        "Pression": [
+          {
+            "source": 538,
+            "target": 353
+          },
+          {
+            "source": 538,
+            "target": 327
+          },
+          {
+            "source": 538,
+            "target": 333
+          },
+          {
+            "source": 538,
+            "target": 347
+          }
+        ]
+      }
     },
     {
       "ID": 11,
       "Emission <40 %": true,
-      "Efficacité énergétique": false,
-      "Gaz de schiste, charbon, etc.": false,
-      "Energies renouvelables": false,
+      "Efficacité énergétique": true,
+      "Gaz de schiste, charbon, etc.": true,
+      "Energies renouvelables": true,
       "titre": "Qui finance l’exploitation du charbon ?",
-      "txt": "Alors que certains gestionnaires d’actifs réorientent leurs investissements hors des industries les plus polluantes, en particulier du charbon thermique, les actionnaires restants dans cette industrie, se répartissent en trois catégories : les investisseurs stratégiques chinois et indiens (gouvernements, individus, entreprises énergétiques) largement majoritaires, les principaux gestionnaires d’actifs américains (Blackrock, Vanguard, etc.), des gestionnaires américains de taille moyenne qui ont parié sur le charbon après la crise financière américaine et en raison de la croissance asiatique. Parmi le top20 des investisseurs dans le charbon thermique, nous trouvons des sociétés présentes au capital de plusieurs entreprises qui ont répondu à la consultation : The Vanguard Group, BlackRock, Dimensional Fund Advisors, Franklin Templeton Investiments.",
+      "txt": "Alors que certains gestionnaires d’actifs réorientent leurs investissements hors des industries les plus polluantes, en particulier du charbon thermique, ceux qui restent dans cette industrie, sont principalement des investisseurs stratégiques chinois et indiens (gouvernements, individus, entreprises énergétiques) et dans une moindre proportion des gestionnaires d’actifs américains géants ou de taille moyenne et ayant parié sur le charbon après la crise financière et en raison de la croissance asiatique. Vanguard, BlackRock, Dimensional Fund et Franklin Templeton font partie de ces géants présents dans le top 20 des investisseurs dans le charbon et sont au capital de nombreuses autres entreprises des secteurs énergétiques et miniers.",
       "sources": [
         {
           "source": "InfluenceMap, Who Owns the World's Coal, Mai 2017",
@@ -178,8 +276,8 @@
       "Efficacité énergétique": true,
       "Gaz de schiste, charbon, etc.": true,
       "Energies renouvelables": true,
-      "titre": "Rôle, méthodes et arguments des associations professionnelles",
-      "txt": "L’association professionnelle représente « la voix » de l’entreprise ou d’un secteur en particulier. De tous les mécanismes possibles pour influencer les politiques, l’utilisation de l’association professionnelle est celui le plus souvent employé. L'ONG InfluenceMap a montré que 45 % des 100 plus grandes entreprises mondiales (hors finance) font obstruction aux législations permettant de lutter contre le changement climatique mais que 95 % d'entre elles sont membres d'associations professionnelles faisant obstruction à ces politiques. Shell, BP et Total ont, à la veille de la COP21, publiquement encouragé les états à établir un prix du carbone. Or, en coulisses, ces mêmes entreprises entravent systématiquement les lois qui permettraient de fixer un prix significatif et participent à des associations professionnelles, comme BusinessEurope, Cefic ou IOGP, qui s’opposent activement aux politiques climatiques. Les responsables politiques ont tendances à donner plus de poids aux opinions des associations professionnelles qu’aux entreprises individuelles car elles prétendent représenter de très nombreux emplois, une part importante d’un marché et paraissent avoir une perspective plus impartiale qu’une entreprise particulière.<br /><br />D’après le rapport de PSI, les principales méthodes des associations professionnelles sont d'établir des relations clés avec les responsables politiques, d'agir sur l'agenda politique en soutenant notamment des initiatives et des programmes dans les différentes institutions, d'utiliser les entreprises pour diffuser les messages, par exemple, en organisant des rencontres entre des PDG et des commissaires européens, de publier des rapports, des articles de presse ou des lettres ouvertes, d'organiser des événements impliquant politiques et experts, de fournir des informations et conseils les plus techniques possibles (plus c'est technique, plus c'est efficace). Les associations professionnelles bénéficient aussi de passages possibles entre les secteurs publics et privés, ce qui permet des allers-retours entre les organisations lobbyistes et les institutions.<br /><br />Parmi les arguments récurrents des principales associations professionnelles (BusinessEurope, Cefic, CEPI, Eurofer, Eurométaux, FuelsEurope, IOGP), il y a d’abord celui consistant à dire que l’UE ne devrait pas prendre de mesures unilatérales sur le climat mais s’adapter aux engagements de ses partenaires commerciaux. Eurelectric fait figure d’exception en encourageant au contraire l’UE a devenir leader sur le changement climatique. Autre argument, utilisé par les mêmes associations professionnelles : les mesures environnementales risquerait d’entraîner la désindustrialisation, des suppressions d’emplois et la fuite carbone (carbone leakage). La fuite carbone est une situation dans laquelle les entreprises soumises à des lois environnementales strictes délocalisent leur production dans des pays aux lois plus souples, aboutissant à un déplacement et non une diminution des émissions (cet argument est contesté par de nombreuses ONG et écologistes). Enfin, ces mêmes associations professionnelles réclament un rééquilibrage entre les trois objectifs stratégiques principaux que constituent la sécurité d’approvisionnement, la lutte climatique et la performance économique se plaignant d’un accent mis trop fort sur les objectifs climatiques au détriment de la croissance économique.",
+      "titre": "Rôles, méthodes et arguments des associations professionnelles",
+      "txt": "L’association professionnelle représente « la voix » de l’entreprise ou d’un secteur en particulier. Elle fait partie des mécanismes les plus souvent employés pour influencer les politiques. 45 des 100 plus grandes entreprises mondiales (hors finance) font obstruction aux législations permettant de lutter contre le changement climatique mais 95 d'entre elles sont membres d'associations professionnelles faisant obstruction à ces politiques. Leur efficacité tient au fait que les responsables politiques leur accordent plus de crédit qu’aux entreprises individuelles car elles paraissent plus impartiales et représentent, bien souvent, des secteurs d’activité entiers ainsi que de très nombreux emplois. Participer à des associations professionnelles entravant la transition énergétique permet aux géants de l’énergie et du pétrole de sauvegarder leurs intérêts tout en tenant publiquement un discours positif sur le climat. <br /><br />Pour arriver à leurs fins, les associations professionnelles établissent des relations avec les responsables politiques, agissent sur l'agenda politique notamment en soutenant des initiatives, utilisent les entreprises pour diffuser les messages, par exemple, en organisant des rencontres entre des PDG et des commissaires européens, publient des rapports, des articles de presse ou des lettres ouvertes, organisent des événements impliquant politiques et experts ou fournissent des informations et conseils techniques (plus c'est technique, plus c'est efficace). Il existe également des « portes tournantes » permettant aux salariés de ces associations de se reconvertir dans les institutions ou inversement.<br /><br />Les principales associations professionnelles influençant les politiques environnementales (BusinessEurope, Cefic, CEPI, Eurofer, Eurométaux, FuelsEurope, IOGP) ont des revendications en partie similaires. Mise à part Eurelectric qui encourage l’UE a devenir leader sur le changement climatique, les autres l’incitent à ne prendre aucune mesures unilatérales sur le climat mais à s’adapter aux engagements des partenaires commerciaux. Toutes, également, brandissent la menace de désindustrialisation, de suppressions d’emplois et de fuite carbone (carbone leakage) situation dans laquelle les entreprises soumises à des lois environnementales strictes délocalisent leur production dans des pays plus souples, aboutissant à un déplacement et non une diminution des émissions (cet argument est largement contesté par les ONG). Enfin, ces mêmes associations réclament un rééquilibrage entre les trois objectifs stratégiques du secteur énergétique que sont la sécurité d’approvisionnement, la lutte climatique et la performance économique se plaignant de l’accent mis sur les objectifs climatiques au détriment de la croissance économique.",
       "sources": [
         {
           "source": "InfluenceMap, Big oil and the obstruction of climate regulations, Octobre 2015",
@@ -308,12 +406,12 @@
     },
     {
       "ID": 9,
-      "Emission <40 %": true,
+      "Emission <40 %": false,
       "Efficacité énergétique": true,
       "Gaz de schiste, charbon, etc.": true,
       "Energies renouvelables": true,
-      "titre": "Le rôle clé de BusinessEurope",
-      "txt": "Dans sa réponse à la consultation, BusinessEurope prend parti uniquement sur la question des énergies non conventionnelles comme le gaz de schiste, mais ne se positionne pas sur les autres sujets. Or comme le relève InfuenceMap, BusinessEurope est un des principaux leaders du combat contre la régulation climatique avec un argument central consistant à conditionner l’action pour le climat à l’absence d’impact négatif (à court terme) sur la croissance économique. La présidente de BusinessEurope, Emma Marcegaglia, est également présidente d’Eni et à la tête des trois groupes de travail clés traitant du changement climatique à BusinessEurope se trouvent des représentants de Shell, Enel et Air Liquide (gaz industriel). Parmi les principales associations professionnelles présentent à Bruxelles, BusinessEurope est, avec Cefic, celle qui s’oppose le plus radicalement aux réformes environnementales.",
+      "titre": "BusinessEurope : un lobby puissant",
+      "txt": "BusinessEurope est un des principaux leaders du combat contre la régulation climatique en Europe. Son argument central consiste à conditionner l’action pour le climat à l’absence d’impact négatif (à court terme) sur la croissance économique. La présidente de BusinessEurope, Emma Marcegaglia, est également présidente d’Eni et à la tête des trois groupes de travail clés traitant du changement climatique à BusinessEurope se trouvent des représentants de Shell, Enel et Air Liquide (gaz industriel). Parmi les principales associations professionnelles présentent à Bruxelles, BusinessEurope est, avec Cefic, celle qui s’oppose le plus radicalement aux réformes environnementales.",
       "sources": [
         {
           "source": "CEO, Le livre de cuisine des multinationales, Novembre 2015",
@@ -371,12 +469,12 @@
     },
     {
       "ID": 8,
-      "Emission <40 %": true,
+      "Emission <40 %": false,
       "Efficacité énergétique": false,
       "Gaz de schiste, charbon, etc.": true,
       "Energies renouvelables": false,
-      "titre": "Des conflits d’intérêts au cœur des groupes d’experts de la Commission",
-      "txt": "En 2014, la Commission européenne a créé le groupe d’experts “European Science and Technology Network on Unconventional Hydrocarbon Extraction” pour évaluer les projets en cours et faire des recommandations sur les futures technologies. Malheureusement, la majorité des membres de ce groupe, comme le relève CEO, a un intérêt financier important dans l’expansion de la fracture hydraulique et du gaz de schiste. Sur les 60 membres du groupes qui ne travaillent pas à la Commission, 10 % sont issus de la société civile, plus de 70 % représentent ou ont un lien financier avec l’industrie du gaz de schiste et les 4 présidents des groupes de travail sont des partisans de cette technique et certains ont déjà exercé des activités de lobbying contre des règles de sécurité plus strictes en la matière. Parmi les membres du groupe, nous trouvons notamment des représentants de Total, PGNiG, Shell, Engie ou IOGP.<br /><br />Greenpeace a observé la composition du groupe de travail censé formuler les nouvelles limites européennes en matière de pollution de l’air. L’ONG a révélé que sur les 352 membres, 183 étaient employés par des sociétés qui devaient être régulées ou par un groupe de pression représentant ces entreprises. Parmi eux, des représentants de Cez,  Finnish Energy Industries, Assoelectrica, Edf, EDP, IBERDROLA, E.On, RWE. Seul 8 personnes représentaient les ONG environnementales. Les plus gros pollueurs sont devenus les régulateurs.",
+      "titre": "Des conflits d’intérêts au cœur des groupes d’experts à la Commission",
+      "txt": "En 2014, la Commission européenne a créé un groupe d’experts pour évaluer les projets en cours et faire des recommandations sur les futures technologies en matière d’extraction d’hydrocarbures non conventionnelle. Or, la majorité des membres de ce groupe, comme le relève CEO, a un intérêt financier important dans l’expansion de la fracture hydraulique et du gaz de schiste. Sur les membres du groupe extérieurs à la Commission, 10 % sont issus de la société civile et plus de 70 % représentent ou ont un lien financier avec l’industrie du gaz de schiste. De plus, les 4 présidents des groupes de travail sont des partisans de cette technique et certains ont déjà exercé des activités de lobbying contre l’établissement de règles de sécurité plus strictes en la matière. Parmi les membres du groupe, nous trouvons notamment des représentants de Shell, Engie ou IOGP.<br /><br />De même, en 2015, Greenpeace a observé la composition du groupe de travail qui a formulé les nouvelles limites européennes en matière de pollution de l’air. L’ONG a révélé que sur les 352 membres, 183 étaient employés par des sociétés qui devaient être régulées ou par un groupe de pression représentant ces entreprises. Parmi eux, des représentants de Cez, Finnish Energy Industries, Assoelectrica, EDF, EDP, Iberdrola, E.On, RWE et seulement 8 représentant d’ONG environnementales. Les pollueurs sont devenus les régulateurs.",
       "sources": [
         {
           "source": "CEO, Carte blanche for fracking, Avril 2015",
@@ -475,8 +573,8 @@
       "Efficacité énergétique": false,
       "Gaz de schiste, charbon, etc.": true,
       "Energies renouvelables": true,
-      "titre": "Comment les géants de l’énergie se sont alliés contre les subventions aux énergies renouvelables ?",
-      "txt": "Des géants de l’énergie ont formé des groupes de pression pour s’attaquer aux politiques européennes soutenant les énergies renouvelables. En 2014, la Commission européenne a décidé la suppression de la plupart des subventions aux énergies renouvelables à partir de 2017 et des objectifs nationaux contraignants en termes d’énergies renouvelables après 2020.<br /><br />Ces changements de politiques ont été sollicitées par un grand nombre d’organisations comme les multinationnales BP, Shell, Statoil et Total ou des associations professionnelles du secteur pétrolier et gazier. Des alliances ont également été créée entre les entreprises : le « Groupe Magritte », qui réuni les plus grands groupes énergétiques européens, a appelé à la suppression des subventions aux aux énergies renouvelables et à plus de soutien au gaz naturel. Les PDG de 14 autres entreprises (incluant Total, Dow et Basf) ont présenté à Barroso un argumentaire où ils expliquaient que le coût des subventions aux énergies renouvelables “ne pouvait plus être supporté par [leurs] entreprises”. Au lieu de cela, ils appelaient à une mobilisation des “ressources nationales en gaz de schiste”. Enfin cette position a été renforcée par des lettres de l’IOGP et par la création d’une autre alliance « la Coalition pour l’Objectif unique » comprenant Shell, Statoil, RWE, Fortum, Enel, Areva, ČEZ et Engie, bien décidé à convaincre la Commission européenne.",
+      "titre": "Quand les géants de l’énergie s’allient contre les subventions aux énergies renouvelables",
+      "txt": "Des géants de l’énergie se sont associés pour s’attaquer aux politiques européennes soutenant les énergies renouvelables. En 2014, la Commission européenne a décidé la suppression de la plupart des subventions aux énergies renouvelables à partir de 2017 et des objectifs nationaux contraignants en termes d’énergies renouvelables après 2020.<br /><br />Ce changement de politiques a été sollicité par un grand nombre d’organisations comme les multinationnales BP, Shell, Statoil et Total ou des associations professionnelles du secteur pétrolier et gazier. Des alliances ont également été créée entre les entreprises : le « Groupe Magritte », qui réuni les plus grands groupes énergétiques européens, a appelé à la suppression des subventions aux aux énergies renouvelables et à plus de soutien au gaz naturel. Les PDG de 14 autres entreprises (incluant Total, Dow et Basf) ont présenté à Barroso un argumentaire où ils expliquaient que le coût des subventions aux énergies renouvelables « ne pouvait plus être supporté par [leurs] entreprises ». Au lieu de cela, ils appelaient à une mobilisation des « ressources nationales en gaz de schiste ». Enfin cette position a été renforcée par des lettres de l’IOGP et par la création d’une autre alliance « la Coalition pour l’Objectif unique » comprenant Shell, Statoil, RWE, Fortum, Enel, Areva, ČEZ et Engie, bien décidés à convaincre la Commission européenne.",
       "sources": [
         {
           "source": "The Guardian, BP lobbied against EU support for clean energy to favour gas, documents reveal, Août 2015",
@@ -596,8 +694,8 @@
       "Efficacité énergétique": false,
       "Gaz de schiste, charbon, etc.": false,
       "Energies renouvelables": true,
-      "titre": "Comment Shell a saper les objectifs contraignants en matière d’énergies renouvelables ?",
-      "txt": "En 2014, les chefs de gouvernements européens sont d’accord sur l'objectif globale de 40 % de réduction des émissions gaz à effets de serre mais en désaccord sur la manière d'y parvenir. Une partie fondamentale de l’accord finalement trouvé aura été soufflé par Shell.<br /><br />Dès 2011, Shell a fait pression sur Barroso pour abolir la formule liant la réduction du carbone aux proportions contraignantes d'énergies renouvelables et fait valoir qu'une stratégie d'expansion du gaz permettrait de grandes économies à l'Europe pour sa transition vers un système énergétique à faible intensité carbonique. Shell propose de fixer un objectif de réduction des émissions mais de laisser le marché identifier le meilleur moyen d'y parvenir… c'est à dire par le gaz (aujourd'hui la majorité des opérations de Shell sont dans le gaz plutôt que le pétrole). La proposition de Shell, qui a eu gain de cause, a trouvé des soutiens parmi le secteur de l’énergie nucléaire, du gaz de schiste ou parmi certains états comme le Royaume-Uni. Le bloc européen a finalement convenu que d'ici 2030, tous les pays réduiraient leur émissions de 40 % et que l'UE dans son ensemble serait engagée à une part de 27 % d'énergies renouvelables, sans que cet objectif ne soit contraignant pour les états membres.<br /><br />Shell est le 6e plus gros lobbyiste à Bruxelles. InfluenceMap a calculé que les dépenses totales de Shell, en 2015, pour faire obstruction à la régulation climatique dépasse les 22 millions d’euros, car aux dépenses directes de lobbying à Bruxelles, s’ajoutent les dépenses de personnel en communication et relations publiques, les coûts externes de campagnes publicitaires et de relation publique, les dons et contributions directes aux partis ou représentants politiques ou les affiliations aux associations professionnelles.",
+      "titre": "Quand Shell sape les objectifs contraignants en matière d’énergies renouvelables",
+      "txt": "En 2014, les chefs de gouvernements européens sont d’accord sur l'objectif globale de 40 % de réduction des émissions de gaz à effet de serre mais en désaccord sur la manière d'y parvenir. Une partie fondamentale de l’accord finalement trouvé aura été soufflé par Shell.<br /><br />Dès 2011, Shell fait pression sur Barroso (Président de la Commission) pour abolir la formule liant la réduction du carbone aux proportions contraignantes d'énergies renouvelables et fait valoir qu'une stratégie d'expansion du gaz permettrait de grandes économies à l'Europe pour sa transition vers un système énergétique à faible intensité carbonique. Shell propose de fixer un objectif de réduction des émissions mais de laisser le marché identifier le meilleur moyen d'y parvenir… c'est à dire par le gaz (aujourd'hui la majorité des opérations de Shell sont dans le gaz plutôt que le pétrole). La proposition de Shell, qui a eu gain de cause, a trouvé des soutiens parmi le secteur de l’énergie nucléaire, du gaz de schiste ou parmi certains états comme le Royaume-Uni. Le bloc européen a finalement convenu que d'ici 2030, tous les pays réduiraient leur émissions de 40 % et que l'UE dans son ensemble serait engagée à une part de 27 % d'énergies renouvelables, sans que cet objectif ne soit contraignant pour les états membres.<br /><br />Shell est le 6e plus gros lobbyiste à Bruxelles. InfluenceMap a calculé que les dépenses totales de Shell, en 2015, pour faire obstruction à la régulation climatique dépasse les 22 millions d’euros, car aux dépenses directes de lobbying à Bruxelles, s’ajoutent les dépenses de personnel en communication et relations publiques, les coûts externes de campagnes publicitaires et de relation publique, les dons et contributions directes aux partis ou représentants politiques ou les affiliations aux associations professionnelles.",
       "sources": [
         {
           "source": "The Guardian, Shell lobbied to undermine EU renewables targets, documents reveal, Avril 2015",
@@ -634,12 +732,12 @@
     },
     {
       "ID": 5,
-      "Emission <40 %": true,
+      "Emission <40 %": false,
       "Efficacité énergétique": true,
-      "Gaz de schiste, charbon, etc.": true,
+      "Gaz de schiste, charbon, etc.": false,
       "Energies renouvelables": true,
       "titre": "Total : la stratégie du double-discours",
-      "txt": "Total qui est la 5e plus grande entreprise pétrolière et gazière au monde, a pris part à l’événement « Solutions 21 » de la COP21 de Paris et prend régulièrement des positions pouvant paraître comme conciliantes avec les projets de régulation climatique. Mais l’ONG InfluenceMap a relevé que Total, comme Shell, tenait des discours particulièrement différents des associations professionnelles auxquelles elles appartiennent, une manière de tenir un double-discours.<br /><br />En son nom propre, Total soutient un accord international sur le changement climatique qui inclut un prix du carbone, mais un de ses cadres supérieurs est membre du conseil d’administration de l’American Petroleum Association, une organisation qui voit la COP21 comme « conduit par une idéologie politique étroite ». Total est aussi membre de CEFIC qui a fait obstruction aux quotas d’émissions européens (EU-ETS). Enfin, malgré une déclaration de soutien pour la limitation des émissions de gaz à effet de serre du secteur de l’énergie, un de ses cadres exécutifs est au conseil d’administration de l’American Chemistry Council qui s’oppose aux objectifs américain en matière de diminution des gaz à effet de serre.",
+      "txt": "Total, 5e plus grande entreprise pétrolière et gazière au monde, a pris part à l’événement « Solutions 21 » de la COP 21 de Paris et prend régulièrement des positions pouvant paraître comme conciliantes avec les projets de régulation climatique. Mais l’ONG InfluenceMap a relevé que Total, comme Shell, tenaient des discours particulièrement différents des associations professionnelles qu’elles financent.<br /><br />Par exemple, en son nom propre, Total soutient un accord international sur le changement climatique, mais un de ses cadres supérieurs est membre du conseil d’administration de l’American Petroleum Association, une organisation qui voit dans la COP 21 « une idéologie politique étroite ». Total est aussi membre de CEFIC qui s’est battu contre les quotas d’émissions européens (EU-ETS). Enfin, malgré une déclaration de soutien pour la limitation des émissions de gaz à effet de serre du secteur de l’énergie, un de ses cadres exécutifs est au conseil d’administration de l’American Chemistry Council qui s’oppose aux objectifs américain en matière de diminution de ces gaz.",
       "sources": [
         {
           "source": "CEO, The climate smokescreen - PR companies lobbying for big polluters in Europe, Décembre 2015",
@@ -707,8 +805,8 @@
       "Efficacité énergétique": false,
       "Gaz de schiste, charbon, etc.": false,
       "Energies renouvelables": true,
-      "titre": "Comment les entreprises de l’énergie et du pétrole ont pris le contrôle des associations professionnelles des énergies renouvelables ?",
-      "txt": "Les grandes entreprises de l’électricité, du gaz et du pétrole ont, depuis 2010, utilisé leur pouvoir financier pour prendre le contrôle des principales associations professionnelles défendant les énergies renouvelables dont SolarEurope (anciennement Association Européenne de l’Industrie Photovoltaïque EPIA) et WindEurope (anciennement Association Européenne de l’énergie éolienne EWEA). L’objectif pour eux : infléchir la position de ces groupes de pression, ralentir la transition vers l’énergie propre et promouvoir le gaz comme solution complémentaire aux renouvelables.<br /><br />En 2011, Total devient majoritaire chez le fabricant de panneaux solaire SunPower. 2 ans plus tard, un dirigeant de SunPower devient président de SolarEurope, tandis qu’un autre dirigeant de Total devient vice-président. Même scénario pour WindEurope où 15 entreprises comme Alstom et EDF ont aujourd’hui des sièges au conseil d’administration contre seulement trois associations nationales. En 2012, il y avait 19 associations nationales au conseil d'administration de WindEurope.<br /><br />Le discours de SolarEurope et WindEurope a, dès lors, évolué. SolarEurope plaide désormais pour une alliance gaz-énergies renouvelables afin de répondre aux préoccupations européennes.<br /><br />WindEurope, initialement favorable à un objectif de 45 % d’énergies renouvelables dans le mix énergétique à l’horizon 2030, a réduit son ambition d’un tiers, visant à présent 30 %.<br /><br />Le gaz naturel, qui dégage deux fois moins d’émissions que le charbon, est présenté comme une nouvelle source d’énergie propre par l’industrie du pétrole et du gaz et comme une possible énergie de transition. Or si la combustion est moins émettrice en carbone, son extraction est particulièrement polluante. Cette stratégie permet surtout aux industries installées de conserver leur leadership en attirant des investissements au détriment des énergies renouvelables.",
+      "titre": "Quand les pollueurs prennent le contrôle du lobby des énergies renouvelables",
+      "txt": "Les grandes entreprises de l’électricité, du gaz et du pétrole ont, depuis 2010, utilisé leur pouvoir financier pour prendre le contrôle des principales associations professionnelles défendant les énergies renouvelables dont SolarEurope (anciennement Association Européenne de l’Industrie Photovoltaïque EPIA) et WindEurope (anciennement Association Européenne de l’énergie éolienne EWEA). L’objectif pour eux : infléchir la position de ces groupes de pression, ralentir la transition vers les énergies propres et promouvoir le gaz comme solution complémentaire aux renouvelables.<br /><br />En 2011, Total devient majoritaire chez le fabricant de panneaux solaire SunPower. 2 ans plus tard, un dirigeant de SunPower devient président de SolarEurope, tandis qu’un autre dirigeant de Total devient vice-président. Même scénario pour WindEurope où 15 entreprises comme Alstom et EDF ont aujourd’hui des sièges au conseil d’administration contre seulement trois associations nationales. En 2012, il y avait 19 associations nationales au conseil d'administration de WindEurope.<br /><br />Le discours de SolarEurope et WindEurope a, dès lors, évolué. SolarEurope plaide désormais pour une alliance gaz-énergies renouvelables afin de répondre aux préoccupations européennes.  WindEurope, initialement favorable à un objectif de 45 % d’énergies renouvelables dans le mix énergétique à l’horizon 2030, a réduit son ambition d’un tiers, préconisant à présent 30 %. <br /><br />Le gaz naturel, qui dégage deux fois moins d’émissions que le charbon, est présenté comme une nouvelle source d’énergie propre par l’industrie du pétrole et du gaz et comme une possible énergie de transition. Or si la combustion est moins émettrice en carbone, son extraction est particulièrement polluante. Cette stratégie permet surtout aux industries installées de conserver leur leadership en attirant des investissements au détriment des énergies renouvelables.",
       "sources": [
         {
           "source": "The Guardian, Fossil fuel firms accused of renewable lobby takeover to push gas, Janvier 2015",
@@ -768,16 +866,20 @@
     },
     {
       "ID": 3,
-      "Emission <40 %": false,
+      "Emission <40 %": true,
       "Efficacité énergétique": false,
       "Gaz de schiste, charbon, etc.": true,
       "Energies renouvelables": true,
-      "titre": "La stratégie du gaz",
-      "txt": "Le travail des agences de relations publiques consiste à faire en sorte que les entreprises qui précipitent le changement climatique semblent faire partie de la solution. L’agence Fleishman Hillard représente la méga-association professionnelle GasNaturally, elle-même composée de 6 grandes associations professionnelles du gaz. La stratégie pour GasNaturally est de promouvoir le gaz naturel (incluant le gaz non conventionnel comme le gaz de schiste) comme une énergie de transition. Or, la fracturation hydraulique nécessaire à l’extraction du gaz de schiste est particulièrement émettrice de gaz à effets de serre. Une étude a d’ailleurs montrée que plutôt que de réduire les émissions, la combustion du gaz naturel pourrait entraîner des émissions de CO2 jusqu'à dix pour cent plus élevées d'ici 2050.<br /><br />Fleishman Hillard organise pour GasNaturally « La semaine du gaz », où se rencontrent des députés européens, des responsables du climat et de l’énergie à la Commission, des industriels et des représentants des groupes de pression en faveur du gaz naturel. Entre visites de site, workshops, conférences, ces événements sont l’occasion de discuter l’avenir énergétique de l’Europe ou du risque financier que les réglementations font peser sur les entreprises.",
+      "titre": "Le lobby du gaz naturel",
+      "txt": "Le travail des agences de relations publiques consiste à faire en sorte que les entreprises qui précipitent le changement climatique semblent faire partie de la solution. L’agence Fleishman Hillard représente la méga-association professionnelle GasNaturally, elle-même composée de 6 grandes associations professionnelles du gaz : International Association of Oil and Gas Producers (IOGP), Eurogas, European Gas Research Group (GERG), Gas Infrastructure Europe (GIE), International Gas Union (IGU) et Marcogaz. La stratégie pour GasNaturally est de promouvoir le gaz naturel (incluant le gaz non conventionnel comme le gaz de schiste) comme une énergie de transition. Or, la fracturation hydraulique nécessaire à l’extraction du gaz de schiste est particulièrement émettrice de gaz à effet de serre. Une étude, publiée dans Nature, a d’ailleurs montré que plutôt que de réduire les émissions, la combustion du gaz naturel pourrait entraîner des émissions de CO2 jusqu'à dix pour cent plus élevées d'ici 2050.<br /><br />Fleishman Hillard organise pour GasNaturally « La semaine du gaz », où se rencontrent des députés européens, des responsables du climat et de l’énergie à la Commission, des industriels et des représentants des groupes de pression en faveur du gaz naturel. Entre visites de sites, workshops, conférences, ces événements sont l’occasion de discuter l’avenir énergétique de l’Europe ou du risque financier que les réglementations font peser sur les entreprises.<br /><br />Par ailleurs, Fleishman Hillard représente aussi :  Blackrock, BP, IOGP, General Electric, Eurogas, GIE, IGU, GERG, Marcogaz, Total, Shell, Statoil, Eni.",
       "sources": [
         {
           "source": "CEO, The climate smokescreen - PR companies lobbying for big polluters in Europe, Décembre 2015",
           "link": "https://corporateeurope.org/climate-and-energy/2015/12/europe-pr-firms-greenwashing-big-polluters"
+        },
+        {
+          "source": "Haewon McJeon & al., Limited impact on decadal-scale climate change from increased use of natural gas, Nature, Octobre 2014",
+          "link": "http://www.nature.com/nature/journal/v514/n7523/abs/nature13837.html?foxtrotcallback=true"
         }
       ],
       "Noeuds du réseau": [
@@ -900,12 +1002,12 @@
     },
     {
       "ID": 2,
-      "Emission <40 %": true,
+      "Emission <40 %": false,
       "Efficacité énergétique": true,
       "Gaz de schiste, charbon, etc.": true,
       "Energies renouvelables": true,
-      "titre": "Comment les traités de libre-échange sabotent la transition énergétique ?",
-      "txt": "La transition énergétique nécessite une action forte des pouvoirs publics pour stopper les énergies polluantes et promouvoir le développement des énergies renouvelables. Or, des milliers d’accords de commerce et d’investissements signés entre les pays, permettent aux entreprises de poursuivre les États qui, en prenant des mesures pour la sauvegarde de l’environnement, sont accusés de nuire aux profits des multinationales.<br /><br />Vattenfall, entreprise suédoise de production et distribution d'électricité, a par exemple réclamé à l’État allemand, en 2009, 4,1 milliard d’euros en compensation des contraintes environnementales sur les centrales à charbon. En 2012, Vattenfall a, à nouveau, poursuivi l’Allemagne suite à la décision du gouvernement de sortir du nucléaire. Le seul coût de la défense du gouvernement dans ce deuxième procès pourrait s’élever à 9 millions d’euros. La menace de poursuites très coûteuses est ainsi devenue une manière de faire pression sur les politiques publiques.<br /><br />A l’échelle européenne, le TAFTA et le CETA ouvrent des droits encore plus importants aux géants de l’industrie. Sur le TAFTA, plusieurs groupes de lobbying font obstruction aux propositions de réforme visant à protéger le droit des États à réguler et cherchent à accentuer les privilèges des multinationales. Parmi eux l’IOGP, BusinessEurope, le Conseil transatlantique des entreprises, la Table-ronde européenne des industriels. Objectif : mettre hors la loi l’action contre le changement climatique.<br /><br />Certains pays commence à se rendre en compte des dangers de l’arbitrage d’investissement. L’Italie s’est notamment retirée du Traité sur la Charte européenne de l’énergie après plusieurs plaintes concernant les énergies renouvelables.",
+      "titre": "Quand les traités de libre-échange rendent illégale la transition énergétique",
+      "txt": "Les risques climatiques et la transition énergétique nécessitent une action forte des pouvoirs publics. Cela peut passer par des aides au développement des énergies renouvelables ou des mesures pour freiner les énergies les plus polluantes. Or, des milliers d’accords de commerce et d’investissement signés entre les pays permettent aux entreprises de poursuivre les États qui, en prenant de telles mesures, sont accusés de nuire aux profits des multinationales.<br /><br />Vattenfall, entreprise suédoise de production et distribution d'électricité, a par exemple réclamé à l’État allemand, en 2009, 4,1 milliards d’euros en compensation des contraintes environnementales sur les centrales à charbon. En 2012, à nouveau, Vattenfall a poursuivi l’Allemagne suite à la décision du gouvernement de sortir du nucléaire. Le seul coût de la défense du gouvernement dans ce deuxième procès pourrait s’élever à 9 millions d’euros. La menace de poursuites très coûteuses est ainsi devenue une manière de faire pression sur les politiques publiques.<br /><br />A l’échelle européenne, le TAFTA et le CETA ouvrent des droits encore plus importants aux géants de l’industrie. Sur le TAFTA, plusieurs groupes de lobbying font obstruction aux propositions de réforme visant à protéger le droit des États à réguler et cherchent à accentuer les privilèges des multinationales. Parmi eux l’IOGP, BusinessEurope, le Conseil transatlantique des entreprises, la Table-ronde européenne des industriels. Objectif : mettre hors la loi l’action contre le changement climatique. <br /><br />Certains pays commencent néanmoins à prendre conscience des dangers de l’arbitrage d’investissement. L’Italie s’est notamment retirée du Traité sur la Charte européenne de l’énergie après avoir reçu plusieurs plaintes concernant les énergies renouvelables.",
       "sources": [
         {
           "source": "CEO, Aitec, PowerShift, TNI, Stop the ECB subsidising climate disaster, Décembre 2015",
@@ -1056,12 +1158,12 @@
     },
     {
       "ID": 1,
-      "Emission <40 %": true,
+      "Emission <40 %": false,
       "Efficacité énergétique": true,
       "Gaz de schiste, charbon, etc.": true,
       "Energies renouvelables": true,
-      "titre": "Les 10 principaux interlocuteurs du Commissaire européen au climat",
-      "txt": "Une analyse des réunions du Commissaire européen au climat Miguel Arias Cañete et de son vice-président Maroš Šefčovič avec des lobbyistes montre que ceux-ci ont préféré rencontrer des représentants des grandes entreprises ou associations professionnelles des secteurs énergétiques plutôt que des groupes de défense des intérêts publics. En l’espace de 2 ans (de novembre 2014 à octobre 2016) et sur un total de 1017 réunions, 77 % l’ont été avec des entreprises ou leur représentants et 18 % avec des ONG ou des syndicats. Les 10 principaux lobbyistes sont : Eurelectric (16 réunions), Iberdrola (15), Trans Adriatic Pipeline (15), E.On (14), BP (14), Shell (14), Statoil (14), Engie (13), Gas Natural Fenosa (11), Enel (10). Sur 297 réunions avec le secteur de l’énergie, 198 l’ont été avec le secteur des énergies fossiles contre 50 avec le secteur des énergies renouvelables ou de l’efficacité énergétique.",
+      "titre": "Un Commissaire européen au climat à l’écoute des multinationales",
+      "txt": "Une analyse des réunions, avec des lobbyistes, du Commissaire européen au climat Miguel Arias Cañete et de son vice-président Maroš Šefčovič montre que ceux-ci ont privilégié les rencontres avec des représentants des grandes entreprises ou des associations professionnelles des secteurs énergétiques plutôt que des défenseurs des intérêts publics. En l’espace de 2 ans (de novembre 2014 à octobre 2016) et sur un total de 1017 réunions du cabinet, 77 % l’ont été avec des entreprises ou leurs représentants et 18 % avec des ONG ou des syndicats. Les 10 principaux groupes lobbyistes sont : Eurelectric (16 réunions en 2 ans), Iberdrola (15 réunions), Trans Adriatic Pipeline (15), E.On (14), BP (14), Shell (14), Statoil (14), Engie (13), Gas Natural Fenosa (11), Enel (10). Sur 297 réunions avec le secteur de l’énergie, 198 l’ont été avec le secteur des énergies fossiles contre 50 avec le secteur des énergies renouvelables ou de l’efficacité énergétique.",
       "sources": [
         {
           "source": "CEO, Cañete takes European fossil fuel interests to Marrakech climate summit, Novembre 2016",
@@ -1139,10 +1241,10 @@
       "ID": 0,
       "Emission <40 %": true,
       "Efficacité énergétique": true,
-      "Gaz de schiste, charbon, etc.": true,
+      "Gaz de schiste, charbon, etc.": false,
       "Energies renouvelables": true,
-      "titre": "Comment la BCE subventionne les entreprises les plus polluantes ?",
-      "txt": "En mars 2017, plus de 80 organisations, principalement des ONG, ont rédigé une lettre ouverte à l’intention de la Banque Centrale Européenne afin de lui demander plus de transparence sur l’achat des obligations d’entreprises et une nouvelle orientation des investissements.<br /><br />Depuis juin 2016, la BCE entend stimuler l’économie grâce un programme d’achat d’obligations. Cependant, une part importante des 67 milliards d’euros injectés jusque là, l’ont été au profit d’entreprises du secteur pétrolier et gazier, comme Shell, Total ou Repsol, et très peu ont profité au secteur des énergies renouvelables.<br /><br />Les organisations signataires relèvent que quelques mois après l’Accord de Paris où la nécessité de la transition énergétique a été actée par l’Union Européenne, la BCE doit devenir transparente sur les entreprises à qui elle achète des obligations et sur les sommes engagées. Elles exigent également l’arrêt du financement de l’industrie des énergies fossiles et la réorientation des investissements dans le sens des objectifs climatiques.",
+      "titre": "Quand la BCE subventionne les entreprises les plus polluantes",
+      "txt": "En mars 2017, plus de 80 organisations, principalement des ONG, ont rédigé une lettre ouverte à l’intention de la Banque Centrale Européenne afin de lui demander plus de transparence sur l’achat des obligations d’entreprises et une nouvelle orientation de ses investissements. <br /><br />Depuis juin 2016, la BCE entend stimuler l’économie grâce un programme d’achat d’obligations. Cependant, une part importante des 67 milliards d’euros injectés jusque là, l’ont été au profit d’entreprises du secteur pétrolier et gazier, comme Shell, Total ou Repsol, et très peu ont profité au secteur des énergies renouvelables. <br /><br />Les organisations signataires relèvent l’incohérence d’une telle politique à quelques mois de l’accord de Paris et de la prise de conscience mondiale d’une nécessaire transition énergétique. Elles demandent à la BCE la transparence sur le montant et les bénéficiaires de ces obligations et exigent l’arrêt du financement de l’industrie des énergies fossiles ainsi que la réorientation des investissements dans le sens des objectifs climatiques.",
       "sources": [
         {
           "source": "CEO, Stop the ECB subsidising climate disaster, Mars 2017",

@@ -74,11 +74,11 @@ var CONSTANTS = {
       }
     },
     CSV_FILES: {
-      NODES: "data/Noeud4juillet.csv",
-      NODES_PROPRIETARY:"data/Noeuds-ActionnairesIndirect.csv",
+      NODES: "data/Noeud27juillet.csv",
+      NODES_PROPRIETARY:"data/Noeuds-ActionnairesIndirect27juillet.csv",
       LINKS_PROPRIETARY:"data/liensActionnairesDirect.csv",
       LINKS_INDIRECT_PROPRIETARY:"data/liensActionnairesIndirect.csv",
-      LINKS_AFFILIATION:"data/Affiliation19juin.csv",
+      LINKS_AFFILIATION:"data/Affiliation27juillet.csv",
       SCENARIO: "data/Reseau/Scenario.csv"
     },
     JSON_FILES: {

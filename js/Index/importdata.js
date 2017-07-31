@@ -67,7 +67,7 @@ d3.csv("data/Index/Scenario.csv", function (data){
 
 });
 
-d3.csv("data/Index/nomsDeploye.csv", function (data){
+d3.csv("data/Index/nomsDeploye27juillet.csv", function (data){
 
   CONST.NOMSDEPLOYES = {};
   for (var i=0; i<data.length; i++){
@@ -76,7 +76,7 @@ d3.csv("data/Index/nomsDeploye.csv", function (data){
 
 });
 
-d3.csv("data/Noeud4juillet.csv", function (data){
+d3.csv("data/Noeud27juillet.csv", function (data){
   CONST.DATASET=data;
   // Chargé de conserver des données filtrées intermédiaires, en cas de sauts successifs d'étapes
   CONST.AUXDATASET = CONST.DATASET;

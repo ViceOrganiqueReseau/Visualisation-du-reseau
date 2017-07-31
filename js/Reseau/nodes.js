@@ -171,7 +171,6 @@ function opacityNotOn (node){
 } 
 
 var drawNodes = function(nodes){
-  console.log("nodes = ", nodes)
   var TYPES = CONSTANTS.DATA.TYPES.NODE;
   var $nodes = scene.getCanvas()
   .selectAll('.node')

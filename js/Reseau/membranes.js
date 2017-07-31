@@ -64,8 +64,6 @@ var drawMembranes = function(nodes, membranes){
       return chroma(cluster.color);
     }).attr('fill-opacity', 0);
 
-  console.log("membranes = ", membranes);
-
   membranes.forEach(function (membrane){
     var textelem = canvas.append("text")
       .classed("membranetext", true)
