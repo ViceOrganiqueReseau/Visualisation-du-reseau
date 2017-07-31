@@ -61,12 +61,20 @@ function position(simulation) {
 // argument index : indice de la nouvelle section
 function majvue(simulation, index, preced) {
   // Modifications lors d'un changement de section
-  if (preced===index-1){
+  if (preced===index-1 && index<=6){
     // On affiche la section suivante
     simulation.nextSection();
-  } else if (preced===index+1){
+  } else if (preced===index+1 && index<=6){
     // On retourne à la section précédente
     simulation.previousSection();
+  }
+  if (index===7){
+    d3.select("div.menu").style("display", "block");
+    if (!getUserChoice().lobbyist){
+      d3.select("img#bestally").style("display", "none");
+    }
+  } else {
+    d3.select("div.menu").style("display", "none");
   }
 }
 

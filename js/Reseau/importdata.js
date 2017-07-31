@@ -181,6 +181,49 @@ var writeTextInSection = function (i){
   element.select("p.appel").html(CONSTANTS.SCENARIO[i]["Appel d’action"])
 }
 
+var writeBaseTextInLastSection = function (){
+  var element = d3.select("#secfin");
+  element.select("h1").html(CONSTANTS.SCENARIO[7]["Titre"]);
+  element.select("p.texte").html(CONSTANTS.SCENARIO[7]["Texte"])
+  if (getUserChoice().lobbyist){
+    var bloc1 = element.select("p.appel")
+      .append("div")
+      .classed("blocfin", true)
+    bloc1.append("img")
+      .attr("src", "img/icon_WinLose.svg")
+      .attr("width", CONSTANTS.FINAL_IMGS.width)
+      .attr("height", CONSTANTS.FINAL_IMGS.height)
+    bloc1.append("p").html(CONSTANTS.SCENARIO[7]["bloc1"]);
+  }
+  var bloc2 = element.select("p.appel")
+    .append("div")
+    .classed("blocfin", true)
+  bloc2.append("img")
+    .attr("src", "img/icon_Story.svg")
+    .attr("width", CONSTANTS.FINAL_IMGS.width)
+    .attr("height", CONSTANTS.FINAL_IMGS.height)
+  bloc2.append("p").html(CONSTANTS.SCENARIO[7]["bloc2"]);
+  var bloc3 = element.select("p.appel")
+    .append("div")
+    .classed("blocfin", true)
+  bloc3.append("img")
+    .attr("src", "img/icon_Theme.svg")
+    .attr("width", CONSTANTS.FINAL_IMGS.width)
+    .attr("height", CONSTANTS.FINAL_IMGS.height)
+  bloc3.append("p").html(CONSTANTS.SCENARIO[7]["bloc3"]);
+}
+
+var writeBestAllyEnnemyTextInLastSection = function (){
+  var element = d3.select("#secfin");
+  element.select("h1").html(CONSTANTS.SCENARIO[8]["Titre"]);
+  element.select("p.texte").html(CONSTANTS.SCENARIO[8]["Texte"])
+  element.select("p.appel").html(CONSTANTS.SCENARIO[8]["Appel d’action"])
+}
+
+var eraseLastSectionContent = function (){
+  d3.select("#secfin").selectAll("div.blocfin").remove();
+}
+
 var storestories = function (jsondata){
   CONSTANTS.STORIES = jsondata;
 }
@@ -219,6 +262,7 @@ var importData = function(){
     for (var i=0; i<7; i++){
       writeTextInSection(i);
     }
+    writeBaseTextInLastSection();
 
     // On obtient la liste des thèmes
     CONSTANTS.THEMELIST = Object.keys(files[0][0]);

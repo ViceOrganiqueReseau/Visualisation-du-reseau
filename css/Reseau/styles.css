@@ -35,9 +35,13 @@ font-style: normal;
 body {
   font-family: 'Open Sans', Arial, sans-serif;
   /*Attention cette valeur est utilisée sans récupération dans le JS*/
-  /*La modifier ici implique de la modifier dans JS aussi (colors.js)*/
+  /*Fond initial*/
   background-color: #222c4f; 
   color: white;
+}
+
+p {
+  font-size: 15px;
 }
 
 #container {
@@ -97,7 +101,7 @@ section > p.appel {
   bottom: 0px;
   z-index: 2;
   background-color: #222c4f;
-  height: 35%;
+  height: 40%;
   width: 24%;
   padding: 5px;
   display: flex;
@@ -164,6 +168,21 @@ span.theme {
 
 span.fonction {
   width: 271px;
+}
+
+section > p.appel > div.blocfin > img {
+  float: left;
+  margin: 3px;
+}
+
+div.menu {
+  display: none;
+  z-index: 4;
+}
+
+div.menu > img {
+  margin: 5px;
+  cursor: pointer;
 }
 
 a#backloby {

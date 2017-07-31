@@ -358,3 +358,15 @@ var configureSections = function(data){
   });
   return allSections;
 }
+
+// Mise en place de la dernière section
+function onclickBestAlly (){
+  eraseLastSectionContent();
+  writeBestAllyEnnemyTextInLastSection();
+  d3.select("img#bestally").on("click", function (){
+    eraseLastSectionContent();
+    writeBaseTextInLastSection();
+    d3.select("img#bestally").on("click", onclickBestAlly);
+  })
+}
+d3.select("img#bestally").on("click", onclickBestAlly);

@@ -86,6 +86,10 @@ var CONSTANTS = {
     JSON_FILES: {
       STORIES: "data/Reseau/stories.json"
     }
+  },
+  FINAL_IMGS: {
+    width: 50,
+    height: 50
   }
 };
 
