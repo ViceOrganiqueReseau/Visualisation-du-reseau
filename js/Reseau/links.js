@@ -199,7 +199,7 @@ var drawLinks = function(links){
     .append('g')
     .attr('transform', function(link){ return Utils.transform(link.source); })
     .attr('class', function(link){
-      return link.type.split('/').join('-') +' source-'+link.data.source.ID;
+      return link.type.split('/').join('-') +' source-'+link.data.source.ID+' target-'+link.data.target.ID;
     })
     .style('opacity', linkOpacity)
     .classed('link', true)

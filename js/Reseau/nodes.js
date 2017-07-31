@@ -168,6 +168,62 @@ function opacityNotOn (node){
   } else {
     return 0;
   }
+}
+
+var fadeNotNeighbours = function (node){
+  // On grise les noeuds non voisins
+  var alldata = CONSTANTS.LOADEDDATA;
+  var neighboursID = [node.ID];
+  // On récupère les IDs de tous les voisins
+  for (var i=0; i<alldata.links.length; i++){
+    console.log("source = ",alldata.links[i].data.source.ID)
+    console.log("target = ",alldata.links[i].data.target.ID)
+    if (alldata.links[i].data.source.ID === node.ID){
+      neighboursID.push(alldata.links[i].data.target.ID)
+    } else if (alldata.links[i].data.target.ID === node.ID){
+      neighboursID.push(alldata.links[i].data.source.ID)
+    } else {
+      // On grise le lien
+      console.log("On grise")
+      canvas.selectAll(".source-"+alldata.links[i].data.source.ID).selectAll(".target-"+alldata.links[i].data.target.ID+" path")
+        .attr("fill", function (){
+          return Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, CONSTANTS.COLORS.UNSELECTED_OPACITY)
+        })
+    }
+  }
+  console.log("neighboursID = ", neighboursID)
+  // On donne la couleur fade(notselected, bg, 0.3) aux noeuds non selectionnés dans neighboursID
+  for (var i=0; i<alldata.nodes.length; i++){
+    if (neighboursID.indexOf(alldata.nodes[i].ID)===-1 && alldata.nodes[i].type === CONSTANTS.DATA.TYPES.NODE.LOBBY){
+      canvas.select("#lobby"+alldata.nodes[i].ID).select(".circle-kernel")
+        .attr("fill", Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, CONSTANTS.COLORS.UNSELECTED_OPACITY))
+        .attr("stroke", Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, CONSTANTS.COLORS.UNSELECTED_OPACITY));
+      canvas.select("#lobby"+alldata.nodes[i].ID).select(".circle-membrane")
+        .attr("fill", Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, 0.5*CONSTANTS.COLORS.UNSELECTED_OPACITY));
+    }
+  }
+  // On efface les noms déjà écrits
+  canvas.selectAll("tspan.name").attr("fill-opacity", 0);
+  // On affiche les noms des voisins
+  for (var i=0; i<neighboursID.length; i++){
+    canvas.select("#lobbytext"+neighboursID[i]).select("tspan.name").attr("fill-opacity", 1);
+  }
+}
+
+var resetMouseOut = function (){
+  var alldata = CONSTANTS.LOADEDDATA;
+  // On reset les noeuds
+  for (var i=0; i<alldata.nodes.length; i++){
+    canvas.select("#lobby"+alldata.nodes[i].ID).select(".circle-kernel").attr("fill", Color.node(alldata.nodes[i])).attr("stroke", Color.node(alldata.nodes[i]));
+    canvas.select("#lobby"+alldata.nodes[i].ID).select(".circle-membrane").attr("fill", nodeFill);
+  }
+  // On reset les liens
+  canvas.selectAll(".link path").attr("fill", Color.link);
+  // On reset les textes
+  for (var i=0; i<alldata.nodes.length; i++){
+    canvas.select("#lobbytext"+alldata.nodes[i].ID).select("tspan.name").attr("fill-opacity", opacityNotOn(alldata.nodes[i]));
+  }
+  canvas.selectAll("tspan.budget").attr("fill-opacity", 0);
 } 
 
 var drawNodes = function(nodes){
@@ -251,6 +307,10 @@ var drawNodes = function(nodes){
     $nodes = nodeEnter.merge($nodes);
 
   $nodes.on('mouseover', function(node){
+    //fadeNotNeighbours(node);
+    if (currentIndex>=5){
+      fadeNotNeighbours(node);
+    }
     // On affiche le texte
     canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", 1);
     canvas.select("#lobbytext"+node.ID).select("tspan.budget").attr("fill-opacity", 1);
@@ -270,6 +330,7 @@ var drawNodes = function(nodes){
     // On écrase le texte
     canvas.select("#lobbytext"+node.ID).select("tspan.name").attr("fill-opacity", opacityNotOn(node));
     canvas.select("#lobbytext"+node.ID).select("tspan.budget").attr("fill-opacity", 0);
+    resetMouseOut();
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){

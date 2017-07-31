@@ -11,13 +11,15 @@ var CONSTANTS = {
   WIDTH: 1280,
   HEIGHT: 600,
   COLORS: {
-    PROPRIETARY: '7d7d7d',
-    BACKGROUND: '111627',
-    ENEMY: 'b17d1d',
-    ALLY: '4d8d9c',
-    SUPPORT: '00ff00',
-    OPPOSE: 'ff0000',
-    USER: '00ff90'
+    PROPRIETARY: '#7d7d7d',
+    BACKGROUND: '#111627',
+    ENEMY: '#b17d1d',
+    ALLY: '#4d8d9c',
+    SUPPORT: '#00ff00',
+    OPPOSE: '#ff0000',
+    USER: '#00ff90',
+    UNSELECTED: '#A0A0A0',
+    UNSELECTED_OPACITY : 0.3
   },
   VUE: {
     POSITION: vue.getBoundingClientRect(),

@@ -27,7 +27,6 @@ var linkColor = function(link){
   return color;
 }
 
-
 var fade = function(color, bgColor, a){
   // inspiré de https://gist.github.com/tqc/2564280
   var c = chroma(color).rgb();
