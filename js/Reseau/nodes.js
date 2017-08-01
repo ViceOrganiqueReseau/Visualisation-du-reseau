@@ -324,7 +324,9 @@ var drawNodes = function(nodes){
 
       $nodeLinks.classed('hidden', false);
     } else {
-      canvas.select("#lobby"+node.ID).style("cursor", "pointer");
+      if (!clicklocknode){
+        canvas.select("#lobby"+node.ID).style("cursor", "pointer");
+      }
     }
   }).on('mouseout', function(node){
     // On écrase le texte
@@ -343,7 +345,7 @@ var drawNodes = function(nodes){
       canvas.select("#lobby"+node.ID).style("cursor", "default");
     }
   }).on("click", function (node){
-    if (node.type === TYPES.LOBBY){
+    if (node.type === TYPES.LOBBY && !clicklocknode){
       setUpClickFiche(node);
     }
   });

@@ -192,6 +192,9 @@ function computeBesties (){
   CONSTANTS.BESTIES.WORSTRIVAL = worstrival;
 }
 
+// Cette variable vaut true si la sortie bestallyworstrival est active. Elle sert à bloquer les clicks events sur les nodes. 
+var clicklocknode = false;
+
 function displayBesties (){
   d3.select(".clickfiche").remove();
   d3.selectAll(".bestiesfiche").remove();

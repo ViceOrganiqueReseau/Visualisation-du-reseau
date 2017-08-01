@@ -71,7 +71,7 @@ function majvue(simulation, index, preced) {
   if (index===7){
     d3.select("div.menu").style("display", "block");
     if (!getUserChoice().lobbyist){
-      d3.select("img#bestally").style("display", "none");
+      d3.select("img#bestallyworstrival").style("display", "none");
     }
   } else {
     d3.select("div.menu").style("display", "none");

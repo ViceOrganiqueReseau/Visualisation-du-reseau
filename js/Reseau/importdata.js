@@ -224,6 +224,7 @@ var eraseLastSectionContent = function (){
   d3.select("#secfin").selectAll("div.blocfin").remove();
   d3.select("#bestally").remove();
   d3.select("#worstrival").remove();
+  clicklocknode = false;
 }
 
 var storestories = function (jsondata){
@@ -264,7 +265,6 @@ var importData = function(){
     for (var i=0; i<7; i++){
       writeTextInSection(i);
     }
-    writeBaseTextInLastSection();
 
     // On obtient la liste des thèmes
     CONSTANTS.THEMELIST = Object.keys(files[0][0]);
@@ -340,6 +340,8 @@ var importData = function(){
       }
     }
 
+    // On écrit le texte dans le dernière section
+    writeBaseTextInLastSection();
     // On calcule meilleur allié et pire adversaire si on a toutes les informations dans l'URL
     if (getUserChoice().lobbyist){
       computeBesties();

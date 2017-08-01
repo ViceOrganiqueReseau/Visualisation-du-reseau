@@ -362,12 +362,13 @@ var configureSections = function(data){
 // Mise en place de la dernière section
 function onclickBestAlly (){
   eraseLastSectionContent();
+  clicklocknode = true;
   writeBestAllyEnnemyTextInLastSection();
   displayBesties();
-  d3.select("img#bestally").on("click", function (){
+  d3.select("img#bestallyworstrival").on("click", function (){
     eraseLastSectionContent();
     writeBaseTextInLastSection();
-    d3.select("img#bestally").on("click", onclickBestAlly);
+    d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
   })
 }
-d3.select("img#bestally").on("click", onclickBestAlly);
+d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
