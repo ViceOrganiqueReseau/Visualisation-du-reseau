@@ -363,6 +363,7 @@ var configureSections = function(data){
 function onclickBestAlly (){
   eraseLastSectionContent();
   writeBestAllyEnnemyTextInLastSection();
+  displayBesties();
   d3.select("img#bestally").on("click", function (){
     eraseLastSectionContent();
     writeBaseTextInLastSection();

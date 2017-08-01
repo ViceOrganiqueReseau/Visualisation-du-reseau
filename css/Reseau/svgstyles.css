@@ -50,3 +50,42 @@ svg foreignObject.clickfiche > div.foreigncontainer > p {
   font-size: 14px;
   margin: 2px;
 }
+
+svg foreignObject.clickfiche {
+  pointer-events: none;
+}
+
+svg foreignObject.bestiesfiche > div {
+  background-color: rgba(50,50,50,0.35);
+  padding: 5px;
+  overflow: visible;
+}
+
+svg foreignObject.bestiesfiche > div.foreigncontainer > h1 {
+  font-family: 'Antique Olive Standard Compact';
+  font-size: 20px;
+  margin: 0px;
+  margin-bottom: 13px;
+}
+
+svg foreignObject.bestiesfiche > div.foreigncontainer > h1.smallname {
+  font-size: 10px;
+}
+
+svg foreignObject.bestiesfiche > div.foreigncontainer > h2 {
+  font-family: 'Antique Olive Standard Compact';
+  font-size: 15px;
+  margin: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+svg foreignObject.bestiesfiche > div.foreigncontainer > p {
+  font-family: 'Antique Olive Roman';
+  font-size: 13px;
+  margin: 2px;
+}
+
+svg foreignObject.bestiesfiche {
+  pointer-events: none;
+}

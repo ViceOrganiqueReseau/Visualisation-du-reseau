@@ -222,6 +222,8 @@ var writeBestAllyEnnemyTextInLastSection = function (){
 
 var eraseLastSectionContent = function (){
   d3.select("#secfin").selectAll("div.blocfin").remove();
+  d3.select("#bestally").remove();
+  d3.select("#worstrival").remove();
 }
 
 var storestories = function (jsondata){
@@ -336,6 +338,11 @@ var importData = function(){
         d3.select("#answers span.position")
           .text(userChoice.lobbyist[userChoice.theme]);
       }
+    }
+
+    // On calcule meilleur allié et pire adversaire si on a toutes les informations dans l'URL
+    if (getUserChoice().lobbyist){
+      computeBesties();
     }
 
     // enfin nous lançons l'expérimentation avec les data obtenues. 

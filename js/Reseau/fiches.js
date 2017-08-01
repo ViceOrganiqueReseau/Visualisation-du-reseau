@@ -1,6 +1,6 @@
 function setUpClickFiche (node){
-
   d3.select(".clickfiche").remove();
+  d3.selectAll(".bestiesfiche").remove();
 
   d3.select("svg").append("foreignObject")
     .classed("clickfiche", true)
@@ -190,4 +190,73 @@ function computeBesties (){
   }
   CONSTANTS.BESTIES.BESTALLY = bestally;
   CONSTANTS.BESTIES.WORSTRIVAL = worstrival;
+}
+
+function displayBesties (){
+  d3.select(".clickfiche").remove();
+  d3.selectAll(".bestiesfiche").remove();
+
+  // Meilleur allié
+  d3.select("svg").append("foreignObject")
+    .classed("bestiesfiche", true)
+    .attr("id", "bestally")
+    .attr("x", CONSTANTS.BESTIES_FICHES.x)
+    .attr("y", CONSTANTS.BESTIES_FICHES.y1)
+    .attr("width", CONSTANTS.BESTIES_FICHES.width)
+    .attr("height", CONSTANTS.BESTIES_FICHES.height)
+    .html("<div class='foreigncontainer'></div>")
+
+  var fiche = d3.select("#bestally").select(".foreigncontainer").style("color", CONSTANTS.COLORS.ALLY);
+  fiche.append("p").text("Votre meilleur allié est : ")
+  fiche.append("h1").classed("fullname", true).text(CONSTANTS.BESTIES.BESTALLY["Nom1"]);
+  if (CONSTANTS.BESTIES.BESTALLY["Nom2"]){
+    fiche.append("h1").classed("smallname", true).text(CONSTANTS.BESTIES.BESTALLY["Nom2"]);
+    fiche.select(".fullname").style("margin-bottom", "1px");
+  }
+  fiche.append("h2").text("Budget de lobbying en nom propre");
+  fiche.append("p").text(CONSTANTS.BESTIES.BESTALLY.budget+" €/an");
+  fiche.append("h2").text("Liens directs avec vos alliés");
+  fiche.append("p").text(CONSTANTS.BESTIES.BESTALLY.allydirectlinks+" organisations");
+  fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.BESTALLY.allydirectbudget+" €/an");
+  fiche.append("h2").text("Liens indirects avec vos alliés");
+  fiche.append("p").text(CONSTANTS.BESTIES.BESTALLY.allyundirectlinks+" organisations");
+  fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.BESTALLY.allyundirectbudget+" €/an");
+  fiche.append("h2").text("Liens directs avec vos opposants");
+  fiche.append("p").text(CONSTANTS.BESTIES.BESTALLY.ennemydirectlinks+" organisations");
+  fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.BESTALLY.ennemydirectbudget+" €/an");
+  fiche.append("h2").text("Liens indirects avec vos opposants");
+  fiche.append("p").text(CONSTANTS.BESTIES.BESTALLY.ennemyundirectlinks+" organisations");
+  fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.BESTALLY.ennemyundirectbudget+" €/an");
+
+  // Pire opposant
+  d3.select("svg").append("foreignObject")
+    .classed("bestiesfiche", true)
+    .attr("id", "worstrival")
+    .attr("x", CONSTANTS.BESTIES_FICHES.x)
+    .attr("y", CONSTANTS.BESTIES_FICHES.y2)
+    .attr("width", CONSTANTS.BESTIES_FICHES.width)
+    .attr("height", CONSTANTS.BESTIES_FICHES.height)
+    .html("<div class='foreigncontainer'></div>")
+
+  var fiche = d3.select("#worstrival").select(".foreigncontainer").style("color", CONSTANTS.COLORS.ENEMY);
+  fiche.append("p").text("Votre pire adversaire est : ")
+  fiche.append("h1").classed("fullname", true).text(CONSTANTS.BESTIES.WORSTRIVAL["Nom1"]);
+  if (CONSTANTS.BESTIES.WORSTRIVAL["Nom2"]){
+    fiche.append("h1").classed("smallname", true).text(CONSTANTS.BESTIES.WORSTRIVAL["Nom2"]);
+    fiche.select(".fullname").style("margin-bottom", "1px");
+  }
+  fiche.append("h2").text("Budget de lobbying en nom propre");
+  fiche.append("p").text(CONSTANTS.BESTIES.WORSTRIVAL.budget+" €/an");
+  fiche.append("h2").text("Liens directs avec vos opposants");
+  fiche.append("p").text(CONSTANTS.BESTIES.WORSTRIVAL.ennemydirectlinks+" organisations");
+  fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.WORSTRIVAL.ennemydirectbudget+" €/an");
+  fiche.append("h2").text("Liens indirects avec vos opposants");
+  fiche.append("p").text(CONSTANTS.BESTIES.WORSTRIVAL.ennemyundirectlinks+" organisations");
+  fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.WORSTRIVAL.ennemyundirectbudget+" €/an");
+  fiche.append("h2").text("Liens directs avec vos alliés");
+  fiche.append("p").text(CONSTANTS.BESTIES.WORSTRIVAL.allydirectlinks+" organisations");
+  fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.WORSTRIVAL.allydirectbudget+" €/an");
+  fiche.append("h2").text("Liens indirects avec vos alliés");
+  fiche.append("p").text(CONSTANTS.BESTIES.WORSTRIVAL.allyundirectlinks+" organisations");
+  fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.WORSTRIVAL.allyundirectbudget+" €/an");
 }
