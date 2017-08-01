@@ -63,3 +63,131 @@ function setUpClickFiche (node){
     d3.select("svg").on("mouseleave", null);
   })
 }
+
+// On calcule le meilleur allié et le pire adversaire !
+// Ces calculs sont réalisés dans des fonctions
+
+function computeBesties (){
+  var IDToIndex = {};
+  var alldata = CONSTANTS.LOADEDDATA;
+  var scoresdata = [];
+  for (var i=0; i<alldata.nodes.length; i++){
+    if (alldata.nodes[i].type === CONSTANTS.DATA.TYPES.NODE.LOBBY){
+      // On initialise l'objet associé au score de i
+      var obj = {
+        ID: alldata.nodes[i].ID,
+        position: alldata.nodes[i][alldata.userChoice.theme],
+        Nom1: alldata.nodes[i].Nom1,
+        Nom2: alldata.nodes[i].Nom2,
+        budget: alldata.nodes[i]["Dépenses Lobby (€)"],
+        allydirectlinks: 0,
+        allydirectbudget: 0,
+        ennemydirectlinks: 0,
+        ennemydirectbudget: 0,
+        allyundirectlinks: 0,
+        allyundirectbudget: 0,
+        ennemyundirectlinks: 0,
+        ennemyundirectbudget: 0,
+        score: 0,
+      };
+      // On range l'objet dans la structure apropriée et on mémorise son emplacement
+      scoresdata.push(obj);
+      IDToIndex[alldata.nodes[i].ID] = i;
+      // On incrémente ou décrémente le score de son budget
+      if (alldata.userChoice.position === obj.position){
+        obj.score += Number(obj.budget);
+      } else {
+        obj.score -= Number(obj.budget);
+      }
+    }
+  }
+  // On calcule les scores finaux et on compte les liens
+  for (var i=0; i<alldata.links.length; i++){
+    // On incrémente les scores de source et target du lien i si le lien n'est pas actionnaire indirect
+    if (alldata.links[i].type === CONSTANTS.DATA.TYPES.LINK.AFFILIATION || alldata.links[i].type === CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT){
+      sourceobj = scoresdata[IDToIndex[alldata.links[i].data.source.ID]];
+      targetobj = scoresdata[IDToIndex[alldata.links[i].data.target.ID]];
+      // On traite target vis-à-vis de source
+      if (sourceobj.position === alldata.userChoice.position){
+        switch (alldata.links[i].type){
+        case CONSTANTS.DATA.TYPES.LINK.AFFILIATION:
+          targetobj.allydirectlinks++;
+          targetobj.allydirectbudget += Number(sourceobj.budget);
+          targetobj.score += 0.5*Number(sourceobj.budget);
+          break;
+        case CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT:
+          targetobj.allyundirectlinks++;
+          targetobj.allyundirectbudget += Number(sourceobj.budget);
+          targetobj.score += 0.25*Number(sourceobj.budget);
+          break;
+        }
+      } else {
+        switch (alldata.links[i].type){
+        case CONSTANTS.DATA.TYPES.LINK.AFFILIATION:
+          targetobj.ennemydirectlinks++;
+          targetobj.ennemydirectbudget += Number(sourceobj.budget);
+          targetobj.score -= 0.5*Number(sourceobj.budget);
+          break;
+        case CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT:
+          targetobj.ennemyundirectlinks++;
+          targetobj.ennemyundirectbudget += Number(sourceobj.budget);
+          targetobj.score -= 0.25*Number(sourceobj.budget);
+          break;
+        }
+      }
+      // On traite source vis-à-vis de target
+      if (targetobj.position === alldata.userChoice.position){
+        switch (alldata.links[i].type){
+        case CONSTANTS.DATA.TYPES.LINK.AFFILIATION:
+          sourceobj.allydirectlinks++;
+          sourceobj.allydirectbudget += Number(targetobj.budget);
+          sourceobj.score += 0.5*Number(targetobj.budget);
+          break;
+        case CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT:
+          sourceobj.allyundirectlinks++;
+          sourceobj.allyundirectbudget += Number(targetobj.budget);
+          sourceobj.score += 0.25*Number(targetobj.budget);
+          break;
+        }
+      } else {
+        switch (alldata.links[i].type){
+        case CONSTANTS.DATA.TYPES.LINK.AFFILIATION:
+          sourceobj.ennemydirectlinks++;
+          sourceobj.ennemydirectbudget += Number(targetobj.budget);
+          sourceobj.score -= 0.5*Number(targetobj.budget);
+          break;
+        case CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT:
+          sourceobj.ennemyundirectlinks++;
+          sourceobj.ennemyundirectbudget += Number(targetobj.budget);
+          sourceobj.score -= 0.25*Number(targetobj.budget);
+          break;
+        }
+      }
+    }
+  } // end for link
+  CONSTANTS.BESTIES = {};
+  CONSTANTS.BESTIES.INDEXOR = IDToIndex;
+  CONSTANTS.BESTIES.SCORESDATA = scoresdata;
+  // Maintenant qu'on a parcouru les données, on cherche le meilleur allié et le pire adversaire
+  var scoremax = -Infinity;
+  var bestally;
+  var scoremin = +Infinity;
+  var worstrival;
+  for (var i=0; i<scoresdata.length; i++){
+    if (scoresdata[i].position === alldata.userChoice.position){
+      // On regarde si on a un meilleur allié
+      if (scoresdata[i].score > scoremax && Number(scoresdata[i].ID) !== alldata.userChoice.lobbyID){
+        scoremax = scoresdata[i].score;
+        bestally = scoresdata[i];
+      }
+    } else {
+      // On regarde si on a un pire adversaire
+      if (scoresdata[i].score < scoremin && Number(scoresdata[i].ID) !== alldata.userChoice.lobbyID){
+        scoremin = scoresdata[i].score;
+        worstrival = scoresdata[i];
+      }
+    }
+  }
+  CONSTANTS.BESTIES.BESTALLY = bestally;
+  CONSTANTS.BESTIES.WORSTRIVAL = worstrival;
+}
