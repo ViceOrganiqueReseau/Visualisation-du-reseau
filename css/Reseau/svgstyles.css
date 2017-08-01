@@ -21,7 +21,7 @@ svg foreignObject.clickfiche {
 }
 
 svg foreignObject.clickfiche > div {
-  background-color: rgba(50,50,50,0.35);
+  background-color: rgba(50,50,50,0.6);
   padding: 5px;
   overflow: visible;
 }
@@ -56,7 +56,7 @@ svg foreignObject.clickfiche {
 }
 
 svg foreignObject.bestiesfiche > div {
-  background-color: rgba(50,50,50,0.35);
+  background-color: rgba(50,50,50,0.6);
   padding: 5px;
   overflow: visible;
 }

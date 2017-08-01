@@ -370,5 +370,135 @@ function onclickBestAlly (){
     writeBaseTextInLastSection();
     d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
   })
+  // On remet en place les events des autres
+  d3.select("img#themes").on("click", onclickNewTheme);
 }
 d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
+
+function anonymizeUser (){
+  // On redéfinit les couleurs et on les applique. 
+  nodeColor = function(d){
+    var TYPES = CONSTANTS.DATA.TYPES.NODE;
+    var colors = CONSTANTS.COLORS;
+    var color;
+    if(d.type === TYPES.LOBBY){
+      color = d[userChoice.theme] === "POUR" ? colors.SUPPORT : colors.OPPOSE;
+    } else {
+      color = colors.PROPRIETARY;
+    }
+    return chroma(color);
+  };
+  Color.node = nodeColor;
+
+  d3.selectAll(".circle-kernel").attr("fill", function (d){
+    var color = Color.node(d);
+    return chroma(color);
+  }).attr("stroke", function (d){
+    var color = Color.node(d);
+    return chroma(color);
+  })
+  d3.selectAll(".circle-membrane").attr("fill", nodeFill)
+  d3.selectAll(".link path").attr("fill", Color.link)
+
+  // On supprime le boutton meilleur allié pire adversaire
+  d3.select("img#bestallyworstrival").style("display", "none");
+
+  // On retire les #answers
+  d3.select("#answers").selectAll("p.item").remove();
+
+  // On écrit un unique answer
+  d3.select("#answers").insert("p", "p.small")
+    .classed("sujet", true)
+    .html("<span class='sujets'>Sujets d'intervention : </span><span class='allthemes'></span>")
+  d3.select("#answers").select("span.allthemes")
+  for (var i=0; i<CONSTANTS.THEMELIST.length; i++){
+    d3.select("#answers").select("span.allthemes")
+      .append("a")
+      .attr("href", "reseau.html?theme="+i)
+      .text(CONSTANTS.THEMELIST[i])
+    d3.select("#answers").select("span.allthemes")
+      .append("br")
+  }
+}
+
+function rebornUser (){
+  // On redéfinit les couleurs et on les applique. 
+  nodeColor = function(d){
+    var TYPES = CONSTANTS.DATA.TYPES.NODE;
+    var colors = CONSTANTS.COLORS;
+    var color;
+    if(d.type === TYPES.LOBBY){
+      var userChoice = getUserChoice(); 
+      if(userChoice.lobbyID == d.ID){
+        return chroma(colors.USER);
+      }
+      if (userChoice.position){
+        color = d[userChoice.theme] === userChoice.position ? colors.ALLY : colors.ENEMY;
+      } else {
+        color = d[userChoice.theme] === "POUR" ? colors.SUPPORT : colors.OPPOSE;
+      }
+    } else {
+      color = colors.PROPRIETARY;
+    }
+    return chroma(color);
+  };
+  Color.node = nodeColor;
+
+  d3.selectAll(".circle-kernel").attr("fill", function (d){
+    var color = Color.node(d);
+    return chroma(color);
+  }).attr("stroke", function (d){
+    var color = Color.node(d);
+    return chroma(color);
+  })
+  d3.selectAll(".circle-membrane").attr("fill", nodeFill)
+  d3.selectAll(".link path").attr("fill", Color.link)
+
+  // On remet le boutton meilleur allié pire adversaire
+  d3.select("img#bestallyworstrival").style("display", "inline-block");
+
+  // On retire les #answers liés au choix du prochain thème
+  d3.select("#answers").selectAll("p.sujet").remove();
+
+  // On réécrit les #answers
+  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Identification : <span class="nom"></span>');
+  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Pays/Région : <span class="country"></span>');
+  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Secteur d&apos;activité : <span class="secteur"></span>');
+  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Type d&apos;organisation : <span class="type"></span>');
+  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Position : <span class="position"></span>');
+  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Sujet d&apos;intervention : <span class="theme"></span>');
+  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Fonction : <span class="fonction">Lobbyiste</span>');
+  if (getUserChoice().theme){
+    d3.select("#answers span.theme")
+      .text(getUserChoice().theme);
+  }
+  if (getUserChoice().lobbyist){
+    d3.select("#answers span.nom")
+      .text(getUserChoice().lobbyist["Nom1"]);
+    d3.select("#answers span.type")
+      .text(getUserChoice().lobbyist["Type"]);
+    d3.select("#answers span.secteur")
+      .text(getUserChoice().lobbyist["Secteurs d’activité"]);
+    d3.select("#answers span.country")
+      .text(getUserChoice().lobbyist["Pays/Région"]);
+    if (getUserChoice().lobbyist[getUserChoice().theme]){
+      d3.select("#answers span.position")
+        .text(getUserChoice().lobbyist[getUserChoice().theme]);
+    }
+  }
+}
+
+function onclickNewTheme (){
+  eraseLastSectionContent();
+  writeNewThemeTextInLastSection();
+  anonymizeUser();
+  d3.select("img#themes").on("click", function (){
+    eraseLastSectionContent();
+    writeBaseTextInLastSection();
+    rebornUser();
+    d3.select("img#themes").on("click", onclickNewTheme);
+  })
+  // On remet en place les events des autres
+  d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
+}
+d3.select("img#themes").on("click", onclickNewTheme);

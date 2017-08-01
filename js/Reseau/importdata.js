@@ -220,6 +220,13 @@ var writeBestAllyEnnemyTextInLastSection = function (){
   element.select("p.appel").html(CONSTANTS.SCENARIO[8]["Appel d’action"])
 }
 
+var writeNewThemeTextInLastSection = function (){
+  var element = d3.select("#secfin");
+  element.select("h1").html(CONSTANTS.SCENARIO[10]["Titre"]);
+  element.select("p.texte").html(CONSTANTS.SCENARIO[10]["Texte"])
+  element.select("p.appel").html(CONSTANTS.SCENARIO[10]["Appel d’action"])
+}
+
 var eraseLastSectionContent = function (){
   d3.select("#secfin").selectAll("div.blocfin").remove();
   d3.select("#bestally").remove();
