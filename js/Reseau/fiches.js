@@ -2,7 +2,7 @@ function setUpClickFiche (node){
   d3.select(".clickfiche").remove();
   d3.selectAll(".bestiesfiche").remove();
 
-  d3.select("svg").append("foreignObject")
+  d3.select("svg.experimentation").append("foreignObject")
     .classed("clickfiche", true)
     .attr("id", "fiche"+node.ID)
     .attr("x", CONSTANTS.CLICK_FICHE.x)
@@ -58,9 +58,9 @@ function setUpClickFiche (node){
     })
   }
 
-  d3.select("svg").on("mouseleave", function (){
+  d3.select("svg.experimentation").on("mouseleave", function (){
     d3.select("#fiche"+node.ID).remove();
-    d3.select("svg").on("mouseleave", null);
+    d3.select("svg.experimentation").on("mouseleave", null);
   })
 }
 

@@ -15,9 +15,10 @@ svg foreignObject.arctext > p {
   margin: 1px;
 }
 
-svg g.BADGE > text {
+svg.BADGE > text > tspan {
   fill: #111627;
-  font-size: 25px;
+  font-size: 20px;
+  /*font-weight: bold;*/
 }
 
 svg.Initfig text.titre {

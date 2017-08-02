@@ -19,7 +19,9 @@ var CONSTANTS = {
     OPPOSE: '#ff0000',
     USER: '#00ff90',
     UNSELECTED: '#A0A0A0',
-    UNSELECTED_OPACITY : 0.3
+    UNSELECTED_OPACITY : 0.3,
+    STORY: "white",
+    STORY_VISITED: "gray"
   },
   VUE: {
     POSITION: vue.getBoundingClientRect(),

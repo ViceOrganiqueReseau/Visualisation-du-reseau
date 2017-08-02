@@ -271,6 +271,7 @@ function setupBadge(){
             .text(CONST.BADGE.TEXT.texte[i])
             .attr("x", CONST.BADGE.TEXT.dx)
             .attr("y", CONST.BADGE.TEXT.dy + i*CONST.BADGE.TEXT.textpadding)
+            .attr("font-weight", "bold")
   }
   CONST.BADGE.D3.append("rect")
                 .attr("class", "badge")

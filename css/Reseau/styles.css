@@ -191,6 +191,10 @@ section > p.appel > div.blocfin > img {
   margin: 3px;
 }
 
+p.texte > ul > li {
+  margin-bottom: 5px;
+}
+
 div.menu {
   display: none;
   z-index: 4;
@@ -199,6 +203,12 @@ div.menu {
 div.menu > img {
   margin: 5px;
   cursor: pointer;
+}
+
+div.menu > svg#closestory {
+  margin: 5px;
+  cursor: pointer;
+  display: none;
 }
 
 a#backloby {
