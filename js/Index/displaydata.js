@@ -372,25 +372,25 @@ function loadNewData (inttosee){
     datafiltre = CONST.ALLDATAFILTRE[inttosee].slice();
     piedata = [0,0]; // POURS, CONTRES
     for (var i=0; i<datafiltre.length; i++){
-      if (datafiltre[i][choices[0]]==="POUR"){
+      if (datafiltre[i][choices[0]]==="Pour"){
         piedata[0]++;
-      } else if (datafiltre[i][choices[0]]==="CONTRE"){
+      } else if (datafiltre[i][choices[0]]==="Contre"){
         piedata[1]++;
       }
     }
     CONST.ALLPIEZEDDATA[inttosee] = pie(piedata);
-    CONST.ALLTHEMELIST[inttosee] = ["POUR", "CONTRE"];
+    CONST.ALLTHEMELIST[inttosee] = ["Pour", "Contre"];
 
     if (piedata[0]===0){
       // On choisit contre et on charge la suite des données
-      choices[1]="CONTRE"
+      choices[1]="Contre"
       d3.select("#answers").select("span.position").text(choices[1]);
       d3.select("#answers").select("p.position").style("color", colorlastanswer);
       CONST.SECTIONSJUMPED.push(inttosee+5);
       loadNewData(inttosee);
     } else if (piedata[1]===0){
       // On choisit pour et on charge la suite des données
-      choices[1]="POUR"
+      choices[1]="Pour"
       d3.select("#answers").select("span.position").text(choices[1]);
       d3.select("#answers").select("p.position").style("color", colorlastanswer);
       CONST.SECTIONSJUMPED.push(inttosee+5);

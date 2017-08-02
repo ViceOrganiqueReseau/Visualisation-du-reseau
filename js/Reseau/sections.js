@@ -36,7 +36,7 @@ var getClusterColor = function(data, cluster){
     var userPosition = data.userChoice.position;
     return clusterPosition === userPosition ? colors.ALLY : colors.ENEMY;
   } else {
-    return clusterPosition === "POUR" ? colors.SUPPORT : colors.OPPOSE;
+    return clusterPosition === "Pour" ? colors.SUPPORT : colors.OPPOSE;
   }
 };
 
@@ -219,7 +219,7 @@ var fourthSection = function(data){
       if (data.userChoice.position){
         return d.data.key == data.userChoice.position;
       } else {
-        return d.data.key == "POUR";
+        return d.data.key == "Pour";
       }
       
     });
@@ -382,7 +382,7 @@ function anonymizeUser (){
     var colors = CONSTANTS.COLORS;
     var color;
     if(d.type === TYPES.LOBBY){
-      color = d[userChoice.theme] === "POUR" ? colors.SUPPORT : colors.OPPOSE;
+      color = d[userChoice.theme] === "Pour" ? colors.SUPPORT : colors.OPPOSE;
     } else {
       color = colors.PROPRIETARY;
     }
@@ -435,7 +435,7 @@ function rebornUser (){
       if (userChoice.position){
         color = d[userChoice.theme] === userChoice.position ? colors.ALLY : colors.ENEMY;
       } else {
-        color = d[userChoice.theme] === "POUR" ? colors.SUPPORT : colors.OPPOSE;
+        color = d[userChoice.theme] === "Pour" ? colors.SUPPORT : colors.OPPOSE;
       }
     } else {
       color = colors.PROPRIETARY;

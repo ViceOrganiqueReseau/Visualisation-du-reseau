@@ -74,7 +74,7 @@ var drawMembranes = function(nodes, membranes){
       .classed("name", true)
       .attr("x", membrane.x + CONSTANTS.MEMBRANE.TEXTdx)
       .attr("y", function (){
-        if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y; }
+        if (membrane.key[membrane.key.length-1]==="r"){ return membrane.y; }
         else { return membrane.y + 10; }
       })
       .text(membrane.key)
