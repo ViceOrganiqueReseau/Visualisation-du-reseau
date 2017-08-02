@@ -546,7 +546,7 @@ function generateResult (){
                   .attr("y", CONST.RESULT.titlepos.y)
   var titrecoupe = [];
   titrecoupe[0] = user["Nom1"].split(" ").slice(0,3).join(" ");
-  titrecoupe[1] = user["Nom1"].split(" ").slice(4).join(" ");
+  titrecoupe[1] = user["Nom1"].split(" ").slice(3).join(" ");
 
   title.append("tspan")
         .attr("class", "mainname")
