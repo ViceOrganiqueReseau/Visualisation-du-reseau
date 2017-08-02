@@ -13,7 +13,7 @@ function abTo01(a,b,x){
 // Création des données de la figure initiale
 CONST.strokewidth = 8;
 CONST.FIGINIT = {};
-CONST.FIGINIT.textpadding = 5;
+CONST.FIGINIT.textpadding = 11;
 CONST.FIGINIT.RECT = {};
 CONST.FIGINIT.RECT.x = 0.3*CONST.VUE.WIDTH;
 CONST.FIGINIT.RECT.y = 0.15*CONST.VUE.HEIGHT;
@@ -63,8 +63,8 @@ CONST.FIGINIT.POINTS = [
 function createInitFigure (){
   CONST.FIGINIT.D3 = svg.append("svg")
                   .attr("class", "Initfig")
-                  .attr("x", 0.3*CONST.VUE.WIDTH)
-                  .attr("y", 0.7*CONST.VUE.HEIGHT)
+                  .attr("x", 0.33*CONST.VUE.WIDTH)
+                  .attr("y", 0.4*CONST.VUE.HEIGHT)
                   .attr("width", CONST.FIGINIT.RECT.width)
                   .attr("height", CONST.FIGINIT.RECT.height)
   CONST.FIGINIT.D3.append("rect")
@@ -75,7 +75,7 @@ function createInitFigure (){
                   .attr("height", CONST.FIGINIT.RECT.height)
                   .attr("stroke-width", CONST.strokewidth)
                   .attr("stroke", "#111627")
-                  .attr("fill", "gray")
+                  .attr("fill", "rgb(176,176,176)")//fiche intro
   for (var i=0; i<4; i++){
     for (var j=i+1; j<4; j++){
       CONST.FIGINIT.D3.append("line")
@@ -95,7 +95,7 @@ function createInitFigure (){
                     .text(CONST.FIGINIT.POINTS[i].text);
     CONST.FIGINIT.D3.append("rect")
                     .attr("x", element.attr("x")-CONST.FIGINIT.textpadding)
-                    .attr("y", element.attr("y")-CONST.FIGINIT.textpadding-15)
+                    .attr("y", element.attr("y")-CONST.FIGINIT.textpadding-17)
                     .attr("width", function (){
                       var textpos = element.node().getBoundingClientRect();
                       return textpos.right - textpos.left + 2*CONST.FIGINIT.textpadding;
@@ -129,8 +129,8 @@ function displayInitFigure (){
 function createScrollText (){
   CONST.SCROLL = {
     text: "SCROLL !",
-    x: 0*CONST.VUE.WIDTH,
-    y: 0.6*CONST.VUE.HEIGHT
+    x: 0.05*CONST.VUE.WIDTH,
+    y: 0.85*CONST.VUE.HEIGHT
   };
   CONST.SCROLL.D3 = svg.append("text")
                       .attr("class", "scroll")
@@ -156,7 +156,7 @@ function createScrollText (){
 // Section 1 : Données sur les éléments de positionnement
 // de la Fiche
 CONST.FICHE = {};
-CONST.FICHE.width = 0.6*CONST.VUE.WIDTH; 
+CONST.FICHE.width = 0.45*CONST.VUE.WIDTH; 
 CONST.FICHE.height = 0.9*CONST.VUE.HEIGHT;  // A ajuster pour la taille de la fiche
 // L'écart de taille : utile pour le scroll
 CONST.FICHE.TOPPOS = 20;
@@ -194,7 +194,7 @@ function setupFiche(){
       .attr("height", CONST.FICHE.height)
       .attr("stroke-width", CONST.strokewidth)
       .attr("stroke", "#111627")
-      .attr("fill", "rgb(200,200,200)")
+      .attr("fill", "rgb(209,213,235)")//fiche consultation
   CONST.FICHE.D3.append("image")
       .attr("class", "commission")
       .attr("x", Number(CONST.FICHE.D3.select("rect").attr("x"))+CONST.FICHE.COMMISSION.dx - 0.5*CONST.FICHE.COMMISSION.width)
@@ -243,9 +243,9 @@ CONST.BADGE.TEXT.dy = 0.15*CONST.BADGE.height;
 CONST.BADGE.TEXT.texte = ["Vous", "êtes", "lobbyiste"]
 CONST.BADGE.TEXT.textpadding = 25;
 CONST.BADGE.POINT = {};
-CONST.BADGE.POINT.radius = 50;
+CONST.BADGE.POINT.radius = 45;
 CONST.BADGE.POINT.dx = 0.5*CONST.BADGE.width - CONST.BADGE.POINT.radius/2;
-CONST.BADGE.POINT.dy = 0.70*CONST.BADGE.height - CONST.BADGE.POINT.radius/2;
+CONST.BADGE.POINT.dy = 0.71*CONST.BADGE.height - CONST.BADGE.POINT.radius/2;
 
 // Initialise le badge
 function setupBadge(){
@@ -318,7 +318,7 @@ function setupFicheQuestion (){
                 .attr("height", CONST.QUEST.FICHE.height)
                 .attr("stroke-width", CONST.strokewidth)
                 .attr("stroke", "#111627")
-                .attr("fill", "rgb(220,220,220)");
+                .attr("fill", "rgb(189,198,206)"); // fiche questions
 }
 // L'appel à cette fonction se fait au cours su chargement des données dans importdata.js
 
@@ -356,9 +356,9 @@ function manageFigSec0 (pos){
     }
   }
   if (alpha<=0){
-    d3.select("svg.Initfig").attr("y", 0.8*CONST.VUE.HEIGHT)
+    d3.select("svg.Initfig").attr("y", 0.4*CONST.VUE.HEIGHT)
   } else if (alpha<=1){
-    d3.select("svg.Initfig").attr("y", 0.7*CONST.VUE.HEIGHT - alpha*(0.7*CONST.VUE.HEIGHT-CONST.FIGINIT.RECT.y))
+    d3.select("svg.Initfig").attr("y", 0.4*CONST.VUE.HEIGHT - alpha*(0.4*CONST.VUE.HEIGHT-CONST.FIGINIT.RECT.y))
   } else {
     d3.select("svg.Initfig").attr("y", CONST.FIGINIT.RECT.y)
   }

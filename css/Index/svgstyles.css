@@ -30,6 +30,7 @@ svg.Initfig text.texte {
   font-family: 'Open Sans', Arial, sans-serif;
   fill: #111627;
   font-size: 15px;
+  font-weight: bold;
 }
 
 svg.BADGE rect {
@@ -38,7 +39,7 @@ svg.BADGE rect {
 
 svg.BADGE tspan {
   fill: #111627;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   text-anchor: middle;
 }
@@ -62,20 +63,29 @@ svg foreignObject.cartouche {
   pointer-events: none;
 }
 
-svg foreignObject.cartouche > h1 {
-  background-color: rgba(50,50,50,0.6);
-  font-size: 15px;
-  margin: auto;
-  color: white;
-  padding: 2px;
+svg foreignObject.cartouche > div.foreigncontainer {
+  border: solid 4px #111627;
 }
 
-svg foreignObject.cartouche > p {
-  background-color: rgba(50,50,50,0.6);
-  font-size: 9px;
-  color: white;
+svg foreignObject.cartouche > div.foreigncontainer > h1 {
+  background-color: white;/*rgba(50,50,50,0.6);*/
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
   margin: auto;
-  padding: 5px;
+  color: #111627;
+  padding-bottom : 0;
+  padding-top : 7px;
+  padding-left: 7px;
+}
+svg foreignObject.cartouche > div.foreigncontainer > p {
+  background-color: white;/*rgba(50,50,50,0.6);*/
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-style: italic;
+  font-size: 11px;
+  color: #111627;
+  margin: auto;
+  padding: 7px;
 }
 
 img.information {

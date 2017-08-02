@@ -44,7 +44,7 @@ body {
 
 #left-container {
   display: inline-block;
-  width: 24%;
+  width: 20%;
   padding: 15px;
   margin: auto;
 }
@@ -79,7 +79,7 @@ section > p.appel {
   position: fixed;
   z-index: 1;
   display: inline-block;
-  width: 75%;
+  width: 79%;
   margin: auto;
   height: 100%;
 }
@@ -95,8 +95,8 @@ section > p.appel {
   bottom: 0px;
   z-index: 2;
   background-color: #222c4f;
-  height: 35%;
-  width: 24%;
+  height: auto;
+  width: 20%;
   padding: 5px;
   display: flex;
   flex-wrap: wrap;
@@ -115,7 +115,7 @@ section > p.appel {
 
 #answers p.small {
   margin-top: 15px;
-  width: 100px;
+  width: 80px;
 }
 
 #answers > p > a {

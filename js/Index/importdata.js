@@ -19,6 +19,7 @@ var nbthemes;
 CONST.ALLTHEMELIST = [];
 CONST.ALLDATAFILTRE = [];
 CONST.ALLPIEZEDDATA = [];
+CONST.STROKEWIDTH = 4;
 var datafiltre;
 var piedata;
 var arc;
@@ -162,7 +163,7 @@ d3.csv("data/Noeud27juillet.csv", function (data){
       return color(i);
     })
     .attr("stroke", "#111627")
-    .attr("stroke-width", 3);
+    .attr("stroke-width", 4);
 
   CONST.QUEST.ARCS[0].append("foreignObject")
     .attr("class", "arctext")

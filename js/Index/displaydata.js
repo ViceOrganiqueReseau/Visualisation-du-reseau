@@ -49,25 +49,27 @@ CONST.HOVERTEXT.pluriel[1] = "organisations ont pris cette position sur le sujet
 CONST.HOVERTEXT.pluriel[2] = "organisations qui ont la même position que vous sur le sujet sélectionné sont de ce type";
 CONST.HOVERTEXT.pluriel[3] = "organisations qui sont de même type et ont la même position que vous proviennent de ce secteur d'activité";
 CONST.HOVERTEXT.pluriel[4] = "organisations qui sont du même secteur, même type et même position que vous proviennent de cette région";
-CONST.HOVERTEXT.width = 140;
-CONST.HOVERTEXT.height = 90;
+CONST.HOVERTEXT.width = 170;
+CONST.HOVERTEXT.height = 135;
 function createHoverCircleText(intselect,d,i,x,y){
   // Condition 1 pour ne pas avoir de cartouche à la section des noms
   // Condition 2 pour éviter des affichages de cartouches parasites
   if (intselect<5 && intselect===currentIndex-5){
-  var foreign = svg.append("foreignObject")
+  var cartouche = svg.append("foreignObject")
       .attr("class", "cartouche")
       .attr("width", CONST.HOVERTEXT.width)
       .attr("height", CONST.HOVERTEXT.height)
       .attr("x", x)
       .attr("y", y)
       .attr("opacity", 0)
+      .html("<div class='foreigncontainer'></div>")
+  var foreign = svg.select("foreignObject.cartouche").select("div.foreigncontainer");
   if (CONST.ALLPIEZEDDATA[intselect][i].data===1){
     foreign.html("<h1>"+ CONST.ALLPIEZEDDATA[intselect][i].data +"</h1><p>"+ CONST.HOVERTEXT.singulier[intselect] +"</p>");
   } else {
     foreign.html("<h1>"+ CONST.ALLPIEZEDDATA[intselect][i].data +"</h1><p>"+ CONST.HOVERTEXT.pluriel[intselect] +"</p>");
   }
-  foreign.transition().duration(0.5*CONST.TIMETRANSITION).attr("opacity", 1);
+  cartouche.transition().duration(0.5*CONST.TIMETRANSITION).attr("opacity", 1);
   }
 }
 
@@ -80,12 +82,13 @@ function createHoverIlabelText(intselect,group,x,y){
       .attr("y", y)
       .attr("opacity", 0)
       .html(function (){
-        var string = "";
+        var string = "<div class='foreigncontainer'>";
         if (CONST.NOMSDEPLOYES[group.select("p").text()]){
           string += "<p>"+CONST.NOMSDEPLOYES[group.select("p").text()]+"</p>";
         } else {
           string += "";
         }
+        string += "</div>"
         return string;
       })
   foreign.transition().duration(0.5*CONST.TIMETRANSITION).attr("opacity", 1);
@@ -469,7 +472,7 @@ function generatePie (inttosee){
       return color(i);
     })
     .attr("stroke", "#111627")
-    .attr("stroke-width", 3)
+    .attr("stroke-width", CONST.STROKEWIDTH)
 
   CONST.QUEST.ARCS[inttosee].append("foreignObject")
     .attr("class", "arctext")
