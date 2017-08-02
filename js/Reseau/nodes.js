@@ -163,7 +163,7 @@ var nodeFill = function(node){
 };
 
 function opacityNotOn (node){
-  if (node["Dépenses Lobby (€)"]>999999.99 && currentIndex>3){
+  if (node[CONSTANTS.DATA.SPENDING_KEY]>999999.99 && currentIndex>3){
     return 1;
   } else {
     return 0;
@@ -286,13 +286,13 @@ var drawNodes = function(nodes){
             return node["Nom1"];
         }
       })
-    if (node.type===TYPES.LOBBY && node["Dépenses Lobby (€)"]!="NaN"){
+    if (node.type===TYPES.LOBBY && node[CONSTANTS.DATA.SPENDING_KEY]!="NaN"){
       textelem.append("tspan")
         .classed("budget", true)
         .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
         .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy+CONSTANTS.CIRCLE.TEXT_PADDING)
         .attr("fill-opacity", 0)
-        .text("Budget Lobby : "+node["Dépenses Lobby (€)"]+" €")
+        .text("Budget Lobby : "+node[CONSTANTS.DATA.SPENDING_KEY]+" €")
     }
   })
 

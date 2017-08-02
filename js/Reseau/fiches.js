@@ -24,10 +24,10 @@ function setUpClickFiche (node){
   fiche.append("h2").text("LOBBYING");
   fiche.append("p").text(function (){
     var string = "Dépenses de lobbying estimées : ";
-    if (node["Dépenses Lobby (€)"]==="NaN"){
+    if (node[CONSTANTS.DATA.SPENDING_KEY]==="NaN"){
       string += "Inconnu";
     } else {
-      string += node["Dépenses Lobby (€)"]+" €";
+      string += node[CONSTANTS.DATA.SPENDING_KEY]+" €";
     }
     return string;
   })
@@ -79,7 +79,7 @@ function computeBesties (){
         position: alldata.nodes[i][alldata.userChoice.theme],
         Nom1: alldata.nodes[i].Nom1,
         Nom2: alldata.nodes[i].Nom2,
-        budget: alldata.nodes[i]["Dépenses Lobby (€)"],
+        budget: alldata.nodes[i][CONSTANTS.DATA.SPENDING_KEY],
         allydirectlinks: 0,
         allydirectbudget: 0,
         ennemydirectlinks: 0,

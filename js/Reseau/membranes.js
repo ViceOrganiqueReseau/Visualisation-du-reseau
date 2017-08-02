@@ -99,8 +99,8 @@ var drawMembranes = function(nodes, membranes){
         // On calcule le budget total de lobbying
         var somme = 0;
         for (var i=0; i<nodes.length; i++){
-          if (membrane.nodeIDS.indexOf(nodes[i].ID)!==-1 && nodes[i]["Dépenses Lobby (€)"]!=="NaN"){
-            somme += Number(nodes[i]["Dépenses Lobby (€)"]);
+          if (membrane.nodeIDS.indexOf(nodes[i].ID)!==-1 && nodes[i][CONSTANTS.DATA.SPENDING_KEY]!=="NaN"){
+            somme += Number(nodes[i][CONSTANTS.DATA.SPENDING_KEY]);
           }
         }
         return "Budget Lobby : "+somme+" €";

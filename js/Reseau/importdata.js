@@ -282,7 +282,7 @@ var importData = function(){
     CONSTANTS.THEMELIST.splice(CONSTANTS.THEMELIST.indexOf("Pays/Région"), 1);
     CONSTANTS.THEMELIST.splice(CONSTANTS.THEMELIST.indexOf("Type"), 1);
     CONSTANTS.THEMELIST.splice(CONSTANTS.THEMELIST.indexOf("Secteurs d’activité"), 1);
-    CONSTANTS.THEMELIST.splice(CONSTANTS.THEMELIST.indexOf("Dépenses Lobby (€)"), 1);
+    CONSTANTS.THEMELIST.splice(CONSTANTS.THEMELIST.indexOf(CONSTANTS.DATA.SPENDING_KEY), 1);
     CONSTANTS.THEMELIST.splice(CONSTANTS.THEMELIST.indexOf("Personnes impliquées"), 1);
     CONSTANTS.THEMELIST.splice(CONSTANTS.THEMELIST.indexOf("Equivalent Temps plein"), 1);
     // Récupération du thème
