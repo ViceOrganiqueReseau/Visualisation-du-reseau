@@ -107,7 +107,7 @@ function computeBesties (){
     if (alldata.links[i].type === CONSTANTS.DATA.TYPES.LINK.AFFILIATION || alldata.links[i].type === CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT){
       sourceobj = scoresdata[IDToIndex[alldata.links[i].data.source.ID]];
       targetobj = scoresdata[IDToIndex[alldata.links[i].data.target.ID]];
-      // On traite target vis-à-vis de source
+      // On traite target vis-à-vis de son lien avec source
       if (sourceobj.position === alldata.userChoice.position){
         switch (alldata.links[i].type){
         case CONSTANTS.DATA.TYPES.LINK.AFFILIATION:
@@ -126,16 +126,16 @@ function computeBesties (){
         case CONSTANTS.DATA.TYPES.LINK.AFFILIATION:
           targetobj.ennemydirectlinks++;
           targetobj.ennemydirectbudget += Number(sourceobj.budget);
-          targetobj.score -= 0.5*Number(sourceobj.budget);
+          targetobj.score -= 0.75*Number(sourceobj.budget);
           break;
         case CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT:
           targetobj.ennemyundirectlinks++;
           targetobj.ennemyundirectbudget += Number(sourceobj.budget);
-          targetobj.score -= 0.25*Number(sourceobj.budget);
+          targetobj.score -= 0.5*Number(sourceobj.budget);
           break;
         }
       }
-      // On traite source vis-à-vis de target
+      // On traite source vis-à-vis de son lien avec target
       if (targetobj.position === alldata.userChoice.position){
         switch (alldata.links[i].type){
         case CONSTANTS.DATA.TYPES.LINK.AFFILIATION:
@@ -154,12 +154,12 @@ function computeBesties (){
         case CONSTANTS.DATA.TYPES.LINK.AFFILIATION:
           sourceobj.ennemydirectlinks++;
           sourceobj.ennemydirectbudget += Number(targetobj.budget);
-          sourceobj.score -= 0.5*Number(targetobj.budget);
+          sourceobj.score -= 0.75*Number(targetobj.budget);
           break;
         case CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT:
           sourceobj.ennemyundirectlinks++;
           sourceobj.ennemyundirectbudget += Number(targetobj.budget);
-          sourceobj.score -= 0.25*Number(targetobj.budget);
+          sourceobj.score -= 0.5*Number(targetobj.budget);
           break;
         }
       }
@@ -200,7 +200,7 @@ function displayBesties (){
   d3.selectAll(".bestiesfiche").remove();
 
   // Meilleur allié
-  d3.select("svg").append("foreignObject")
+  d3.select("svg.experimentation").append("foreignObject")
     .classed("bestiesfiche", true)
     .attr("id", "bestally")
     .attr("x", CONSTANTS.BESTIES_FICHES.x)
@@ -232,7 +232,7 @@ function displayBesties (){
   fiche.append("p").text("Budget total cumulé de lobbying : "+CONSTANTS.BESTIES.BESTALLY.ennemyundirectbudget+" €/an");
 
   // Pire opposant
-  d3.select("svg").append("foreignObject")
+  d3.select("svg.experimentation").append("foreignObject")
     .classed("bestiesfiche", true)
     .attr("id", "worstrival")
     .attr("x", CONSTANTS.BESTIES_FICHES.x)

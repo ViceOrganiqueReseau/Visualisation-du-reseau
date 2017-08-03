@@ -176,15 +176,12 @@ var fadeNotNeighbours = function (node){
   var neighboursID = [node.ID];
   // On récupère les IDs de tous les voisins
   for (var i=0; i<alldata.links.length; i++){
-    console.log("source = ",alldata.links[i].data.source.ID)
-    console.log("target = ",alldata.links[i].data.target.ID)
     if (alldata.links[i].data.source.ID === node.ID){
       neighboursID.push(alldata.links[i].data.target.ID)
     } else if (alldata.links[i].data.target.ID === node.ID){
       neighboursID.push(alldata.links[i].data.source.ID)
     } else {
       // On grise le lien
-      console.log("On grise")
       canvas.selectAll(".source-"+alldata.links[i].data.source.ID).selectAll(".target-"+alldata.links[i].data.target.ID+" path")
         .attr("fill", function (){
           return Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, CONSTANTS.COLORS.UNSELECTED_OPACITY)

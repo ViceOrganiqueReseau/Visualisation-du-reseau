@@ -225,7 +225,7 @@ var writeStoriesTextInLastSection = function (){
   element.select("h1").html(CONSTANTS.SCENARIO[9]["Titre"]);
   var listelem = element.select("p.texte").text("").append("ul");
   for (var i=0; i<CONSTANTS.STORIES.Histoires.length; i++){
-    //if (CONSTANTS.STORIES.Histoires[i][getUserChoice().theme]){
+    if (CONSTANTS.STORIES.Histoires[i][CONSTANTS.STORIES.THEMES[CONSTANTS.STORIES.themeid]]){
       listelem.append("li")
         .classed("storyitem", true)
         .attr("id", "listory"+i)
@@ -242,8 +242,9 @@ var writeStoriesTextInLastSection = function (){
         d3.select(this).style("cursor", "default")
         d3.selectAll(".storyitem").style("color", CONSTANTS.STORIES.colors[i])
       })
-    //}
+    }
   }
+  element.select("p.appel").text("");
 }
 
 var writeStory = function(i){
@@ -267,12 +268,24 @@ var eraseLastSectionContent = function (){
 
 var storestories = function (jsondata){
   CONSTANTS.STORIES = jsondata;
+  CONSTANTS.STORIES.THEMES = Object.keys(CONSTANTS.STORIES.Histoires[0]).slice();
+  CONSTANTS.STORIES.THEMES.splice(CONSTANTS.STORIES.THEMES.indexOf("ID"),1);
+  CONSTANTS.STORIES.THEMES.splice(CONSTANTS.STORIES.THEMES.indexOf("titre"),1);
+  CONSTANTS.STORIES.THEMES.splice(CONSTANTS.STORIES.THEMES.indexOf("txt"),1);
+  CONSTANTS.STORIES.THEMES.splice(CONSTANTS.STORIES.THEMES.indexOf("sources"),1);
+  CONSTANTS.STORIES.THEMES.splice(CONSTANTS.STORIES.THEMES.indexOf("Noeuds principaux"),1);
+  CONSTANTS.STORIES.THEMES.splice(CONSTANTS.STORIES.THEMES.indexOf("Noeuds du réseau"),1);
+  CONSTANTS.STORIES.THEMES.splice(CONSTANTS.STORIES.THEMES.indexOf("Nouveau noeud"),1);
+  CONSTANTS.STORIES.THEMES.splice(CONSTANTS.STORIES.THEMES.indexOf("Liens"),1);
+  console.log(CONSTANTS.STORIES.THEMES)
+  CONSTANTS.STORIES.themeid = Number(params["theme"]);
+
   // Couleur d'une histoire : white si non visitée
-  CONSTANTS.STORIES.colors = [];
+  CONSTANTS.STORIES.colors = {};
   for (var i=0; i<CONSTANTS.STORIES.Histoires.length; i++){
-    //if (CONSTANTS.STORIES.Histoires[i][getUserChoice().theme]){
-      CONSTANTS.STORIES.colors.push(CONSTANTS.COLORS.STORY);
-    //}
+    if (CONSTANTS.STORIES.Histoires[i][CONSTANTS.STORIES.THEMES[CONSTANTS.STORIES.themeid]]){
+      CONSTANTS.STORIES.colors[i] = CONSTANTS.COLORS.STORY;
+    }
   }
 }
 

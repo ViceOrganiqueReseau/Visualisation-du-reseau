@@ -474,9 +474,6 @@ function rebornUser (){
   d3.selectAll(".circle-membrane").attr("fill", nodeFill)
   d3.selectAll(".link path").attr("fill", Color.link)
 
-  // On remet le boutton meilleur allié pire adversaire
-  d3.select("img#bestallyworstrival").style("display", "inline-block");
-
   // On retire les #answers liés au choix du prochain thème
   d3.select("#answers").selectAll("p.sujet").remove();
 
@@ -505,6 +502,8 @@ function rebornUser (){
       d3.select("#answers span.position")
         .text(getUserChoice().lobbyist[getUserChoice().theme]);
     }
+    // On remet le boutton meilleur allié pire adversaire
+    d3.select("img#bestallyworstrival").style("display", "inline-block");
   }
 }
 
