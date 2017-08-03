@@ -369,16 +369,25 @@ function onclickBestAlly (){
     eraseLastSectionContent();
     writeBaseTextInLastSection();
     d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
-    d3.select("img#stories").on("click", onclickStories);
   })
   // On remet en place les events des autres
-  d3.select("img#stories").on("click", onclickStories);
   d3.select("img#themes").on("click", onclickNewTheme);
 }
 d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
 
 
 
+function onclickStory (i){
+  eraseLastSectionContent();
+  writeStory(i);
+  CONSTANTS.STORIES.colors[i] = CONSTANTS.COLORS.STORY_VISITED;
+  d3.select("svg#closestory")
+    .on("click", function (){
+      eraseLastSectionContent();
+      writeStoriesTextInLastSection();
+    })
+    .style("display", "inline-block");
+}
 
 function onclickStories (){
   eraseLastSectionContent();

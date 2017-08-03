@@ -20,7 +20,8 @@ var CONSTANTS = {
     USER: '#00ff90',
     UNSELECTED: '#A0A0A0',
     UNSELECTED_OPACITY : 0.3,
-    STORY: "white",
+    // Ne pas oublier de modifier la valeur correspondante dans styles.css : a.sourcelink
+    STORY: "inherit",
     STORY_VISITED: "gray"
   },
   VUE: {

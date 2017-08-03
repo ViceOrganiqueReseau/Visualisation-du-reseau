@@ -77,6 +77,10 @@ section > p.appel {
   font-style: italic;
 }
 
+section > h1.titlesource {
+  font-size: 15px;
+}
+
 #sec0 {
   margin-top: 300px;
 }
@@ -191,8 +195,21 @@ section > p.appel > div.blocfin > img {
   margin: 3px;
 }
 
-p.texte > ul > li {
+ul > li {
   margin-bottom: 5px;
+}
+
+a.sourcelink {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.sourcelink:hover {
+  text-decoration: underline;
+}
+
+a.sourcelink:visited {
+  color: gray;
 }
 
 div.menu {

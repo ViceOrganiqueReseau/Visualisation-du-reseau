@@ -234,13 +234,21 @@ var writeStoriesTextInLastSection = function (){
       // Survol histoire
       listelem.select("#listory"+i).on("mouseover", function (){
         d3.select(this).style("cursor", "pointer");
-        var numid = d3.select(this).attr("id").slice(7);
+        var numid = Number(d3.select(this).attr("id").slice(7));
         listelem.selectAll(".storyitem:not(#listory"+numid+")").style("color", CONSTANTS.COLORS.STORY_VISITED)
       })
       // Stop survol histoire
       listelem.select("#listory"+i).on("mouseout", function (){
-        d3.select(this).style("cursor", "default")
-        d3.selectAll(".storyitem").style("color", CONSTANTS.STORIES.colors[i])
+        d3.select(this).style("cursor", "default");
+        listelem.selectAll(".storyitem").style("color", function (){
+          var numid = Number(d3.select(this).attr("id").slice(7));
+          return CONSTANTS.STORIES.colors[numid];
+        })
+      })
+      // Click Story
+      listelem.select("#listory"+i).on("click", function (){
+        var numid = Number(d3.select(this).attr("id").slice(7));
+        onclickStory(numid);
       })
     }
   }
@@ -248,8 +256,18 @@ var writeStoriesTextInLastSection = function (){
 }
 
 var writeStory = function(i){
-  var element = d3.select("#secfin")
-
+  var element = d3.select("#secfin");
+  element.select("h1").text(CONSTANTS.STORIES.Histoires[i].titre);
+  element.select("p.texte").html(CONSTANTS.STORIES.Histoires[i].txt);
+  element.insert("h1", "p.appel").classed("titlesource", true).text("Sources");
+  var sourcelist = element.select("p.appel").append("ul");
+  for (var j=0; j<CONSTANTS.STORIES.Histoires[i].sources.length; j++){
+    sourcelist.append("li").append("a")
+      .classed("sourcelink", true)
+      .text(CONSTANTS.STORIES.Histoires[i].sources[j].source)
+      .attr("href", CONSTANTS.STORIES.Histoires[i].sources[j].link)
+      .attr("target", "_blank")
+  }
 }
 
 var writeNewThemeTextInLastSection = function (){
@@ -263,6 +281,8 @@ var eraseLastSectionContent = function (){
   d3.select("#secfin").selectAll("div.blocfin").remove();
   d3.select("#bestally").remove();
   d3.select("#worstrival").remove();
+  d3.select("svg#closestory").style("display", "none")
+  d3.select("h1.titlesource").remove();
   clicklocknode = false;
 }
 
