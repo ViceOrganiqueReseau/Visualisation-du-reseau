@@ -272,6 +272,24 @@ var writeStory = function(i){
   }
 }
 
+var computeStoryCircles = function (){
+  var alldata = CONSTANTS.LOADEDDATA;
+  CONSTANTS.STORIES.NODESTORY = {};
+  for (var j=0; j<alldata.nodes.length; j++){
+    CONSTANTS.STORIES.NODESTORY[Number(alldata.nodes[j].ID)] = [];
+  }
+  var activesstories = Object.keys(CONSTANTS.STORIES.colors).map(Number);
+  for (var i=0; i<activesstories.length; i++){
+    var involvedkey = CONSTANTS.STORIES.Histoires[activesstories[i]]["Noeuds principaux"] ? "Noeuds principaux" : "Noeuds du réseau";
+    for (var j=0; j<CONSTANTS.STORIES.Histoires[activesstories[i]][involvedkey].length; j++){
+      // Sécurité pour éviter le plantage
+      if (CONSTANTS.STORIES.NODESTORY[CONSTANTS.STORIES.Histoires[activesstories[i]][involvedkey][j]]){
+        CONSTANTS.STORIES.NODESTORY[CONSTANTS.STORIES.Histoires[activesstories[i]][involvedkey][j]].push(activesstories[i]);
+      }
+    }
+  }
+}
+
 var writeNewThemeTextInLastSection = function (){
   var element = d3.select("#secfin");
   element.select("h1").html(CONSTANTS.SCENARIO[10]["Titre"]);
@@ -309,6 +327,8 @@ var storestories = function (jsondata){
       CONSTANTS.STORIES.colors[i] = CONSTANTS.COLORS.STORY;
     }
   }
+
+  computeStoryCircles();
 }
 
 var importData = function(){

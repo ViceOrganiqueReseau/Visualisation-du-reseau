@@ -375,7 +375,7 @@ function onclickBestAlly (){
 }
 d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
 
-
+var storyactive = false;
 
 function onclickStory (i){
   eraseLastSectionContent();
@@ -389,12 +389,56 @@ function onclickStory (i){
     .style("display", "inline-block");
 }
 
+function addStoriesCircles (){
+  var alldata = CONSTANTS.LOADEDDATA;
+  for (var i=0; i<alldata.nodes.length; i++){
+    var involvedstories = CONSTANTS.STORIES.NODESTORY[alldata.nodes[i].ID];
+    var node = d3.select("#lobby"+alldata.nodes[i].ID)
+    var coords = Utils.revtransform(node.attr("transform"));
+    for (var j=0; j<involvedstories.length; j++){
+      var xind = j%CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE;
+      var yind = Math.floor(j/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE);
+      d3.select("svg.experimentation").append("circle")
+        .attr("id", "storycircle"+xind+"_"+yind+"_"+alldata.nodes[i].ID)
+        .classed("storycircle", true)
+        .classed("storycircle"+involvedstories[j], true)
+        .attr("cx", coords.x + CONSTANTS.CIRCLE.STORY_CIRCLE_dx + xind*(-2*CONSTANTS.CIRCLE.STORY_CIRCLE_dx/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE))
+        .attr("cy", coords.y + CONSTANTS.CIRCLE.STORY_CIRCLE_dy + yind*1.5*CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
+        .attr("r", CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
+        .attr("fill", CONSTANTS.STORIES.colors[involvedstories[j]])
+    }
+  }
+}
+
+// A appeler dans onTick pour update les cercles : noter que les selections seront vides si les cercles ne sont pas créés
+function updateStoriesCircles (){
+  var alldata = CONSTANTS.LOADEDDATA;
+  for (var i=0; i<alldata.nodes.length; i++){
+    var involvedstories = CONSTANTS.STORIES.NODESTORY[alldata.nodes[i].ID];
+    var node = d3.select("#lobby"+alldata.nodes[i].ID)
+    var coords = Utils.revtransform(node.attr("transform"));
+    for (var j=0; j<involvedstories.length; j++){
+      var xind = j%CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE;
+      var yind = Math.floor(j/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE);
+      d3.select("svg.experimentation").select("circle#storycircle"+xind+"_"+yind+"_"+alldata.nodes[i].ID)
+        .attr("cx", coords.x + CONSTANTS.CIRCLE.STORY_CIRCLE_dx + xind*(-2*CONSTANTS.CIRCLE.STORY_CIRCLE_dx/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE))
+        .attr("cy", coords.y + CONSTANTS.CIRCLE.STORY_CIRCLE_dy + yind*1.5*CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
+        .attr("r", CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
+        .attr("fill", CONSTANTS.STORIES.colors[involvedstories[j]])
+    }
+  }
+}
+
 function onclickStories (){
   eraseLastSectionContent();
   writeStoriesTextInLastSection();
+  addStoriesCircles();
+  storyactive = true;
   d3.select("img#stories").on("click", function (){
     eraseLastSectionContent();
     writeBaseTextInLastSection();
+    storyactive = false;
+    d3.select("svg.experimentation").selectAll(".storycircle").remove();
     d3.select("img#stories").on("click", onclickStories);
     d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
   });

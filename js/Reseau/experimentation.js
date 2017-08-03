@@ -322,6 +322,10 @@ var configureSimulation = function(scene, data, sectionsConfig){
     $membranes.attr('transform', function(membrane){ return Utils.transform(membrane);});
     $membranes.attr('d', function(d){return membranePath(nodes, d); });
     $membranesExit.attr('d', function(d){return membranePath(nodes, d); });
+    // idem pour les storycircles
+    if (storyactive){
+      updateStoriesCircles();
+    }
     
     $links.filter(':not(.hidden)')
       .attr('transform', function(d){ return Utils.transform(constraintNode(d.source)); })
