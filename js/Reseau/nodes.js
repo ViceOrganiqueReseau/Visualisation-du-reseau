@@ -207,6 +207,38 @@ var fadeNotNeighbours = function (node){
   }
 }
 
+var fadeNotInvolved = function (i){
+  var alldata = CONSTANTS.LOADEDDATA;
+  var involvedkey = CONSTANTS.STORIES.Histoires[i]["Noeuds principaux"] ? "Noeuds principaux" : "Noeuds du réseau";
+  involvedID = CONSTANTS.STORIES.Histoires[i][involvedkey];
+  // On donne la couleur fade(notselected, bg, 0.3) aux noeuds non selectionnés dans involvedID
+  for (var j=0; j<alldata.nodes.length; j++){
+    if (involvedID.indexOf(Number(alldata.nodes[j].ID))===-1 && alldata.nodes[j].type === CONSTANTS.DATA.TYPES.NODE.LOBBY){
+      canvas.select("#lobby"+alldata.nodes[j].ID).select(".circle-kernel")
+        .attr("fill", Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, CONSTANTS.COLORS.UNSELECTED_OPACITY))
+        .attr("stroke", Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, CONSTANTS.COLORS.UNSELECTED_OPACITY));
+      canvas.select("#lobby"+alldata.nodes[j].ID).select(".circle-membrane")
+        .attr("fill", Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, 0.5*CONSTANTS.COLORS.UNSELECTED_OPACITY));
+    }
+  }
+  // On donne la couleur fade(notselected, bg, 0.3) aux liens reliant deux non impliqués
+  for (var j=0; j<alldata.links.length; j++){
+    if (involvedID.indexOf(Number(alldata.links[j].data.source.ID))===-1 && involvedID.indexOf(Number(alldata.links[j].data.target.ID))===-1){
+      // On grise le lien
+      canvas.selectAll(".source-"+alldata.links[j].data.source.ID).selectAll(".target-"+alldata.links[j].data.target.ID+" path")
+        .attr("fill", function (){
+          return Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, CONSTANTS.COLORS.UNSELECTED_OPACITY)
+        })
+    }
+  }
+  // On efface les noms déjà écrits
+  canvas.selectAll("tspan.name").attr("fill-opacity", 0);
+  // On affiche les noms des voisins
+  for (var j=0; j<involvedID.length; j++){
+    canvas.select("#lobbytext"+involvedID[j]).select("tspan.name").attr("fill-opacity", 1);
+  }
+}
+
 var resetMouseOut = function (){
   var alldata = CONSTANTS.LOADEDDATA;
   // On reset les noeuds

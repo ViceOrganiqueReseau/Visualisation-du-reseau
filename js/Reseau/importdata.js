@@ -236,6 +236,7 @@ var writeStoriesTextInLastSection = function (){
         d3.select(this).style("cursor", "pointer");
         var numid = Number(d3.select(this).attr("id").slice(7));
         listelem.selectAll(".storyitem:not(#listory"+numid+")").style("color", CONSTANTS.COLORS.STORY_VISITED)
+        fadeNotInvolved(numid);
       })
       // Stop survol histoire
       listelem.select("#listory"+i).on("mouseout", function (){
@@ -244,6 +245,7 @@ var writeStoriesTextInLastSection = function (){
           var numid = Number(d3.select(this).attr("id").slice(7));
           return CONSTANTS.STORIES.colors[numid];
         })
+        resetMouseOut();
       })
       // Click Story
       listelem.select("#listory"+i).on("click", function (){
