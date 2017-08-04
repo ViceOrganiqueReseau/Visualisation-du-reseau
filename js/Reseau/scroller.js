@@ -61,10 +61,10 @@ function position(simulation) {
 // argument index : indice de la nouvelle section
 function majvue(simulation, index, preced) {
   // Modifications lors d'un changement de section
-  if (preced===index-1 && index<=6){
+  if (preced===index-1 && index<=6 && !storyactive){
     // On affiche la section suivante
     simulation.nextSection();
-  } else if (preced===index+1 && index<=6){
+  } else if (preced===index+1 && preced<=6 && !storyactive){
     // On retourne à la section précédente
     simulation.previousSection();
   }

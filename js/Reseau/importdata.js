@@ -366,6 +366,12 @@ var importData = function(){
     var files = Array.from(arguments).slice(1).map(function(csv){ return csv.slice(); });
     console.log("files = ",files)
     CONSTANTS.SCENARIO = files[5];
+    CONSTANTS.NOTPROCESSEDDATA = {};
+    CONSTANTS.NOTPROCESSEDDATA.nodes = files[0];
+    CONSTANTS.NOTPROCESSEDDATA.proprietaries = files[1];
+    CONSTANTS.NOTPROCESSEDDATA.linksproprietary = files[2];
+    CONSTANTS.NOTPROCESSEDDATA.undirectlinks = files[3];
+    CONSTANTS.NOTPROCESSEDDATA.linksaffiliation = files[4];
 
     // On écrit le texte des sections
     for (var i=0; i<7; i++){
