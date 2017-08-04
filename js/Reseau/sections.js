@@ -402,8 +402,8 @@ function addStoriesCircles (){
         .attr("id", "storycircle"+xind+"_"+yind+"_"+alldata.nodes[i].ID)
         .classed("storycircle", true)
         .classed("storycircle"+involvedstories[j], true)
-        .attr("cx", coords.x + CONSTANTS.CIRCLE.STORY_CIRCLE_dx + xind*(-2*CONSTANTS.CIRCLE.STORY_CIRCLE_dx/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE))
-        .attr("cy", coords.y + CONSTANTS.CIRCLE.STORY_CIRCLE_dy + yind*1.5*CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
+        .attr("cx", coords.x + CONSTANTS.CIRCLE.STORY_CIRCLE_dx + (CONSTANTS.CIRCLE.STORY_CIRCLE_LAYOUT[xind]-1)*(-2*CONSTANTS.CIRCLE.STORY_CIRCLE_dx/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE))
+        .attr("cy", coords.y + CONSTANTS.CIRCLE.STORY_CIRCLE_dy + yind*2.5*CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
         .attr("r", CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
         .attr("fill", CONSTANTS.STORIES.colors[involvedstories[j]])
     }
@@ -421,8 +421,8 @@ function updateStoriesCircles (){
       var xind = j%CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE;
       var yind = Math.floor(j/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE);
       d3.select("svg.experimentation").select("circle#storycircle"+xind+"_"+yind+"_"+alldata.nodes[i].ID)
-        .attr("cx", coords.x + CONSTANTS.CIRCLE.STORY_CIRCLE_dx + xind*(-2*CONSTANTS.CIRCLE.STORY_CIRCLE_dx/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE))
-        .attr("cy", coords.y + CONSTANTS.CIRCLE.STORY_CIRCLE_dy + yind*1.5*CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
+        .attr("cx", coords.x + CONSTANTS.CIRCLE.STORY_CIRCLE_dx + (CONSTANTS.CIRCLE.STORY_CIRCLE_LAYOUT[xind]-1)*(-2*CONSTANTS.CIRCLE.STORY_CIRCLE_dx/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE))
+        .attr("cy", coords.y + CONSTANTS.CIRCLE.STORY_CIRCLE_dy + yind*2.5*CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
         .attr("r", CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
         .attr("fill", CONSTANTS.STORIES.colors[involvedstories[j]])
     }
