@@ -223,7 +223,7 @@ var fadeNotInvolved = function (i){
   }
   // On donne la couleur fade(notselected, bg, 0.3) aux liens reliant deux non impliqués
   for (var j=0; j<alldata.links.length; j++){
-    if (involvedID.indexOf(Number(alldata.links[j].data.source.ID))===-1 && involvedID.indexOf(Number(alldata.links[j].data.target.ID))===-1){
+    if (involvedID.indexOf(Number(alldata.links[j].data.source.ID))===-1 || involvedID.indexOf(Number(alldata.links[j].data.target.ID))===-1){
       // On grise le lien
       canvas.selectAll(".source-"+alldata.links[j].data.source.ID).selectAll(".target-"+alldata.links[j].data.target.ID+" path")
         .attr("fill", function (){

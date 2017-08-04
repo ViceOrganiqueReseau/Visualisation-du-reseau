@@ -380,11 +380,14 @@ var storyactive = false;
 function onclickStory (i){
   eraseLastSectionContent();
   writeStory(i);
+  stopeventsStoriesCircles();
+  resetMouseOut();
   CONSTANTS.STORIES.colors[i] = CONSTANTS.COLORS.STORY_VISITED;
   d3.select("svg#closestory")
     .on("click", function (){
       eraseLastSectionContent();
       writeStoriesTextInLastSection();
+      eventsStoriesCircles();
     })
     .style("display", "inline-block");
 }
@@ -424,15 +427,51 @@ function updateStoriesCircles (){
         .attr("cx", coords.x + CONSTANTS.CIRCLE.STORY_CIRCLE_dx + (CONSTANTS.CIRCLE.STORY_CIRCLE_LAYOUT[xind]-1)*(-2*CONSTANTS.CIRCLE.STORY_CIRCLE_dx/CONSTANTS.CIRCLE.STORY_CIRCLE_PERLINE))
         .attr("cy", coords.y + CONSTANTS.CIRCLE.STORY_CIRCLE_dy + yind*2.5*CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
         .attr("r", CONSTANTS.CIRCLE.STORY_CIRCLE_RADIUS)
-        .attr("fill", CONSTANTS.STORIES.colors[involvedstories[j]])
     }
   }
+}
+
+function eventsStoriesCircles (){
+  d3.select("svg.experimentation").selectAll("circle.storycircle")
+    .on("mouseover", function (){
+      d3.select(this).style("cursor", "pointer");
+      var numid = Number(d3.select(this).attr("class").slice(23));
+      d3.selectAll(".storyitem:not(#listory"+numid+")")
+        .style("color", CONSTANTS.COLORS.STORY_VISITED);
+      fadeNotInvolved(numid);
+      d3.selectAll("circle.storycircle:not(.storycircle"+numid+")").attr("fill", CONSTANTS.COLORS.STORY_VISITED);
+    })
+    .on("mouseout", function (){
+      d3.select(this).style("cursor", "default");
+      var numid = Number(d3.select(this).attr("class").slice(23));
+      d3.selectAll(".storyitem:not(#listory"+numid+")")
+        .style("color", function (){
+          var numid2 = Number(d3.select(this).attr("id").slice(7));
+          return CONSTANTS.STORIES.colors[numid2];
+        });
+      resetMouseOut();
+      d3.selectAll("circle.storycircle:not(.storycircle"+numid+")").attr("fill", function (){
+        var numid2 = Number(d3.select(this).attr("class").slice(23));
+        return CONSTANTS.STORIES.colors[numid2];
+      });
+    })
+    .on("click", function (){
+      var numid = Number(d3.select(this).attr("class").slice(23));
+      onclickStory(numid);
+    })
+}
+
+function stopeventsStoriesCircles (){
+  d3.select("svg.experimentation").selectAll("circle.storycircle")
+    .on("mouseover", null)
+    .on("click", null)
 }
 
 function onclickStories (){
   eraseLastSectionContent();
   writeStoriesTextInLastSection();
   addStoriesCircles();
+  eventsStoriesCircles();
   storyactive = true;
   d3.select("img#stories").on("click", function (){
     eraseLastSectionContent();

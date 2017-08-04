@@ -237,15 +237,21 @@ var writeStoriesTextInLastSection = function (){
         var numid = Number(d3.select(this).attr("id").slice(7));
         listelem.selectAll(".storyitem:not(#listory"+numid+")").style("color", CONSTANTS.COLORS.STORY_VISITED)
         fadeNotInvolved(numid);
+        d3.selectAll("circle.storycircle:not(.storycircle"+numid+")").attr("fill", CONSTANTS.COLORS.STORY_VISITED)
       })
       // Stop survol histoire
       listelem.select("#listory"+i).on("mouseout", function (){
         d3.select(this).style("cursor", "default");
+        var numid = Number(d3.select(this).attr("id").slice(7));
         listelem.selectAll(".storyitem").style("color", function (){
-          var numid = Number(d3.select(this).attr("id").slice(7));
-          return CONSTANTS.STORIES.colors[numid];
+          var numid2 = Number(d3.select(this).attr("id").slice(7));
+          return CONSTANTS.STORIES.colors[numid2];
         })
         resetMouseOut();
+        d3.selectAll("circle.storycircle:not(.storycircle"+numid+")").attr("fill", function (){
+          var numid2 = Number(d3.select(this).attr("class").slice(23));
+          return CONSTANTS.STORIES.colors[numid2];
+        })
       })
       // Click Story
       listelem.select("#listory"+i).on("click", function (){
