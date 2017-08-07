@@ -64,8 +64,29 @@ function majvue(simulation, index, preced) {
   if (preced===index-1 && index<=6 && !storyactive){
     // On affiche la section suivante
     simulation.nextSection();
-  } else if (preced===index+1 && preced<=6 && !storyactive){
+  } else if (preced===index+1 && preced<=6 && storyonread){
     // On retourne à la section précédente
+    simulation.previousSection();
+    simulation.previousSection();
+    // On force la fermeture de stories si ouvert
+    storyonread = false;
+    d3.select("svg#closestory").style("display", "none");
+    storyactive = false;
+    eraseLastSectionContent();
+    writeBaseTextInLastSection();
+    d3.select("svg.experimentation").selectAll(".storycircle").remove();
+    d3.select("img#stories").on("click", onclickStories);
+    d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
+  } else if (preced===index+1 && preced<=6 && storyactive){
+    simulation.previousSection();
+    // On force la fermeture de stories si ouvert
+    storyactive = false;
+    eraseLastSectionContent();
+    writeBaseTextInLastSection();
+    d3.select("svg.experimentation").selectAll(".storycircle").remove();
+    d3.select("img#stories").on("click", onclickStories);
+    d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
+  } else if (preced===index+1 && preced<=6){
     simulation.previousSection();
   }
   if (index===7){

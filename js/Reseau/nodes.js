@@ -157,8 +157,10 @@ var nodeFill = function(node){
   // return fade(Color.node(node), colors.BACKGROUND, 0.5);
   if(node.type === TYPES.LOBBY){
     return fade(Color.node(node), colors.BACKGROUND, 0.5);
-  } else {
+  } else if (node.type === TYPES.PROPRIETARY) {
     return 'url(#radialGradient)'
+  } else {
+    return fade(CONSTANTS.COLORS.STORYNODE, CONSTANTS.COLORS.BACKGROUND, 0.5)
   }
 };
 
@@ -276,6 +278,27 @@ var drawNodes = function(nodes){
     return radialLine(d.points);
   });
 
+
+  /*if (storynodes){
+    var storynodeEnter = $storynodes.enter().append("g")
+    .classed("storynode", true)
+    .attr("transform", Utils.transform)
+    .attr("id", function (d){ return "storynode"+d.ID })
+
+    storynodeEnter.append("path")
+    .classed("circle-membrane", true)
+    .attr("fill", fade(CONSTANTS.COLORS.STORYNODE, CONSTANTS.COLORS.BACKGROUND, 0.5))
+    .attr("d", function (d){
+      return radialLine(d.points);
+    })
+
+    storynodeEnter.append("path")
+    .classed("circle-kernel", true)
+    .attr("fill", CONSTANTS.COLORS.STORYNODE)
+    .attr("d", function (d){
+      return radialLine(d.kernelPoints)
+    })
+  }*/
 
   var lobbyNodeEnter = nodeEnter.filter(function(d){
     return d.type == TYPES.LOBBY;

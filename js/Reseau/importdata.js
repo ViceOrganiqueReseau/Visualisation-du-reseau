@@ -307,7 +307,7 @@ var eraseLastSectionContent = function (){
   d3.select("#secfin").selectAll("div.blocfin").remove();
   d3.select("#bestally").remove();
   d3.select("#worstrival").remove();
-  d3.select("svg#closestory").style("display", "none")
+  d3.select("svg#closestory").style("display", "none");
   d3.select("h1.titlesource").remove();
   clicklocknode = false;
 }
@@ -372,6 +372,11 @@ var importData = function(){
     CONSTANTS.NOTPROCESSEDDATA.linksproprietary = files[2];
     CONSTANTS.NOTPROCESSEDDATA.undirectlinks = files[3];
     CONSTANTS.NOTPROCESSEDDATA.linksaffiliation = files[4];
+    // On crée l'index de nodes
+    CONSTANTS.NOTPROCESSEDDATA.indexor = {};
+    for (var i=0; i<CONSTANTS.NOTPROCESSEDDATA.nodes.length; i++){
+      CONSTANTS.NOTPROCESSEDDATA.indexor[Number(CONSTANTS.NOTPROCESSEDDATA.nodes[i].ID)] = i;
+    }
 
     // On écrit le texte des sections
     for (var i=0; i<7; i++){

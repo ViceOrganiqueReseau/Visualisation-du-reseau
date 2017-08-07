@@ -347,6 +347,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
   };
 };
 
+var sections;
+var simulation;
 // appellée une fois les données chargées
 // Voir importdata.js
 var runExperimentation = function(data){
@@ -356,12 +358,12 @@ var runExperimentation = function(data){
 
   // nous configurons les sections 
   // voir Experimentation/sections.js
-  var sections = configureSections(data);
+  sections = configureSections(data);
 
 
   // nous initialisons la simulation;
   // voir Experimentation/experimentation.js
-  var simulation = configureSimulation(scene, data, sections);
+  simulation = configureSimulation(scene, data, sections);
 
   // enfin nous initialisons les controles de la simulation.
   // voir Experimentation/controls.js

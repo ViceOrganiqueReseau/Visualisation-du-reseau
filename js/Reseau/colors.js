@@ -8,12 +8,22 @@ var nodeColor = function(d){
       return chroma(colors.USER);
     }
     if (userChoice.position){
-      color = d[userChoice.theme] === userChoice.position ? colors.ALLY : colors.ENEMY;
+      if (d[userChoice.theme]){
+        color = d[userChoice.theme] === userChoice.position ? colors.ALLY : colors.ENEMY;
+      } else {
+        color = colors.UNSELECTED;
+      }
     } else {
-      color = d[userChoice.theme] === "Pour" ? colors.SUPPORT : colors.OPPOSE;
+      if (d[userChoice.theme]){
+        color = d[userChoice.theme] === "Pour" ? colors.SUPPORT : colors.OPPOSE;
+      } else {
+        color = colors.UNSELECTED;
+      }
     }
-  } else {
+  } else if (d.type === TYPES.PROPRIETARY) {
     color = colors.PROPRIETARY;
+  } else {
+    color = colors.STORYNODE;
   }
   return chroma(color);
 };

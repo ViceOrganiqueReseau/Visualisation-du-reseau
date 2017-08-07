@@ -22,7 +22,8 @@ var CONSTANTS = {
     UNSELECTED_OPACITY : 0.3,
     // Ne pas oublier de modifier la valeur correspondante dans styles.css : a.sourcelink
     STORY: "white",
-    STORY_VISITED: "gray"
+    STORY_VISITED: "gray",
+    STORYNODE: "#996c6c",
   },
   VUE: {
     POSITION: vue.getBoundingClientRect(),
@@ -74,6 +75,7 @@ var CONSTANTS = {
       NODE: {
         LOBBY: 'node/lobby',
         PROPRIETARY: 'node/proprietary',
+        STORY: 'node/story'
       },
       LINK: {
         AFFILIATION: 'link/affiliation',
