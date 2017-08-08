@@ -76,7 +76,7 @@ var processData = function(files){
   var indirectProprietaryLinks = filterLinksByTargets(files[3], lobbyNodes);
   var proprietaryNodes = filterNodesByLinkSource(files[1], indirectProprietaryLinks);
   
-  var spendingDomain = [1, d3.max(lobbyNodes, function(d){
+  var spendingDomain = [1, d3.max(files[0], function(d){
     return parseInt(d[CONSTANTS.DATA.SPENDING_KEY])||0; 
   })];
   
