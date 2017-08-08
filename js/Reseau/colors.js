@@ -31,8 +31,12 @@ var nodeColor = function(d){
 var linkColor = function(link){
   var TYPES = CONSTANTS.DATA.TYPES.LINK;
   var color = chroma(CONSTANTS.LINK.PROPRIETARY_COLOR);
-  if(link.type === TYPES.AFFILIATION){
+  if (link.type === TYPES.AFFILIATION){
     color = nodeColor(link.data.source);
+  } else if (link.type === TYPES.PROPRIETARY.DIRECT || link.type === TYPES.PROPRIETARY.INDIRECT){
+    return color;
+  } else {
+    return chroma(CONSTANTS.COLORS.STORYNODE);
   }
   return color;
 }

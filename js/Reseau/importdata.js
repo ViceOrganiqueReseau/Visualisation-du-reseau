@@ -377,6 +377,32 @@ var importData = function(){
     for (var i=0; i<CONSTANTS.NOTPROCESSEDDATA.nodes.length; i++){
       CONSTANTS.NOTPROCESSEDDATA.indexor[Number(CONSTANTS.NOTPROCESSEDDATA.nodes[i].ID)] = i;
     }
+    for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.linksaffiliation.length; j++){
+      CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].data = {
+        source: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].source]],
+        target: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].target]],
+      };
+    }
+    for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.linksproprietary.length; j++){
+      CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].data = {
+        source: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].source]],
+        target: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].target]],
+      };
+    }
+    for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.undirectlinks.length; j++){
+      CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data = {
+        source: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].source]],
+        target: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].target]],
+      };
+      if (!(CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.source)){
+        CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.source = {};
+        CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.source.ID = CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].source;
+      }
+      if (!(CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.target)){
+        CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.target = {};
+        CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.target.ID = CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].target;
+      }
+    }
 
     // On écrit le texte des sections
     for (var i=0; i<7; i++){
