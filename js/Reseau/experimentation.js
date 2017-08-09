@@ -277,8 +277,8 @@ var configureSimulation = function(scene, data, sectionsConfig){
     updateMembranes();
     updateSimulationData();
     // initializeNodesPosition();
-    updateLinks();
     updateNodes();
+    updateLinks();
     updateAnimations();
   };
 

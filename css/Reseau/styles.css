@@ -228,6 +228,83 @@ div.menu > svg#closestory {
   display: none;
 }
 
+#legende_clos {
+  position: fixed;
+  z-index: 4;
+  width: 24%;
+  height: 50%;
+}
+
+#legende {
+  position: fixed;
+  background-color: orange;
+  width: 24%;
+  height: 50%;
+  bottom: 36%;
+  left: -24%;
+  -ms-transition: all .5s ease-in;
+  -moz-transition: all .5s ease-in;
+  -webkit-transition: all .5s ease-in;
+  transition: all .5s ease-in;
+}
+
+#legende a.side {
+  position: absolute;
+  display: block;
+  top: 40%;
+  left: 102%;
+  text-decoration: none;
+  font-size: 30px;
+  color: gray;
+  -ms-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+#legende a.bottom {
+  position: fixed;
+  display: block;
+  bottom: .5%;
+  left: 25%;
+  padding: 3px;
+  font-size: 14px;
+  text-decoration: none;
+  color: gray;
+}
+
+#legende > a.close {
+  display: none;
+}
+
+#legende:target {
+  left: 0%;
+}
+
+#legende_clos:target > #legende {
+  left: -24%;
+}
+
+#legende:target a.open {
+  display: none;
+}
+
+#legende:target a.close {
+  display: block;
+}
+
+#legende_clos:target a.open {
+  display: block;
+}
+
+#legende_clos:target a.close {
+  display: none;
+}
+
+svg.experimentation {
+  z-index: 5;
+}
+
 a#backloby {
   display: none;
   position: fixed;
