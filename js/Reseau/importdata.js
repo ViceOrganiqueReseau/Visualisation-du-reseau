@@ -304,6 +304,7 @@ var writeNewThemeTextInLastSection = function (){
 }
 
 var eraseLastSectionContent = function (){
+  d3.select("#secfin").select("p.appel").html("");
   d3.select("#secfin").selectAll("div.blocfin").remove();
   d3.select("#bestally").remove();
   d3.select("#worstrival").remove();

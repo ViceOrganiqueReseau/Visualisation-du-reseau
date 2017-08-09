@@ -523,7 +523,7 @@ var storyonread = false;
 function onclickStory (i){
   eraseLastSectionContent();
   writeStory(i);
-  storyonread = true;
+  storyonread = i;
   stopeventsStoriesCircles();
   updateEighthSection(i);
   simulation.nextSection();

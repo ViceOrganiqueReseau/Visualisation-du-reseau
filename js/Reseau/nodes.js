@@ -165,7 +165,8 @@ var nodeFill = function(node){
 };
 
 function opacityNotOn (node){
-  if (node[CONSTANTS.DATA.SPENDING_KEY]>999999.99 && currentIndex>3){
+  var TYPES = CONSTANTS.DATA.TYPES.NODE;
+  if ((node[CONSTANTS.DATA.SPENDING_KEY]>999999.99 && currentIndex>3) || (node.type !== TYPES.LOBBY && node.type !== TYPES.PROPRIETARY)){
     return 1;
   } else {
     return 0;
@@ -208,6 +209,21 @@ var fadeNotNeighbours = function (node){
     }
   }
   console.log("neighboursID = ", neighboursID)
+  // On n'oublie pas les voisins story
+  console.log("story ? "+storyonread);
+  if (storyonread!==false){
+    var storylinks = CONSTANTS.STORIES.Histoires[storyonread].Liens;
+    var linktypes = Object.keys(storylinks);
+    for (var i=0; i<linktypes.length; i++){
+      for (var j=0; j<storylinks[linktypes[i]].length; j++){
+        if (String(storylinks[linktypes[i]][j].source) === node.ID){
+          neighboursID.push(String(storylinks[linktypes[i]][j].target));
+        } else if (String(storylinks[linktypes[i]][j].target) === node.ID){
+          neighboursID.push(String(storylinks[linktypes[i]][j].source));
+        } 
+      }
+    }
+  }
   // On donne la couleur fade(notselected, bg, 0.3) aux noeuds non selectionnés dans neighboursID
   for (var i=0; i<alldata.nodes.length; i++){
     if (neighboursID.indexOf(alldata.nodes[i].ID)===-1 && alldata.nodes[i].type === CONSTANTS.DATA.TYPES.NODE.LOBBY){
@@ -268,10 +284,13 @@ var resetMouseOut = function (){
   // On reset les liens
   canvas.selectAll(".link path").attr("fill", Color.link);
   // On reset les textes
-  canvas.selectAll(".lobbytext").selectAll("tspan").attr("fill-opacity", 0);
   for (var i=0; i<alldata.nodes.length; i++){
     canvas.select("#lobbytext"+alldata.nodes[i].ID).select("tspan.name").attr("fill-opacity", opacityNotOn(alldata.nodes[i]));
   }
+  for (var i=0; i<alldata.proprietaries.length; i++){
+    canvas.select("#lobbytext"+alldata.proprietaries[i].ID).select("tspan.name").attr("fill-opacity",0);
+  }
+  canvas.selectAll(".storynodetext").selectAll("tspan.name").attr("fill-opacity", 1);
   canvas.selectAll("tspan.budget").attr("fill-opacity", 0);
 } 
 
@@ -320,6 +339,7 @@ var drawNodes = function(nodes){
     var textelem = canvas.append("text")
     .classed("lobbytext", true)
     .attr("id", "lobbytext"+node.ID)
+    .classed("storynodetext", function (){return node.type === TYPES.STORY})
     .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
     .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy)
     textelem.append("tspan")

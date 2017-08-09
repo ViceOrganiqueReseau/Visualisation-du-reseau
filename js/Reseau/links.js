@@ -179,13 +179,17 @@ var linkOpacity = function(link){
     case TYPES.PROPRIETARY.DIRECT:
       opacity = proprietaryOpacity(link);
       break;
-    default:
+    case TYPES.PROPRIETARY.INDIRECT:
       opacity = 0.0;
+      break;
+    default: 
+      opacity = CONSTANTS.LINK.AFFILIATION_OPACITY;
       break;
   }
   return opacity; 
 };
 var drawLinks = function(links){
+  console.log("links = ",links);
   var canvas = scene.getCanvas();
   var $links = canvas.selectAll('.link').data(links, function(link){
     var key = link.data.source.ID + '-' + link.data.target.ID;
@@ -221,7 +225,7 @@ var drawLinks = function(links){
     return areaPath(areaPoints(link));
   });
   var proprietaryLinks = $linksEnter
-    .filter(function(link){ return link.type !== TYPES.AFFILIATION; });
+    .filter(function(link){ return (link.type === TYPES.PROPRIETARY.DIRECT || link.type === TYPES.PROPRIETARY.INDIRECT); });
   proprietaryLinks
     .select('.link-body').attr('fill-opacity', proprietaryOpacity);
 
