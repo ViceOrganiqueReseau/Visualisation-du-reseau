@@ -664,7 +664,7 @@ function anonymizeUser (){
   d3.select("img#bestallyworstrival").style("display", "none");
 
   // On retire les #answers
-  d3.select("#answers").selectAll("p.item").remove();
+  d3.select("#answers").select("table").remove();
 
   // On écrit un unique answer
   d3.select("#answers").insert("p", "p.small")
@@ -728,28 +728,29 @@ function rebornUser (){
   d3.select("#answers").selectAll("p.sujet").remove();
 
   // On réécrit les #answers
-  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Identification : <span class="nom"></span>');
-  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Pays/Région : <span class="country"></span>');
-  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Secteur d&apos;activité : <span class="secteur"></span>');
-  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Type d&apos;organisation : <span class="type"></span>');
-  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Position : <span class="position"></span>');
-  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Sujet d&apos;intervention : <span class="theme"></span>');
-  d3.select("#answers").insert("p", "p.small").classed("item", true).html('Fonction : <span class="fonction">Lobbyiste</span>');
+  var table = d3.select("#answers").insert("table", "p.small").classed("useranswers", true)
+  table.append("tr").classed("item", true).html('<th>ID</th><td class="nom"></td>');
+  table.append("tr").classed("item", true).html('<th>Région</th><td class="country"></td>');
+  table.append("tr").classed("item", true).html('<th>Secteur</th><td class="secteur"></td>');
+  table.append("tr").classed("item", true).html('<th>Type</th><td class="type"></td>');
+  table.append("tr").classed("item", true).html('<th>Position</th><td class="position"></td>');
+  table.append("tr").classed("item", true).html('<th>Sujet</th><td class="theme"></td>');
+  table.append("tr").classed("item", true).html('<th>Fonction</th><td class="fonction">Lobbyiste</td>');
   if (getUserChoice().theme){
-    d3.select("#answers span.theme")
+    d3.select("#answers td.theme")
       .text(getUserChoice().theme);
   }
   if (getUserChoice().lobbyist){
-    d3.select("#answers span.nom")
+    d3.select("#answers td.nom")
       .text(getUserChoice().lobbyist["Nom1"]);
-    d3.select("#answers span.type")
+    d3.select("#answers td.type")
       .text(getUserChoice().lobbyist["Type"]);
-    d3.select("#answers span.secteur")
+    d3.select("#answers td.secteur")
       .text(getUserChoice().lobbyist["Secteurs d’activité"]);
-    d3.select("#answers span.country")
+    d3.select("#answers td.country")
       .text(getUserChoice().lobbyist["Pays/Région"]);
     if (getUserChoice().lobbyist[getUserChoice().theme]){
-      d3.select("#answers span.position")
+      d3.select("#answers td.position")
         .text(getUserChoice().lobbyist[getUserChoice().theme]);
     }
     // On remet le boutton meilleur allié pire adversaire

@@ -99,6 +99,28 @@ section > h1.titlesource {
   height: 100%;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  font-size: 14px;
+  color: rgb(186, 186, 186);
+  padding: 2px;
+}
+
+th {
+  border: solid rgb(45, 82, 252) 1px;
+  border-left: none;
+  width: 2%;
+}
+
+td {
+  border: solid rgb(45, 82, 252) 1px;
+  border-right: none;
+  width: 22%;
+}
+
 #answers {
   position: fixed;
   left: 0px;
@@ -123,8 +145,11 @@ section > h1.titlesource {
   white-space: nowrap;
 }
 
+
 #answers p.small {
+  padding: 3px;
   margin-top: 15px;
+  margin-bottom: 1px;
   width: 100px;
 }
 
@@ -265,8 +290,8 @@ div.menu > svg#closestory {
 #legende a.bottom {
   position: fixed;
   display: block;
-  bottom: .5%;
-  left: 25%;
+  bottom: .8%;
+  left: 19%;
   padding: 3px;
   font-size: 14px;
   text-decoration: none;

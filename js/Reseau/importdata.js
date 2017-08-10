@@ -466,20 +466,20 @@ var importData = function(){
 
     // On écrit dans les #answers
     if (userChoice.theme){
-      d3.select("#answers span.theme")
+      d3.select("#answers td.theme")
         .text(userChoice.theme);
     }
     if (userChoice.lobbyist){
-      d3.select("#answers span.nom")
+      d3.select("#answers td.nom")
         .text(userChoice.lobbyist["Nom1"]);
-      d3.select("#answers span.type")
+      d3.select("#answers td.type")
         .text(userChoice.lobbyist["Type"]);
-      d3.select("#answers span.secteur")
+      d3.select("#answers td.secteur")
         .text(userChoice.lobbyist["Secteurs d’activité"]);
-      d3.select("#answers span.country")
+      d3.select("#answers td.country")
         .text(userChoice.lobbyist["Pays/Région"]);
       if (userChoice.lobbyist[userChoice.theme]){
-        d3.select("#answers span.position")
+        d3.select("#answers td.position")
           .text(userChoice.lobbyist[userChoice.theme]);
       }
     }
