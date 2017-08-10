@@ -90,12 +90,12 @@ function majvue(simulation, index, preced) {
     simulation.previousSection();
   }
   if (index===7){
-    d3.select("div.menu").style("display", "block");
+    d3.selectAll("div.menu img").style("display", "inline-block");
     if (!getUserChoice().lobbyist){
       d3.select("img#bestallyworstrival").style("display", "none");
     }
   } else {
-    d3.select("div.menu").style("display", "none");
+    d3.selectAll("div.menu img").style("display", "none");
   }
 }
 

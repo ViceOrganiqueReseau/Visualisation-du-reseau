@@ -119,6 +119,7 @@ td {
   border: solid rgb(45, 82, 252) 1px;
   border-right: none;
   width: 22%;
+  padding-left: 6px;
 }
 
 #answers {
@@ -238,91 +239,31 @@ a.sourcelink:visited {
 }
 
 div.menu {
-  display: none;
   z-index: 4;
 }
 
-div.menu > img {
+div.menu > p#togglelegend {
   margin: 5px;
+  display: inline-block;
   cursor: pointer;
-}
-
-div.menu > svg#closestory {
-  margin: 5px;
-  cursor: pointer;
-  display: none;
-}
-
-#legende_clos {
-  position: fixed;
-  z-index: 4;
-  width: 24%;
-  height: 50%;
-}
-
-#legende {
-  position: fixed;
-  background-color: orange;
-  width: 24%;
-  height: 50%;
-  bottom: 36%;
-  left: -24%;
-  -ms-transition: all .5s ease-in;
-  -moz-transition: all .5s ease-in;
-  -webkit-transition: all .5s ease-in;
-  transition: all .5s ease-in;
-}
-
-#legende a.side {
-  position: absolute;
-  display: block;
-  top: 40%;
-  left: 102%;
-  text-decoration: none;
   font-size: 30px;
-  color: gray;
+  width: 40px;
+  height: 40px;
   -ms-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
-#legende a.bottom {
-  position: fixed;
-  display: block;
-  bottom: .8%;
-  left: 19%;
-  padding: 3px;
-  font-size: 14px;
-  text-decoration: none;
-  color: gray;
-}
-
-#legende > a.close {
+div.menu > img {
+  margin: 5px;
+  cursor: pointer;
   display: none;
 }
 
-#legende:target {
-  left: 0%;
-}
-
-#legende_clos:target > #legende {
-  left: -24%;
-}
-
-#legende:target a.open {
-  display: none;
-}
-
-#legende:target a.close {
-  display: block;
-}
-
-#legende_clos:target a.open {
-  display: block;
-}
-
-#legende_clos:target a.close {
+div.menu > svg#closestory {
+  margin: 5px;
+  cursor: pointer;
   display: none;
 }
 

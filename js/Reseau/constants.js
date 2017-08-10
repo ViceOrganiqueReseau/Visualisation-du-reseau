@@ -10,6 +10,12 @@ var CONSTANTS = {
   PHI: Math.PI * 4,
   WIDTH: 1280,
   HEIGHT: 600,
+  LEGEND: {
+    svgheightcolors: 50,
+    svgheightcolorscale: 50,
+    svgheightaff: 50,
+    svgheightprop: 50,
+  },
   COLORS: {
     PROPRIETARY: '#7d7d7d',
     BACKGROUND: '#111627',
