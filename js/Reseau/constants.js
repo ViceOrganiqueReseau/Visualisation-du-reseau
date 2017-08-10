@@ -12,7 +12,7 @@ var CONSTANTS = {
   HEIGHT: 600,
   LEGEND: {
     svgheightcolors: 50,
-    svgheightcolorscale: 50,
+    svgheightcolorscale: 70,
     svgheightaff: 50,
     svgheightprop: 50,
   },
