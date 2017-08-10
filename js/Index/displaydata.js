@@ -184,13 +184,13 @@ function hoverize (intselect, alpha){
 
 // On gère la couleur des #answers au choix utilisateur
 function resetcolors (){
-  d3.select("p.nom").style("color", "rgb(186, 186, 186)");
-  d3.select("p.country").style("color", "rgb(186, 186, 186)");
-  d3.select("p.secteur").style("color", "rgb(186, 186, 186)");
-  d3.select("p.type").style("color", "rgb(186, 186, 186)");
-  d3.select("p.theme").style("color", "rgb(186, 186, 186)");
-  d3.select("p.position").style("color", "rgb(186, 186, 186)");
-  d3.select("p.fonction").style("color", "rgb(186, 186, 186)");
+  d3.select("tr.nom").selectAll("th, td").style("color", "rgb(186, 186, 186)");
+  d3.select("tr.country").selectAll("th, td").style("color", "rgb(186, 186, 186)");
+  d3.select("tr.secteur").selectAll("th, td").style("color", "rgb(186, 186, 186)");
+  d3.select("tr.type").selectAll("th, td").style("color", "rgb(186, 186, 186)");
+  d3.select("tr.theme").selectAll("th, td").style("color", "rgb(186, 186, 186)");
+  d3.select("tr.position").selectAll("th, td").style("color", "rgb(186, 186, 186)");
+  d3.select("tr.fonction").selectAll("th, td").style("color", "rgb(186, 186, 186)");
 }
 
 // Animation du cercle cliqué
@@ -274,8 +274,8 @@ CONST.SECTIONSJUMPED = [];
 function jumpsection (inttosee, selector){
   CONST.AUXDATASET = CONST.ALLDATAFILTRE[inttosee];
   choices[inttosee+CONST.SECTIONSJUMPED.length]=CONST.ALLTHEMELIST[inttosee][0];
-  d3.select("#answers").select("span."+selector).text(choices[inttosee+CONST.SECTIONSJUMPED.length]);
-  d3.select("#answers").select("p."+selector).style("color", colorlastanswer);
+  d3.select("#answers").select("td."+selector).text(choices[inttosee+CONST.SECTIONSJUMPED.length]);
+  d3.select("#answers").select("tr."+selector).selectAll("th, td").style("color", colorlastanswer);
   CONST.SECTIONSJUMPED.push(inttosee+5+CONST.SECTIONSJUMPED.length)
 }
 
@@ -384,15 +384,15 @@ function loadNewData (inttosee){
     if (piedata[0]===0){
       // On choisit contre et on charge la suite des données
       choices[1]="Contre"
-      d3.select("#answers").select("span.position").text(choices[1]);
-      d3.select("#answers").select("p.position").style("color", colorlastanswer);
+      d3.select("#answers").select("td.position").text(choices[1]);
+      d3.select("#answers").select("tr.position").selectAll("th, td").style("color", colorlastanswer);
       CONST.SECTIONSJUMPED.push(inttosee+5);
       loadNewData(inttosee);
     } else if (piedata[1]===0){
       // On choisit pour et on charge la suite des données
       choices[1]="Pour"
-      d3.select("#answers").select("span.position").text(choices[1]);
-      d3.select("#answers").select("p.position").style("color", colorlastanswer);
+      d3.select("#answers").select("td.position").text(choices[1]);
+      d3.select("#answers").select("tr.position").selectAll("th, td").style("color", colorlastanswer);
       CONST.SECTIONSJUMPED.push(inttosee+5);
       loadNewData(inttosee);
     }
@@ -642,24 +642,24 @@ function generateResult (){
 
 
   // MAJ des données de answers
-  d3.select("span.type").text(user["Type"]);
-  d3.select("span.secteur").text(user["Secteurs d’activité"]);
-  d3.select("span.country").text(user["Pays/Région"]);
-  d3.select("span.nom").text(user["Nom1"]);
+  d3.select("td.type").text(user["Type"]);
+  d3.select("td.secteur").text(user["Secteurs d’activité"]);
+  d3.select("td.country").text(user["Pays/Région"]);
+  d3.select("td.nom").text(user["Nom1"]);
   resetcolors();
-  d3.select("p.nom").style("color", colorlastanswer);
+  d3.select("tr.nom").selectAll("th, td").style("color", colorlastanswer);
   if (choices.length<=5){
-    d3.select("p.country").style("color", colorlastanswer);
+    d3.select("tr.country").selectAll("th, td").style("color", colorlastanswer);
   }
   if (choices.length<=4){
-    d3.select("p.secteur").style("color", colorlastanswer);
+    d3.select("tr.secteur").selectAll("th, td").style("color", colorlastanswer);
   }
   if (choices.length<=3){
-    d3.select("p.type").style("color", colorlastanswer);
+    d3.select("tr.type").selectAll("th, td").style("color", colorlastanswer);
   }
-  d3.select("p.secteur").style("display", "block");
-  d3.select("p.country").style("display", "block");
-  d3.select("p.nom").style("display", "block");
+  d3.select("tr.secteur").style("display", "table-row");
+  d3.select("tr.country").style("display", "table-row");
+  d3.select("tr.nom").style("display", "table-row");
 
   // Création du lien vers le réseau
   var link = CONST.RESULT.D3.append("svg:a")
@@ -731,39 +731,39 @@ function clickable (intselect,alpha){
 
       switch (nbchoix){
         case 1:
-          var element = d3.select("span.theme");
+          var element = d3.select("td.theme");
           element.text(choices[0]);
           resetcolors();
-          d3.select("p.theme").style("color", colorlastanswer);
-          d3.select("p.position").style("display", "block");
+          d3.select("tr.theme").selectAll("th, td").style("color", colorlastanswer);
+          d3.select("tr.position").style("display", "table-row");
           break;
         case 2:
-          var element = d3.select("span.position");
+          var element = d3.select("td.position");
           element.text(choices[1]);
           resetcolors();
-          d3.select("p.position").style("color", colorlastanswer);
-          d3.select("p.type").style("display", "block");
+          d3.select("tr.position").selectAll("th, td").style("color", colorlastanswer);
+          d3.select("tr.type").style("display", "table-row");
           break;
         case 3:
-          var element = d3.select("span.type");
+          var element = d3.select("td.type");
           element.text(choices[2]);
           resetcolors();
-          d3.select("p.type").style("color", colorlastanswer);
-          d3.select("p.secteur").style("display", "block");
+          d3.select("tr.type").selectAll("th, td").style("color", colorlastanswer);
+          d3.select("tr.secteur").style("display", "table-row");
           break;
         case 4:
-          var element = d3.select("span.secteur");
+          var element = d3.select("td.secteur");
           element.text(choices[3]);
           resetcolors();
-          d3.select("p.secteur").style("color", colorlastanswer);
-          d3.select("p.country").style("display", "block");
+          d3.select("tr.secteur").selectAll("th, td").style("color", colorlastanswer);
+          d3.select("tr.country").style("display", "table-row");
           break;
         case 5:
-          var element = d3.select("span.country");
+          var element = d3.select("td.country");
           element.text(choices[4]);
           resetcolors();
-          d3.select("p.country").style("color", colorlastanswer);
-          d3.select("p.nom").style("display", "block");
+          d3.select("tr.country").selectAll("th, td").style("color", colorlastanswer);
+          d3.select("tr.nom").style("display", "table-row");
           break;  
       } 
 
@@ -811,7 +811,7 @@ function manageSec5 (pos){
     var beta = abTo01(0,alphasteps[1],alpha);
     CONST.QUEST.D3.select("rect").attr("y", 0.95*CONST.VUE.HEIGHT+beta*(CONST.QUEST.FICHE.y-0.95*CONST.VUE.HEIGHT));
     // On rend invisible l'#answer p.theme
-    d3.select("p.theme").style("display", "none");
+    d3.select("tr.theme").style("display", "none");
     // On s'assure que les cercles sont invisibles
     CONST.QUEST.ARCS[0].style("display", "none");
     CONST.QUEST.ARCS[0].attr("opacity", 0);
@@ -823,7 +823,7 @@ function manageSec5 (pos){
     CONST.QUEST.ARCS[0].style("display", "block");
     CONST.QUEST.ARCS[0].attr("opacity", beta);
     // On rend visible l'#answers p.theme
-    d3.select("p.theme").style("display", "block");
+    d3.select("tr.theme").style("display", "table-row");
   } else {
     // On s'assure que les cercles sont bien visibles
     CONST.QUEST.ARCS[0].attr("opacity", 1);
@@ -1047,27 +1047,27 @@ function cancelChoiceAnswer(intselect){
   var removeclass;
   switch (intselect){
     case 0:
-      cancelclass = ["span.theme","span.position","span.type","span.secteur","span.country","span.nom"];
-      removeclass = ["p.position","p.type","p.secteur","p.country","p.nom"];
+      cancelclass = ["td.theme","td.position","td.type","td.secteur","td.country","td.nom"];
+      removeclass = ["tr.position","tr.type","tr.secteur","tr.country","tr.nom"];
       break;
     case 1:
-      cancelclass = ["span.position","span.type","span.secteur","span.country","span.nom"];
-      removeclass = ["p.type","p.secteur","p.country","p.nom"];
+      cancelclass = ["td.position","td.type","td.secteur","td.country","td.nom"];
+      removeclass = ["tr.type","tr.secteur","tr.country","tr.nom"];
       break;
     case 2:
-      cancelclass = ["span.type","span.secteur","span.country","span.nom"];
-      removeclass = ["p.secteur","p.country","p.nom"];
+      cancelclass = ["td.type","td.secteur","td.country","td.nom"];
+      removeclass = ["tr.secteur","tr.country","tr.nom"];
       break;
     case 3:
-      cancelclass = ["span.secteur","span.country","span.nom"];
-      removeclass = ["p.country","p.nom"];
+      cancelclass = ["td.secteur","td.country","td.nom"];
+      removeclass = ["tr.country","tr.nom"];
       break;
     case 4:
-      cancelclass = ["span.country","span.nom"];
-      removeclass = ["p.nom"];
+      cancelclass = ["td.country","td.nom"];
+      removeclass = ["tr.nom"];
       break;
     case 5:
-      cancelclass = ["span.nom"];
+      cancelclass = ["td.nom"];
       removeclass = [];
       break;
   }

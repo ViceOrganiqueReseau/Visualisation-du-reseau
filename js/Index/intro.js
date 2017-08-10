@@ -492,12 +492,12 @@ function manageBadgeSec4 (){
     // On déplace le point sur la fiche
     moveBlackPoint(1);
     // On écrit la fonction
-    d3.select("p.fonction").style("display", "block").style("color", colorlastanswer);
+    d3.select("tr.fonction").style("display", "table-row").selectAll("th, td").style("color", colorlastanswer);
   } else if (prevIndex===4 && currentIndex===3){
     // On déplace le point sur le badge
     moveBlackPoint(0);
     // On retire le answers
-    d3.select("p.fonction").style("display", "none");
+    d3.select("tr.fonction").style("display", "none");
   }
 }
 
