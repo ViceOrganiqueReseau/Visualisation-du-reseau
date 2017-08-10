@@ -484,6 +484,11 @@ var importData = function(){
       }
     }
 
+    // On remplit la légende
+    drawlegcolors();
+    drawlegcolorscale();
+    drawlegaff();
+
     // On écrit le texte dans le dernière section
     writeBaseTextInLastSection();
     // On calcule meilleur allié et pire adversaire si on a toutes les informations dans l'URL

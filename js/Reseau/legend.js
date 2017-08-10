@@ -157,3 +157,111 @@ function drawlegcolorscale (){
     editdoubletext(toile, fontsize, "end", 0.95*answerwidth, 0.55*CONSTANTS.LEGEND.svgheightcolorscale, "0% Pour", "100% Contre");
   }
 }
+
+function drawlegaff(){
+  var toile = d3.select("#legaff");
+  var fontsize = Math.round(13/80 * CONSTANTS.LEGEND.svgheightcolorscale);
+  toile.selectAll("*").remove();
+  toile.append("line")
+    .attr("x1", 0)
+    .attr("y1", 0)
+    .attr("x2", answerwidth)
+    .attr("y2", 0)
+    .attr("stroke", "rgb(45,82,252)")
+  var color1 = CONSTANTS.COLORS.SUPPORT;
+  var color2 = CONSTANTS.COLORS.OPPOSE;
+  if (getUserChoice().lobbyist){
+    color1 = CONSTANTS.COLORS.ALLY;
+    color2 = CONSTANTS.COLORS.ENEMY;
+  }
+  var falselink1 = {
+    data: {
+      source: {
+        x: 0.15*answerwidth,
+        y: 0.55*CONSTANTS.LEGEND.svgheightaff-0.5*fontsize,
+        kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
+      },
+      target: {
+        x: 0.5*answerwidth,
+        y: 0.55*CONSTANTS.LEGEND.svgheightaff-0.5*fontsize,
+        kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
+      },
+    },
+    body: CONSTANTS.LINK.DEFAULT_BODY,
+  };
+  falselink1.source = falselink1.data.source;
+  falselink1.target = falselink1.data.target;
+  var falselink2 = {
+    data: {
+      source: {
+        x: 0.15*answerwidth,
+        y: 0.85*CONSTANTS.LEGEND.svgheightaff-0.5*fontsize,
+        kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
+      },
+      target: {
+        x: 0.5*answerwidth,
+        y: 0.85*CONSTANTS.LEGEND.svgheightaff-0.5*fontsize,
+        kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
+      },
+    },
+    body: CONSTANTS.LINK.DEFAULT_BODY,
+  };
+  falselink2.source = falselink2.data.source;
+  falselink2.target = falselink2.data.target;
+  toile.append('path')
+    .classed('link-base', true)
+    .attr('d', radialLine(falselink1.data.source.kernelPoints))
+    .attr('fill', color1)
+    .attr("transform", "translate("+0.15*answerwidth+", "+(0.55*CONSTANTS.LEGEND.svgheightaff-0.5*fontsize)+")")
+  toile.append('path')
+    .classed('link-body', true)
+    .attr('fill', color1)
+    .attr('d', areaPath(areaPoints(falselink1)))
+    .attr("transform", "translate("+0.15*answerwidth+", "+(0.55*CONSTANTS.LEGEND.svgheightaff-0.5*fontsize)+")")
+  toile.append('path')
+    .classed('link-base', true)
+    .attr('d', radialLine(falselink2.data.source.kernelPoints))
+    .attr('fill', color2)
+    .attr("transform", "translate("+0.15*answerwidth+", "+(0.85*CONSTANTS.LEGEND.svgheightaff-0.5*fontsize)+")")
+  toile.append('path')
+    .classed('link-body', true)
+    .attr('fill', color2)
+    .attr('d', areaPath(areaPoints(falselink2)))
+    .attr("transform", "translate("+0.15*answerwidth+", "+(0.85*CONSTANTS.LEGEND.svgheightaff-0.5*fontsize)+")")
+
+  toile.append("text")
+    .attr("x", 0.05*answerwidth)
+    .attr("y", fontsize+8)
+    .attr("font-weight", "bold")
+    .attr("font-size", fontsize)
+    .text("Liens d'affiliation")
+  toile.append("text")
+    .attr("x", 0.1*answerwidth)
+    .attr("y", 0.55*CONSTANTS.LEGEND.svgheightaff)
+    .attr("font-weight", "bold")
+    .attr("font-size", fontsize)
+    .text("A")
+  toile.append("text")
+    .attr("x", 0.1*answerwidth)
+    .attr("y", 0.85*CONSTANTS.LEGEND.svgheightaff)
+    .attr("font-weight", "bold")
+    .attr("font-size", fontsize)
+    .text("A")
+  toile.append("text")
+    .attr("x", 0.5*answerwidth)
+    .attr("y", 0.55*CONSTANTS.LEGEND.svgheightaff)
+    .attr("font-weight", "bold")
+    .attr("font-size", fontsize)
+    .text("B")
+  toile.append("text")
+    .attr("x", 0.5*answerwidth)
+    .attr("y", 0.85*CONSTANTS.LEGEND.svgheightaff)
+    .attr("font-weight", "bold")
+    .attr("font-size", fontsize)
+    .text("B")
+  toile.append("text")
+    .attr("x", 0.6*answerwidth)
+    .attr("y", 0.7*CONSTANTS.LEGEND.svgheightaff)
+    .attr("font-size", fontsize)
+    .text("A est affilié à B")
+}
