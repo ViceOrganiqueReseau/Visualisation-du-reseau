@@ -86,6 +86,10 @@ var firstSection = function(data){
     showMembranes: true,
     showLinks: false,
     collideRadius: contactCollide,
+    legend: {
+      active: ["#legcolors"],
+      inactive: ["#legcolorscale", "#legaff", "#legprop"],
+    },
   };
 }
 /* 
@@ -130,6 +134,10 @@ var secondSection = function(data){
     showMembranes: true,
     showLinks: false,
     collideRadius: contactCollide,
+    legend: {
+      active: ["#legcolors"],
+      inactive: ["#legcolorscale", "#legaff", "#legprop"],
+    },
   }
 };
 
@@ -174,6 +182,10 @@ var thirdSection = function(data){
     showMembranes: true,
     showLinks: false,
     collideRadius: contactCollide,
+    legend: {
+      active: ["#legcolors"],
+      inactive: ["#legcolorscale", "#legaff", "#legprop"],
+    },
   }
 };
 
@@ -246,6 +258,10 @@ var fourthSection = function(data){
     showMembranes: true,
     showLinks: false,
     collideRadius: contactCollide,
+    legend: {
+      active: ["#legcolors", "#legcolorscale"],
+      inactive: ["#legaff", "#legprop"],
+    },
   }
 };
 
@@ -286,6 +302,10 @@ var fifthSection = function(data){
     showMembranes: false,
     showLinks: false,
     collideRadius: contactCollide,
+    legend: {
+      active: ["#legcolors"],
+      inactive: ["#legcolorscale", "#legaff", "#legprop"],
+    },
   }
 };
 /* 
@@ -302,6 +322,10 @@ var sixthSection = function(data){
     showMembranes: false,
     showLinks: true,
     collideRadius: spaceCollide,
+    legend: {
+      active: ["#legcolors", "#legaff"],
+      inactive: ["#legcolorscale", "#legprop"],
+    },
   };
 };
 var seventhSection = function(data){
@@ -315,6 +339,10 @@ var seventhSection = function(data){
     showMembranes: false,
     showLinks: true,
     collideRadius: spaceCollide,
+    legend: {
+      active: ["#legcolors", "#legaff", "#legprop"],
+      inactive: ["#legcolorscale"],
+    },
   };
 };
 
@@ -329,6 +357,10 @@ CONSTANTS.STORY_SECTION = {
     showMembranes: false,
     showLinks: true,
     collideRadius: spaceCollide,
+    legend: {
+      active: ["#legcolors", "#legaff", "#legprop"],
+      inactive: ["#legcolorscale"],
+    },
   };
 var eighthSection = function(data){
   return CONSTANTS.STORY_SECTION;
@@ -456,6 +488,10 @@ var updateEighthSection = function (i){
     showMembranes: false,
     showLinks: true,
     collideRadius: spaceCollide,
+    legend: {
+      active: ["#legcolors", "#legaff", "#legprop"],
+      inactive: ["legcolorscale"],
+    },
   };
 }
 
@@ -679,6 +715,15 @@ function anonymizeUser (){
     d3.select("#answers").select("span.allthemes")
       .append("br")
   }
+  drawlegcolors(false);
+  drawlegcolorscale(false);
+  drawlegaff(false);
+  drawlegprop(false);
+  updaterectcoords();
+  if (!answershow){
+    d3.select("#answers")
+      .style("bottom", -rectcoords.height+63)
+  }
 }
 
 function rebornUser (){
@@ -755,6 +800,15 @@ function rebornUser (){
     }
     // On remet le boutton meilleur allié pire adversaire
     d3.select("img#bestallyworstrival").style("display", "inline-block");
+  }
+  drawlegcolors(true);
+  drawlegcolorscale(true);
+  drawlegaff(true);
+  drawlegprop(true);
+  updaterectcoords();
+  if (!answershow){
+    d3.select("#answers")
+      .style("bottom", -rectcoords.height+63)
   }
 }
 

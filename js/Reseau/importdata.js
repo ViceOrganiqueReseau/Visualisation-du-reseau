@@ -485,10 +485,11 @@ var importData = function(){
     }
 
     // On remplit la légende
-    drawlegcolors();
-    drawlegcolorscale();
-    drawlegaff();
-    drawlegprop();
+    drawlegcolors(true);
+    drawlegcolorscale(true);
+    drawlegaff(true);
+    drawlegprop(true);
+    updaterectcoords();
 
     // On écrit le texte dans le dernière section
     writeBaseTextInLastSection();

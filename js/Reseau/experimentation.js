@@ -280,6 +280,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
     updateNodes();
     updateLinks();
     updateAnimations();
+    if (answershow){
+      updateLegendContent();
+    }
   };
 
 

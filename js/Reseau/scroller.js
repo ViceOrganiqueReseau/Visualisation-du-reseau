@@ -91,11 +91,13 @@ function majvue(simulation, index, preced) {
   }
   if (index===7){
     d3.selectAll("div.menu img").style("display", "inline-block");
+    updaterectcoords();
     if (!getUserChoice().lobbyist){
       d3.select("img#bestallyworstrival").style("display", "none");
     }
   } else {
     d3.selectAll("div.menu img").style("display", "none");
+    updaterectcoords();
   }
 }
 

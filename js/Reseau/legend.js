@@ -13,18 +13,24 @@ var legend = d3.select("#legend");
 
 legend.append("svg").attr("id", "legprop")
   .attr("width", answerwidth)
-  .attr("height", CONSTANTS.LEGEND.svgheightprop)
+  .attr("height", 0)
 legend.append("svg").attr("id", "legaff")
   .attr("width", answerwidth)
-  .attr("height", CONSTANTS.LEGEND.svgheightaff)
+  .attr("height", 0)
 legend.append("svg").attr("id", "legcolorscale")
   .attr("width", answerwidth)
-  .attr("height", CONSTANTS.LEGEND.svgheightcolorscale)
+  .attr("height", 0)
 legend.append("svg").attr("id", "legcolors")
   .attr("width", answerwidth)
   .attr("height", CONSTANTS.LEGEND.svgheightcolors)
 
-function drawlegcolors (){
+CONSTANTS.LEGEND.HEIGHTSTABLE = {};
+CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolors"] = CONSTANTS.LEGEND.svgheightcolors;
+CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolorscale"] = CONSTANTS.LEGEND.svgheightcolorscale;
+CONSTANTS.LEGEND.HEIGHTSTABLE["#legaff"] = CONSTANTS.LEGEND.svgheightaff;
+CONSTANTS.LEGEND.HEIGHTSTABLE["#legprop"] = CONSTANTS.LEGEND.svgheightprop;
+
+function drawlegcolors (bool){
   var toile = d3.select("#legcolors");
   var xinit = 0.4*CONSTANTS.LEGEND.svgheightcolors;
   var yinit = 0.5*CONSTANTS.LEGEND.svgheightcolors;
@@ -37,7 +43,7 @@ function drawlegcolors (){
     .attr("y2", 0)
     .attr("stroke", "rgb(45,82,252)")
 
-  if (getUserChoice().lobbyist){
+  if (bool && getUserChoice().lobbyist){
     toile.append("circle")
       .attr("cx", xinit)
       .attr("cy", yinit)
@@ -107,7 +113,7 @@ function editdoubletext (toile, fontsize, anchor, xpos, ypos, text1, text2){
       .text(text2)
 }
 
-function drawlegcolorscale (){
+function drawlegcolorscale (bool){
   var toile = d3.select("#legcolorscale");
   toile.selectAll("*").remove();
   toile.append("defs");
@@ -118,7 +124,7 @@ function drawlegcolorscale (){
     .attr("y2", 0)
     .attr("stroke", "rgb(45,82,252)")
 
-  if (getUserChoice().lobbyist){
+  if (bool && getUserChoice().lobbyist){
     var gradient = toile.select("defs").append("linearGradient")
       .attr("id", "colorscale");
     gradient.append("stop")
@@ -157,7 +163,7 @@ function drawlegcolorscale (){
   }
 }
 
-function drawlegaff(){
+function drawlegaff(bool){
   var toile = d3.select("#legaff");
   toile.selectAll("*").remove();
   toile.append("line")
@@ -168,7 +174,7 @@ function drawlegaff(){
     .attr("stroke", "rgb(45,82,252)")
   var color1 = CONSTANTS.COLORS.SUPPORT;
   var color2 = CONSTANTS.COLORS.OPPOSE;
-  if (getUserChoice().lobbyist){
+  if (bool && getUserChoice().lobbyist){
     color1 = CONSTANTS.COLORS.ALLY;
     color2 = CONSTANTS.COLORS.ENEMY;
   }
@@ -264,7 +270,7 @@ function drawlegaff(){
     .text("A est affilié à B")
 }
 
-function drawlegprop (){
+function drawlegprop (bool){
   var toile = d3.select("#legprop");
   toile.selectAll("*").remove();
   toile.append("defs")
@@ -435,3 +441,57 @@ function drawlegprop (){
     .attr("y", 0.85*CONSTANTS.LEGEND.svgheightprop + 0.5*fontsize)
     .text("Actionnaires en commun")
 }
+
+// On adapte la légende au contenu de la section
+// Ne pas appeler cette fonction si la légende est cachée : elle pourrait se mettre à déborder
+function updateLegendContent (){
+  var activesection = simulation.getCurrentSection();
+  var selectors = activesection.legend;
+  console.log("selectors : ",selectors)
+  for (var i=0; i<selectors.active.length; i++){
+    console.log("show "+selectors.active[i])
+    d3.select(selectors.active[i])
+      .transition()
+      .duration(200)
+      .attr("height", CONSTANTS.LEGEND.HEIGHTSTABLE[selectors.active[i]])
+  }
+  for (var i=0; i<selectors.inactive.length; i++){
+    console.log("hide "+selectors.inactive[i])
+    d3.select(selectors.inactive[i])
+      .transition()
+      .duration(200)
+      .attr("height", 0)
+  }
+  setTimeout(updaterectcoords, 250);
+}
+
+function hideanswers (){
+  if (answershow){
+    answershow = false;
+    d3.select("#answers")
+      .transition()
+      .duration(1000)
+      .style("bottom", -rectcoords.height+63)
+  }
+}
+
+function showanswers (){
+  if (!answershow){
+    answershow = true;
+    updateLegendContent();
+    d3.select("#answers")
+      .transition()
+      .duration(1000)
+      .style("bottom", 0)
+  }
+}
+
+function toggleanswers (){
+  if (answershow){
+    hideanswers();
+  } else {
+    showanswers();
+  }
+}
+
+d3.select("p#togglelegend").on("click", toggleanswers);
