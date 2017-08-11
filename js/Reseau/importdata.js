@@ -125,6 +125,27 @@ var processData = function(files){
     node.links = links.length;
   });
 
+  // On supprime les actionnaires de degré 1 et les lies associés
+  badproprietaries = [];
+  for (var i=0; i<proprietaryNodes.length; i++){
+    if (proprietaryNodes[i].links===1){
+      badproprietaries.push(proprietaryNodes[i].ID)
+      proprietaryNodes[i]=0;
+    }
+  }
+  while (proprietaryNodes.indexOf(0)!==-1){
+    proprietaryNodes.splice(proprietaryNodes.indexOf(0),1)
+  }
+  for (var i=0; i<allLinks.length; i++){
+    if (badproprietaries.indexOf(allLinks[i].source)!==-1){
+      allLinks[i]=0;
+    }
+  }
+  while (allLinks.indexOf(0)!==-1){
+    allLinks.splice(allLinks.indexOf(0),1)
+  }
+
+
   // échelle de calcul du radius du noeud.
   var proprietaryScale = d3.scaleLinear()
     .range(CONSTANTS.CIRCLE.RADIUS_RANGE)

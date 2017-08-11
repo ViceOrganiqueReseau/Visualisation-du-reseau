@@ -399,8 +399,6 @@ function addstorynodes (i, nodes, nodesindexor, key, spendingScale){
 var updateEighthSection = function (i){
 
   var SPENDING_KEY = CONSTANTS.DATA.SPENDING_KEY;
-  console.log(CONSTANTS.LOADEDDATA.utils.nodes.all())
-  console.log(CONSTANTS.LOADEDDATA.utils.links.all())
   var nodes = CONSTANTS.LOADEDDATA.utils.nodes.all().slice();
   var nodesindexor = {};
   var links = CONSTANTS.LOADEDDATA.utils.links.all().slice();
