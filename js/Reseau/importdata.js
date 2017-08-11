@@ -488,6 +488,7 @@ var importData = function(){
     drawlegcolors();
     drawlegcolorscale();
     drawlegaff();
+    drawlegprop();
 
     // On écrit le texte dans le dernière section
     writeBaseTextInLastSection();

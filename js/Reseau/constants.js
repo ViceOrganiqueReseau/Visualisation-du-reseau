@@ -14,7 +14,7 @@ var CONSTANTS = {
     svgheightcolors: 50,
     svgheightcolorscale: 70,
     svgheightaff: 80,
-    svgheightprop: 50,
+    svgheightprop: 110,
   },
   COLORS: {
     PROPRIETARY: '#7d7d7d',
