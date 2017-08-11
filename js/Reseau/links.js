@@ -189,7 +189,6 @@ var linkOpacity = function(link){
   return opacity; 
 };
 var drawLinks = function(links){
-  console.log("links = ",links);
   var canvas = scene.getCanvas();
   var $links = canvas.selectAll('.link').data(links, function(link){
     var key = link.data.source.ID + '-' + link.data.target.ID;

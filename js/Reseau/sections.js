@@ -399,9 +399,9 @@ function addstorynodes (i, nodes, nodesindexor, key, spendingScale){
 var updateEighthSection = function (i){
 
   var SPENDING_KEY = CONSTANTS.DATA.SPENDING_KEY;
-  var nodes = CONSTANTS.LOADEDDATA.utils.nodes.all().slice();
+  var nodes = [];
   var nodesindexor = {};
-  var links = CONSTANTS.LOADEDDATA.utils.links.all().slice();
+  var links = [];
 
   var spendingDomain = [1, d3.max(CONSTANTS.NOTPROCESSEDDATA.nodes, function(d){
     return parseInt(d[CONSTANTS.DATA.SPENDING_KEY])||0; 
@@ -409,15 +409,37 @@ var updateEighthSection = function (i){
   var spendingScale = CONSTANTS.CIRCLE.SCALE().domain(spendingDomain).range(CONSTANTS.CIRCLE.RADIUS_RANGE);
 
   // Construction de nodesindexor
-  for (var j=0; j<nodes.length; j++){
+  /*for (var j=0; j<nodes.length; j++){
     nodesindexor[Number(nodes[j].ID)] = j;
-  }
+  }*/
 
   // Ajout des "noeuds du réseau" sans position sur le thème
   addstorynodes(i,nodes,nodesindexor,"Noeuds du réseau", spendingScale);
   // Ajout des "noeuds principaux" sans position sur le thème
   if (CONSTANTS.STORIES.Histoires[i]["Noeuds principaux"]){
     addstorynodes(i,nodes,nodesindexor,"Noeuds principaux", spendingScale);
+  }
+  var idlist = Object.keys(nodesindexor).map(Number);
+  for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.linksaffiliation.length; j++){
+    var sourceid = Number(CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].data.source.ID);
+    var targetid = Number(CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].data.target.ID);
+    if ((idlist.indexOf(sourceid)!==-1) && (idlist.indexOf(targetid)!==-1)){
+      links.push(CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j])
+    }
+  }
+  for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.linksproprietary.length; j++){
+    var sourceid = Number(CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].data.source.ID);
+    var targetid = Number(CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].data.target.ID);
+    if ((idlist.indexOf(sourceid)!==-1) && (idlist.indexOf(targetid)!==-1)){
+      links.push(CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j])
+    }
+  }
+  for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.undirectlinks.length; j++){
+    var sourceid = Number(CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.source.ID);
+    var targetid = Number(CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.target.ID);
+    if ((idlist.indexOf(sourceid)!==-1) && (idlist.indexOf(targetid)!==-1)){
+      links.push(CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j])
+    }
   }
   
   // Ajout des nouveaux noeuds
@@ -447,20 +469,13 @@ var updateEighthSection = function (i){
   // Ajout des liens spécifiques
   if (CONSTANTS.STORIES.Histoires[i]["Liens"]){
   var jsonlinks = CONSTANTS.STORIES.Histoires[i]["Liens"];
-  console.log("jsonlinks = ",jsonlinks)
   var linktypes = Object.keys(jsonlinks);
   for (var j=0; j<linktypes.length; j++){
     // On parcourt les liens de type j
     for (var k=0; k<jsonlinks[linktypes[j]].length; k++){
       // source et target doivent être des noeuds reconnus
-      console.log("source = ", Number(jsonlinks[linktypes[j]][k].source))
-      console.log("target = ", Number(jsonlinks[linktypes[j]][k].target))
-      console.log(CONSTANTS.NOTPROCESSEDDATA.indexor[Number(jsonlinks[linktypes[j]][k].source)])
-      console.log(newsID.indexOf(String(jsonlinks[linktypes[j]][k].source)))
-      console.log(CONSTANTS.NOTPROCESSEDDATA.indexor[Number(jsonlinks[linktypes[j]][k].target)])
-      console.log(newsID.indexOf(String(jsonlinks[linktypes[j]][k].target)))
-      if (CONSTANTS.NOTPROCESSEDDATA.indexor[Number(jsonlinks[linktypes[j]][k].source)] || newsID.indexOf(String(jsonlinks[linktypes[j]][k].source))!==-1){
-      if (CONSTANTS.NOTPROCESSEDDATA.indexor[Number(jsonlinks[linktypes[j]][k].target)] || newsID.indexOf(String(jsonlinks[linktypes[j]][k].target))!==-1){  
+      if ((idlist.indexOf(Number(jsonlinks[linktypes[j]][k].source))!==-1) || newsID.indexOf(String(jsonlinks[linktypes[j]][k].source))!==-1){
+      if ((idlist.indexOf(Number(jsonlinks[linktypes[j]][k].target))!==-1) || newsID.indexOf(String(jsonlinks[linktypes[j]][k].target))!==-1){
         var link = {};
         link.source = String(jsonlinks[linktypes[j]][k].source);
         link.target = String(jsonlinks[linktypes[j]][k].target);
@@ -475,6 +490,8 @@ var updateEighthSection = function (i){
     }
   }
   }
+  console.log("nodes : ",nodes)
+  console.log("links : ",links)
 
   sections[7] = {
     id: 7,
@@ -555,9 +572,9 @@ var storyactive = false;
 var storyonread = false;
 
 function onclickStory (i){
+  storyonread = i;
   eraseLastSectionContent();
   writeStory(i);
-  storyonread = i;
   stopeventsStoriesCircles();
   updateEighthSection(i);
   simulation.nextSection();
@@ -641,12 +658,14 @@ function eventsStoriesCircles (){
       var numid = Number(d3.select(this).attr("class").slice(23));
       onclickStory(numid);
     })
+    .attr("opacity", 1)
 }
 
 function stopeventsStoriesCircles (){
   d3.select("svg.experimentation").selectAll("circle.storycircle")
     .on("mouseover", null)
     .on("click", null)
+    .attr("opacity", 0)
 }
 
 function onclickStories (){

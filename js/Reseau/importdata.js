@@ -187,7 +187,7 @@ var processData = function(files){
         },
         affiliationsAndDirect: function(){
           return allLinks.filter(function(link){
-            return [ TYPES.LINK.AFFILIATION, TYPES.LINK.PROPRIETY.DIRECT ].indexOf(link.type) != -1;
+            return [ TYPES.LINK.AFFILIATION, TYPES.LINK.PROPRIETARY.DIRECT ].indexOf(link.type) != -1;
           });
         }
       }
@@ -404,12 +404,14 @@ var importData = function(){
         source: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].source]],
         target: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].target]],
       };
+      CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].type = CONSTANTS.DATA.TYPES.LINK.AFFILIATION;
     }
     for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.linksproprietary.length; j++){
       CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].data = {
         source: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].source]],
         target: CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].target]],
       };
+      CONSTANTS.NOTPROCESSEDDATA.linksproprietary[j].type = CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.DIRECT;
     }
     for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.undirectlinks.length; j++){
       CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data = {
@@ -424,6 +426,7 @@ var importData = function(){
         CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.target = {};
         CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.target.ID = CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].target;
       }
+      CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].type = CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.INDIRECT;
     }
 
     // On écrit le texte des sections

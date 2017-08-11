@@ -447,16 +447,13 @@ function drawlegprop (bool){
 function updateLegendContent (){
   var activesection = simulation.getCurrentSection();
   var selectors = activesection.legend;
-  console.log("selectors : ",selectors)
   for (var i=0; i<selectors.active.length; i++){
-    console.log("show "+selectors.active[i])
     d3.select(selectors.active[i])
       .transition()
       .duration(200)
       .attr("height", CONSTANTS.LEGEND.HEIGHTSTABLE[selectors.active[i]])
   }
   for (var i=0; i<selectors.inactive.length; i++){
-    console.log("hide "+selectors.inactive[i])
     d3.select(selectors.inactive[i])
       .transition()
       .duration(200)
