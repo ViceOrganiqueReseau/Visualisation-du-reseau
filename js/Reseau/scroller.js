@@ -89,7 +89,7 @@ function majvue(simulation, index, preced) {
   } else if (preced===index+1 && preced<=6){
     simulation.previousSection();
   }
-  if (index===7){
+  if (index===8){
     d3.selectAll("div.menu img").style("display", "inline-block");
     updaterectcoords();
     if (!getUserChoice().lobbyist){

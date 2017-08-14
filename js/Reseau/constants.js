@@ -15,6 +15,7 @@ var CONSTANTS = {
     svgheightcolorscale: 70,
     svgheightaff: 80,
     svgheightprop: 110,
+    svgheightstoryshort: 80,
     svgheightstory: 110,
   },
   COLORS: {
@@ -103,7 +104,8 @@ var CONSTANTS = {
       LINKS_PROPRIETARY:"data/liensActionnairesDirect.csv",
       LINKS_INDIRECT_PROPRIETARY:"data/liensActionnairesIndirect.csv",
       LINKS_AFFILIATION:"data/Affiliation27juillet.csv",
-      SCENARIO: "data/Reseau/Scenario.csv"
+      SCENARIO: "data/Reseau/Scenario.csv",
+      RESULTAT: "data/Reseau/texteResultat.csv",
     },
     JSON_FILES: {
       STORIES: "data/Reseau/stories.json"

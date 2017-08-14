@@ -38,7 +38,7 @@ function drawlegcolors (bool){
   var toile = d3.select("#legcolors");
   var xinit = 0.4*CONSTANTS.LEGEND.svgheightcolors;
   var yinit = 0.5*CONSTANTS.LEGEND.svgheightcolors;
-  var radius = 0.3*CONSTANTS.LEGEND.svgheightcolors;
+  var radius = 0.2*CONSTANTS.LEGEND.svgheightcolors;
   toile.selectAll("*").remove();
   toile.append("line")
     .attr("x1", 0)
@@ -448,9 +448,9 @@ function drawlegprop (bool){
 
 function drawlegstory(i){
   var toile = d3.select("#legstory");
-  var radius = 0.3*CONSTANTS.LEGEND.svgheightcolors;
+  var radius = 0.2*CONSTANTS.LEGEND.svgheightcolors;
   var xinit = 0.4*CONSTANTS.LEGEND.svgheightcolors+fontsize+8;
-  var yinit = 0.5*CONSTANTS.LEGEND.svgheightcolors+fontsize+8;
+  var yinit = 0.35*CONSTANTS.LEGEND.svgheightcolors+fontsize+8;
 
   toile.selectAll("*").remove();
   toile.append("line")
@@ -459,13 +459,13 @@ function drawlegstory(i){
     .attr("x2", answerwidth)
     .attr("y2", 0)
     .attr("stroke", "rgb(45,82,252)")
-
   toile.append("text")
     .attr("x", 0.05*answerwidth)
     .attr("y", fontsize+8)
     .attr("font-weight", "bold")
     .attr("font-size", fontsize)
     .text("Histoires et révélations")
+
   toile.append("circle")
       .attr("cx", xinit)
       .attr("cy", yinit)
@@ -476,6 +476,16 @@ function drawlegstory(i){
       .attr("y", yinit + 0.35*fontsize)
       .attr("font-size", fontsize+"px")
       .text("Organisation ou énénement concerné")
+  toile.append("circle")
+      .attr("cx", xinit)
+      .attr("cy", yinit+2*radius+5)
+      .attr("r", radius)
+      .attr("fill", CONSTANTS.COLORS.UNSELECTED)
+  toile.append("text")
+      .attr("x", xinit + 1.3*radius)
+      .attr("y", yinit+2*radius+5 + 0.35*fontsize)
+      .attr("font-size", fontsize+"px")
+      .text("Organisation n'ayant pas pris position")
 
   if (CONSTANTS.STORIES.Histoires[i].Liens){
     // On update la taille de la section de légende
@@ -485,13 +495,13 @@ function drawlegstory(i){
     var falselink1 = {
       data: {
         source: {
-          x: 0.1*answerwidth,
-          y: yinit+radius+0.25*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
+          x: 0.15*answerwidth,
+          y: yinit+radius+0.35*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
           kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
         },
         target: {
-          x: 0.35*answerwidth,
-          y: yinit+radius+0.25*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
+          x: 0.5*answerwidth,
+          y: yinit+radius+0.35*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
           kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
         },
       },
@@ -503,40 +513,40 @@ function drawlegstory(i){
       .classed('link-base', true)
       .attr('d', radialLine(falselink1.data.source.kernelPoints))
       .attr('fill', CONSTANTS.COLORS.STORYNODE)
-      .attr("transform", "translate("+0.1*answerwidth+", "+(yinit+radius+0.25*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
+      .attr("transform", "translate("+0.15*answerwidth+", "+(yinit+radius+0.35*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
     toile.append('path')
       .classed('link-body', true)
       .attr('fill', CONSTANTS.COLORS.STORYNODE)
       .attr('d', areaPath(areaPoints(falselink1)))
-      .attr("transform", "translate("+0.1*answerwidth+", "+(yinit+radius+0.25*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
+      .attr("transform", "translate("+0.15*answerwidth+", "+(yinit+radius+0.35*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
     toile.append("text")
-      .attr("x", 0.05*answerwidth)
-      .attr("y", yinit+radius+0.25*CONSTANTS.LEGEND.svgheightprop)
+      .attr("x", 0.1*answerwidth)
+      .attr("y", yinit+radius+0.35*CONSTANTS.LEGEND.svgheightprop)
       .attr("font-weight", "bold")
       .attr("font-size", fontsize)
       .text("A")
     toile.append("text")
-      .attr("x", 0.35*answerwidth)
-      .attr("y", yinit+radius+0.25*CONSTANTS.LEGEND.svgheightprop)
+      .attr("x", 0.5*answerwidth)
+      .attr("y", yinit+radius+0.35*CONSTANTS.LEGEND.svgheightprop)
       .attr("font-weight", "bold")
       .attr("font-size", fontsize)
       .text("B")
     toile.append("text")
-      .attr("x", 0.4*answerwidth)
-      .attr("y", yinit+radius+0.25*CONSTANTS.LEGEND.svgheightprop)
+      .attr("x", 0.6*answerwidth)
+      .attr("y", yinit+radius+0.35*CONSTANTS.LEGEND.svgheightprop)
       .attr("font-size", fontsize)
       .text(linktypes[0])
     if (linktypes[1]){
       var falselink2 = {
         data: {
           source: {
-            x: 0.1*answerwidth,
-            y: yinit+radius+0.4*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
+            x: 0.15*answerwidth,
+            y: yinit+radius+0.5*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
             kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
           },
           target: {
-            x: 0.35*answerwidth,
-            y: yinit+radius+0.4*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
+            x: 0.5*answerwidth,
+            y: yinit+radius+0.5*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
             kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
           },
         },
@@ -548,33 +558,33 @@ function drawlegstory(i){
         .classed('link-base', true)
         .attr('d', radialLine(falselink2.data.source.kernelPoints))
         .attr('fill', CONSTANTS.COLORS.STORYLINK2)
-        .attr("transform", "translate("+0.1*answerwidth+", "+(yinit+radius+0.4*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
+        .attr("transform", "translate("+0.15*answerwidth+", "+(yinit+radius+0.5*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
       toile.append('path')
         .classed('link-body', true)
         .attr('fill', CONSTANTS.COLORS.STORYLINK2)
         .attr('d', areaPath(areaPoints(falselink2)))
-        .attr("transform", "translate("+0.1*answerwidth+", "+(yinit+radius+0.4*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
+        .attr("transform", "translate("+0.15*answerwidth+", "+(yinit+radius+0.5*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
       toile.append("text")
-        .attr("x", 0.05*answerwidth)
-        .attr("y", yinit+radius+0.4*CONSTANTS.LEGEND.svgheightprop)
+        .attr("x", 0.1*answerwidth)
+        .attr("y", yinit+radius+0.5*CONSTANTS.LEGEND.svgheightprop)
         .attr("font-weight", "bold")
         .attr("font-size", fontsize)
         .text("A")
       toile.append("text")
-        .attr("x", 0.35*answerwidth)
-        .attr("y", yinit+radius+0.4*CONSTANTS.LEGEND.svgheightprop)
+        .attr("x", 0.5*answerwidth)
+        .attr("y", yinit+radius+0.5*CONSTANTS.LEGEND.svgheightprop)
         .attr("font-weight", "bold")
         .attr("font-size", fontsize)
         .text("B")
       toile.append("text")
-        .attr("x", 0.4*answerwidth)
-        .attr("y", yinit+radius+0.4*CONSTANTS.LEGEND.svgheightprop)
+        .attr("x", 0.6*answerwidth)
+        .attr("y", yinit+radius+0.5*CONSTANTS.LEGEND.svgheightprop)
         .attr("font-size", fontsize)
         .text(linktypes[1])
     }
   } else {
     // On update la taille de la section de légende
-    CONSTANTS.LEGEND.HEIGHTSTABLE["#legstory"] = CONSTANTS.LEGEND.svgheightcolors;
+    CONSTANTS.LEGEND.HEIGHTSTABLE["#legstory"] = CONSTANTS.LEGEND.svgheightstoryshort;
   }
 
 }
