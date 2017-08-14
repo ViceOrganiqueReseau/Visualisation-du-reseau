@@ -35,8 +35,10 @@ var linkColor = function(link){
     color = nodeColor(link.data.source);
   } else if (link.type === TYPES.PROPRIETARY.DIRECT || link.type === TYPES.PROPRIETARY.INDIRECT){
     return color;
-  } else {
+  } else if (link.type === TYPES.STORY.LINK1) {
     return chroma(CONSTANTS.COLORS.STORYNODE);
+  } else {
+    return chroma(CONSTANTS.COLORS.STORYLINK2);
   }
   return color;
 }

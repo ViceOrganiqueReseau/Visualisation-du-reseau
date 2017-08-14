@@ -15,6 +15,7 @@ var CONSTANTS = {
     svgheightcolorscale: 70,
     svgheightaff: 80,
     svgheightprop: 110,
+    svgheightstory: 110,
   },
   COLORS: {
     PROPRIETARY: '#7d7d7d',
@@ -30,6 +31,7 @@ var CONSTANTS = {
     STORY: "white",
     STORY_VISITED: "gray",
     STORYNODE: "#996c6c",
+    STORYLINK2: "yellow",
   },
   VUE: {
     POSITION: vue.getBoundingClientRect(),
@@ -88,7 +90,11 @@ var CONSTANTS = {
         PROPRIETARY: {
           DIRECT: 'link/proprietary/direct',
           INDIRECT: 'link/proprietary/indirect',
-        }
+        },
+        STORY: {
+          LINK1: "",
+          LINK2: "", // Complétés à l'import de la story
+        },
       }
     },
     CSV_FILES: {

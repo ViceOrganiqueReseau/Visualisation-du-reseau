@@ -88,7 +88,7 @@ var firstSection = function(data){
     collideRadius: contactCollide,
     legend: {
       active: ["#legcolors"],
-      inactive: ["#legcolorscale", "#legaff", "#legprop"],
+      inactive: ["#legcolorscale", "#legaff", "#legprop", "#legstory"],
     },
   };
 }
@@ -136,7 +136,7 @@ var secondSection = function(data){
     collideRadius: contactCollide,
     legend: {
       active: ["#legcolors"],
-      inactive: ["#legcolorscale", "#legaff", "#legprop"],
+      inactive: ["#legcolorscale", "#legaff", "#legprop", "#legstory"],
     },
   }
 };
@@ -184,7 +184,7 @@ var thirdSection = function(data){
     collideRadius: contactCollide,
     legend: {
       active: ["#legcolors"],
-      inactive: ["#legcolorscale", "#legaff", "#legprop"],
+      inactive: ["#legcolorscale", "#legaff", "#legprop", "#legstory"],
     },
   }
 };
@@ -260,7 +260,7 @@ var fourthSection = function(data){
     collideRadius: contactCollide,
     legend: {
       active: ["#legcolors", "#legcolorscale"],
-      inactive: ["#legaff", "#legprop"],
+      inactive: ["#legaff", "#legprop", "#legstory"],
     },
   }
 };
@@ -304,7 +304,7 @@ var fifthSection = function(data){
     collideRadius: contactCollide,
     legend: {
       active: ["#legcolors"],
-      inactive: ["#legcolorscale", "#legaff", "#legprop"],
+      inactive: ["#legcolorscale", "#legaff", "#legprop", "#legstory"],
     },
   }
 };
@@ -324,7 +324,7 @@ var sixthSection = function(data){
     collideRadius: spaceCollide,
     legend: {
       active: ["#legcolors", "#legaff"],
-      inactive: ["#legcolorscale", "#legprop"],
+      inactive: ["#legcolorscale", "#legprop", "#legstory"],
     },
   };
 };
@@ -341,7 +341,7 @@ var seventhSection = function(data){
     collideRadius: spaceCollide,
     legend: {
       active: ["#legcolors", "#legaff", "#legprop"],
-      inactive: ["#legcolorscale"],
+      inactive: ["#legcolorscale", "#legstory"],
     },
   };
 };
@@ -538,7 +538,7 @@ var updateEighthSection = function (i){
     showLinks: true,
     collideRadius: spaceCollide,
     legend: {
-      active: ["#legcolors", "#legaff", "#legprop"],
+      active: ["#legcolors", "#legaff", "#legprop", "#legstory"],
       inactive: ["legcolorscale"],
     },
   };
@@ -605,8 +605,20 @@ d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
 var storyactive = false;
 var storyonread = false;
 
+function updateTypesLinks (i){
+  if (CONSTANTS.STORIES.Histoires[i].Liens){
+    var linktypes = Object.keys(CONSTANTS.STORIES.Histoires[i].Liens);
+    CONSTANTS.DATA.TYPES.LINK.STORY.LINK1 = linktypes[0]
+    if (linktypes[1]){
+      CONSTANTS.DATA.TYPES.LINK.STORY.LINK1 = linktypes[1]
+    }
+  }
+}
+
 function onclickStory (i){
   storyonread = i;
+  updateTypesLinks(i);
+  drawlegstory(i);
   eraseLastSectionContent();
   writeStory(i);
   stopeventsStoriesCircles();

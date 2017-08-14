@@ -11,6 +11,9 @@ function updaterectcoords (){
 
 var legend = d3.select("#legend");
 
+legend.append("svg").attr("id", "legstory")
+  .attr("width", answerwidth)
+  .attr("height", 0)
 legend.append("svg").attr("id", "legprop")
   .attr("width", answerwidth)
   .attr("height", 0)
@@ -29,6 +32,7 @@ CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolors"] = CONSTANTS.LEGEND.svgheightcolors;
 CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolorscale"] = CONSTANTS.LEGEND.svgheightcolorscale;
 CONSTANTS.LEGEND.HEIGHTSTABLE["#legaff"] = CONSTANTS.LEGEND.svgheightaff;
 CONSTANTS.LEGEND.HEIGHTSTABLE["#legprop"] = CONSTANTS.LEGEND.svgheightprop;
+CONSTANTS.LEGEND.HEIGHTSTABLE["#legstory"] = CONSTANTS.LEGEND.svgheightstory;
 
 function drawlegcolors (bool){
   var toile = d3.select("#legcolors");
@@ -440,6 +444,139 @@ function drawlegprop (bool){
     .attr("x", 0.4*answerwidth)
     .attr("y", 0.85*CONSTANTS.LEGEND.svgheightprop + 0.5*fontsize)
     .text("Actionnaires en commun")
+}
+
+function drawlegstory(i){
+  var toile = d3.select("#legstory");
+  var radius = 0.3*CONSTANTS.LEGEND.svgheightcolors;
+  var xinit = 0.4*CONSTANTS.LEGEND.svgheightcolors+fontsize+8;
+  var yinit = 0.5*CONSTANTS.LEGEND.svgheightcolors+fontsize+8;
+
+  toile.selectAll("*").remove();
+  toile.append("line")
+    .attr("x1", 0)
+    .attr("y1", 0)
+    .attr("x2", answerwidth)
+    .attr("y2", 0)
+    .attr("stroke", "rgb(45,82,252)")
+
+  toile.append("text")
+    .attr("x", 0.05*answerwidth)
+    .attr("y", fontsize+8)
+    .attr("font-weight", "bold")
+    .attr("font-size", fontsize)
+    .text(CONSTANTS.STORIES.Histoires[i].titre)
+  toile.append("circle")
+      .attr("cx", xinit)
+      .attr("cy", yinit)
+      .attr("r", radius)
+      .attr("fill", CONSTANTS.COLORS.STORYNODE)
+  toile.append("text")
+      .attr("x", xinit + 1.3*radius)
+      .attr("y", yinit + 0.35*fontsize)
+      .attr("font-size", fontsize+"px")
+      .text("Organisation ou énénement concerné")
+
+  if (CONSTANTS.STORIES.Histoires[i].Liens){
+    // On update la taille de la section de légende
+    CONSTANTS.LEGEND.HEIGHTSTABLE["#legstory"] = CONSTANTS.LEGEND.svgheightstory;
+    // On déssine les liens dans la légende
+    linktypes = Object.keys(CONSTANTS.STORIES.Histoires[i].Liens);
+    var falselink1 = {
+      data: {
+        source: {
+          x: 0.1*answerwidth,
+          y: yinit+radius+0.25*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
+          kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
+        },
+        target: {
+          x: 0.35*answerwidth,
+          y: yinit+radius+0.25*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
+          kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
+        },
+      },
+      body: CONSTANTS.LINK.DEFAULT_BODY,
+    };
+    falselink1.source = falselink1.data.source;
+    falselink1.target = falselink1.data.target;
+    toile.append('path')
+      .classed('link-base', true)
+      .attr('d', radialLine(falselink1.data.source.kernelPoints))
+      .attr('fill', CONSTANTS.COLORS.STORYNODE)
+      .attr("transform", "translate("+0.1*answerwidth+", "+(yinit+radius+0.25*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
+    toile.append('path')
+      .classed('link-body', true)
+      .attr('fill', CONSTANTS.COLORS.STORYNODE)
+      .attr('d', areaPath(areaPoints(falselink1)))
+      .attr("transform", "translate("+0.1*answerwidth+", "+(yinit+radius+0.25*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
+    toile.append("text")
+      .attr("x", 0.05*answerwidth)
+      .attr("y", yinit+radius+0.25*CONSTANTS.LEGEND.svgheightprop)
+      .attr("font-weight", "bold")
+      .attr("font-size", fontsize)
+      .text("A")
+    toile.append("text")
+      .attr("x", 0.35*answerwidth)
+      .attr("y", yinit+radius+0.25*CONSTANTS.LEGEND.svgheightprop)
+      .attr("font-weight", "bold")
+      .attr("font-size", fontsize)
+      .text("B")
+    toile.append("text")
+      .attr("x", 0.4*answerwidth)
+      .attr("y", yinit+radius+0.25*CONSTANTS.LEGEND.svgheightprop)
+      .attr("font-size", fontsize)
+      .text(linktypes[0])
+    if (linktypes[1]){
+      var falselink2 = {
+        data: {
+          source: {
+            x: 0.1*answerwidth,
+            y: yinit+radius+0.4*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
+            kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
+          },
+          target: {
+            x: 0.35*answerwidth,
+            y: yinit+radius+0.4*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize,
+            kernelPoints: circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS),
+          },
+        },
+        body: CONSTANTS.LINK.DEFAULT_BODY,
+      };
+      falselink2.source = falselink1.data.source;
+      falselink2.target = falselink1.data.target;
+      toile.append('path')
+        .classed('link-base', true)
+        .attr('d', radialLine(falselink2.data.source.kernelPoints))
+        .attr('fill', CONSTANTS.COLORS.STORYLINK2)
+        .attr("transform", "translate("+0.1*answerwidth+", "+(yinit+radius+0.4*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
+      toile.append('path')
+        .classed('link-body', true)
+        .attr('fill', CONSTANTS.COLORS.STORYLINK2)
+        .attr('d', areaPath(areaPoints(falselink2)))
+        .attr("transform", "translate("+0.1*answerwidth+", "+(yinit+radius+0.4*CONSTANTS.LEGEND.svgheightstory-0.5*fontsize)+")")
+      toile.append("text")
+        .attr("x", 0.05*answerwidth)
+        .attr("y", yinit+radius+0.4*CONSTANTS.LEGEND.svgheightprop)
+        .attr("font-weight", "bold")
+        .attr("font-size", fontsize)
+        .text("A")
+      toile.append("text")
+        .attr("x", 0.35*answerwidth)
+        .attr("y", yinit+radius+0.4*CONSTANTS.LEGEND.svgheightprop)
+        .attr("font-weight", "bold")
+        .attr("font-size", fontsize)
+        .text("B")
+      toile.append("text")
+        .attr("x", 0.4*answerwidth)
+        .attr("y", yinit+radius+0.4*CONSTANTS.LEGEND.svgheightprop)
+        .attr("font-size", fontsize)
+        .text(linktypes[1])
+    }
+  } else {
+    // On update la taille de la section de légende
+    CONSTANTS.LEGEND.HEIGHTSTABLE["#legstory"] = CONSTANTS.LEGEND.svgheightcolors;
+  }
+
 }
 
 // On adapte la légende au contenu de la section
