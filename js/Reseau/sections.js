@@ -626,6 +626,8 @@ function onclickStory (i){
   simulation.nextSection();
   resetMouseOut();
   CONSTANTS.STORIES.colors[i] = CONSTANTS.COLORS.STORY_VISITED;
+  d3.select("#bestallyworstrival").style("display", "none");
+  d3.select("#themes").style("display", "none");
   d3.select("svg#closestory")
     .on("click", function (){
       storyonread = false;
@@ -633,6 +635,8 @@ function onclickStory (i){
       eraseLastSectionContent();
       writeStoriesTextInLastSection();
       eventsStoriesCircles();
+      d3.select("#bestallyworstrival").style("display", "inline-block");
+      d3.select("#themes").style("display", "inline-block");
     })
     .style("display", "inline-block");
 }
@@ -724,9 +728,14 @@ function onclickStories (){
     eraseLastSectionContent();
     writeBaseTextInLastSection();
     storyactive = false;
+    if (storyonread!==false){
+      storyonread = false;
+      simulation.previousSection();
+    }
     d3.select("svg.experimentation").selectAll(".storycircle").remove();
     d3.select("img#stories").on("click", onclickStories);
-    d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
+    d3.select("img#bestallyworstrival").on("click", onclickBestAlly).style("display", "inline-block");
+    d3.select("img#themes").style("display", "inline-block");
   });
   d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
 }
@@ -741,7 +750,11 @@ function anonymizeUser (){
     var colors = CONSTANTS.COLORS;
     var color;
     if(d.type === TYPES.LOBBY){
-      color = d[userChoice.theme] === "Pour" ? colors.SUPPORT : colors.OPPOSE;
+      if (d[userChoice.theme]){
+        color = d[userChoice.theme] === "Pour" ? colors.SUPPORT : colors.OPPOSE;
+      } else {
+        color = colors.UNSELECTED;
+      }
     } else {
       color = colors.PROPRIETARY;
     }

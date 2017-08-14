@@ -207,7 +207,7 @@ var drawLinks = function(links){
     .style('opacity', linkOpacity)
     .classed('link', true)
     // permet de calculer uniquement le chemin des liens visible (pour les perfs)
-    .classed('hidden', function(link){ return link.data.source.type === NTYPES.PROPRIETARY; });
+    .classed('hidden', function(link){ return (link.data.source.type === NTYPES.PROPRIETARY && link.type === TYPES.PROPRIETARY.INDIRECT); });
 
   $linksEnter.append('path')
     .classed('link-base', true)

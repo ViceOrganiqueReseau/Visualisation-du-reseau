@@ -465,7 +465,7 @@ function drawlegstory(i){
     .attr("y", fontsize+8)
     .attr("font-weight", "bold")
     .attr("font-size", fontsize)
-    .text(CONSTANTS.STORIES.Histoires[i].titre)
+    .text("Histoires et révélations")
   toile.append("circle")
       .attr("cx", xinit)
       .attr("cy", yinit)

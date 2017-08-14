@@ -199,6 +199,12 @@ var fadeNotNeighbours = function (node){
       neighboursID.push(directprop[i].data.target.ID)
     } else if (directprop[i].data.target.ID === node.ID){
       neighboursID.push(directprop[i].data.source.ID)
+    } else {
+      // On grise le lien
+      canvas.selectAll(".source-"+directprop[i].data.source.ID).selectAll(".target-"+directprop[i].data.target.ID+" path")
+        .attr("fill", function (){
+          return Color.fade(CONSTANTS.COLORS.UNSELECTED, CONSTANTS.COLORS.BACKGROUND, CONSTANTS.COLORS.UNSELECTED_OPACITY)
+        })
     }
   }
   for (var i=0; i<undirectprop.length; i++){
@@ -388,7 +394,7 @@ var drawNodes = function(nodes){
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){
-          return link.data.source.ID == node.ID;
+          return link.data.source.ID == node.ID && link.type === CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.INDIRECT;
         });
         $nodeLinks.transition().duration(200)
         .style('opacity', 1);
@@ -407,7 +413,7 @@ var drawNodes = function(nodes){
     if(node.type === TYPES.PROPRIETARY){
       var $nodeLinks = canvas.selectAll('.link')
         .filter(function(link){
-          return link.data.source.ID == node.ID;
+          return link.data.source.ID == node.ID && link.type === CONSTANTS.DATA.TYPES.LINK.PROPRIETARY.INDIRECT;
         });
         $nodeLinks.transition().duration(150)
         .style('opacity', 0);

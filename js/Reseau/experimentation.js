@@ -378,6 +378,7 @@ var runExperimentation = function(data){
   d3.select(window)
   .on("scroll.scroller", function (){
     majsectionspos();
+    hideanswers();
     position(simulation);
   });
 };
