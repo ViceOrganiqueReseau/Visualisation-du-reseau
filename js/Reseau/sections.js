@@ -366,6 +366,8 @@ var eighthSection = function(data){
   return CONSTANTS.STORY_SECTION;
 };
 
+// Etant donné qu'on ajoute que les noeuds story, ne pas tenir de compte de absentinnides, 
+// Au cas ou, le premier paragraphe de code permet d'éviter les doublons de noeuds. 
 function addstorynodes (i, nodes, nodesindexor, key, spendingScale){
   for (var j=0; j<CONSTANTS.STORIES.Histoires[i][key].length; j++){
     var absentinnodes = true;
@@ -392,6 +394,15 @@ function addstorynodes (i, nodes, nodesindexor, key, spendingScale){
       node.spending = spending;
       node.kernelPoints = circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS);
       node.type = CONSTANTS.DATA.TYPES.NODE.LOBBY;
+    } else if (absentinnodes && CONSTANTS.NOTPROCESSEDDATA.propindexor[Number(CONSTANTS.STORIES.Histoires[i][key][j])]){
+      nodes.push(CONSTANTS.NOTPROCESSEDDATA.proprietaries[CONSTANTS.NOTPROCESSEDDATA.propindexor[Number(CONSTANTS.STORIES.Histoires[i][key][j])]]);
+      nodesindexor[Number(CONSTANTS.STORIES.Histoires[i][key][j])] = nodes.length-1;
+      // On rentre les points, calcule le radius etc...
+      var node = nodes[nodes.length-1];
+      node.kernelPoints = circlePoints(CONSTANTS.CIRCLE.KERNEL_RADIUS);
+      node.type = CONSTANTS.DATA.TYPES.NODE.PROPRIETARY;
+      // Les updates de node.link et node.radius seront réalisés plus tard, qd on saura les liens
+      node.links = 0;
     }
   }
 }
@@ -420,6 +431,7 @@ var updateEighthSection = function (i){
     addstorynodes(i,nodes,nodesindexor,"Noeuds principaux", spendingScale);
   }
   var idlist = Object.keys(nodesindexor).map(Number);
+  console.log(idlist);
   for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.linksaffiliation.length; j++){
     var sourceid = Number(CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].data.source.ID);
     var targetid = Number(CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].data.target.ID);
@@ -439,6 +451,28 @@ var updateEighthSection = function (i){
     var targetid = Number(CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j].data.target.ID);
     if ((idlist.indexOf(sourceid)!==-1) && (idlist.indexOf(targetid)!==-1)){
       links.push(CONSTANTS.NOTPROCESSEDDATA.undirectlinks[j])
+      links[links.length-1].data.source = nodes[nodesindexor[sourceid]];
+      links[links.length-1].data.target = nodes[nodesindexor[targetid]];
+      // On incrémente le nombre de liens de source
+      nodes[nodesindexor[sourceid]].links++;
+    }
+  }
+
+    // échelle de calcul du radius du noeud.
+  var proprietaryScale = d3.scaleLinear()
+    .range(CONSTANTS.CIRCLE.RADIUS_RANGE)
+    .domain(
+      // récupère le [ min, max ] du tableau passé en paramètre.
+      d3.extent(
+        // récupère uniquement le nombre de liens des noeuds.
+        nodes.map(function(node){ return node.links||2; })
+      )
+    );
+  // On ajoute les radius et points aux proprietaries
+  for (var j=0; j<nodes.length; j++){
+    if (nodes[j].type === CONSTANTS.DATA.TYPES.NODE.PROPRIETARY){
+      nodes[j].radius = proprietaryScale(nodes[j].links);
+      nodes[j].points = circlePoints(nodes[j].radius);
     }
   }
   

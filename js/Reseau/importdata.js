@@ -394,10 +394,14 @@ var importData = function(){
     CONSTANTS.NOTPROCESSEDDATA.linksproprietary = files[2];
     CONSTANTS.NOTPROCESSEDDATA.undirectlinks = files[3];
     CONSTANTS.NOTPROCESSEDDATA.linksaffiliation = files[4];
-    // On crée l'index de nodes
+    // On crée l'index de nodes et on le remplit avec les IDs des lobby nodes et proprietary nodes
     CONSTANTS.NOTPROCESSEDDATA.indexor = {};
     for (var i=0; i<CONSTANTS.NOTPROCESSEDDATA.nodes.length; i++){
       CONSTANTS.NOTPROCESSEDDATA.indexor[Number(CONSTANTS.NOTPROCESSEDDATA.nodes[i].ID)] = i;
+    }
+    CONSTANTS.NOTPROCESSEDDATA.propindexor = {};
+    for (var i=0; i<CONSTANTS.NOTPROCESSEDDATA.proprietaries.length; i++){
+      CONSTANTS.NOTPROCESSEDDATA.propindexor[Number(CONSTANTS.NOTPROCESSEDDATA.proprietaries[i].ID)] = i;
     }
     for (var j=0; j<CONSTANTS.NOTPROCESSEDDATA.linksaffiliation.length; j++){
       CONSTANTS.NOTPROCESSEDDATA.linksaffiliation[j].data = {

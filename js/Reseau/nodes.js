@@ -211,7 +211,7 @@ var fadeNotNeighbours = function (node){
   console.log("neighboursID = ", neighboursID)
   // On n'oublie pas les voisins story
   console.log("story ? "+storyonread);
-  if (storyonread!==false){
+  if (storyonread!==false && CONSTANTS.STORIES.Histoires[storyonread].Liens){
     var storylinks = CONSTANTS.STORIES.Histoires[storyonread].Liens;
     var linktypes = Object.keys(storylinks);
     for (var i=0; i<linktypes.length; i++){
