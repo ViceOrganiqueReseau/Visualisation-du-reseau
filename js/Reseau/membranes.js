@@ -48,6 +48,21 @@ function purgeSpaces(string){
             .replace(",","");
 }
 
+function changePourContre (string){
+  var string2 = string;
+  if (getUserChoice().position){
+    var aux = ["Pour", "Contre"];
+    aux.forEach(function(pos){
+      if (pos === getUserChoice().position){
+        string2 = string2.replace(pos, "Alliés")
+      } else {
+        string2 = string2.replace(pos, "Rivaux")
+      }
+    })
+  }
+  return string2;
+}
+
 var drawMembranes = function(nodes, membranes){
   var canvas = scene.getCanvas();
   var $membranes = canvas.selectAll('.membrane')
@@ -57,10 +72,10 @@ var drawMembranes = function(nodes, membranes){
     .append('path')
     .classed('membrane', true)
     .attr('stroke', 'none')
-    .attr('d', function(cluster){
+    .attr('d', function (cluster){
       return membranePath(nodes, cluster);
     })
-    .attr('fill', function(cluster){
+    .attr('fill', function (cluster){
       return chroma(cluster.color);
     }).attr('fill-opacity', 0);
 
@@ -74,27 +89,30 @@ var drawMembranes = function(nodes, membranes){
       .classed("name", true)
       .attr("x", membrane.x + CONSTANTS.MEMBRANE.TEXTdx)
       .attr("y", function (){
-        if (membrane.key[membrane.key.length-1]==="r"){ return membrane.y; }
-        else { return membrane.y + 10; }
+        if (membrane.key[membrane.key.length-1]==="r"){ return membrane.y + CONSTANTS.MEMBRANE.TEXTdy; }
+        else { return membrane.y + 10 + CONSTANTS.MEMBRANE.TEXTdy; }
       })
-      .text(membrane.key)
+      .attr("fill-opacity", 0)
+      .text(changePourContre(membrane.key.split("-").join(" : ")))
     textelem.append("tspan")
       .classed("count", true)
       .attr("fill-opacity", 0)
       .attr("x", membrane.x + CONSTANTS.MEMBRANE.TEXTdx)
       .attr("y", function (){
-        if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y + CONSTANTS.MEMBRANE.TEXT_PADDING; }
-        else { return membrane.y + 10 + CONSTANTS.MEMBRANE.TEXT_PADDING; }
+        if (membrane.key[membrane.key.length-1]==="r"){ return membrane.y + CONSTANTS.MEMBRANE.TEXTdy + CONSTANTS.MEMBRANE.TEXT_PADDING; }
+        else { return membrane.y + CONSTANTS.MEMBRANE.TEXTdy + 10 + CONSTANTS.MEMBRANE.TEXT_PADDING; }
       })
+      .attr("fill-opacity", 0)
       .text(membrane.nodeIDS.length+" organisations")
     textelem.append("tspan")
       .classed("budget", true)
       .attr("fill-opacity", 0)
       .attr("x", membrane.x + CONSTANTS.MEMBRANE.TEXTdx)
       .attr("y", function (){
-        if (membrane.key[membrane.key.length-1]==="R"){ return membrane.y + 2*CONSTANTS.MEMBRANE.TEXT_PADDING; }
-        else { return membrane.y + 10 + 2*CONSTANTS.MEMBRANE.TEXT_PADDING; }
+        if (membrane.key[membrane.key.length-1]==="r"){ return membrane.y + CONSTANTS.MEMBRANE.TEXTdy + 2*CONSTANTS.MEMBRANE.TEXT_PADDING; }
+        else { return membrane.y + CONSTANTS.MEMBRANE.TEXTdy + 10 + 2*CONSTANTS.MEMBRANE.TEXT_PADDING; }
       })
+      .attr("fill-opacity", 0)
       .text(function (){
         // On calcule le budget total de lobbying
         var somme = 0;
@@ -131,11 +149,13 @@ var drawMembranes = function(nodes, membranes){
 
   $membranes.on("mouseover", function (membrane){
     console.log("hover")
+    canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.name").attr("fill-opacity", 1);
     canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.count").attr("fill-opacity", 1);
     canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.budget").attr("fill-opacity", 1);
   })
 
   $membranes.on("mouseout", function (membrane){
+    canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.name").attr("fill-opacity", 0);
     canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.count").attr("fill-opacity", 0);
     canvas.select("#membranetext"+purgeSpaces(membrane.key)).select("tspan.budget").attr("fill-opacity", 0);
   })
