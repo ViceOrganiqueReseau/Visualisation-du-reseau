@@ -232,9 +232,14 @@ span.fonction {
   width: 271px;
 }
 
+section > p.appel > div.blocfin {
+  margin-bottom: 30px;
+}
+
 section > p.appel > div.blocfin > img {
   float: left;
   margin: 3px;
+  margin-bottom: 25px;
 }
 
 ul > li {

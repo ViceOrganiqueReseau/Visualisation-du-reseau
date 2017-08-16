@@ -118,7 +118,7 @@ var CONSTANTS = {
   },
   FINAL_IMGS: {
     width: 50,
-    height: 50
+    height: 50,
   }
 };
 
