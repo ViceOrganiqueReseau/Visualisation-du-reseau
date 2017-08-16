@@ -285,6 +285,11 @@ var configureSimulation = function(scene, data, sectionsConfig){
     }
   };
 
+  var nodepadding = function (){
+    var section = getCurrentSection();
+    return section.nodepadding;
+  }
+
 
   var onTick = function(){
     var nodes = this.nodes();
@@ -292,8 +297,9 @@ var configureSimulation = function(scene, data, sectionsConfig){
       var size = scene.getSize();
       var width = size[0];
       var height = size[1];
-      node.x = Math.max(node.radius+CONSTANTS.VUE.NODE_PADDING, Math.min(width-CONSTANTS.VUE.NODE_PADDING - node.radius, node.x));
-      node.y = Math.max(node.radius+CONSTANTS.VUE.NODE_PADDING, Math.min(height-CONSTANTS.VUE.NODE_PADDING - node.radius, node.y));
+      var padding = nodepadding();
+      node.x = Math.max(node.radius+padding, Math.min(width-padding - node.radius, node.x));
+      node.y = Math.max(node.radius+padding, Math.min(height-padding - node.radius, node.y));
       return node;
     }
     if(!ticked){

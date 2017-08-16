@@ -86,6 +86,7 @@ var firstSection = function(data){
     showMembranes: true,
     showLinks: false,
     collideRadius: contactCollide,
+    nodepadding: CONSTANTS.VUE.AGREG_PADDING,
     legend: {
       active: ["#legcolors"],
       inactive: ["#legcolorscale", "#legaff", "#legprop", "#legstory"],
@@ -134,6 +135,7 @@ var secondSection = function(data){
     showMembranes: true,
     showLinks: false,
     collideRadius: contactCollide,
+    nodepadding: CONSTANTS.VUE.AGREG_PADDING,
     legend: {
       active: ["#legcolors"],
       inactive: ["#legcolorscale", "#legaff", "#legprop", "#legstory"],
@@ -182,6 +184,7 @@ var thirdSection = function(data){
     showMembranes: true,
     showLinks: false,
     collideRadius: contactCollide,
+    nodepadding: CONSTANTS.VUE.AGREG_PADDING,
     legend: {
       active: ["#legcolors"],
       inactive: ["#legcolorscale", "#legaff", "#legprop", "#legstory"],
@@ -258,6 +261,7 @@ var fourthSection = function(data){
     showMembranes: true,
     showLinks: false,
     collideRadius: contactCollide,
+    nodepadding: CONSTANTS.VUE.AGREG_PADDING,
     legend: {
       active: ["#legcolors", "#legcolorscale"],
       inactive: ["#legaff", "#legprop", "#legstory"],
@@ -302,6 +306,7 @@ var fifthSection = function(data){
     showMembranes: false,
     showLinks: false,
     collideRadius: contactCollide,
+    nodepadding: CONSTANTS.VUE.NODE_PADDING,
     legend: {
       active: ["#legcolors"],
       inactive: ["#legcolorscale", "#legaff", "#legprop", "#legstory"],
@@ -322,6 +327,7 @@ var sixthSection = function(data){
     showMembranes: false,
     showLinks: true,
     collideRadius: spaceCollide,
+    nodepadding: CONSTANTS.VUE.NODE_PADDING,
     legend: {
       active: ["#legcolors", "#legaff"],
       inactive: ["#legcolorscale", "#legprop", "#legstory"],
@@ -339,6 +345,7 @@ var seventhSection = function(data){
     showMembranes: false,
     showLinks: true,
     collideRadius: spaceCollide,
+    nodepadding: CONSTANTS.VUE.NODE_PADDING,
     legend: {
       active: ["#legcolors", "#legaff", "#legprop"],
       inactive: ["#legcolorscale", "#legstory"],
@@ -357,6 +364,7 @@ CONSTANTS.STORY_SECTION = {
     showMembranes: false,
     showLinks: true,
     collideRadius: spaceCollide,
+    nodepadding: CONSTANTS.VUE.NODE_PADDING,
     legend: {
       active: ["#legcolors", "#legaff", "#legprop"],
       inactive: ["#legcolorscale"],
@@ -537,6 +545,7 @@ var updateEighthSection = function (i){
     showMembranes: false,
     showLinks: true,
     collideRadius: spaceCollide,
+    nodepadding: CONSTANTS.VUE.NODE_PADDING,
     legend: {
       active: ["#legcolors", "#legaff", "#legprop", "#legstory"],
       inactive: ["legcolorscale"],
