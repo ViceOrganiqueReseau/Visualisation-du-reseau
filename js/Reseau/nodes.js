@@ -298,6 +298,8 @@ var resetMouseOut = function (){
   }
   canvas.selectAll(".storynodetext").selectAll("tspan.name").attr("fill-opacity", 1);
   canvas.selectAll("tspan.budget").attr("fill-opacity", 0);
+  // Emphacize de la story
+  emphacizeMainNodes(storyonread);
 } 
 
 var drawNodes = function(nodes){

@@ -624,6 +624,26 @@ function updateTypesLinks (i){
   }
 }
 
+// L'appel à emphacize se situe dans resetMouseOut : nodes.js
+function emphacizeMainNodes (i){
+  if (i !== false){
+  var mainnodes = CONSTANTS.STORIES.Histoires[i]["Noeuds principaux"];
+  console.log(mainnodes)
+  if (mainnodes){
+    for (var j=0; j<mainnodes.length; j++){
+      if (CONSTANTS.NOTPROCESSEDDATA.indexor[Number(mainnodes[j])]!==undefined){
+        d3.select("#lobby"+mainnodes[j]).select(".circle-membrane")
+          .attr("fill", function (){
+            var node = CONSTANTS.NOTPROCESSEDDATA.nodes[CONSTANTS.NOTPROCESSEDDATA.indexor[Number(mainnodes[j])]];
+            console.log(node)
+            return fade(Color.node(node), CONSTANTS.COLORS.BACKGROUND, 0.9)
+          })
+      }
+    }
+  }
+  }
+}
+
 function onclickStory (i){
   storyonread = i;
   updateTypesLinks(i);
@@ -633,7 +653,7 @@ function onclickStory (i){
   stopeventsStoriesCircles();
   updateEighthSection(i);
   simulation.nextSection();
-  resetMouseOut();
+  resetMouseOut(); // Et emphacize
   CONSTANTS.STORIES.colors[i] = CONSTANTS.COLORS.STORY_VISITED;
   d3.select("#bestallyworstrival").style("display", "none");
   d3.select("#themes").style("display", "none");
@@ -641,6 +661,7 @@ function onclickStory (i){
     .on("click", function (){
       storyonread = false;
       simulation.previousSection();
+      resetMouseOut();
       eraseLastSectionContent();
       writeStoriesTextInLastSection();
       eventsStoriesCircles();
