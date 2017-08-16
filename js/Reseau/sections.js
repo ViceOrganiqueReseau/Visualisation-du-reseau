@@ -814,22 +814,43 @@ function anonymizeUser (){
     .html("<span class='sujets'>Sujets : </span><span class='allthemes'></span>")
   d3.select("#answers").select("span.allthemes")
   for (var i=0; i<CONSTANTS.THEMELIST.length; i++){
+    // i2 vaut la valeur courante de i
+    (function (i2){
     d3.select("#answers").select("span.allthemes")
       .append("a")
-      .attr("href", "reseau.html?theme="+i)
-      .text(CONSTANTS.THEMELIST[i])
+      .attr("href", "reseau.html?theme="+i2)
+      .text(CONSTANTS.THEMELIST[i2])
+    d3.select("#answers").select("span.allthemes")
+      .append("img")
+      .attr("width", 13)
+      .attr("height", 13)
+      .attr("src", "img/i.svg")
+      .on("mouseover", function (){
+        console.log("hover")
+        console.log(i2);
+        console.log(CONSTANTS.THEMELIST[i2])
+        console.log(CONSTANTS.NOMS_DEPLOYES[CONSTANTS.THEMELIST[i2]])
+        var x = d3.mouse(d3.select("#answers").node())[0];
+        var y = d3.mouse(d3.select("#answers").node())[1];
+        d3.select("#answers")
+          .append("div")
+          .classed("cartouche", true)
+          .text(CONSTANTS.NOMS_DEPLOYES[CONSTANTS.THEMELIST[i2]])
+          .style("top", y)
+          .style("left", x)
+      })
+      .on("mouseout", function (){
+        d3.select("#answers").select("div.cartouche").remove();
+      })
     d3.select("#answers").select("span.allthemes")
       .append("br")
+    })(i);
   }
   drawlegcolors(false);
   drawlegcolorscale(false);
   drawlegaff(false);
   drawlegprop(false);
   updaterectcoords();
-  if (!answershow){
-    d3.select("#answers")
-      .style("bottom", -rectcoords.height++55+CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolors"])
-  }
 }
 
 function rebornUser (){

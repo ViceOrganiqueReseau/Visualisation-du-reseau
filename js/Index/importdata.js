@@ -68,7 +68,7 @@ d3.csv("data/Index/Scenario.csv", function (data){
 
 });
 
-d3.csv("data/Index/nomsDeploye27juillet.csv", function (data){
+d3.csv("data/nomsDeploye27juillet.csv", function (data){
 
   CONST.NOMSDEPLOYES = {};
   for (var i=0; i<data.length; i++){

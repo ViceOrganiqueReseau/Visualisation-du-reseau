@@ -110,6 +110,7 @@ var CONSTANTS = {
       LINKS_AFFILIATION:"data/Affiliation27juillet.csv",
       SCENARIO: "data/Reseau/Scenario.csv",
       RESULTAT: "data/Reseau/texteResultat.csv",
+      NOMS_DEPLOYES: "data/nomsDeploye27juillet.csv"
     },
     JSON_FILES: {
       STORIES: "data/Reseau/stories.json"

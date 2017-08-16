@@ -377,6 +377,7 @@ var importData = function(){
     csv.LINKS_AFFILIATION,
     csv.SCENARIO,
     csv.RESULTAT,
+    csv.NOMS_DEPLOYES
   ];
   // ajoute à la queue le chargement du chargement du fichier
   files.forEach(function(file){
@@ -392,14 +393,18 @@ var importData = function(){
     // on récupère tout les noms de fichiers passés en argument.
     var files = Array.from(arguments).slice(1).map(function(csv){ return csv.slice(); });
     console.log("files = ",files)
-    CONSTANTS.SCENARIO = files[5];
     CONSTANTS.NOTPROCESSEDDATA = {};
     CONSTANTS.NOTPROCESSEDDATA.nodes = files[0];
     CONSTANTS.NOTPROCESSEDDATA.proprietaries = files[1];
     CONSTANTS.NOTPROCESSEDDATA.linksproprietary = files[2];
     CONSTANTS.NOTPROCESSEDDATA.undirectlinks = files[3];
     CONSTANTS.NOTPROCESSEDDATA.linksaffiliation = files[4];
+    CONSTANTS.SCENARIO = files[5];
     CONSTANTS.RESULTAT = files[6];
+    CONSTANTS.NOMS_DEPLOYES = {};
+    for (var i=0; i<files[7].length; i++){
+      CONSTANTS.NOMS_DEPLOYES[files[7][i]["Par défaut"]] = files[7][i]["Déployé (i)"]
+    }
     // On crée l'index de nodes et on le remplit avec les IDs des lobby nodes et proprietary nodes
     CONSTANTS.NOTPROCESSEDDATA.indexor = {};
     for (var i=0; i<CONSTANTS.NOTPROCESSEDDATA.nodes.length; i++){
