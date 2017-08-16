@@ -28,16 +28,6 @@ function displaylinksError (){
 
 }
 
-function displaylinksEnd (){
-
-  // Afficher le texte d'erreur
-  linksloby.select("p")
-      .text("Et voilà, c'est fini !")
-
-  linksloby.style("display", "block");
-
-}
-
 function invisiblelinks (){
   linksloby.style("display", "none");
 }

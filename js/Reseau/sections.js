@@ -811,7 +811,7 @@ function anonymizeUser (){
   // On écrit un unique answer
   d3.select("#answers").insert("p", "p.small")
     .classed("sujet", true)
-    .html("<span class='sujets'>Sujets d'intervention : </span><span class='allthemes'></span>")
+    .html("<span class='sujets'>Sujets : </span><span class='allthemes'></span>")
   d3.select("#answers").select("span.allthemes")
   for (var i=0; i<CONSTANTS.THEMELIST.length; i++){
     d3.select("#answers").select("span.allthemes")
@@ -828,7 +828,7 @@ function anonymizeUser (){
   updaterectcoords();
   if (!answershow){
     d3.select("#answers")
-      .style("bottom", -rectcoords.height+63)
+      .style("bottom", -rectcoords.height++55+CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolors"])
   }
 }
 
@@ -914,17 +914,19 @@ function rebornUser (){
   updaterectcoords();
   if (!answershow){
     d3.select("#answers")
-      .style("bottom", -rectcoords.height+63)
+      .style("bottom", -rectcoords.height+55+CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolors"])
   }
 }
 
 function onclickNewTheme (){
   eraseLastSectionContent();
   writeNewThemeTextInLastSection();
+  showanswers();
   anonymizeUser();
   d3.select("img#themes").on("click", function (){
     eraseLastSectionContent();
     writeBaseTextInLastSection();
+    showanswers();
     rebornUser();
     d3.select("img#themes").on("click", onclickNewTheme);
   })

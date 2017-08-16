@@ -50,11 +50,6 @@ function position(simulation) {
     majvue.call(this, simulation, sectionIndex, prevIndex);
   }
   scrollAnim();
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight){
-    displaylinksEnd();
-  } else {
-    invisiblelinks();
-  }
 }
 
 // Fonction à appeler pour mettre la vue à jour

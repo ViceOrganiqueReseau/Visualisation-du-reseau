@@ -11,21 +11,21 @@ function updaterectcoords (){
 
 var legend = d3.select("#legend");
 
-legend.append("svg").attr("id", "legstory")
+legend.append("svg").attr("id", "legcolors")
   .attr("width", answerwidth)
-  .attr("height", 0)
-legend.append("svg").attr("id", "legprop")
+  .attr("height", CONSTANTS.LEGEND.svgheightcolors)
+legend.append("svg").attr("id", "legcolorscale")
   .attr("width", answerwidth)
   .attr("height", 0)
 legend.append("svg").attr("id", "legaff")
   .attr("width", answerwidth)
   .attr("height", 0)
-legend.append("svg").attr("id", "legcolorscale")
+legend.append("svg").attr("id", "legprop")
   .attr("width", answerwidth)
   .attr("height", 0)
-legend.append("svg").attr("id", "legcolors")
+legend.append("svg").attr("id", "legstory")
   .attr("width", answerwidth)
-  .attr("height", CONSTANTS.LEGEND.svgheightcolors)
+  .attr("height", 0)
 
 CONSTANTS.LEGEND.HEIGHTSTABLE = {};
 CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolors"] = CONSTANTS.LEGEND.svgheightcolors;
@@ -597,16 +597,16 @@ function updateLegendContent (){
   for (var i=0; i<selectors.active.length; i++){
     d3.select(selectors.active[i])
       .transition()
-      .duration(200)
+      .duration(1000)
       .attr("height", CONSTANTS.LEGEND.HEIGHTSTABLE[selectors.active[i]])
   }
   for (var i=0; i<selectors.inactive.length; i++){
     d3.select(selectors.inactive[i])
       .transition()
-      .duration(200)
+      .duration(1000)
       .attr("height", 0)
   }
-  setTimeout(updaterectcoords, 250);
+  setTimeout(updaterectcoords, 1100);
 }
 
 function hideanswers (){
@@ -615,7 +615,7 @@ function hideanswers (){
     d3.select("#answers")
       .transition()
       .duration(1000)
-      .style("bottom", -rectcoords.height+63)
+      .style("bottom", -rectcoords.height+55+CONSTANTS.LEGEND.HEIGHTSTABLE["#legcolors"])
   }
 }
 
