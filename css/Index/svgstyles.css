@@ -16,6 +16,7 @@ svg foreignObject.arctext > p {
 }
 
 svg.BADGE > text > tspan {
+  font-family: 'Open Sans Bold', Arial, sans-serif;
   fill: #111627;
   font-size: 20px;
   font-weight: bold;
@@ -28,7 +29,7 @@ svg.Initfig text.titre {
 }
 
 svg.Initfig text.texte {
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: 'Open Sans Bold', Arial, sans-serif;
   fill: #111627;
   font-size: 15px;
   font-weight: bold;
@@ -81,8 +82,7 @@ svg foreignObject.cartouche > div.foreigncontainer > h1 {
 }
 svg foreignObject.cartouche > div.foreigncontainer > p {
   background-color: white;/*rgba(50,50,50,0.6);*/
-  font-family: 'Open Sans', Arial, sans-serif;
-  font-style: italic;
+  font-family: 'Open Sans Italic', Arial, sans-serif;
   font-size: 11px;
   color: #111627;
   margin: auto;
@@ -99,7 +99,7 @@ img.information {
   overflow: visible;
 }
 
-svg g.result > text> tspan.mainname {
+svg g.result > text > tspan.mainname {
   font-family: 'Antique Olive Standard Compact';
   font-size: 34px;
   text-anchor: middle;
@@ -142,5 +142,6 @@ svg g.result rect {
 }
 
 svg g.result tspan.linktext {
+  font-family: 'Open Sans Bold', Arial, sans-serif;
   text-anchor: middle;
 }

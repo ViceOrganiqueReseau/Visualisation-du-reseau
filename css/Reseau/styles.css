@@ -9,6 +9,26 @@ font-style: normal;
 }
 
 @font-face {
+font-family: 'Open Sans Bold';
+src: url('../font/OpenSansBold/OpenSans-Bold.eot?') format('eot'),
+     url('../font/OpenSansBold/OpenSans-Bold.otf') format('truetype'),
+     url('../font/OpenSansBold/OpenSans-Bold.woff') format('woff'),
+     url('../font/OpenSansBold/OpenSans-Bold.svg#OpenSansBold') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'Open Sans Italic';
+src: url('../font/OpenSansItalic/OpenSans-Italic.eot?') format('eot'),
+     url('../font/OpenSansItalic/OpenSans-Italic.otf') format('truetype'),
+     url('../font/OpenSansItalic/OpenSans-Italic.woff') format('woff'),
+     url('../font/OpenSansItalic/OpenSans-Italic.svg#OpenSansBold') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
 font-family: 'Antique Olive Standard Compact';
 src: url('../font/AntiqueOliveStdCompact/AntiqueOliveStd-Compact.eot?') format('eot'),
      url('../font/AntiqueOliveStdCompact/AntiqueOliveStd-Compact.otf') format('truetype'),
