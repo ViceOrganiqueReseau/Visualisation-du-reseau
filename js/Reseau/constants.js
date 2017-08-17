@@ -6,7 +6,7 @@ var vuepadding = 5;
 
 var CONSTANTS = {
   USE_CANVAS: false,
-  DEBUG: true,
+  DEBUG: false,
   PHI: Math.PI * 4,
   WIDTH: 1280,
   HEIGHT: 600,
@@ -21,18 +21,18 @@ var CONSTANTS = {
   COLORS: {
     PROPRIETARY: '#7d7d7d',
     BACKGROUND: '#111627',
-    ENEMY: '#b17d1d',
-    ALLY: '#4d8d9c',
-    SUPPORT: '#00ff00',
-    OPPOSE: '#ff0000',
-    USER: '#00ff90',
-    UNSELECTED: '#A0A0A0',
+    ENEMY: '#b7811d',
+    ALLY: '#5092A1',
+    SUPPORT: '#36A86D',
+    OPPOSE: '#d13b35',
+    USER: '#00ffa5',
+    UNSELECTED: '#3E5A31',
     UNSELECTED_OPACITY : 0.3,
     // Ne pas oublier de modifier la valeur correspondante dans styles.css : a.sourcelink
     STORY: "white",
     STORY_VISITED: "gray",
     STORYNODE: "#996c6c",
-    STORYLINK2: "yellow",
+    STORYLINK2: "#754fff",
   },
   VUE: {
     POSITION: vue.getBoundingClientRect(),
@@ -60,13 +60,13 @@ var CONSTANTS = {
     END_SCALE: 0.1
   },
   CIRCLE: {
-    PROPRIETARY_RADIUS: 20,
-    KERNEL_RADIUS: 6,
-    POINTS_NUMBER: 20,
+    PROPRIETARY_RADIUS: 12,
+    KERNEL_RADIUS: 4,
+    POINTS_NUMBER: 14,
     CURVE: d3.curveBasisClosed,
     SCALE: d3.scaleLinear,
-    RADIUS_JITTER: 0.12,
-    RADIUS_RANGE: [12, 50],
+    RADIUS_JITTER: 0.2,
+    RADIUS_RANGE: [7, 60],
     TEXTdx: -15,
     TEXTdy: -10,
     TEXT_PADDING: 11,
@@ -77,8 +77,8 @@ var CONSTANTS = {
     STORY_CIRCLE_PERLINE : 5
   },
   FORCES: {
-    COLLIDE_PADDING: 3,
-    SPACE_PADDING: 25,
+    COLLIDE_PADDING: 2,
+    SPACE_PADDING: 23,
     PACK_PADDING: 8,
   },
   UPDATE_INTERVAL: 500,
@@ -123,17 +123,17 @@ var CONSTANTS = {
 };
 
 CONSTANTS.CLICK_FICHE = {
-  x: 0.65*CONSTANTS.VUE.WIDTH,
+  x: 0.7*CONSTANTS.VUE.WIDTH,
   y: 0.05*CONSTANTS.VUE.HEIGHT,
-  width: 0.32*CONSTANTS.VUE.WIDTH,
+  width: 0.3*CONSTANTS.VUE.WIDTH,
   height: 0.5*CONSTANTS.VUE.HEIGHT,
 };
 
 CONSTANTS.BESTIES_FICHES = {
-  x: 0.6*CONSTANTS.VUE.WIDTH,
+  x: 0.7*CONSTANTS.VUE.WIDTH,
   y1: 0.01*CONSTANTS.VUE.HEIGHT,
   y2: 0.51*CONSTANTS.VUE.HEIGHT,
-  width: 0.37*CONSTANTS.VUE.WIDTH,
+  width: 0.3*CONSTANTS.VUE.WIDTH,
   height: 0.48*CONSTANTS.VUE.HEIGHT,
 };
 

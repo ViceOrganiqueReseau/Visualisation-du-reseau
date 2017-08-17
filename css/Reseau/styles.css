@@ -101,6 +101,7 @@ section > h1.titlesource {
 
 table {
   border-collapse: collapse;
+  width: 100%;
 }
 
 th, td {
@@ -118,7 +119,7 @@ th {
 td {
   border: solid rgb(45, 82, 252) 1px;
   border-right: none;
-  width: 22%;
+  width: 100%;
   padding-left: 6px;
 }
 
@@ -280,6 +281,8 @@ div.menu > img {
   margin: 5px;
   cursor: pointer;
   display: none;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 div.menu > svg#closestory {

@@ -141,7 +141,7 @@ var drawMembranes = function(nodes, membranes){
             somme += Number(nodes[i][CONSTANTS.DATA.SPENDING_KEY]);
           }
         }
-        return "Budget Lobby : "+somme+" €";
+        return "Budget lobbying : "+somme+" €";
       })
   })
 
@@ -150,7 +150,7 @@ var drawMembranes = function(nodes, membranes){
     .delay(0)
     .duration(2200)
     .ease(d3.easeCubic)
-    .attrTween('fill-opacity', function(){ return d3.interpolateNumber(0,1);});
+    .attrTween('fill-opacity', function(){ return d3.interpolateNumber(0,0.9);});
 
 
 

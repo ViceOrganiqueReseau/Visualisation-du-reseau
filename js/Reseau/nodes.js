@@ -371,7 +371,7 @@ var drawNodes = function(nodes){
         .attr("x", coords.x+CONSTANTS.CIRCLE.TEXTdx)
         .attr("y", coords.y+CONSTANTS.CIRCLE.TEXTdy+CONSTANTS.CIRCLE.TEXT_PADDING)
         .attr("fill-opacity", 0)
-        .text("Budget Lobby : "+node[CONSTANTS.DATA.SPENDING_KEY]+" €")
+        .text("Budget lobbying : "+node[CONSTANTS.DATA.SPENDING_KEY]+" €")
     }
   })
 

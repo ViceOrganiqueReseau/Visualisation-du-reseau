@@ -18,7 +18,7 @@ svg foreignObject.arctext > p {
 svg.BADGE > text > tspan {
   fill: #111627;
   font-size: 20px;
-  /*font-weight: bold;*/
+  font-weight: bold;
 }
 
 svg.Initfig text.titre {
@@ -101,12 +101,14 @@ img.information {
 
 svg g.result > text> tspan.mainname {
   font-family: 'Antique Olive Standard Compact';
-  font-size: 28px;
+  font-size: 34px;
+  text-anchor: middle;
 }
 
 svg g.result > text > tspan.fullname {
-  font-family: 'Antique Olive Standard Compact';
-  font-size: 10px;
+  font-family: 'Antique Olive Roman';
+  font-size: 15px;
+  text-anchor: middle;
 }
 
 svg g.result > text > tspan.paragtitle {
@@ -116,12 +118,13 @@ svg g.result > text > tspan.paragtitle {
 
 svg g.result > text > tspan.item {
   font-family: 'Antique Olive Roman';
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .linktext {
   fill: #111627;
   font-size: 20px;
+  font-weight: bold;
 }
 
 .linktext:hover {
