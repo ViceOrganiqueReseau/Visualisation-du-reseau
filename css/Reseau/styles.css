@@ -378,3 +378,69 @@ a#backloby:hover {
   background-color: orange;
   cursor: pointer;
 }
+
+#credits {
+  display: none;
+  position: fixed;
+  background-color: rgba(50,50,50,0.95);
+  width: 70%;
+  height: 70%;
+  top: 15%;
+  left: 15%;
+  overflow: scroll;
+  overflow-x: hidden;
+  z-index: 10;
+  padding: 10px;
+}
+
+#credits > #closecredits {
+  position: fixed;
+  top: 10%;
+  right: 15%;
+  background-color: rgb(191,191,191);
+  border: solid black 2px;
+  border-radius: 10px;
+  padding: 5px;
+  color: black;
+  font-weight: bold;
+}
+
+#credits > #closecredits:hover {
+  background-color: red;
+  cursor: pointer;
+}
+
+p#opencredits:hover {
+  cursor: pointer;
+}
+
+#credits > h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 25px;
+}
+
+#credits > p {
+  text-align: justify;
+}
+
+#credits > p > em {
+  font-style: italic;
+}
+
+#credits > p > a {
+  color: inherit;
+}
+
+#credits > p > a:hover {
+  color: inherit;
+}
+
+#credits > p > a:visited {
+  color: inherit;
+}
+
+#credits > img {
+  display: block;
+  margin: auto;
+}
