@@ -830,7 +830,7 @@ function anonymizeUser (){
       .append("img")
       .attr("width", 13)
       .attr("height", 13)
-      .attr("src", "img/i.svg")
+      .attr("src", "img/i_blanc.svg")
       .on("mouseover", function (){
         console.log("hover")
         console.log(i2);
