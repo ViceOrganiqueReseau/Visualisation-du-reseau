@@ -19,23 +19,6 @@ var choices = [];
 var pas = 45;
 var resultindex;
 
-// Cette fonction ajuste la taille des disques en fonction de la donnée
-function scalablesize (intselect,d){
-  var max = tabnbloby[intselect];
-  return d/max+0.2
-}
-
-// Cette fonction est appelée pour positionner le texte
-// Elle permet d'éviter les recoupements entre les dernières
-// tranches de la pie. 
-function coefeloign (intselect, d){
-  if ((d.index>3) && (d.index!==CONST.ALLPIEZEDDATA[intselect].length-1)){
-    return 1.5 - 0.3*(d.index%2);
-  } else {
-    return 1.3;
-  }
-}
-
 CONST.HOVERTEXT = {};
 CONST.HOVERTEXT.singulier = [];
 CONST.HOVERTEXT.singulier[0] = "organisation a pris position sur ce sujet parmi celles dont le rapport a été analysé jusque-là (voir \"A propos\")";

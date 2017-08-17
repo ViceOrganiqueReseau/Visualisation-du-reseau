@@ -33,6 +33,23 @@ var tabnbloby;
 // Tableau référençant les thèmes : utile pour la transmission au réseau par URL
 var idToTheme;
 
+// Cette fonction ajuste la taille des disques en fonction de la donnée
+function scalablesize (intselect,d){
+  var max = tabnbloby[intselect];
+  return d/max+0.2
+}
+
+// Cette fonction est appelée pour positionner le texte
+// Elle permet d'éviter les recoupements entre les dernières
+// tranches de la pie. 
+function coefeloign (intselect, d){
+  if ((d.index>3) && (d.index!==CONST.ALLPIEZEDDATA[intselect].length-1)){
+    return 1.5 - 0.3*(d.index%2);
+  } else {
+    return 1.3;
+  }
+}
+
 function writeTextInSection (i){
   var element = d3.select("#sec"+i);
   element.select("h1").html(CONST.SCENARIO[i-1]["Titre"]);
