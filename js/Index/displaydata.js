@@ -648,11 +648,11 @@ function generateResult (){
   // Création du lien vers le réseau
   var link = CONST.RESULT.D3.append("svg:a")
               .attr("class", "link")
-              .attr("display", "none")
               .attr("href", "")
   link.append("rect")
+        .classed("firstrect", true)
         .attr("x", CONST.RESULT.LINK.x)
-        .attr("y", CONST.RESULT.LINK.y)
+        .attr("y", (1.1*CONST.VUE.HEIGHT-CONST.RESULT.LINK.y)+CONST.RESULT.LINK.y)
         .attr("width", CONST.RESULT.LINK.width)
         .attr("height", CONST.RESULT.LINK.width) // Oui c'est bien width !
         .attr("stroke-width", CONST.strokewidth)
@@ -662,24 +662,84 @@ function generateResult (){
                   .attr("y", CONST.RESULT.LINK.textdy)
   for (var i=0; i<CONST.RESULT.LINK.texte.length; i++){
     textelem.append("tspan")
-            .attr("class", "linktext")
+            .classed("linktext", true)
+            .attr("id", "linktext"+i)
             .attr("x", CONST.RESULT.LINK.x + 0.5*CONST.RESULT.LINK.width)
-            .attr("y", CONST.RESULT.LINK.y + (i+1.5)*CONST.RESULT.LINK.textpadding)
+            .attr("y", (1.1*CONST.VUE.HEIGHT-CONST.RESULT.LINK.y)+CONST.RESULT.LINK.y + (i+1.5)*CONST.RESULT.LINK.textpadding)
             .text(CONST.RESULT.LINK.texte[i])
   }
   link.append("rect")
+        .classed("secondrect", true)
         .attr("x", CONST.RESULT.LINK.x)
-        .attr("y", CONST.RESULT.LINK.y+CONST.RESULT.LINK.width)
+        .attr("y", (1.1*CONST.VUE.HEIGHT-CONST.RESULT.LINK.y)+CONST.RESULT.LINK.y+CONST.RESULT.LINK.width)
         .attr("width", CONST.RESULT.LINK.width)
         .attr("height", CONST.RESULT.LINK.width) // Oui c'est bien width !
         .attr("stroke-width", CONST.strokewidth)
         .attr("stroke", "#111627");
   link.append("image")
         .attr("x", CONST.RESULT.LINK.x+CONST.RESULT.LINK.width/4)
-        .attr("y", CONST.RESULT.LINK.y + CONST.RESULT.LINK.width+CONST.RESULT.LINK.width/4)
+        .attr("y", (1.1*CONST.VUE.HEIGHT-CONST.RESULT.LINK.y)+CONST.RESULT.LINK.y + CONST.RESULT.LINK.width+CONST.RESULT.LINK.width/4)
         .attr("width", CONST.RESULT.LINK.width/2)
         .attr("height", CONST.RESULT.LINK.width/2) // oui c'est bien width !
         .attr("href", "img/pointIdentification.svg");
+}
+
+var linkshow = false;
+function showlink (){
+  if (linkshow===false){
+    linkshow=true;
+    var link = svg.select("a.link");
+    link.select("rect.firstrect")
+      .transition()
+      .duration(2*CONST.TIMETRANSITION)
+      .attr("x", CONST.RESULT.LINK.x)
+      .attr("y", CONST.RESULT.LINK.y)
+    link.select("rect.secondrect")
+      .transition()
+      .duration(2*CONST.TIMETRANSITION)
+      .attr("x", CONST.RESULT.LINK.x)
+      .attr("y", CONST.RESULT.LINK.y+CONST.RESULT.LINK.width)
+    for (var i=0; i<CONST.RESULT.LINK.texte.length; i++){
+      link.select("#linktext"+i)
+        .transition()
+        .duration(2*CONST.TIMETRANSITION)
+        .attr("x", CONST.RESULT.LINK.x + 0.5*CONST.RESULT.LINK.width)
+        .attr("y", CONST.RESULT.LINK.y + (i+1.5)*CONST.RESULT.LINK.textpadding)
+    }
+    link.select("image")
+      .transition()
+      .duration(2*CONST.TIMETRANSITION)
+      .attr("x", CONST.RESULT.LINK.x+CONST.RESULT.LINK.width/4)
+      .attr("y", CONST.RESULT.LINK.y + CONST.RESULT.LINK.width+CONST.RESULT.LINK.width/4)
+  }
+}
+function hidelink (){
+  if (linkshow===true){
+    linkshow=false;
+    var link = svg.select("a.link");
+    link.select("rect.firstrect")
+      .transition()
+      .duration(2*CONST.TIMETRANSITION)
+      .attr("x", CONST.RESULT.LINK.x)
+      .attr("y", (1.1*CONST.VUE.HEIGHT-CONST.RESULT.LINK.y)+CONST.RESULT.LINK.y)
+    link.select("rect.secondrect")
+      .transition()
+      .duration(2*CONST.TIMETRANSITION)
+      .attr("x", CONST.RESULT.LINK.x)
+      .attr("y", (1.1*CONST.VUE.HEIGHT-CONST.RESULT.LINK.y)+CONST.RESULT.LINK.y+CONST.RESULT.LINK.width)
+    for (var i=0; i<CONST.RESULT.LINK.texte.length; i++){
+      link.select("#linktext"+i)
+        .transition()
+        .duration(2*CONST.TIMETRANSITION)
+        .attr("x", CONST.RESULT.LINK.x + 0.5*CONST.RESULT.LINK.width)
+        .attr("y", (1.1*CONST.VUE.HEIGHT-CONST.RESULT.LINK.y)+CONST.RESULT.LINK.y + (i+1.5)*CONST.RESULT.LINK.textpadding)
+    }
+    link.select("image")
+      .transition()
+      .duration(2*CONST.TIMETRANSITION)
+      .attr("x", CONST.RESULT.LINK.x+CONST.RESULT.LINK.width/4)
+      .attr("y", (1.1*CONST.VUE.HEIGHT-CONST.RESULT.LINK.y)+CONST.RESULT.LINK.y + CONST.RESULT.LINK.width+CONST.RESULT.LINK.width/4)
+  }
 }
 
 function eraseResult(){

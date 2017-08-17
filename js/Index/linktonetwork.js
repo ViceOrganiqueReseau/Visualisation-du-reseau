@@ -8,9 +8,9 @@ function setlinkURL (){
 function visiblelink (){
   if (nbloby===1){
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight){
-      CONST.RESULT.D3.selectAll(".link").style("display", "block");
+      showlink();
     } else {
-      CONST.RESULT.D3.selectAll(".link").style("display", "none");
+      hidelink();
     }
   }
 }

@@ -442,17 +442,18 @@ function manageFicheBadgeSec3 (pos){
   var startsection = sectionPositions[2];
   var alpha = (pos - startsection)/scrollheight;
   // Définir ici les alphasteps de la section 3
-  var alphasteps = [0,0.8,1];
+  var alphasteps = [0.6,0.95,1];
   for (var i=0; i<alphasteps.length; i++){
     if ((Math.abs(alpha-alphasteps[i])<=CONST.ALPHALIM)){
       alpha = alphasteps[i];
     }
   }
-  if (alpha<=0){
+  if (alpha<=alphasteps[0]){
     // On restaure l'état initial, position de la fiche et du badge
+    moveBadge(deltay2);
   } else if (alpha<=alphasteps[1]){
     // On scroll la fiche et le badge
-    var beta = abTo01(0,alphasteps[1],alpha);
+    var beta = abTo01(alphasteps[0],alphasteps[1],alpha);
     moveBadge(deltay2*(1-beta));
   } else {
     // On s'assure que la fiche et le badge sont au bon endroit

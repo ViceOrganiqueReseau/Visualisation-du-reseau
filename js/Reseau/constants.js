@@ -67,10 +67,10 @@ var CONSTANTS = {
     SCALE: d3.scaleLinear,
     RADIUS_JITTER: 0.2,
     RADIUS_RANGE: [7, 60],
-    TEXTdx: -15,
+    TEXTdx: 0,
     TEXTdy: -10,
     TEXT_PADDING: 11,
-    STORY_CIRCLE_dx : -22,
+    STORY_CIRCLE_dx : 0,
     STORY_CIRCLE_dy : 10,
     STORY_CIRCLE_RADIUS : 3,
     // WARNING : PERLINE < 10 !
