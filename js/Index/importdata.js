@@ -94,7 +94,7 @@ d3.csv("data/nomsDeploye27juillet.csv", function (data){
 
 });
 
-d3.csv("data/Noeud27juillet.csv", function (data){
+d3.csv("data/Noeud27juilletNS_controv.csv", function (data){
   CONST.DATASET=data;
   // Chargé de conserver des données filtrées intermédiaires, en cas de sauts successifs d'étapes
   CONST.AUXDATASET = CONST.DATASET;
@@ -132,7 +132,7 @@ d3.csv("data/Noeud27juillet.csv", function (data){
     var somme = 0;
     for (var j=0; j<data.length; j++){
       // Utilisation du truthy falsy
-      if (data[j][CONST.ALLTHEMELIST[0][i]]){
+      if (data[j][CONST.ALLTHEMELIST[0][i]] === "Pour" || data[j][CONST.ALLTHEMELIST[0][i]] === "Contre"){
         somme++;
       }
     }

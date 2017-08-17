@@ -24,7 +24,7 @@ var getUserChoice = function(){ return userChoice; };
 var filterNodesByTheme = function(nodes, theme){
   return nodes.filter(function(node){
     var position = node[theme];
-    return position != null && position != '';
+    return position != null && position != '' && position != "NSPP" && position != "Controversé";
   });
 };
 

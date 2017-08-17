@@ -309,6 +309,8 @@ div.menu > svg#closestory {
   margin: 5px;
   cursor: pointer;
   display: none;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 svg.experimentation {
