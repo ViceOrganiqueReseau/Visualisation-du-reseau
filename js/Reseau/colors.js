@@ -14,7 +14,7 @@ var nodeColor = function(d){
         } else if (d[userChoice.theme]==="Pour" || d[userChoice.theme]==="Contre"){
           color = colors.ENEMY;
         } else {
-          color = colors.UNSELECTED;
+          color = colors.NSPP_CONTROV;
         }
       } else {
         color = colors.UNSELECTED;
@@ -26,7 +26,7 @@ var nodeColor = function(d){
         } else if (d[userChoice.theme]==="Contre"){
           color = colors.OPPOSE;
         } else {
-          color = colors.UNSELECTED;
+          color = colors.NSPP_CONTROV;
         }
       } else {
         color = colors.UNSELECTED;

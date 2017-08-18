@@ -619,7 +619,7 @@ function updateTypesLinks (i){
     var linktypes = Object.keys(CONSTANTS.STORIES.Histoires[i].Liens);
     CONSTANTS.DATA.TYPES.LINK.STORY.LINK1 = linktypes[0]
     if (linktypes[1]){
-      CONSTANTS.DATA.TYPES.LINK.STORY.LINK1 = linktypes[1]
+      CONSTANTS.DATA.TYPES.LINK.STORY.LINK2 = linktypes[1]
     }
   }
 }
@@ -786,7 +786,7 @@ function anonymizeUser (){
         } else if (d[userChoice.theme]==="Contre"){
           color = colors.OPPOSE;
         } else {
-          color = colors.UNSELECTED;
+          color = colors.NSPP_CONTROV;
         }
       } else {
         color = colors.UNSELECTED;
@@ -877,7 +877,7 @@ function rebornUser (){
           } else if (d[userChoice.theme]==="Pour" || d[userChoice.theme]==="Contre"){
             color = colors.ENEMY;
           } else {
-            color = colors.UNSELECTED;
+            color = colors.NSPP_CONTROV;
           }
         } else {
           color = colors.UNSELECTED;
@@ -889,7 +889,7 @@ function rebornUser (){
           } else if (d[userChoice.theme]==="Contre"){
             color = colors.OPPOSE;
           } else {
-            color = colors.UNSELECTED;
+            color = colors.NSPP_CONTROV;
           }
         } else {
           color = colors.UNSELECTED;

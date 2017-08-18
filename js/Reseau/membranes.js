@@ -89,7 +89,9 @@ var drawMembranes = function(nodes, membranes){
 
   var membraneEnter = $membranes.enter()
     .append('path')
-    .classed('membrane', true)
+    .attr("class", function (cluster){
+      return "membrane membrane"+purgeSpaces(cluster.key.split("-")[0])
+    })
     .attr('stroke', 'none')
     .attr('d', function (cluster){
       return membranePath(nodes, cluster);
@@ -172,12 +174,18 @@ var drawMembranes = function(nodes, membranes){
     canvas.selectAll(".membranetext"+purgeSpaces(membrane.key.split("-")[0])).selectAll("tspan.name").attr("fill-opacity", 1);
     canvas.selectAll(".membranetext"+purgeSpaces(membrane.key.split("-")[0])).selectAll("tspan.count").attr("fill-opacity", 1);
     canvas.selectAll(".membranetext"+purgeSpaces(membrane.key.split("-")[0])).selectAll("tspan.budget").attr("fill-opacity", 1);
+    canvas.selectAll("path.membrane:not(.membrane"+purgeSpaces(membrane.key.split("-")[0])+")")
+      .attr("fill", CONSTANTS.COLORS.UNSELECTED_MEMBRANE)
   })
 
   $membranes.on("mouseout", function (membrane){
     canvas.selectAll(".membranetext"+purgeSpaces(membrane.key.split("-")[0])).selectAll("tspan.name").attr("fill-opacity", 0);
     canvas.selectAll(".membranetext"+purgeSpaces(membrane.key.split("-")[0])).selectAll("tspan.count").attr("fill-opacity", 0);
     canvas.selectAll(".membranetext"+purgeSpaces(membrane.key.split("-")[0])).selectAll("tspan.budget").attr("fill-opacity", 0);
+    canvas.selectAll("path.membrane:not(.membrane"+purgeSpaces(membrane.key.split("-")[0])+")")
+      .attr("fill", function (cluster){
+        return chroma(cluster.color);
+      })
   })
   
   return {membranes: $membranes, membranesExit: membranesExit};

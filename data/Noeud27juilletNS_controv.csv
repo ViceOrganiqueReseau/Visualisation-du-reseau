@@ -10,7 +10,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 9,94944179052-82,Sandbag,,Royaume-Uni,ONG,"Recherche scientifique, expertise",249999,8,6.5,Pour,NSPP,Controversé,NSPP
 10,505588923656-96,ECEEE,the European Council for an Energy Efficient Economy,Europe,ONG,Énergie,17499,1,0.75,,,,
 11,3960234639-24,QCEA,Quaker Council for European Affairs,Belgique,ONG,Autres industries / intérêts,149999,4,2.5,Pour,Pour,Contre,Pour
-12,58744833263-19,Transport and Environment,European Federation for Transport and Environment,Europe,ONG,"Construction, immobilier, transports",3624500,27,19.25,Pour,NSPP,Contre,
+12,58744833263-19,Transport and Environment,European Federation for Transport and Environment,Europe,ONG,"Construction, immobilier, transports",3624500,27,19.25,Pour,NSPP,Contre,NSPP
 13,,Hespul,,France,Think tank et recherche,Énergies renouvelables,NaN,NaN,NaN,,,,
 14,0285583802-96,NABU,Nature and Biodiversity Conservation Union,Allemagne,ONG,Intérêts public environnementaux,349999,31,13.5,Pour,Pour,Controversé,Pour
 15,83237681344-24,BUND,Bund für Umwelt und Naturschutz Deutschland,Allemagne,ONG,Intérêts public environnementaux,4999,2,1.75,,,,
@@ -59,7 +59,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 59,2680046412-48,SolarPower Europe,Ex-European Photovoltaic Industry Association,Europe,Association professionnelle,Énergies renouvelables,549999,11,9.25,Pour,Pour,Contre,Pour
 60,418701911503-17,British Ceramic Confederation,,Royaume-Uni,Association professionnelle,Matériaux,4999,6,1.5,Controversé,Contre,Pour,Contre
 61,68193894090-86,Confcooperative,,Italie,Association professionnelle,Intérêts privés,37499,3,3.0,,,,
-62,39299129772-62,EurEAU,European Federation of National Associations of Water and Waste Water Services,Europe,Association professionnelle,Énergie,249999,4,2.0,,,Contre,
+62,39299129772-62,EurEAU,European Federation of National Associations of Water and Waste Water Services,Europe,Association professionnelle,Énergie,249999,4,2.0,NSPP,NSPP,Contre,NSPP
 63,9931891670-73,Federchimica,,Italie,Association professionnelle,Industrie chimique,349999,2,1.0,,,,
 64,406700112988-86,ACOGEN,Asociación Española de Cogeneración,Espagne,Association professionnelle,Énergie,74999,4,1.0,,,,
 65,82064144358-30,APPA,Spanish Renewable Energy Association,Espagne,Association professionnelle,Énergies renouvelables,37499,2,0.75,Pour,Pour,Contre,Pour
@@ -84,7 +84,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 84,91684615435-86,Friends of the Supergrid,,Europe,Association professionnelle,Énergie,600000,3,2.5,NSPP,Controversé,NSPP,Controversé
 85,03451096957-77,EuSalt,,Europe,Association professionnelle,Autres industries / intérêts,37499,2,1.75,NSPP,Pour,NSPP,Contre
 86,75093131694-63,EUTurbines,European Association of Gas and Steam Turbine Manufacturers,Europe,Association professionnelle,Énergie,349999,4,2.75,Pour,Controversé,NSPP,Contre
-87,953933297-85,AFEP,Cercle de l'Industrie,France,Association professionnelle,Intérêts privés,649999,10,4.75,Pour,,Pour,
+87,953933297-85,AFEP,Cercle de l'Industrie,France,Association professionnelle,Intérêts privés,649999,10,4.75,Pour,NSPP,Pour,NSPP
 88,54829912208-85,CEDEC,the European Federation of Local Energy Companies,Europe,Entreprise,Énergie,549999,3,2.25,Pour,Pour,Contre,Pour
 89,7899845424-69,CEWEP,Confederation of European waste-to-Energy Plants,Europe,Association professionnelle,Énergie,549999,5,4.5,NSPP,Pour,Controversé,Pour
 90,,Heat Coalition,,Europe,Association professionnelle,Énergie,NaN,NaN,NaN,,,,
@@ -100,7 +100,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 100,50098025830-01,Energy Norway,,Norvège,Association professionnelle,Énergie,4999,2,2.0,Pour,Contre,Pour,Contre
 101,07265875082-72,FFE,Federation of Finnish Enterprises,Finlande,Association professionnelle,Intérêts privés,249999,18,6.0,NSPP,Contre,NSPP,Contre
 102,80966174852-38,Oesterreichs Energie,,Autriche,Association professionnelle,Énergie,549999,6,3.5,NSPP,NSPP,NSPP,NSPP
-103,64879142323-90,CEFIC,European Chemical Industry Council,Europe,Association professionnelle,Industrie chimique,12100000,78,48.0,,Contre,Pour,Contre
+103,64879142323-90,CEFIC,European Chemical Industry Council,Europe,Association professionnelle,Industrie chimique,12100000,78,48.0,NSPP,Contre,Pour,Contre
 104,255548111478-45,SRI,Swedish Recycling Industries' Association,Suède,Association professionnelle,Autres industries / intérêts,30000,1,0.25,,,,
 105,8111597333-73,Essenscia,Belgian Federation for Chemistry and Life Sciences Industries,Belgique,Association professionnelle,Industrie chimique,549999,9,3.0,,,,
 106,,Confindustria,,Italie,Association professionnelle,Intérêts privés,75000,NaN,NaN,,,,
@@ -129,7 +129,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 129,,ENEF,European Nuclear Energy Forum,Europe,Association professionnelle,Énergie,NaN,NaN,NaN,,,,
 130,780146710855-91,EuLA,European Lime Association,Europe,Association professionnelle,Matériaux,5000,1,0.25,,,,
 131,55820581197-35,UEAPME,"European Associations of Craft, Small and Medium-Sized Enterprises",Europe,Association professionnelle,Intérêts privés,1623893,15,15.0,NSPP,Contre,Pour,NSPP
-132,286194516022-33,Fedil,Business Federation Luxembourg,Luxembourg,Association professionnelle,Intérêts privés,149999,6,2.75,Contre,Contre,,Contre
+132,286194516022-33,Fedil,Business Federation Luxembourg,Luxembourg,Association professionnelle,Intérêts privés,149999,6,2.75,Contre,Contre,NSPP,Contre
 133,471593720714-56,World Coal Association,,International,Association professionnelle,Énergies fossiles,74999,2,0.5,,,,
 134,1274604847-34,Confederation of Finnish Industries,,Finlande,Association professionnelle,Finance,449999,6,3.0,,,,
 135,,APER,Associazione Produttori Energia Rinnovabile,Italie,Consultance,Énergies renouvelables,NaN,NaN,NaN,,,,
@@ -137,7 +137,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 137,11458103335-07,EGEC,the European Geothermal Energy Council,Europe,Association professionnelle,Énergies renouvelables,74999,4,4.0,,,,
 138,,Euro Chlor,,Europe,Association professionnelle,Industrie chimique,NaN,NaN,NaN,,,,
 139,550558011475-69,MEW,Mittelständische Energiewirtschaft Deutschland e.V.,Allemagne,Association professionnelle,Énergies fossiles,4999,2,1.0,NSPP,Contre,NSPP,Contre
-140,561606712956-58,VWEA,Vlaamse Windenergie Associatie,Belgique,Association professionnelle,Énergies renouvelables,4999,1,0.25,,Pour,,Pour
+140,561606712956-58,VWEA,Vlaamse Windenergie Associatie,Belgique,Association professionnelle,Énergies renouvelables,4999,1,0.25,NSPP,Pour,NSPP,Pour
 141,39671713910-36,FFIF,Finnish Forest Industries Federation,Finlande,Association professionnelle,Matériaux,74999,11,3.75,NSPP,Contre,NSPP,Contre
 142,57944346163-37,Marcogaz,,Europe,Association professionnelle,Énergie,649999,2,2.0,NSPP,Controversé,Pour,Contre
 143,639259811501-33,EREA,Estonian Renewable Energy Association,Estonie,Association professionnelle,Énergies renouvelables,4999,1,0.25,,,,
@@ -149,7 +149,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 150,29528175589-79,APREN,the Portuguese Renewable Energy Association,Portugal,Syndicat,Énergies renouvelables,4999,8,6.5,,,,
 151,,SCHP ČR,Association of Chemical Industry of the Czech Republic,République Tchèque,Association professionnelle,Industrie chimique,NaN,NaN,NaN,,,,
 152,143035111648-31,EMIRI,Energy Materials Industrial Research Initiative,Europe,Association professionnelle,Énergie,149999,2,1.25,,,,
-153,4271427696-87,EURELETRIC,,Europe,Association professionnelle,Énergie,549999,18,4.5,Pour,Contre,,Contre
+153,4271427696-87,EURELETRIC,,Europe,Association professionnelle,Énergie,549999,18,4.5,Pour,Contre,NSPP,Contre
 154,26207914726-42,Fuelseurope,Ex-Europia,Europe,Association professionnelle,Énergies fossiles,2374999,15,10.5,Controversé,Contre,Pour,Contre
 155,9434415651-11,FNI,Federation of Norwegian Industries,Norvège,Autre,Intérêts privés,149999,8,4.0,NSPP,Contre,NSPP,Contre
 157,,Czech Chamber of Commerce,,République Tchèque,Association professionnelle,Intérêts privés,NaN,NaN,NaN,,,,
@@ -165,7 +165,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 167,92221016212-42,FIEC,The European Construction Industry Federation,Europe,Association professionnelle,"Construction, immobilier, transports",449999,4,4.0,NSPP,Pour,NSPP,Pour
 168,97560524441-16,Renewable Energy Association,,Royaume-Uni,Association professionnelle,Énergies renouvelables,17499,4,1.25,NSPP,Pour,Contre,Pour
 169,77820278284-77,UPRIGAS,Union Professionelle des Industries Privées du Gaz,France,Syndicat,Énergie,4999,4,4.0,,,,
-170,424387214082-04,Apetro,the National Oil Industry Association of Portugal,Portugal,Association professionnelle,Énergies fossiles,4999,6,2.5,,,Pour,
+170,424387214082-04,Apetro,the National Oil Industry Association of Portugal,Portugal,Association professionnelle,Énergies fossiles,4999,6,2.5,NSPP,NSPP,Pour,NSPP
 171,39912257528-48,CSE,Confederation of Swedish Enterprise,Suède,Association professionnelle,Intérêts privés,649999,16,5.5,NSPP,NSPP,NSPP,NSPP
 172,66690371529-15,LK,Landwirtschaftskammer Österreich,Autriche,Syndicat,Autres industries / intérêts,37499,10,2.5,,,,
 173,78903417544-46,FEBEG,the Federation of Belgian Electricity and Gas Companies,Belgique,Association professionnelle,Énergie,4999,2,0.5,NSPP,Contre,NSPP,Contre
@@ -185,7 +185,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 187,479468313744-50,IBEC,Irish Business and Employers Confederation,Irlande,Association professionnelle,Intérêts privés,449999,16,7.5,,,,
 188,569379418624-07,SEDC,Smart Energy Demand Coalition,Europe,Entreprise,Énergie,249999,2,2.0,,,,
 189,1550133398-72,FEVE,the European Container Glass Federation,Europe,Association professionnelle,Matériaux,449999,3,1.5,Controversé,Controversé,Pour,Controversé
-190,3954187491-70,IOGP,International Association of Oil & Gas Producers,International,Association professionnelle,Énergies fossiles,1750000,9,8.75,,Contre,Pour,Contre
+190,3954187491-70,IOGP,International Association of Oil & Gas Producers,International,Association professionnelle,Énergies fossiles,1750000,9,8.75,NSPP,Contre,Pour,Contre
 191,42566063487-73,ACI EUROPE,Airports Council International,Europe,Entité/autorité publique,"Construction, immobilier, transports",2124999,15,11.2,,,,
 192,02963738854-41,CEOE,Confederación Española de Organizaciones Empresariales,Espagne,Association professionnelle,Intérêts privés,749999,11,4.75,,,,
 193,841386910709-86,Assovetro,,Italie,Association professionnelle,Matériaux,4999,6,4.5,,,,
@@ -216,9 +216,9 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 218,171640811897-34,DeSH,Deutsche Säge- und Holzindustrie,Allemagne,Association professionnelle,Matériaux,4999,9,8.75,,,,
 219,089167355-44,GdW,Bundesverband deutscher Wohnungs- und Immobilienunternehmen,Allemagne,Association professionnelle,"Construction, immobilier, transports",149999,3,3.0,NSPP,Contre,NSPP,Contre
 221,,Renewable UK,,Royaume-Uni,Association professionnelle,Énergies renouvelables,NaN,NaN,NaN,,,,
-222,38589651649-14,EFET,European Federation of Energy Traders,Europe,Association professionnelle,Finance,449999,10,7.5,,Contre,,Contre
+222,38589651649-14,EFET,European Federation of Energy Traders,Europe,Association professionnelle,Finance,449999,10,7.5,NSPP,Contre,NSPP,Contre
 223,,Austropapier,Confederation of Austrian Pulp and Paper industries,Autriche,Association professionnelle,Matériaux,NaN,NaN,NaN,,,,
-224,93038071152-83,EUROFER,European Steel Association,Europe,Association professionnelle,Matériaux,649999,8,2.5,,Contre,Pour,Contre
+224,93038071152-83,EUROFER,European Steel Association,Europe,Association professionnelle,Matériaux,649999,8,2.5,NSPP,Contre,Pour,Contre
 225,18146381379-29,EPPSA,European Power Plant Suppliers Association,Europe,Association professionnelle,Énergie,149999,6,2.5,,,,
 226,76130992074-15,Gas Infrastructure Europe,,Europe,Entreprise,Énergie,1374999,6,6.0,Pour,Contre,Pour,Contre
 227,157030317994-18,AEE,Spanish Wind Power Association,Espagne,Association professionnelle,Énergies renouvelables,10500,3,1.25,,,,
@@ -228,7 +228,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 231,,The Energy Partnership,,Europe,Association professionnelle,"Construction, immobilier, transports",NaN,NaN,NaN,,,,
 232,,SPEE-BG,"Alliance of the Producers of Ecological Energy-BG, the Bulgarian Photovoltaic Association, the Bulgarian Wind Energy Association and the Romanian Photovoltaic Industry Association",Bulgarie,Association professionnelle,Énergies renouvelables,NaN,NaN,NaN,,,,
 233,952322311484-70,EDSO,European Distribution System Operators' Association,Europe,Association professionnelle,Énergie,74999,2,0.5,,,,
-234,,Assoelettrica,,Italie,Association professionnelle,Énergie,NaN,NaN,NaN,,Contre,Pour,Contre
+234,,Assoelettrica,,Italie,Association professionnelle,Énergie,NaN,NaN,NaN,NSPP,Contre,Pour,Contre
 235,09586631237-74,COPA-COGECA,,Europe,Association professionnelle,Autres industries / intérêts,1124999,18,18.0,,,,
 236,89093924456-06,Federation of Austrian Industries,,Autriche,Association professionnelle,Intérêts privés,449999,10,3.5,,,,
 237,264048311507-68,EUOEA,European Ocean Energy Association,Europe,Association professionnelle,Énergie,349999,5,5.0,,,,
@@ -236,7 +236,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 239,388419813370-85,Chance for Buildings,,République Tchèque,Association professionnelle,"Construction, immobilier, transports",249999,4,2.0,,,,
 240,,ReNew,Renewable Energy Austria,Autriche,Association professionnelle,Énergies renouvelables,NaN,NaN,NaN,,,,
 241,281120313987-31,IKEM,Innovation and Chemical Industries in Sweden,Suède,Association professionnelle,Industrie chimique,100000,30,7.5,,,,
-242,72279144480-58,CEPI,Confederation of European Paper Industries,Europe,Association professionnelle,Matériaux,549999,7,2.5,,Contre,Pour,Contre
+242,72279144480-58,CEPI,Confederation of European Paper Industries,Europe,Association professionnelle,Matériaux,549999,7,2.5,NSPP,Contre,Pour,Contre
 243,69382094718-43,CCSA,Carbon Capture and Storage Association,Europe,Association professionnelle,Énergies fossiles,37499,4,1.8,,,,Contre
 244,13457582538-68,Energy UK,,Royaume-Uni,Association professionnelle,Énergie,120000,6,2.0,,,,
 245,070444714545-60,Building Associations,"ELo, EPF, TEGoVAn, European Historic Houses",Europe,Association professionnelle,"Construction, immobilier, transports",474998,22,18.0,NSPP,Pour,NSPP,NSPP
@@ -276,13 +276,13 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 285,90705737862-82,Finnfjord,,Norvège,Entreprise,Matériaux,75000,NaN,NaN,Controversé,Contre,NSPP,Contre
 286,,Recuperi Industriali,,Italie,Entreprise,Matériaux,NaN,NaN,NaN,,,,
 287,91425447458-88,3M,,États-Unis,Entreprise,Autres industries / intérêts,549999,5,2.25,Pour,Pour,NSPP,Pour
-288,289922721213-66,Wärtsilä,,Finlande,Entreprise,Autres industries / intérêts,249999,4,1.0,,,Pour,
+288,289922721213-66,Wärtsilä,,Finlande,Entreprise,Autres industries / intérêts,249999,4,1.0,NSPP,NSPP,Pour,NSPP
 289,,VNG,Vereniging Nederlandse Glasfabrikanten,Pays-Bas,Entité/autorité publique,Matériaux,NaN,NaN,NaN,,,,
 290,,Wiegand-Glas,,Allemagne,Entreprise,Matériaux,NaN,NaN,NaN,,,,
 292,,Yioula Glassworks,,Grèce,Entreprise,Matériaux,NaN,NaN,NaN,,,,
 293,10257354120-19,Neste Oil,,Finlande,Entreprise,Énergies fossiles,249999,4,3.25,,,,
 294,45060553191-59,Hydro,,Norvège,Entreprise,Matériaux,549999,3,3.0,NSPP,Controversé,NSPP,Contre
-295,58089691185-94,Solvay,,Belgique,Entreprise,Industrie chimique,1374999,4,1.0,,Contre,Pour,Contre
+295,58089691185-94,Solvay,,Belgique,Entreprise,Industrie chimique,1374999,4,1.0,NSPP,Contre,Pour,Contre
 296,013755513854-45,Borealis,,Autriche,Association professionnelle,Énergies fossiles,250000,1,1.0,NSPP,Contre,Pour,Contre
 297,519256623442-26,LKAB,,Suède,Entreprise,Énergies fossiles,100000,3,1.5,Contre,NSPP,Pour,NSPP
 298,36636102190-34,OBB,,Autriche,Entreprise,"Construction, immobilier, transports",349999,2,1.5,,,,
@@ -298,13 +298,13 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 308,64436972598-17,SSE,,Royaume-Uni,Entreprise,Énergie,149999,1,1.0,NSPP,Pour,NSPP,Pour
 309,68134637922-07,Enedis,Ex-ERDF,France,Entreprise,Énergie,649999,4,1.0,,,,
 310,41816938101-07,Iberdrola,,Espagne,Entreprise,Énergie,549999,5,3.75,NSPP,Contre,Pour,Contre
-311,02430347902-54,Eneco,,Pays-Bas,Entreprise,Énergies renouvelables,4999,2,0.75,,Pour,,Pour
-312,70816716119-36,PGNiG SA,,Pologne,Entreprise,Énergies fossiles,149999,8,5.25,Contre,Contre,,Contre
+311,02430347902-54,Eneco,,Pays-Bas,Entreprise,Énergies renouvelables,4999,2,0.75,NSPP,Pour,NSPP,Pour
+312,70816716119-36,PGNiG SA,,Pologne,Entreprise,Énergies fossiles,149999,8,5.25,Contre,Contre,NSPP,Contre
 313,17284292859-45,Stadtwerke München,,Allemagne,Entreprise,Énergie,349999,1,1.0,,,,
 314,352103717639-15,TVO,,Finlande,Entreprise,Énergie,149999,3,0.75,,,,
 315,06877217926-31,ENEL,,Italie,Entreprise,Énergie,17499,1,0.5,NSPP,Contre,Pour,Contre
 316,67833029261-54,Gas Natural Fenosa,,Espagne,Entreprise,Énergie,37499,4,2.5,NSPP,NSPP,Pour,Contre
-317,56592866496-47,EDP,Energias de Portugal,Portugal,Entreprise,Énergie,149999,1,1.0,,Pour,Pour,Pour
+317,56592866496-47,EDP,Energias de Portugal,Portugal,Entreprise,Énergie,149999,1,1.0,NSPP,Pour,Pour,Pour
 318,51375423794-46,Fennovoima,,Finlande,Entreprise,Énergie,74999,1,0.25,Pour,Contre,NSPP,Contre
 319,,A2A,,Italie,Entreprise,Énergie,NaN,NaN,NaN,,,,
 320,66126847778-02,HSE,,Slovénie,Entreprise,Énergie,74999,3,2.75,,,,
@@ -314,13 +314,13 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 324,516404410590-13,Adger Energy,,Norvège,Entreprise,Énergies renouvelables,4999,1,0.5,,,,
 325,96327066302-56,Statkraft,,Norvège,Entreprise,Énergies renouvelables,0,6,6.0,,,,
 326,,EDF Energy,,Royaume-Uni,Entreprise,Énergie,NaN,NaN,NaN,Pour,NSPP,Contre,Contre
-327,39966101835-69,EDF,,France,Entreprise,Énergie,2124999,11,11.0,,Contre,,Contre
-328,69240395197-02,Repsol,,Espagne,Entreprise,Énergies fossiles,749999,8,3.0,,Contre,Pour,Contre
+327,39966101835-69,EDF,,France,Entreprise,Énergie,2124999,11,11.0,NSPP,Contre,NSPP,Contre
+328,69240395197-02,Repsol,,Espagne,Entreprise,Énergies fossiles,749999,8,3.0,NSPP,Contre,Pour,Contre
 329,963142911472-29,BKK,,Norvège,Entreprise,Énergies renouvelables,4999,8,2.0,,,,
-330,72760517350-57,E.ON,,Allemagne,Entreprise,Énergie,849999,18,6.75,,Contre,Pour,Contre
-332,429600710582-32,CEZ,,République Tchèque,Entreprise,Énergie,149999,5,2.5,Contre,Contre,,Contre
+330,72760517350-57,E.ON,,Allemagne,Entreprise,Énergie,849999,18,6.75,NSPP,Contre,Pour,Contre
+332,429600710582-32,CEZ,,République Tchèque,Entreprise,Énergie,149999,5,2.5,Contre,Contre,NSPP,Contre
 333,4447605981-76,Statoil,,Norvège,Entreprise,Énergies fossiles,2624500,12,7.5,Controversé,Contre,Pour,Contre
-334,401111262-07,Edison,,Italie,Entreprise,Énergie,349999,3,2.0,,Contre,Pour,Contre
+334,401111262-07,Edison,,Italie,Entreprise,Énergie,349999,3,2.0,NSPP,Contre,Pour,Contre
 335,109601212076-63,Paikallisvoima,The Finnish Local Power Association,Finlande,Association professionnelle,Énergie,37499,2,0.5,,,,
 336,09571422185-81,Verbund,,Autriche,Entreprise,Énergie,349999,4,1.75,,,,
 337,289810215426-07,TenneT,,Pays-Bas,Entreprise,Énergie,249999,4,2.75,,,,
@@ -335,8 +335,8 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 346,03501997362-71,Fortum,,Finlande,Entreprise,Énergie,588000,9,5.5,Pour,Contre,Pour,Contre
 347,1849405799-88,Total,,France,Entreprise,Énergies fossiles,1874999,6,6.0,NSPP,Contre,NSPP,Contre
 348,41126912590-71,Areva,,France,Entreprise,Énergie,649999,6,3.75,Pour,NSPP,Contre,Contre
-349,75729476306-17,Wintershall,,Allemagne,Entreprise,Énergies fossiles,549999,2,2.0,,Contre,,Contre
-350,98019938020-21,Valero,,États-Unis,Entreprise,Énergies fossiles,17499,1,0.5,,,,Contre
+349,75729476306-17,Wintershall,,Allemagne,Entreprise,Énergies fossiles,549999,2,2.0,NSPP,Contre,NSPP,Contre
+350,98019938020-21,Valero,,États-Unis,Entreprise,Énergies fossiles,17499,1,0.5,NSPP,NSPP,NSPP,Contre
 351,77608353460-77,RWE,,Allemagne,Entreprise,Énergie,2000000,10,5.5,Pour,Contre,Pour,Contre
 352,,Bord Gáis,,Irlande,Entreprise,Énergie,NaN,NaN,NaN,,,,
 353,3394026642-58,BP,British Petroleum,Royaume-Uni,Entreprise,Énergies fossiles,2874999,9,5.25,NSPP,Contre,Pour,Contre
@@ -421,7 +421,7 @@ ID,Lobby ID,Nom1,Nom2,Pays/Région,Type,Secteurs d’activité,Dépenses Lobby (
 476,5265780509-97,AmCham,American Chamber of Commerce to the EU,États-Unis,Association professionnelle,Intérêts privés,1124999,25,8.5,NSPP,Controversé,Pour,Contre
 477,20457441380-38,BDEW,Bundesverband der Energie- und Wasserwirtschaft,Allemagne,Association professionnelle,Énergie,2874999,24,13.75,,,,
 478,150712220857-50,Bord Na Móna,,Irlande,Entreprise,Énergies renouvelables,74999,5,1.75,,,,
-479,73700969875-77,CDC Climat,,France,Consultance,"Recherche scientifique, expertise",NaN,NaN,NaN,Pour,,,Contre
+479,73700969875-77,CDC Climat,,France,Consultance,"Recherche scientifique, expertise",NaN,NaN,NaN,Pour,NSPP,NSPP,Contre
 480,04201463642-88,CECED,The European Committee of Domestic Equipment Manufacturers,Europe,Association professionnelle,Intérêts privés,449999,13,13.0,,,,
 481,38305846546-70,COGEN Europe,,Europe,Association professionnelle,Énergie,449999,6,3.75,,,,
 482,453515910702-95,CPI,Confederation of Paper Industries (UK),Royaume-Uni,Association professionnelle,Matériaux,4999,1,0.5,,,,

@@ -25,8 +25,10 @@ var CONSTANTS = {
     ALLY: '#5092A1',
     SUPPORT: '#36A86D',
     OPPOSE: '#d13b35',
+    NSPP_CONTROV: "#3E5A31",
     USER: '#00ffa5',
-    UNSELECTED: '#3E5A31',
+    UNSELECTED_MEMBRANE: "#404040",
+    UNSELECTED: '#A0A0A0',
     UNSELECTED_OPACITY : 0.3,
     // Ne pas oublier de modifier la valeur correspondante dans styles.css : a.sourcelink
     STORY: "white",
