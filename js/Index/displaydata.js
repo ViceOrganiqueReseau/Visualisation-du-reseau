@@ -19,21 +19,7 @@ var choices = [];
 var pas = 45;
 var resultindex;
 
-CONST.HOVERTEXT = {};
-CONST.HOVERTEXT.singulier = [];
-CONST.HOVERTEXT.singulier[0] = "organisation a pris position sur ce sujet parmi celles dont le rapport a été analysé jusque-là (voir \"A propos\")";
-CONST.HOVERTEXT.singulier[1] = "organisation a pris cette position sur le sujet sélectionné";
-CONST.HOVERTEXT.singulier[2] = "organisation qui a la même position que vous sur le sujet sélectionné est de ce type";
-CONST.HOVERTEXT.singulier[3] = "organisation qui est de même type et a la même position que vous provient de ce secteur d'activité";
-CONST.HOVERTEXT.singulier[4] = "organisation qui est du même secteur, même type et même position que vous provient de cette région";
-CONST.HOVERTEXT.pluriel = [];
-CONST.HOVERTEXT.pluriel[0] = "organisations ont pris position sur ce sujet parmi celles dont le rapport a été analysé jusque-là (voir \"A propos\")";
-CONST.HOVERTEXT.pluriel[1] = "organisations ont pris cette position sur le sujet sélectionné";
-CONST.HOVERTEXT.pluriel[2] = "organisations qui ont la même position que vous sur le sujet sélectionné sont de ce type";
-CONST.HOVERTEXT.pluriel[3] = "organisations qui sont de même type et ont la même position que vous proviennent de ce secteur d'activité";
-CONST.HOVERTEXT.pluriel[4] = "organisations qui sont du même secteur, même type et même position que vous proviennent de cette région";
-CONST.HOVERTEXT.width = 170;
-CONST.HOVERTEXT.height = 135;
+// CONST.HOVERTEXT défini dans importdata
 function createHoverCircleText(intselect,d,i,x,y){
   // Condition 1 pour ne pas avoir de cartouche à la section des noms
   // Condition 2 pour éviter des affichages de cartouches parasites

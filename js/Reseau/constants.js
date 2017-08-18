@@ -72,7 +72,7 @@ var CONSTANTS = {
     TEXTdx: 0,
     TEXTdy: -10,
     TEXT_PADDING: 11,
-    STORY_CIRCLE_dx : 0,
+    STORY_CIRCLE_dx : 20,
     STORY_CIRCLE_dy : 10,
     STORY_CIRCLE_RADIUS : 3,
     // WARNING : PERLINE < 10 !

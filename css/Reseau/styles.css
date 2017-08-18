@@ -217,7 +217,7 @@ td {
 #answers > div.cartouche {
   position: absolute;
   z-index: 6;
-  background-color: rgba(50,50,50,0.9);
+  background-color: rgba(6,8,15,0.9);
   width: 186;
   padding: 3px;
   height: auto;
