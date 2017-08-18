@@ -297,6 +297,10 @@ div.menu > p#togglelegend {
   transform: rotate(90deg);
 }
 
+div.menu > p#togglelegend:hover {
+  color: white;
+}
+
 div.menu > img {
   margin: 5px;
   cursor: pointer;

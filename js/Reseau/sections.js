@@ -608,6 +608,14 @@ function onclickBestAlly (){
   d3.select("img#themes").on("click", onclickNewTheme);
 }
 d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
+d3.select("img#bestallyworstrival").on("mouseover", function (){
+  d3.select("img#bestallyworstrival")
+    .attr("src", "img/icon_WinLose_blanc.svg")
+});
+d3.select("img#bestallyworstrival").on("mouseout", function (){
+  d3.select("img#bestallyworstrival")
+    .attr("src", "img/icon_WinLose.svg")
+});
 
 
 
@@ -770,6 +778,15 @@ function onclickStories (){
   d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
 }
 d3.select("img#stories").on("click", onclickStories);
+d3.select("img#stories").on("mouseover", function (){
+  d3.select("img#stories")
+    .attr("src", "img/icon_Story_blanc.svg")
+});
+d3.select("img#stories").on("mouseout", function (){
+  d3.select("img#stories")
+    .attr("src", "img/icon_Story.svg")
+});
+
 
 
 
@@ -973,3 +990,11 @@ function onclickNewTheme (){
   d3.select("img#bestallyworstrival").on("click", onclickBestAlly);
 }
 d3.select("img#themes").on("click", onclickNewTheme);
+d3.select("img#themes").on("mouseover", function (){
+  d3.select("img#themes")
+    .attr("src", "img/icon_Theme_blanc.svg")
+});
+d3.select("img#themes").on("mouseout", function (){
+  d3.select("img#themes")
+    .attr("src", "img/icon_Theme.svg")
+});

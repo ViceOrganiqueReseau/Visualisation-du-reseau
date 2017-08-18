@@ -1,5 +1,5 @@
-d3.select("body").transition().duration(2000).style("background-color", CONSTANTS.COLORS.BACKGROUND);
-d3.select("#answers").transition().duration(2000).style("background-color", CONSTANTS.COLORS.BACKGROUND);
+d3.select("body").transition().duration(1000).style("background-color", CONSTANTS.COLORS.BACKGROUND);
+d3.select("#answers").transition().duration(1000).style("background-color", CONSTANTS.COLORS.BACKGROUND);
 
 var setupScene = function(){
   var shouldUseCanvas = CONSTANTS.USE_CANVAS;

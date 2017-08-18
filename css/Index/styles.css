@@ -245,7 +245,9 @@ span.fonction {
 #credits {
   display: none;
   position: fixed;
-  background-color: rgba(50,50,50,0.95);
+  background-color: rgba(255,255,255,0.9);
+  color: black;
+  border: solid black 8px;
   width: 70%;
   height: 70%;
   top: 15%;
