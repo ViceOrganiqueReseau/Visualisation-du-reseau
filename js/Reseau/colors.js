@@ -17,7 +17,7 @@ var nodeColor = function(d){
           color = colors.NSPP_CONTROV;
         }
       } else {
-        color = colors.UNSELECTED;
+        color = colors.NSPP_CONTROV;
       }
     } else {
       if (d[userChoice.theme]){
@@ -29,7 +29,7 @@ var nodeColor = function(d){
           color = colors.NSPP_CONTROV;
         }
       } else {
-        color = colors.UNSELECTED;
+        color = colors.NSPP_CONTROV;
       }
     }
   } else if (d.type === TYPES.PROPRIETARY) {

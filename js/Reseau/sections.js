@@ -806,7 +806,7 @@ function anonymizeUser (){
           color = colors.NSPP_CONTROV;
         }
       } else {
-        color = colors.UNSELECTED;
+        color = colors.NSPP_CONTROV;
       }
     } else {
       color = colors.PROPRIETARY;
@@ -897,7 +897,7 @@ function rebornUser (){
             color = colors.NSPP_CONTROV;
           }
         } else {
-          color = colors.UNSELECTED;
+          color = colors.NSPP_CONTROV;
         }
       } else {
         if (d[userChoice.theme]){
@@ -909,7 +909,7 @@ function rebornUser (){
             color = colors.NSPP_CONTROV;
           }
         } else {
-          color = colors.UNSELECTED;
+          color = colors.NSPP_CONTROV;
         }
       }
     } else if (d.type === TYPES.PROPRIETARY) {
